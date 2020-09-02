@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LearnMeAPI.Data;
+﻿using LearnMeAPI.Data;
 using LearnMeAPI.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace LearnMeAPI.Controllers
 {
@@ -17,6 +13,7 @@ namespace LearnMeAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly DataContext _context;
+
         public UsersController(DataContext context)
         {
             _context = context;
@@ -26,16 +23,16 @@ namespace LearnMeAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var values = await _context.Users.ToListAsync();
-            return Ok(values);      // Ok zwraca z serwera status 200, że wszystko jest dobrze.
+            var users = await _context.Users.ToListAsync();
+            return Ok(users);      // Ok zwraca z serwera status 200, że wszystko jest dobrze.
         }
 
         // GET api/value
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var value = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-            return Ok(value);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            return Ok(user);
         }
 
         // POST api/values
