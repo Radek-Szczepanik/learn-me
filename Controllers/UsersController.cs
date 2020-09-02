@@ -19,7 +19,7 @@ namespace LearnMeAPI.Controllers
             _context = context;
         }
 
-        // GET api/values
+        // GET api/users
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
@@ -27,7 +27,7 @@ namespace LearnMeAPI.Controllers
             return Ok(users);      // Ok zwraca z serwera status 200, że wszystko jest dobrze.
         }
 
-        // GET api/value
+        // GET api/users/2
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
@@ -35,7 +35,7 @@ namespace LearnMeAPI.Controllers
             return Ok(user);
         }
 
-        // POST api/values
+        // POST api/users
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] User user)
         {
@@ -44,18 +44,28 @@ namespace LearnMeAPI.Controllers
             return Ok(user);
         }
 
-        // PUT api/value
+        // PUT api/users/2
         [HttpPut("{id}")]
         public async Task<IActionResult> EditUser(int id, [FromBody] User user)
         {
             var data = await _context.Users.FindAsync(id);
+            data.Username = user.Username;
             data.FirstName = user.FirstName;
+            data.LastName = user.LastName;
+            data.Address = user.Address;
+            data.Postcode = user.Postcode;
+            data.City = user.City;
+            data.Telephone = user.Telephone;
+            data.Email = user.Email;
+            data.NIP = user.NIP;
+            data.PESEL = user.PESEL;
+           
             _context.Users.Update(data);
             await _context.SaveChangesAsync();
             return Ok(data);
         }
 
-        // DELETE api/value
+        // DELETE api/users/2
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

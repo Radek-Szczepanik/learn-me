@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LearnMeAPI.Data;
+﻿using LearnMeAPI.Data;
+using LearnMeAPI.DTOs;
 using LearnMeAPI.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 
 namespace LearnMeAPI.Controllers
 {
@@ -21,30 +19,28 @@ namespace LearnMeAPI.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(string username, string firstName, string lastName,
-                                                  string address, int postcode, string city, int telephone,
-                                                  string email, int nip, int pesel, string password)
+        public async Task<IActionResult> Register(UserForRegister userForRegister)
         {
-            username = username.ToLower();
+            userForRegister.Username = userForRegister.Username.ToLower();
 
-            if (await _repository.UserExist(username))
+            if (await _repository.UserExist(userForRegister.Username))
                 return BadRequest("Użytkownik o takiej nazwie już istnieje !");
 
-            var newUser = new User
+            var userToCreate = new User
             {
-                Username = username,
-                FirstName = firstName,
-                LastName = lastName,
-                Address = address,
-                Postcode = postcode,
-                City = city,
-                Telephone = telephone,
-                Email = email,
-                NIP = nip,
-                PESEL = pesel
+                Username = userForRegister.Username,
+                FirstName = userForRegister.FirstName,
+                LastName = userForRegister.LastName,
+                Address = userForRegister.Address,
+                Postcode = userForRegister.Postcode,
+                City = userForRegister.City,
+                Telephone = userForRegister.Telephone,
+                Email = userForRegister.Email,
+                NIP = userForRegister.NIP,
+                PESEL = userForRegister.PESEL
             };
 
-            var createUser = await _repository.Register(newUser, password);
+            var createdUser = await _repository.Register(userToCreate, userForRegister.Password);
 
             return StatusCode(201);
         }
