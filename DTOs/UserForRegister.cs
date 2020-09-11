@@ -4,7 +4,9 @@ namespace LearnMeAPI.DTOs
 {
     public class UserForRegister
     {
+        [Required(ErrorMessage ="Nazwa użytkownika jest wymagana")]
         public string Username { get; set; }
+        [Required(ErrorMessage = "Hasło jest wymagane")]
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

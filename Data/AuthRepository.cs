@@ -1,6 +1,5 @@
 ﻿using LearnMeAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,14 +19,14 @@ namespace LearnMeAPI.Data
 
             if (user == null)
                 return null;
-
-            // Metoda do sprawdzania poprawności wpisanego hasła
+    
             if (!VerifyPassword(password, user.PasswordHash, user.PasswordSalt))
                 return null;
 
             return user;
         }
 
+        // Metoda do sprawdzania poprawności wpisanego hasła
         private bool VerifyPassword(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
@@ -58,6 +57,7 @@ namespace LearnMeAPI.Data
             return user;
         }
 
+        // Metoda do haszowania hasła
         private void CreatePassword(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using(var hmac = new System.Security.Cryptography.HMACSHA512())
