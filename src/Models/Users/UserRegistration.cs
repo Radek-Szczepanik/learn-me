@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LearnMe.Models.Front
+namespace LearnMe.Models.Users
 {
-    public class Service : Event 
+    public class UserRegistration
     {
     }
 }

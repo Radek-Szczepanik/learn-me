@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LernMe.Models;
+using LearnMe.Models.Invoice;
 
-namespace LernMe.Models.Account
+namespace LearnMe.Models.Users
 {
     public class UserInvoiceData
     {
 
-        public List<> Invoices { get; set; }
+        public List<InvoiceBasic> Invoices { get; set; }
 
     }
 }

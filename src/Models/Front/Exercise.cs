@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LernMe.Models.Front
+namespace LearnMe.Models.Front
 {
-    public class Exercise
+    public class Exercise : Event
     {
     }
 }

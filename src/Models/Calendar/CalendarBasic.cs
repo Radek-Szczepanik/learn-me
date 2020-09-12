@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LernMe.Models.Account
+namespace LearnMe.Models.Calendar
 {
-    public class UserLogin
+    public class CalendarBasic
     {
     }
 }

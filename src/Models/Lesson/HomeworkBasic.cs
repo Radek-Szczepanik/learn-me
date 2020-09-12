@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LernMe.Models;
+using LearnMe.Models;
 
-namespace LernMe.Models.Lesson
+namespace LearnMe.Models.Lesson
 {
     public class HomeworkBasic
     {   

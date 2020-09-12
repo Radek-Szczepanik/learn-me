@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using LernMe.Models;
-using LernMe.Models.Lesson;
+using LearnMe.Models.Lesson;
 
-namespace QuestStore3.Models
+namespace LearnMe.Models.Users
 {
     public enum Status
     {
@@ -29,7 +28,6 @@ namespace QuestStore3.Models
         public Role Role { get; set; }
         public Status Status { get; set; }
 
-        //Relations to 
         public List<LessonsAssigned> Lessons { get; set; }
     }
 }
