@@ -3,18 +3,14 @@ using LearnMe.Models.Base;
 using System.ComponentModel.DataAnnotations;
 using LearnMe.Enum;
 using System.Collections.Generic;
-using LearnMe.Models.Domains.StudentDomain;
+using LearnMe.Models.Domains.Lessons;
+using LearnMe.Models.Domains.Users;
 
-namespace LearnMe.Models.Domains.AdminDomain
+namespace LearnMe.Models.Domains.Invoice
 {
-    public class Payment : BaseEntity
+    public class InvoiceBasic : BaseEntity
     {
         public int StudentId { get; set; }
-
-        [Required(ErrorMessage = "This field is required")]
-        public User Student { get; set; }
-
-        public IList<Lesson> Lessons { get; set; }
         
         [Required(ErrorMessage = "This field is required")]
         public int NumberOfHours { get; set; }
@@ -31,5 +27,10 @@ namespace LearnMe.Models.Domains.AdminDomain
         public string InvoiceNumber { get; set; }
 
         public string InvoiceFile { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
+        public User Student { get; set; }
+
+        public IList<Lesson> Lessons { get; set; }
     }
 }

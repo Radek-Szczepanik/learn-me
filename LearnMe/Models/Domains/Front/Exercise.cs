@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using LearnMe.Enum;
 
-namespace LearnMe.Models.Domains.HomeDomain
+namespace LearnMe.Models.Domains.Front
 {
     /// <summary>
     /// Exercise class relates to eg. language level test files available for not-logged users

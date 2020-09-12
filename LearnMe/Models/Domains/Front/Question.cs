@@ -1,7 +1,7 @@
 ﻿using LearnMe.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace LearnMe.Models.Domains.HomeDomain
+namespace LearnMe.Models.Domains.Front
 {
     /// <summary>
     /// Question class relates to FAQ questions and answers

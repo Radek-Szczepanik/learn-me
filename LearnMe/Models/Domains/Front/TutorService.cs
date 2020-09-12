@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using LearnMe.Enum;
 
-namespace LearnMe.Models.Domains.HomeDomain
+namespace LearnMe.Models.Domains.Front
 {
     /// <summary>
     /// Service class relates to courses, translations and other services in the offer
     /// </summary>
-    public class Service : BaseEntity
+    public class TutorService : BaseEntity
     {
         [Required(ErrorMessage = "This field is required")]
         public string Title { get; set; }
