@@ -9,6 +9,8 @@ namespace LearnMe.Models.Domains.AdminDomain
 {
     public class Payment : BaseEntity
     {
+        public int StudentId { get; set; }
+
         [Required(ErrorMessage = "This field is required")]
         public User Student { get; set; }
 

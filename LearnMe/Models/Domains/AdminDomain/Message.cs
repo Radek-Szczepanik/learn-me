@@ -6,6 +6,10 @@ namespace LearnMe.Models.Domains.AdminDomain
 {
     public class Message : BaseEntity
     {
+        public int FromUserId { get; set; }
+
+        public int ToUserId { get; set; }
+
         public User FromUser { get; set; }
 
         public User ToUser { get; set; }
@@ -15,7 +19,6 @@ namespace LearnMe.Models.Domains.AdminDomain
 
         [Required(ErrorMessage = "This field is required")]
         public string MessageText { get; set; }
-
 
         public IList<string> AttachedFiles { get; set; }
 
