@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnMe.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200912165916_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200913124439_SeedUserLesson")]
+    partial class SeedUserLesson
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,26 @@ namespace LearnMe.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CalendarEvents");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Animals vocabulary",
+                            End = new DateTime(2020, 9, 22, 16, 44, 37, 847, DateTimeKind.Utc).AddTicks(1950),
+                            IsDone = false,
+                            Start = new DateTime(2020, 9, 22, 14, 44, 37, 847, DateTimeKind.Utc).AddTicks(338),
+                            Title = "A1 lesson"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Future simple",
+                            End = new DateTime(2020, 9, 4, 16, 44, 37, 847, DateTimeKind.Utc).AddTicks(3910),
+                            IsDone = true,
+                            Start = new DateTime(2020, 9, 4, 14, 44, 37, 847, DateTimeKind.Utc).AddTicks(3857),
+                            Title = "C1 lesson"
+                        });
                 });
 
             modelBuilder.Entity("LearnMe.Models.Domains.Front.Exercise", b =>
@@ -296,6 +316,32 @@ namespace LearnMe.Migrations
                     b.HasIndex("RelatedInvoiceId");
 
                     b.ToTable("Lessons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CalendarEventId = 1,
+                            LessonStatus = 0,
+                            MessageText = "Please come",
+                            Title = "Lesson 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CalendarEventId = 2,
+                            LessonStatus = 2,
+                            MessageText = "Please come",
+                            Title = "Lesson 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CalendarEventId = 3,
+                            LessonStatus = 0,
+                            MessageText = "Please come",
+                            Title = "Lesson 3"
+                        });
                 });
 
             modelBuilder.Entity("LearnMe.Models.Domains.Lessons.UserLesson", b =>
@@ -318,6 +364,32 @@ namespace LearnMe.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserLessons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LessonId = 1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            LessonId = 2,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            LessonId = 3,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            LessonId = 3,
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("LearnMe.Models.Domains.Lessons.UserLessonHomework", b =>
@@ -463,6 +535,50 @@ namespace LearnMe.Migrations
                     b.HasIndex("UserGroupId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Torun",
+                            Email = "maciek@gmail.com",
+                            FirstName = "Maciek",
+                            LastName = "Kowalski",
+                            Password = "somePsw",
+                            PhoneNumber = 0,
+                            Postcode = 0,
+                            RegistrationDate = new DateTime(2020, 9, 13, 12, 44, 37, 853, DateTimeKind.Utc).AddTicks(5845),
+                            Role = 0,
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Torun",
+                            Email = "ania@gmail.com",
+                            FirstName = "Anna",
+                            LastName = "Nowak",
+                            Password = "somePsw",
+                            PhoneNumber = 0,
+                            Postcode = 0,
+                            RegistrationDate = new DateTime(2020, 9, 13, 12, 47, 37, 853, DateTimeKind.Utc).AddTicks(8139),
+                            Role = 0,
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Warszawa",
+                            Email = "maciek@gmail.com",
+                            FirstName = "Barbara",
+                            LastName = "Zamojska",
+                            Password = "somePsw",
+                            PhoneNumber = 0,
+                            Postcode = 0,
+                            RegistrationDate = new DateTime(2020, 9, 13, 14, 44, 37, 853, DateTimeKind.Utc).AddTicks(8300),
+                            Role = 0,
+                            Status = 0
+                        });
                 });
 
             modelBuilder.Entity("LearnMe.Models.Domains.Users.UserGroup", b =>

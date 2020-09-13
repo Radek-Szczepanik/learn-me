@@ -30,10 +30,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\TutorController\" />
-    <Folder Include="Controllers\StudentController\" />
-    <Folder Include="Controllers\AdminController\" />
-    <Folder Include="Controllers\HomeController\" />
+    <Compile Remove="Migrations\20200913123427_SeedUsers2.cs" />
+    <Compile Remove="Migrations\20200913123427_SeedUsers2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Libraries\MailingController\" />
+    <Folder Include="Controllers\Libraries\InvoiceController\" />
+    <Folder Include="Controllers\Modules\" />
+    <Folder Include="Controllers\Modules\TutorController\" />
+    <Folder Include="Controllers\Modules\StudentController\" />
+    <Folder Include="Controllers\Modules\AdminController\" />
+    <Folder Include="Controllers\Modules\HomeController\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

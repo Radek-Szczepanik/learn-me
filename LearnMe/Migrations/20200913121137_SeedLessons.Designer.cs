@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnMe.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200912165916_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200913121137_SeedLessons")]
+    partial class SeedLessons
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,26 @@ namespace LearnMe.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CalendarEvents");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Animals vocabulary",
+                            End = new DateTime(2020, 9, 22, 16, 11, 36, 268, DateTimeKind.Utc).AddTicks(580),
+                            IsDone = false,
+                            Start = new DateTime(2020, 9, 22, 14, 11, 36, 267, DateTimeKind.Utc).AddTicks(9675),
+                            Title = "A1 lesson"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Future simple",
+                            End = new DateTime(2020, 9, 4, 16, 11, 36, 268, DateTimeKind.Utc).AddTicks(1836),
+                            IsDone = true,
+                            Start = new DateTime(2020, 9, 4, 14, 11, 36, 268, DateTimeKind.Utc).AddTicks(1786),
+                            Title = "C1 lesson"
+                        });
                 });
 
             modelBuilder.Entity("LearnMe.Models.Domains.Front.Exercise", b =>
@@ -296,6 +316,16 @@ namespace LearnMe.Migrations
                     b.HasIndex("RelatedInvoiceId");
 
                     b.ToTable("Lessons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CalendarEventId = 1,
+                            LessonStatus = 0,
+                            MessageText = "Please come",
+                            Title = "Lesson 1"
+                        });
                 });
 
             modelBuilder.Entity("LearnMe.Models.Domains.Lessons.UserLesson", b =>

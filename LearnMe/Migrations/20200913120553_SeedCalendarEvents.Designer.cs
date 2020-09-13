@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnMe.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200912165916_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200913120553_SeedCalendarEvents")]
+    partial class SeedCalendarEvents
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,26 @@ namespace LearnMe.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CalendarEvents");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Animals vocabulary",
+                            End = new DateTime(2020, 9, 22, 16, 5, 51, 649, DateTimeKind.Utc).AddTicks(2156),
+                            IsDone = false,
+                            Start = new DateTime(2020, 9, 22, 14, 5, 51, 649, DateTimeKind.Utc).AddTicks(1304),
+                            Title = "A1 lesson"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Future simple",
+                            End = new DateTime(2020, 9, 4, 16, 5, 51, 649, DateTimeKind.Utc).AddTicks(3175),
+                            IsDone = true,
+                            Start = new DateTime(2020, 9, 4, 14, 5, 51, 649, DateTimeKind.Utc).AddTicks(3149),
+                            Title = "C1 lesson"
+                        });
                 });
 
             modelBuilder.Entity("LearnMe.Models.Domains.Front.Exercise", b =>

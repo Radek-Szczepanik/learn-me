@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LearnMe.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200912165916_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20200913123134_SeedUsers")]
+    partial class SeedUsers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,6 +46,26 @@ namespace LearnMe.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CalendarEvents");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Animals vocabulary",
+                            End = new DateTime(2020, 9, 22, 16, 31, 32, 453, DateTimeKind.Utc).AddTicks(388),
+                            IsDone = false,
+                            Start = new DateTime(2020, 9, 22, 14, 31, 32, 452, DateTimeKind.Utc).AddTicks(9688),
+                            Title = "A1 lesson"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Future simple",
+                            End = new DateTime(2020, 9, 4, 16, 31, 32, 453, DateTimeKind.Utc).AddTicks(1303),
+                            IsDone = true,
+                            Start = new DateTime(2020, 9, 4, 14, 31, 32, 453, DateTimeKind.Utc).AddTicks(1283),
+                            Title = "C1 lesson"
+                        });
                 });
 
             modelBuilder.Entity("LearnMe.Models.Domains.Front.Exercise", b =>
@@ -296,6 +316,32 @@ namespace LearnMe.Migrations
                     b.HasIndex("RelatedInvoiceId");
 
                     b.ToTable("Lessons");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CalendarEventId = 1,
+                            LessonStatus = 0,
+                            MessageText = "Please come",
+                            Title = "Lesson 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CalendarEventId = 2,
+                            LessonStatus = 2,
+                            MessageText = "Please come",
+                            Title = "Lesson 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CalendarEventId = 3,
+                            LessonStatus = 0,
+                            MessageText = "Please come",
+                            Title = "Lesson 3"
+                        });
                 });
 
             modelBuilder.Entity("LearnMe.Models.Domains.Lessons.UserLesson", b =>
@@ -463,6 +509,50 @@ namespace LearnMe.Migrations
                     b.HasIndex("UserGroupId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Torun",
+                            Email = "maciek@gmail.com",
+                            FirstName = "Maciek",
+                            LastName = "Kowalski",
+                            Password = "somePsw",
+                            PhoneNumber = 0,
+                            Postcode = 0,
+                            RegistrationDate = new DateTime(2020, 9, 13, 12, 31, 32, 455, DateTimeKind.Utc).AddTicks(4163),
+                            Role = 0,
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Torun",
+                            Email = "ania@gmail.com",
+                            FirstName = "Anna",
+                            LastName = "Nowak",
+                            Password = "somePsw",
+                            PhoneNumber = 0,
+                            Postcode = 0,
+                            RegistrationDate = new DateTime(2020, 9, 13, 12, 34, 32, 455, DateTimeKind.Utc).AddTicks(5207),
+                            Role = 0,
+                            Status = 0
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Address = "Warszawa",
+                            Email = "maciek@gmail.com",
+                            FirstName = "Barbara",
+                            LastName = "Zamojska",
+                            Password = "somePsw",
+                            PhoneNumber = 0,
+                            Postcode = 0,
+                            RegistrationDate = new DateTime(2020, 9, 13, 14, 31, 32, 455, DateTimeKind.Utc).AddTicks(5284),
+                            Role = 0,
+                            Status = 0
+                        });
                 });
 
             modelBuilder.Entity("LearnMe.Models.Domains.Users.UserGroup", b =>
