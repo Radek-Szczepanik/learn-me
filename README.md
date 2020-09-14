@@ -14,7 +14,7 @@ Haven’t finished yet, not all functionalities are working. Needs refactoring a
 
 ## Getting Started
 
-- Clone the repository using the command `git clone https://github.com/Radek-Szczepanik/learn-me.git` and checkout the `master` branch.
+- Clone the repository using the command `git clone https://github.com/Radek-Szczepanik/learn-me.git` and checkout the `develop` branch.
 
 - Just download and type: dotnet run in console or click play in Visual Studio.
 
