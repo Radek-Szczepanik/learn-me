@@ -1,3 +1,4 @@
+using LearnMe.Controllers.Libraries.CalendarController.Utils;
 using LearnMe.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,8 @@ namespace LearnMe
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase")));
+
+            services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
