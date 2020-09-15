@@ -1,6 +1,7 @@
 # LearnMe
 
-Modular web application for language tutors (with possibility to be extended for other freelance jobs) to manage students, classes, payments as well as provide some blog posts articles and advertise various freelance services. During development and ongoing work on the project the team of 4 developers works closely with the customer and gets feedback from the beta version users.
+Modular web application for foreign language tutors (with a possibility to be extended for other freelance jobs) to manage students, classes, payments, as well as provide some blog post articles, and advertise various freelance services. At the time of developing the project, a team of 4 programmers is working in cooperation with the customer and is getting feedback from its first version users.
+
 
 ## Technology 
 - ASP.net (mvc, api)
