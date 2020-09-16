@@ -20,7 +20,7 @@ namespace LearnMe.Models.Domains.Calendar
         public bool IsDone { get; set; }
 
         [NotMapped]
-        public IList<User> Attendees { get; set; }
+        public IList<UserBasic> Attendees { get; set; }
 
         public Lesson Lesson { get; set; }
     }

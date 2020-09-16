@@ -8,7 +8,7 @@ namespace LearnMe.Models.Domains.Lessons
     {
         public int UserId { get; set; }
         
-        public User User { get; set; }
+        public UserBasic User { get; set; }
 
         public int LessonId { get; set; }
 

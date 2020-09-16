@@ -8,7 +8,7 @@ using LearnMe.Models.Domains.Lessons;
 
 namespace LearnMe.Models.Domains.Users
 {
-    public class User : BaseUser
+    public class UserBasic : BaseUser
     {
         [Required(ErrorMessage = "This field is required")]
         public string FirstName { get; set; }

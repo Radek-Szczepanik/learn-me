@@ -29,7 +29,7 @@ namespace LearnMe.Models.Domains.Invoice
         public string InvoiceFile { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
-        public User Student { get; set; }
+        public UserBasic Student { get; set; }
 
         public IList<Lesson> Lessons { get; set; }
     }

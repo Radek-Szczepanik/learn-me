@@ -27,25 +27,19 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Controllers\Modules\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Controllers\Modules\**" />
+    <EmbeddedResource Remove="Controllers\Modules\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Controllers\Modules\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20200913123427_SeedUsers2.cs" />
-    <Compile Remove="Migrations\20200913123427_SeedUsers2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="bin\Debug\netcoreapp3.1\" />
     <Folder Include="Controllers\Libraries\MailingController\" />
     <Folder Include="Controllers\Libraries\InvoiceController\" />
-    <Folder Include="Controllers\Modules\" />
-    <Folder Include="Controllers\Modules\TutorController\" />
-    <Folder Include="Controllers\Modules\StudentController\" />
-    <Folder Include="Controllers\Modules\AdminController\" />
-    <Folder Include="Controllers\Modules\HomeController\" />
   </ItemGroup>
 
   <ItemGroup>

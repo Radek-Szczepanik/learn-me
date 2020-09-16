@@ -11,9 +11,9 @@ namespace LearnMe.Models.Domains.Mail
 
         public int ToUserId { get; set; }
 
-        public User FromUser { get; set; }
+        public UserBasic FromUser { get; set; }
 
-        public User ToUser { get; set; }
+        public UserBasic ToUser { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
         public string Title { get; set; }

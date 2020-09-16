@@ -9,6 +9,6 @@ namespace LearnMe.Models.Domains.Users
 
         public string OptionalDesription { get; set; }
 
-        public IList<User> UsersList { get; set; }
+        public IList<UserBasic> UsersList { get; set; }
     }
 }
