@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+
 
 namespace LearnMe.Models.Base
 {
     public abstract class BaseLessons : BaseEntity
     {
+        [Required(ErrorMessage = "This field is required")]
+        public string FileString { get; set; }
     }
 }

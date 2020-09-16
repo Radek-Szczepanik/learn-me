@@ -8,7 +8,7 @@ using LearnMe.Models.Domains.Users;
 
 namespace LearnMe.Models.Domains.Invoice
 {
-    public class InvoiceBasic : BaseEntity
+    public class InvoiceBasic : BaseUser
     {
         public int StudentId { get; set; }
         
@@ -16,7 +16,7 @@ namespace LearnMe.Models.Domains.Invoice
         public int NumberOfHours { get; set; }
         
         [Required(ErrorMessage = "This field is required")]
-        public Decimal SumToPayInPLN { get; set; }
+        public int SumToPayInPLN { get; set; }
 
         public PaymentStatus PaymentStatus { get; set; } = PaymentStatus.Unpaid;
 

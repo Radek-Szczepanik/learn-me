@@ -1,5 +1,5 @@
 using LearnMe.Controllers.Libraries.CalendarController.Utils;
-using LearnMe.Persistence;
+using LearnMe.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;

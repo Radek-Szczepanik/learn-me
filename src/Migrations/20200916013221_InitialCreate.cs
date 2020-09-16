@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LearnMe.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,7 @@ namespace LearnMe.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(nullable: false),
+                    FileString = table.Column<string>(nullable: false),
                     Feedback = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -45,9 +45,9 @@ namespace LearnMe.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    ExerciseGroup = table.Column<int>(nullable: false),
-                    FileName = table.Column<string>(nullable: true)
+                    FileString = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: false),
+                    ExerciseGroup = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,9 +60,9 @@ namespace LearnMe.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BlogPostHeader = table.Column<string>(nullable: false),
-                    BlogPostText = table.Column<string>(nullable: false),
-                    Photo = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(nullable: false),
+                    FileString = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,6 +75,8 @@ namespace LearnMe.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: false),
+                    FileString = table.Column<string>(nullable: true),
                     Text = table.Column<string>(nullable: false),
                     Rating = table.Column<int>(nullable: false)
                 },
@@ -90,8 +92,8 @@ namespace LearnMe.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: false),
-                    InfoText = table.Column<string>(nullable: true),
-                    Photo = table.Column<string>(nullable: true)
+                    FileString = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -132,9 +134,9 @@ namespace LearnMe.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: false),
+                    FileString = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: false),
                     Type = table.Column<int>(nullable: false),
-                    InfoText = table.Column<string>(nullable: true),
-                    Photo = table.Column<string>(nullable: true),
                     IsAvailable = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -148,6 +150,8 @@ namespace LearnMe.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     OptionalDesription = table.Column<string>(nullable: true)
                 },
@@ -162,11 +166,11 @@ namespace LearnMe.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
                     PhoneNumber = table.Column<int>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
                     Address = table.Column<string>(nullable: false),
                     Postcode = table.Column<int>(nullable: false),
                     RegistrationDate = table.Column<DateTime>(nullable: false),
@@ -192,9 +196,11 @@ namespace LearnMe.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
                     StudentId = table.Column<int>(nullable: false),
                     NumberOfHours = table.Column<int>(nullable: false),
-                    SumToPayInPLN = table.Column<decimal>(nullable: false),
+                    SumToPayInPLN = table.Column<int>(nullable: false),
                     PaymentStatus = table.Column<int>(nullable: false),
                     PaymentAction = table.Column<int>(nullable: false),
                     InvoiceNumber = table.Column<string>(nullable: false),
@@ -208,7 +214,7 @@ namespace LearnMe.Migrations
                         column: x => x.StudentId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,13 +236,13 @@ namespace LearnMe.Migrations
                         column: x => x.FromUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Messages_Users_ToUserId",
                         column: x => x.ToUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -255,45 +261,7 @@ namespace LearnMe.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserLogins",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserLogins", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserLogins_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRegistrations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRegistrations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserRegistrations_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -302,21 +270,13 @@ namespace LearnMe.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CalendarEventId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: false),
-                    MessageText = table.Column<string>(nullable: false),
                     LessonStatus = table.Column<int>(nullable: false),
                     RelatedInvoiceId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Lessons", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Lessons_CalendarEvents_CalendarEventId",
-                        column: x => x.CalendarEventId,
-                        principalTable: "CalendarEvents",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Lessons_InvoiceBasics_RelatedInvoiceId",
                         column: x => x.RelatedInvoiceId,
@@ -362,13 +322,13 @@ namespace LearnMe.Migrations
                         column: x => x.LessonId,
                         principalTable: "Lessons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserLessons_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -377,7 +337,8 @@ namespace LearnMe.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(nullable: false),
+                    FileString = table.Column<string>(nullable: false),
+                    MessageText = table.Column<string>(nullable: false),
                     UserLessonId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -409,19 +370,19 @@ namespace LearnMe.Migrations
                         column: x => x.CorrectionId,
                         principalTable: "Corrections",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserLessonHomeworks_Homeworks_HomeworkId",
                         column: x => x.HomeworkId,
                         principalTable: "Homeworks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserLessonHomeworks_UserLessons_UserLessonId",
                         column: x => x.UserLessonId,
                         principalTable: "UserLessons",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -438,12 +399,6 @@ namespace LearnMe.Migrations
                 name: "IX_InvoiceBasics_StudentId",
                 table: "InvoiceBasics",
                 column: "StudentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Lessons_CalendarEventId",
-                table: "Lessons",
-                column: "CalendarEventId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lessons_RelatedInvoiceId",
@@ -493,18 +448,6 @@ namespace LearnMe.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserLogins_UserId",
-                table: "UserLogins",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRegistrations_UserId",
-                table: "UserRegistrations",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_UserGroupId",
                 table: "Users",
                 column: "UserGroupId");
@@ -514,6 +457,9 @@ namespace LearnMe.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Attachments");
+
+            migrationBuilder.DropTable(
+                name: "CalendarEvents");
 
             migrationBuilder.DropTable(
                 name: "Exercises");
@@ -543,12 +489,6 @@ namespace LearnMe.Migrations
                 name: "UserLessonHomeworks");
 
             migrationBuilder.DropTable(
-                name: "UserLogins");
-
-            migrationBuilder.DropTable(
-                name: "UserRegistrations");
-
-            migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
@@ -562,9 +502,6 @@ namespace LearnMe.Migrations
 
             migrationBuilder.DropTable(
                 name: "Lessons");
-
-            migrationBuilder.DropTable(
-                name: "CalendarEvents");
 
             migrationBuilder.DropTable(
                 name: "InvoiceBasics");

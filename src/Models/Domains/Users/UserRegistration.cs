@@ -1,11 +1,38 @@
 ﻿using LearnMe.Models.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System;
+using LearnMe.Enum;
+
 
 namespace LearnMe.Models.Domains.Users
 {
-    public class UserRegistration : BaseEntity
+    [NotMapped]
+    public class UserRegistration : BaseUser
     {
-        public int UserId { get; set; }
+        [Required, Compare(nameof(Password), ErrorMessage = "Password don't match, please try again")]
+        [NotMapped]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
+        [Required(ErrorMessage = "This field is required")]
+        public string FirstName { get; set; }
 
-        public User User { get; set; }
+        [Required(ErrorMessage = "This field is required")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
+        public int PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
+        public string Address { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
+        [DataType(DataType.PostalCode)]
+        public int Postcode { get; set; }
+
+        public DateTime RegistrationDate { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
+        public UserRole Role { get; set; }
     }
 }

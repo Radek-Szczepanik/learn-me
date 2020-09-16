@@ -3,10 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LearnMe.Models.Domains.Lessons
 {
-    public class Correction : BaseEntity
+    public class Correction : BaseLessons
     {
-        [Required(ErrorMessage = "This field is required")]
-        public string FileName { get; set; }
+      
 
         public string Feedback { get; set; }
 

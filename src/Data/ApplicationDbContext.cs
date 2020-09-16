@@ -3,14 +3,14 @@ using System.Linq;
 using LearnMe.Enum;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Models.Domains.Calendar;
-using LearnMe.Models.Domains.Front;
+using LearnMe.Models.Domains.Home;
 using LearnMe.Models.Domains.Invoice;
 using LearnMe.Models.Domains.Lessons;
 using LearnMe.Models.Domains.Mail;
 using LearnMe.Models.Domains.Shop;
 using LearnMe.Models.Domains.Users;
 
-namespace LearnMe.Persistence
+namespace LearnMe.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -48,121 +48,122 @@ namespace LearnMe.Persistence
 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+        //    {
+        //        relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        //    }
 
-            base.OnModelCreating(modelBuilder);
+        //    base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<UserLesson>()
-            .HasKey(ul => ul.Id);
+        //    modelBuilder.Entity<UserLesson>()
+        //    .HasKey(ul => ul.Id);
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.InvoiceData)
-                .WithOne(invD => invD.User)
-                .HasForeignKey<UserInvoiceData>(uInvD => uInvD.UserId);
+        //    modelBuilder.Entity<User>()
+        //        .HasOne(u => u.InvoiceData)
+        //        .WithOne(invD => invD.User)
+        //        .HasForeignKey<UserInvoiceData>(uInvD => uInvD.UserId);
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Login)
-                .WithOne(ul => ul.User)
-                .HasForeignKey<UserLogin>(ul => ul.UserId);
+            //modelBuilder.Entity<User>()
+            //    .HasOne(u => u.Login)
+            //    .WithOne(ul => ul.User)
+            //    .HasForeignKey<UserLogin>(ul => ul.UserId);
 
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.Registration)
-                .WithOne(ur => ur.User)
-                .HasForeignKey<UserRegistration>(ur => ur.UserId);
+            //modelBuilder.Entity<User>()
+            //    .HasOne(u => u.Registration)
+            //    .WithOne(ur => ur.User)
+            //    .HasForeignKey<UserRegistration>(ur => ur.UserId);
 
-            // SEEDING DATA
-            modelBuilder.Entity<CalendarEvent>().HasData(
-                new CalendarEvent()
-                {
-                    Id = 1,
-                    Title = "A1 lesson",
-                    Description = "Animals vocabulary",
-                    Start = DateTime.UtcNow.AddDays(9).AddHours(2),
-                    End = DateTime.UtcNow.AddDays(9).AddHours(4),
-                    IsDone = false
-                },
-                new CalendarEvent()
-                {
-                    Id = 2,
-                    Title = "C1 lesson",
-                    Description = "Future simple",
-                    Start = DateTime.UtcNow.AddDays(-9).AddHours(2),
-                    End = DateTime.UtcNow.AddDays(-9).AddHours(4),
-                    IsDone = true
-                }
-            );
+            //// SEEDING DATA
+            //modelBuilder.Entity<CalendarEvent>().HasData(
+            //    new CalendarEvent()
+            //    {
+            //        Id = 1,
+            //        Title = "A1 lesson",
+            //        Description = "Animals vocabulary",
+            //        Start = DateTime.UtcNow.AddDays(9).AddHours(2),
+            //        End = DateTime.UtcNow.AddDays(9).AddHours(4),
+            //        IsDone = false
+            //    },
+            //    new CalendarEvent()
+            //    {
+            //        Id = 2,
+            //        Title = "C1 lesson",
+            //        Description = "Future simple",
+            //        Start = DateTime.UtcNow.AddDays(-9).AddHours(2),
+            //        End = DateTime.UtcNow.AddDays(-9).AddHours(4),
+            //        IsDone = true
+            //    }
+            //);
 
-            modelBuilder.Entity<Lesson>().HasData(
-                new Lesson()
-                {
-                    Id = 1,
-                    CalendarEventId = 1,
-                    Title = "Lesson 1",
-                    MessageText = "Please come",
-                    LessonStatus = LessonStatus.New,
-                },
-                new Lesson()
-                {
-                    Id = 2,
-                    CalendarEventId = 2,
-                    Title = "Lesson 2",
-                    MessageText = "Please come",
-                    LessonStatus = LessonStatus.Done,
-                },
-                new Lesson()
-                {
-                    Id = 3,
-                    CalendarEventId = 3,
-                    Title = "Lesson 3",
-                    MessageText = "Please come",
-                    LessonStatus = LessonStatus.New,
-                }
-            );
+            //modelBuilder.Entity<Lesson>().HasData(
+            //    new Lesson()
+            //    {
+            //        Id = 1,
+            //        CalendarEventId = 1,
+            //        Title = "Lesson 1",
+            //        Text = "Please come",
+            //        LessonStatus = LessonStatus.New,
+            //    },
+            //    new Lesson()
+            //    {
+            //        Id = 2,
+            //        CalendarEventId = 2,
+            //        Title = "Lesson 2",
+            //        Text = "Please come",
+            //        LessonStatus = LessonStatus.Done,
+            //    },
+            //    new Lesson()
+            //    {
+            //        Id = 3,
+            //        CalendarEventId = 3,
+            //        Title = "Lesson 3",
+            //        MessageText = "Please come",
+            //        LessonStatus = LessonStatus.New,
+            //    }
+            //);
 
-            modelBuilder.Entity<User>().HasData(
-                new User()
-                {
-                    Id = 1,
-                    FirstName = "Maciek",
-                    LastName = "Kowalski",
-                    Address = "Torun",
-                    Email = "maciek@gmail.com",
-                    RegistrationDate = DateTime.UtcNow,
-                    Password = "somePsw"
-                },
-                new User()
-                {
-                    Id = 2,
-                    FirstName = "Anna",
-                    LastName = "Nowak",
-                    Address = "Torun",
-                    Email = "ania@gmail.com",
-                    RegistrationDate = DateTime.UtcNow.AddMinutes(3),
-                    Password = "somePsw"
-                },
-                new User()
-                {
-                    Id = 3,
-                    FirstName = "Barbara",
-                    LastName = "Zamojska",
-                    Address = "Warszawa",
-                    Email = "maciek@gmail.com",
-                    RegistrationDate = DateTime.UtcNow.AddHours(2),
-                    Password = "somePsw"
-                }
-            );
+            //modelBuilder.Entity<User>().HasData(
+            //    new User()
+            //    {
+            //        Id = 1,
+            //        FirstName = "Maciek",
+            //        LastName = "Kowalski",
+            //        Address = "Torun",
+            //        Email = "maciek@gmail.com",
+            //        RegistrationDate = DateTime.UtcNow,
+            //        Password = "somePsw"
+            //    },
+            //    new User()
+            //    {
+            //        Id = 2,
+            //        FirstName = "Anna",
+            //        LastName = "Nowak",
+            //        Address = "Torun",
+            //        Email = "ania@gmail.com",
+            //        RegistrationDate = DateTime.UtcNow.AddMinutes(3),
+            //        Password = "somePsw"
+            //    },
+            //    new User()
+            //    {
+            //        Id = 3,
+            //        FirstName = "Barbara",
+            //        LastName = "Zamojska",
+            //        Address = "Warszawa",
+            //        Email = "maciek@gmail.com",
+            //        RegistrationDate = DateTime.UtcNow.AddHours(2),
+            //        Password = "somePsw"
+            //    }
+            //);
 
-            modelBuilder.Entity<UserLesson>().HasData(
-                new UserLesson() { Id = 1, UserId = 1, LessonId = 1 },
-                new UserLesson() { Id = 2, UserId = 2, LessonId = 2 },
-                //new UserLesson() { Id = 3, UserId = 2, LessonId = 3 },
-                new UserLesson() { Id = 4, UserId = 3, LessonId = 3 }, new UserLesson() { Id = 3, UserId = 3, LessonId = 3 }
-            );
-        }
+            //modelBuilder.Entity<UserLesson>().HasData(
+            //    new UserLesson() { Id = 1, UserId = 1, LessonId = 1 },
+            //    new UserLesson() { Id = 2, UserId = 2, LessonId = 2 },
+            //    //new UserLesson() { Id = 3, UserId = 2, LessonId = 3 },
+            //    new UserLesson() { Id = 4, UserId = 3, LessonId = 3 }, new UserLesson() { Id = 3, UserId = 3, LessonId = 3 }
+            //);
+
+        
     }
 }

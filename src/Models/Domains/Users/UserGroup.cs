@@ -3,7 +3,7 @@ using LearnMe.Models.Base;
 
 namespace LearnMe.Models.Domains.Users
 {
-    public class UserGroup : BaseEntity
+    public class UserGroup : BaseUser
     {
         public string Name { get; set; }
 
