@@ -12,9 +12,9 @@ namespace LearnMe.Models.Domains.Calendar
         public string Title { get; set; }
 
         public string Description { get; set; }
-        
+
         public DateTime Start { get; set; }
-        
+
         public DateTime End { get; set; }
 
         public bool IsDone { get; set; }
@@ -23,5 +23,8 @@ namespace LearnMe.Models.Domains.Calendar
         public IList<UserBasic> Attendees { get; set; }
 
         public Lesson Lesson { get; set; }
+
+        // Google Calendar specific properties
+        public string GoogleEventId { get; set; }
     }
 }
