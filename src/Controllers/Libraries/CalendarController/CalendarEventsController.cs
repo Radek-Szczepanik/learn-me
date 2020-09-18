@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using LearnMe.Controllers.Libraries.CalendarController.Utils;
+using LearnMe.Controllers.Libraries.CalendarController.Utils.CalendarConnection.GoogleCalendar;
 using LearnMe.Data;
 using LearnMe.Models.Domains.Calendar;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +26,7 @@ namespace LearnMe.Controllers.Libraries.CalendarController
 
         private readonly ILogger<CalendarEventsController> _logger;
 
-        private readonly CalendarService _calendarService;
+        //private readonly CalendarService _calendarService;
 
         private readonly ApplicationDbContext _context;
 
@@ -35,7 +37,7 @@ namespace LearnMe.Controllers.Libraries.CalendarController
         {
             _logger = logger;
             var token = googleAPIconnection.GetToken();
-            _calendarService = googleAPIconnection.CreateCalendarService(token, ApplicationName);
+            //_calendarService = googleAPIconnection.CreateCalendarService(token, ApplicationName);
             _context = context;
         }
 
@@ -76,28 +78,52 @@ namespace LearnMe.Controllers.Libraries.CalendarController
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<CalendarEvent>> GetByIdAsync(int id)
         {
-            return "value";
+            var foundEvent = await FindCalendarEventByIdAsync(id);
+            if (foundEvent == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(foundEvent);
         }
 
         // POST api/<controller>
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            var eventToAdd = JsonSerializer.DeserializeAsync<CalendarEvent>(new StringContent(value, Encoding.UTF8));
+
+            CalendarEvent toAdd = new CalendarEvent();
+            //var result = await _context.SaveChangesAsync(toAdd);
+
+
+            //var category = _mapper.Map<SaveCategoryResource, Category>(resource);
+            //var result = await _categoryService.SaveAsync(category);
+
+            //if (!result.Success)
+            //{
+            //    return BadRequest(new ErrorResource(result.Message));
+            //}
+
+            //var categoryResource = _mapper.Map<Category, CategoryResource>(result.Resource);
+            //return Ok(categoryResource);
+
         }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+
         }
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> DeleteAsync(int? id)
         {
-            var eventToDelete = await FindCalendarEventById(id);
+            var eventToDelete = await FindCalendarEventByIdAsync(id);
             if (eventToDelete == null)
             {
                 return NotFound();
@@ -115,7 +141,7 @@ namespace LearnMe.Controllers.Libraries.CalendarController
             return Ok();
         }
 
-        private async Task<CalendarEvent> FindCalendarEventById(int? id)
+        private async Task<CalendarEvent> FindCalendarEventByIdAsync(int? id)
         {
             if (id == null)
             {
