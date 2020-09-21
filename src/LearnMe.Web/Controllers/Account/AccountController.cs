@@ -66,7 +66,7 @@ namespace LearnMe.Controllers.Account
 
 
         [HttpGet]
-        public string[] Get()
+        public string[] GetIdentity()
         {
             var identityString = new string[3];
             identityString[0] = User.FindFirst(claim => claim.Type == System.Security.Claims.ClaimTypes.Role)?.Value;
@@ -78,12 +78,11 @@ namespace LearnMe.Controllers.Account
 
 
         [HttpPost]
-        public async Task<bool> Post(UserLogin user)
+        public async Task<bool> LogIn(UserLogin user)
 
         {
             ClaimsIdentity identity = null;
-    
-            
+                
             if (ModelState.IsValid)
             {
                 var accessDataHashed = GetHash(user.Password);
