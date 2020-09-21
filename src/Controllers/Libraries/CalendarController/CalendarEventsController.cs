@@ -1,86 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
+using AutoMapper;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
-using LearnMe.Controllers.Libraries.CalendarController.Utils;
+using LearnMe.Controllers.Libraries.CalendarController.DTO;
+using LearnMe.Controllers.Libraries.CalendarController.Utils.CalendarConnection;
 using LearnMe.Controllers.Libraries.CalendarController.Utils.CalendarConnection.GoogleCalendar;
 using LearnMe.Data;
-using LearnMe.Models.Domains.Calendar;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using LearnMe.Controllers.Libraries.CalendarController.BusinessLogic;
 
 namespace LearnMe.Controllers.Libraries.CalendarController
 {
     [Route("api/[controller]")]
     public class CalendarEventsController : Controller
     {
-
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/calendar-dotnet-quickstart.json
         static string ApplicationName = "Learn Me WEB Applicaton";
-
         private readonly ILogger<CalendarEventsController> _logger;
-
-        //private readonly CalendarService _calendarService;
-
+        private readonly CalendarService _calendarConnection;
+        private readonly IExternalCalendarService<Event> _calendarService;
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
         public CalendarEventsController(
             ILogger<CalendarEventsController> logger,
             IGoogleAPIconnection googleAPIconnection,
-            ApplicationDbContext context)
+            IExternalCalendarService<Event> calendarService,
+            ApplicationDbContext context,
+            IMapper mapper)
         {
             _logger = logger;
             var token = googleAPIconnection.GetToken();
-            //_calendarService = googleAPIconnection.CreateCalendarService(token, ApplicationName);
+            _calendarConnection = googleAPIconnection.CreateCalendarService(token, ApplicationName);
+            _calendarService = calendarService;
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<Event> Get()
+        public async Task<IEnumerable<CalendarEventDTO>> GetAsync()
         {
-            // Define parameters of request.
-            EventsResource.ListRequest request = _calendarService.Events.List("primary");
-            request.TimeMin = DateTime.Now;
-            request.ShowDeleted = false;
-            request.SingleEvents = true;
-            request.MaxResults = 10;
-            request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
-
-            // List events.
-            Events events = request.Execute();
-            Console.WriteLine("Upcoming events:");
-            if (events.Items != null && events.Items.Count > 0)
-            {
-                foreach (var eventItem in events.Items)
-                {
-                    string when = eventItem.Start.DateTime.ToString();
-                    if (String.IsNullOrEmpty(when))
-                    {
-                        when = eventItem.Start.Date;
-                    }
-
-                    Console.WriteLine("{0} ({1})", eventItem.Summary, when);
-                }
-            } else
-            {
-                Console.WriteLine("No upcoming events found.");
-            }
-
-            return events.Items;
+            throw new NotImplementedException();
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CalendarEvent>> GetByIdAsync(int id)
+        public async Task<ActionResult<CalendarEventDTO>> GetByIdAsync(int id)
         {
-            var foundEvent = await FindCalendarEventByIdAsync(id);
+            var foundEvent = await CalendarLogic.FindCalendarEventByIdAsync(_context, id);
             if (foundEvent == null)
             {
                 return NotFound();
@@ -93,9 +65,9 @@ namespace LearnMe.Controllers.Libraries.CalendarController
         [HttpPost]
         public void Post([FromBody] string value)
         {
-            var eventToAdd = JsonSerializer.DeserializeAsync<CalendarEvent>(new StringContent(value, Encoding.UTF8));
+            //var eventToAdd = JsonSerializer.DeserializeAsync<CalendarEvent>(new StringContent(value, Encoding.UTF8));
 
-            CalendarEvent toAdd = new CalendarEvent();
+            //CalendarEvent toAdd = new CalendarEvent();
             //var result = await _context.SaveChangesAsync(toAdd);
 
 
@@ -123,36 +95,14 @@ namespace LearnMe.Controllers.Libraries.CalendarController
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int? id)
         {
-            var eventToDelete = await FindCalendarEventByIdAsync(id);
-            if (eventToDelete == null)
+            if (await CalendarLogic.DeleteEventAsync(_calendarConnection, _context, id))
+            {
+                return Ok();
+            }
+            else
             {
                 return NotFound();
             }
-
-            var eventId = eventToDelete.GoogleEventId;
-            String calendarId = "primary";
-            var deletedEvent = _calendarService.Events.Delete(calendarId, eventId).ExecuteAsync();
-            _logger.LogInformation($"Event deleted from Google calendar: id {id}, Google calendar id {eventId}");
-
-            _context.CalendarEvents.Remove(eventToDelete);
-            await _context.SaveChangesAsync();
-            _logger.LogInformation($"Event deleted from DB: id {id}, Google calendar id {eventId}");
-
-            return Ok();
-        }
-
-        private async Task<CalendarEvent> FindCalendarEventByIdAsync(int? id)
-        {
-            if (id == null)
-            {
-                return null;
-            }
-
-            var foundEvent = await _context.CalendarEvents
-                .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Id == id);
-
-            return foundEvent;
         }
     }
 }

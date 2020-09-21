@@ -6,7 +6,7 @@ using Google.Apis.Calendar.v3.Data;
 
 namespace LearnMe.Controllers.Libraries.CalendarController.Utils.CalendarConnection.GoogleCalendar
 {
-    public class GoogleCalendar : IGoogleCalendar
+    public class GoogleCalendar : IExternalCalendarService<Event>
     {
         private readonly CalendarService calendarService;
 
