@@ -2,14 +2,29 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google.Apis.Calendar.v3;
+using Google.Apis.Logging;
+using LearnMe.Data;
 using LearnMe.Models.Domains.Calendar;
 using Microsoft.EntityFrameworkCore;
 
 namespace LearnMe.Controllers.Libraries.CalendarController.BusinessLogic
 {
-    public static class CalendarLogic
+    public class CalendarLogic
     {
-        public static async Task<IEnumerable<CalendarEvent>> GetEventsAsync()
+        private readonly CalendarService _calendarService;
+        private readonly ApplicationDbContext _context;
+        private readonly ILogger _logger;
+
+        public CalendarLogic(CalendarService calendarService,
+                             ApplicationDbContext context,
+                             ILogger logger)
+        {
+            _calendarService = calendarService;
+            _context = context;
+            _logger = logger;
+        }
+
+        public async Task<IEnumerable<CalendarEvent>> GetEventsAsync()
         {
             //TODO Here add querying from db and returning db models
             //DTO model will be mapped in the controller
@@ -47,7 +62,7 @@ namespace LearnMe.Controllers.Libraries.CalendarController.BusinessLogic
             //return events.Items;
         }
 
-        public static async Task<CalendarEvent> FindCalendarEventByIdAsync(DbContext context, int? id)
+        public async Task<CalendarEvent> FindCalendarEventByIdAsync(DbContext context, int? id)
         {
             if (id == null)
             {
@@ -63,29 +78,27 @@ namespace LearnMe.Controllers.Libraries.CalendarController.BusinessLogic
             throw new NotImplementedException();
         }
 
-        public static async Task AddEventAsync()
+        public async Task AddEventAsync()
         {
             throw new NotImplementedException();
         }
 
-        public static async Task UpdateEventAsync()
+        public async Task UpdateEventAsync()
         {
             throw new NotImplementedException();
         }
 
-        public static async Task<bool> DeleteEventAsync(CalendarService calServ, DbContext context, int? id)
+        public async Task<bool> DeleteEventAsync(int? id)
         {
-            var eventToDelete = await FindCalendarEventByIdAsync(context, id);
+            var eventToDelete = await FindCalendarEventByIdAsync(_context, id);
             if (eventToDelete != null)
             {
                 var eventId = eventToDelete.GoogleEventId;
                 String calendarId = "primary";
-                var deletedEvent = calServ.Events.Delete(calendarId, eventId).ExecuteAsync();
-                //_logger.LogInformation($"Event deleted from Google calendar: id {id}, Google calendar id {eventId}");
+                var deletedEvent = _calendarService.Events.Delete(calendarId, eventId).ExecuteAsync();
 
-                //(ApplicationDbContext)context.CalendarEvents.Remove(eventToDelete);
-                await context.SaveChangesAsync();
-                //_logger.LogInformation($"Event deleted from DB: id {id}, Google calendar id {eventId}");
+                _context.CalendarEvents.Remove(eventToDelete);
+                await _context.SaveChangesAsync();
                 return true;
             }
             else
