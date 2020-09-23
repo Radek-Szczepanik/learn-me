@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Data;
 using LearnMe.Models.Domains.Users;
+using AutoMapper;
+using LearnMe.DTO;
 
 namespace LearnMe.Controllers.Users
 {
@@ -15,17 +17,21 @@ namespace LearnMe.Controllers.Users
     public class UserBasicsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public UserBasicsController(ApplicationDbContext context)
+        public UserBasicsController(ApplicationDbContext context, IMapper mapper)  // wstrzyknięcie do kontrolera
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/UserBasics
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserBasic>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            var users = await _context.Users.ToListAsync();
+            var usersToReturn = _mapper.Map<IEnumerable<UserBasicList>>(users);     // dodanie mapowania
+            return Ok(usersToReturn);
         }
 
         // GET: api/UserBasics/5
@@ -39,39 +45,30 @@ namespace LearnMe.Controllers.Users
                 return NotFound();
             }
 
-            return userBasic;
+            var userToReturn = _mapper.Map<UserBasicList>(userBasic);       // dodanie mapowania
+
+            return Ok(userToReturn);
         }
 
         // PUT: api/UserBasics/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserBasic(int id, UserBasic userBasic)
+        public async Task<IActionResult> PutUserBasic(int id, [FromBody] UserBasic userBasic)
         {
-            if (id != userBasic.Id)
-            {
-                return BadRequest();
-            }
+            var data = await _context.Users.FindAsync(id);
 
-            _context.Entry(userBasic).State = EntityState.Modified;
+            if (data == null)
+                return NoContent();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserBasicExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            data.FirstName = userBasic.FirstName;
+            data.LastName = userBasic.LastName;
+            data.Address = userBasic.Address;
+            data.Role = userBasic.Role;
 
-            return NoContent();
+            _context.Users.Update(data);
+            await _context.SaveChangesAsync();
+            return Ok(data);
         }
 
         // POST: api/UserBasics

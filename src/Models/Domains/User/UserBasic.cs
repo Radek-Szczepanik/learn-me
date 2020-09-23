@@ -16,7 +16,7 @@ namespace LearnMe.Models.Domains.Users
         [Required(ErrorMessage = "This field is required")]
         public string LastName { get; set; }
               
-        [Required(ErrorMessage = "This field is required")]
+        //[Required(ErrorMessage = "This field is required")]
         public int PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
@@ -28,7 +28,7 @@ namespace LearnMe.Models.Domains.Users
 
         public DateTime RegistrationDate { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+       // [Required(ErrorMessage = "This field is required")]
         public UserRole Role { get; set; }
 
         public UserStatus Status { get; set; }

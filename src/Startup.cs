@@ -1,5 +1,7 @@
+using AutoMapper;
 using LearnMe.Controllers.Libraries.CalendarController.Utils;
 using LearnMe.Data;
+using LearnMe.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -33,6 +35,14 @@ namespace LearnMe
                 options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase")));
 
             services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperProfiles());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
