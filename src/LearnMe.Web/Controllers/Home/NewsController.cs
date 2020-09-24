@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LearnMe.Infrastructure.Data;
 using LearnMe.Infrastructure.Models.Domains.Home;
-using LearnMe.Infrastructure.Repository;
 using LearnMe.Core.Interfaces;
 
 namespace LearnMe.Web.Controllers.Home
@@ -18,9 +16,9 @@ namespace LearnMe.Web.Controllers.Home
     {
         private readonly IHome<News> _home;
 
-        public NewsController(HomeRepository<News> context)
+        public NewsController(IHome<News> home)
         {
-            _home = context;
+            _home = home;
         }
                 
 
