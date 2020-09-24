@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using LearnMe.Infrastructure.Enum;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Models.Domains.Home;

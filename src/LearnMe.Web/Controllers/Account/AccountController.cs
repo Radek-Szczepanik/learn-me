@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Infrastructure.Data;
 using LearnMe.Infrastructure.Models.Domains.Users;
-using LearnMe.Infrastructure.Enum;
+using LearnMe.Shared.Enum;
 using System.Collections.Generic;
 
 namespace LearnMe.Controllers.Account

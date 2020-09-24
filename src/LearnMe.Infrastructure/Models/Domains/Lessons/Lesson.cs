@@ -1,6 +1,6 @@
 ﻿using LearnMe.Infrastructure.Models.Base;
 using System.ComponentModel.DataAnnotations;
-using LearnMe.Infrastructure.Enum;
+using LearnMe.Shared.Enum;
 using System.Collections.Generic;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Models.Domains.Invoice;

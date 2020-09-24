@@ -1,5 +1,5 @@
 ﻿using LearnMe.Infrastructure.Models.Base;
-using LearnMe.Infrastructure.Enum;
+using LearnMe.Shared.Enum;
 
 namespace LearnMe.Infrastructure.Models.Domains.Home
 {

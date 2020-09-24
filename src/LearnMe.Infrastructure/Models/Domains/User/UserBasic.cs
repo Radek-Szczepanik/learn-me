@@ -1,4 +1,4 @@
-﻿using LearnMe.Infrastructure.Enum;
+﻿using LearnMe.Shared.Enum;
 using LearnMe.Infrastructure.Models.Base;
 using System;
 using System.Collections.Generic;

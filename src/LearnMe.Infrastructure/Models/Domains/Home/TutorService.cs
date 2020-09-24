@@ -1,6 +1,6 @@
 ﻿using LearnMe.Infrastructure.Models.Base;
 using System.ComponentModel.DataAnnotations;
-using LearnMe.Infrastructure.Enum;
+using LearnMe.Shared.Enum;
 
 namespace LearnMe.Infrastructure.Models.Domains.Home
 {

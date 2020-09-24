@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
-using LearnMe.Infrastructure.Enum;
+using LearnMe.Shared.Enum;
 
 
 namespace LearnMe.Infrastructure.Models.Domains.Users
