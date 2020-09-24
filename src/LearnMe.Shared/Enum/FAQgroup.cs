@@ -1,4 +1,4 @@
-﻿namespace LearnMe.Infrastructure.Enum
+﻿namespace LearnMe.Shared.Enum
 {
     public enum FAQgroup
     {

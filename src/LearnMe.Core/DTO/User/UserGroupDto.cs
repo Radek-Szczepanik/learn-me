@@ -1,8 +1,6 @@
-﻿using LearnMe.Models.Domains.Users;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace LearnMe.DTO.User
+namespace LearnMe.Core.DTO.User
 {
     public class UserGroupDto
     {
@@ -18,6 +16,5 @@ namespace LearnMe.DTO.User
 
         public string OptionalDesription { get; set; }
 
-        public IList<UserBasic> UsersList { get; set; }
     }
 }

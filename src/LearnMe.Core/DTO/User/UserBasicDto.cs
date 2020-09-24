@@ -1,11 +1,10 @@
-﻿using LearnMe.Enum;
+﻿using LearnMe.Shared.Enum;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LearnMe.DTO.User
+namespace LearnMe.Core.DTO.User
 {
-    public class UserRegistrationDto
+    public class UserBasicDto
     {
         [Required(ErrorMessage = "This field is required")]
         [DataType(DataType.EmailAddress)]
@@ -15,10 +14,6 @@ namespace LearnMe.DTO.User
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required, Compare(nameof(Password), ErrorMessage = "Password don't match, please try again")]
-        [NotMapped]
-        [DataType(DataType.Password)]
-        public string ConfirmPassword { get; set; }
         [Required(ErrorMessage = "This field is required")]
         public string FirstName { get; set; }
 
@@ -39,5 +34,11 @@ namespace LearnMe.DTO.User
 
         [Required(ErrorMessage = "This field is required")]
         public UserRole Role { get; set; }
-    }
+
+        public UserStatus Status { get; set; }
+
+        public string Notes { get; set; }
+
+    }  
 }
+

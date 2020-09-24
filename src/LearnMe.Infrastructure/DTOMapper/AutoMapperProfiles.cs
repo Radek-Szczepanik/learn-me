@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using LearnMe.DTO;
-using LearnMe.DTO.User;
+using LearnMe.Core.DTO.User;
 using LearnMe.Infrastructure.Models.Domains.Users;
 
-namespace LearnMe.Helpers
+namespace LearnMe.Infrastructure
 {
     /* tutaj tworzymy mapy, tylko właściwości
        z takimi samymi nazwami zostaną zmapowane */

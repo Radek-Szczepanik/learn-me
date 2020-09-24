@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
     <PackageReference Include="Google.Apis" Version="1.49.0" />
     <PackageReference Include="Google.Apis.Auth" Version="1.49.0" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.49.0.2086" />
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LearnMe.Core\LearnMe.Core.csproj" />
+    <ProjectReference Include="..\LearnMe.Shared\LearnMe.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

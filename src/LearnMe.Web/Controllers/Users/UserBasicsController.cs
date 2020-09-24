@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LearnMe.Infrastructure.Data;
-using LearnMe.Infrastructure.Models.Domains.Users;
-using LearnMe.DTO;
 using LearnMe.Core.Interfaces;
+using LearnMe.Core.DTO.User;
 
 
 namespace LearnMe.Controllers.Users
@@ -27,8 +25,8 @@ namespace LearnMe.Controllers.Users
             // GET: api/News
             [HttpGet]
             public async Task<IEnumerable<UserBasicDto>> GetNews()
-            {
-                return await _crudRepository.GetAll();
+            {   
+                   return await _crudRepository.GetAll();
             }
 
             //private readonly ApplicationDbContext _context;

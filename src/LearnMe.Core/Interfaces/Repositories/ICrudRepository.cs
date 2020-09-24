@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LearnMe.Core.Interfaces
 {
-    public interface IHome<T> where T: class
+    public interface ICrudRepository<T> where T: class
     {
         // public Task<List<News>> GetAll();
         Task<IEnumerable<T>> GetAll();
