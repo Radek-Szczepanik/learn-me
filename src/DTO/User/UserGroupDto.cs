@@ -1,13 +1,10 @@
-﻿using System;
+﻿using LearnMe.Models.Domains.Users;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LearnMe.Models.Base
+namespace LearnMe.DTO.User
 {
-    public abstract class BaseUser : BaseEntity
+    public class UserGroupDto
     {
         [Required(ErrorMessage = "This field is required")]
         [DataType(DataType.EmailAddress)]
@@ -16,5 +13,11 @@ namespace LearnMe.Models.Base
         [Required(ErrorMessage = "This field is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public string Name { get; set; }
+
+        public string OptionalDesription { get; set; }
+
+        public IList<UserBasic> UsersList { get; set; }
     }
 }

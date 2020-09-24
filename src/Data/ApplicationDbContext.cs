@@ -63,7 +63,7 @@ namespace LearnMe.Data
         //    modelBuilder.Entity<User>()
         //        .HasOne(u => u.InvoiceData)
         //        .WithOne(invD => invD.User)
-        //        .HasForeignKey<UserInvoiceData>(uInvD => uInvD.UserId);
+        //        .HasForeignKey<UserInvoiceDataDto>(uInvD => uInvD.UserId);
 
             //modelBuilder.Entity<User>()
             //    .HasOne(u => u.Login)

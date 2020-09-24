@@ -1,12 +1,12 @@
-﻿using System;
+﻿using AutoMapper;
+using LearnMe.Data;
+using LearnMe.DTO.User;
+using LearnMe.Models.Domains.Users;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LearnMe.Data;
-using LearnMe.Models.Domains.Users;
 
 namespace LearnMe.Controllers.Users
 {
@@ -15,17 +15,21 @@ namespace LearnMe.Controllers.Users
     public class UserInvoiceDatasController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public UserInvoiceDatasController(ApplicationDbContext context)
+        public UserInvoiceDatasController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/UserInvoiceDatas
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserInvoiceData>>> GetUserInvoiceDatas()
         {
-            return await _context.UserInvoiceDatas.ToListAsync();
+            var users = await _context.UserGroups.ToListAsync();
+            var usersToReturn = _mapper.Map<IEnumerable<UserInvoiceDataDto>>(users);     // dodanie mapowania
+            return Ok(usersToReturn);
         }
 
         // GET: api/UserInvoiceDatas/5
@@ -39,7 +43,9 @@ namespace LearnMe.Controllers.Users
                 return NotFound();
             }
 
-            return userInvoiceData;
+            var userToReturn = _mapper.Map<UserGroupDto>(userInvoiceData);       // dodanie mapowania
+
+            return Ok(userToReturn);
         }
 
         // PUT: api/UserInvoiceDatas/5

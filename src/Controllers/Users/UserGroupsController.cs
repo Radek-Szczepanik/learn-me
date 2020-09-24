@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Data;
 using LearnMe.Models.Domains.Users;
+using AutoMapper;
+using LearnMe.DTO.User;
 
 namespace LearnMe.Controllers.Users
 {
@@ -15,17 +17,21 @@ namespace LearnMe.Controllers.Users
     public class UserGroupsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public UserGroupsController(ApplicationDbContext context)
+        public UserGroupsController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/UserGroups
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserGroup>>> GetUserGroups()
         {
-            return await _context.UserGroups.ToListAsync();
+            var users = await _context.UserGroups.ToListAsync();
+            var usersToReturn = _mapper.Map<IEnumerable<UserGroupDto>>(users);     // dodanie mapowania
+            return Ok(usersToReturn);
         }
 
         // GET: api/UserGroups/5
@@ -39,7 +45,9 @@ namespace LearnMe.Controllers.Users
                 return NotFound();
             }
 
-            return userGroup;
+            var userToReturn = _mapper.Map<UserGroupDto>(userGroup);       // dodanie mapowania
+
+            return Ok(userToReturn);
         }
 
         // PUT: api/UserGroups/5

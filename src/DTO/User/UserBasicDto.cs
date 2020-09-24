@@ -1,22 +1,30 @@
 ﻿using LearnMe.Enum;
-using LearnMe.Models.Base;
+using LearnMe.Models.Domains.Invoice;
+using LearnMe.Models.Domains.Lessons;
+using LearnMe.Models.Domains.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using LearnMe.Models.Domains.Invoice;
-using LearnMe.Models.Domains.Lessons;
 
-namespace LearnMe.Models.Domains.Users
+namespace LearnMe.DTO
 {
-    public class UserBasic : BaseUser
+    public class UserBasicDto
     {
+        [Required(ErrorMessage = "This field is required")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
         [Required(ErrorMessage = "This field is required")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
         public string LastName { get; set; }
-              
-        //[Required(ErrorMessage = "This field is required")]
+
+        [Required(ErrorMessage = "This field is required")]
         public int PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
@@ -42,6 +50,6 @@ namespace LearnMe.Models.Domains.Users
         public IList<UserLesson> UserLessons { get; set; }
 
         public UserInvoiceData InvoiceData { get; set; }
-
     }
 }
+

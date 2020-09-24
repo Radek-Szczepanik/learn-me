@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LearnMe.DTO;
+using LearnMe.DTO.User;
 using LearnMe.Models.Domains.Users;
 
 namespace LearnMe.Helpers
@@ -11,8 +12,12 @@ namespace LearnMe.Helpers
     {
         public AutoMapperProfiles()
         {
-            // mapujemy z klasy UserBasic do klasy UserBasicList
-            CreateMap<UserBasic, UserBasicList>(); 
+            // mapujemy z klasy UserBasic do klasy UserBasicDto
+            CreateMap<UserBasic, UserBasicDto>();
+            CreateMap<UserGroup, UserGroupDto>();
+            CreateMap<UserInvoiceData, UserInvoiceDataDto>();
+            CreateMap<UserLogin, UserLoginDto>();
+            CreateMap<UserRegistration, UserRegistrationDto>();
         }
     }
 }

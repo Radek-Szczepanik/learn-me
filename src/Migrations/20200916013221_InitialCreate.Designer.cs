@@ -503,7 +503,7 @@ namespace LearnMe.Migrations
                     b.ToTable("UserGroups");
                 });
 
-            modelBuilder.Entity("LearnMe.Models.Domains.Users.UserInvoiceData", b =>
+            modelBuilder.Entity("LearnMe.Models.Domains.Users.UserInvoiceDataDto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -609,11 +609,11 @@ namespace LearnMe.Migrations
                         .HasForeignKey("UserGroupId");
                 });
 
-            modelBuilder.Entity("LearnMe.Models.Domains.Users.UserInvoiceData", b =>
+            modelBuilder.Entity("LearnMe.Models.Domains.Users.UserInvoiceDataDto", b =>
                 {
                     b.HasOne("LearnMe.Models.Domains.Users.User", "User")
                         .WithOne("InvoiceData")
-                        .HasForeignKey("LearnMe.Models.Domains.Users.UserInvoiceData", "UserId")
+                        .HasForeignKey("LearnMe.Models.Domains.Users.UserInvoiceDataDto", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

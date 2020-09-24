@@ -30,7 +30,7 @@ namespace LearnMe.Controllers.Users
         public async Task<ActionResult<IEnumerable<UserBasic>>> GetUsers()
         {
             var users = await _context.Users.ToListAsync();
-            var usersToReturn = _mapper.Map<IEnumerable<UserBasicList>>(users);     // dodanie mapowania
+            var usersToReturn = _mapper.Map<IEnumerable<UserBasicDto>>(users);     // dodanie mapowania
             return Ok(usersToReturn);
         }
 
@@ -45,7 +45,7 @@ namespace LearnMe.Controllers.Users
                 return NotFound();
             }
 
-            var userToReturn = _mapper.Map<UserBasicList>(userBasic);       // dodanie mapowania
+            var userToReturn = _mapper.Map<UserBasicDto>(userBasic);       // dodanie mapowania
 
             return Ok(userToReturn);
         }
@@ -53,18 +53,28 @@ namespace LearnMe.Controllers.Users
         // PUT: api/UserBasics/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserBasic(int id, [FromBody] UserBasic userBasic)
+        public async Task<IActionResult> EditValue(int id, [FromBody] UserBasic userBasic)
         {
             var data = await _context.Users.FindAsync(id);
 
             if (data == null)
-                return NoContent();
+                return NotFound();
 
             data.FirstName = userBasic.FirstName;
             data.LastName = userBasic.LastName;
+            data.PhoneNumber = userBasic.PhoneNumber;
             data.Address = userBasic.Address;
+            data.Postcode = userBasic.Postcode;
+            data.RegistrationDate = userBasic.RegistrationDate;
             data.Role = userBasic.Role;
+            data.Status = userBasic.Status;
+            data.UserGroup = userBasic.UserGroup;
+            data.Notes = userBasic.Notes;
+            data.Password = userBasic.Password;
+            data.Email = userBasic.Email;
 
             _context.Users.Update(data);
             await _context.SaveChangesAsync();
@@ -99,7 +109,7 @@ namespace LearnMe.Controllers.Users
             return userBasic;
         }
 
-        private bool UserBasicExists(int id)
+        public bool UserBasicExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
         }
