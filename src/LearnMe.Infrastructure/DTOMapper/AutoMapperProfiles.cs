@@ -2,7 +2,7 @@
 using LearnMe.Core.DTO.User;
 using LearnMe.Infrastructure.Models.Domains.Users;
 
-namespace LearnMe.Infrastructure
+namespace LearnMe.Infrastructure.DTOMapper
 {
     /* tutaj tworzymy mapy, tylko właściwości
        z takimi samymi nazwami zostaną zmapowane */

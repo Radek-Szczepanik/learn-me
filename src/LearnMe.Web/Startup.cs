@@ -8,6 +8,13 @@ using Microsoft.Extensions.Hosting;
 using LearnMe.Core.Interfaces;
 using LearnMe.Infrastructure.Repository;
 using System.Linq;
+using LearnMe.Web.Controllers.Libraries.CalendarController.Utils;
+using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.DTOMapper;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+//using LearnMe.Web.Controllers.Libraries.CalendarController.Utils.CalendarConnection.GoogleCalendar;
+
 
 namespace LearnMe.Web
 {
@@ -30,7 +37,18 @@ namespace LearnMe.Web
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase")));
+
+            services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
             services.AddSingleton(typeof(ICrudRepository<>), typeof(CrudRepository<>));
+
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new AutoMapperProfiles());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

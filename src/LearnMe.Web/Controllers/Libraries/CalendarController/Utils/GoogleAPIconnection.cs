@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading;
 
 
-namespace LearnMe.Controllers.Libraries.CalendarController.Utils
+namespace LearnMe.Web.Controllers.Libraries.CalendarController.Utils
 {
     class GoogleAPIconnection : IGoogleAPIconnection
     {

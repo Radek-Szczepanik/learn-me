@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text.Json;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
-using LearnMe.Controllers.Libraries.CalendarController.Utils;
+using LearnMe.Web.Controllers.Libraries.CalendarController.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace LearnMe.Controllers.Libraries.CalendarController
+namespace LearnMe.Web.Controllers.Libraries.CalendarController
 {
     [Route("api/[controller]")]
     public class CalendarEventsController : Controller
