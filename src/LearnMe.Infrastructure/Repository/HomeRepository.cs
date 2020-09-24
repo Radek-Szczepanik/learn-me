@@ -10,24 +10,44 @@ using LearnMe.Infrastructure.Models.Domains.Home;
 
 namespace LearnMe.Infrastructure.Repository
 {
-    public class HomeRepository : INews
+    public class HomeRepository<T> : IHome<T> where T: class
 
     {
-        ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public HomeRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        //public async Task<IEnumerable<News>> GetAll()
-        //{
-           
-        //}
-
-        public Task<List<T>> ListAsync<T>()
+        public void Delete(object id)
         {
-            return _context.News.ToListAsync;
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<T>> GetAll()
+        {
+            return await _context.Set<T>().ToListAsync();
+        }
+
+        public T GetById(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Insert(T obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(T obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

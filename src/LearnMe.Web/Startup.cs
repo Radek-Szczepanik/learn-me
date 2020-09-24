@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LearnMe.Core.Interfaces;
 using LearnMe.Infrastructure.Repository;
+using System.Linq;
 
 namespace LearnMe.Web
 {
@@ -29,9 +30,7 @@ namespace LearnMe.Web
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddTransient<INews, HomeRepository>();
-
-
+            services.AddSingleton(typeof(IHome<>), typeof(HomeRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

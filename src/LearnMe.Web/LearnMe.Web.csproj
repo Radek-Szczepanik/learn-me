@@ -13,6 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis" Version="1.49.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.49.0" />
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.49.0.2086" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0-rc.1.20451.13" />
   </ItemGroup>
@@ -22,10 +25,6 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>

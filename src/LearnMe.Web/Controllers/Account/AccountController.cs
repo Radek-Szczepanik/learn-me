@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LearnMe.Data;
-using LearnMe.Models.Domains.Users;
-using LearnMe.Enum;
+using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Users;
+using LearnMe.Infrastructure.Enum;
 using System.Collections.Generic;
 
 namespace LearnMe.Controllers.Account

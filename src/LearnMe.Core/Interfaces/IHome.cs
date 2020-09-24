@@ -8,11 +8,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LearnMe.Core.Interfaces
 {
-    public interface INews
+    public interface IHome<T> where T: class
     {
         // public Task<List<News>> GetAll();
-
-
-        Task<List<T>> ListAsync<T>();
+        Task<IEnumerable<T>> GetAll();
+        T GetById(object id);
+        void Insert(T obj);
+        void Update(T obj);
+        void Delete(object id);
+        void Save();
     }
 }

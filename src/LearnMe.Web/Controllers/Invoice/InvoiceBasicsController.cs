@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LearnMe.Data;
-using LearnMe.Models.Domains.Invoice;
+using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Invoice;
 
 namespace LearnMe.Controllers.Invoice
 {

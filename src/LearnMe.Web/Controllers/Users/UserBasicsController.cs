@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LearnMe.Data;
-using LearnMe.Models.Domains.Users;
+using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Users;
 
 namespace LearnMe.Controllers.Users
 {
