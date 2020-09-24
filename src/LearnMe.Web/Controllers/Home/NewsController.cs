@@ -5,27 +5,33 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LearnMe.Data;
-using LearnMe.Models.Domains.Home;
+using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Home;
+using LearnMe.Infrastructure.Repository;
+using LearnMe.Core.Interfaces;
 
-namespace LearnMe.Controllers.Home
+namespace LearnMe.Web.Controllers.Home
 {
     [Route("api/[controller]")]
     [ApiController]
     public class NewsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly INews _home;
 
-        public NewsController(ApplicationDbContext context)
+        public NewsController(HomeRepository context)
         {
-            _context = context;
+            _home = context;
         }
+
+        [HttpGet]
+        
 
         // GET: api/News
         [HttpGet]
         public async Task<ActionResult<IEnumerable<News>>> GetNews()
         {
-            return await _context.News.ToListAsync();
+            
+            return await _home.GetAll();
         }
 
         // GET: api/News/5

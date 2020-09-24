@@ -1,14 +1,14 @@
-using LearnMe.Controllers.Libraries.CalendarController.Utils;
-using LearnMe.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using LearnMe.Core.Interfaces;
+using LearnMe.Infrastructure.Repository;
 
-namespace LearnMe
+namespace LearnMe.Web
 {
     public class Startup
     {
@@ -29,10 +29,9 @@ namespace LearnMe
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase")));
+            services.AddTransient<INews, HomeRepository>();
 
-            services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +40,8 @@ namespace LearnMe
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            } else
+            }
+            else
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
