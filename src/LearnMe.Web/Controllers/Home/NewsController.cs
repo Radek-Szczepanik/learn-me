@@ -14,9 +14,9 @@ namespace LearnMe.Web.Controllers.Home
     [ApiController]
     public class NewsController : ControllerBase
     {
-        private readonly IHome<News> _home;
+        private readonly ICrudRepository<News> _home;
 
-        public NewsController(IHome<News> home)
+        public NewsController(ICrudRepository<News> home)
         {
             _home = home;
         }

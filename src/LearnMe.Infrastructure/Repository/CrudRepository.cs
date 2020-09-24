@@ -10,12 +10,12 @@ using LearnMe.Infrastructure.Models.Domains.Home;
 
 namespace LearnMe.Infrastructure.Repository
 {
-    public class HomeRepository<T> : IHome<T> where T: class
+    public class CrudRepository<T> : ICrudRepository<T> where T: class
 
     {
         private readonly ApplicationDbContext _context;
 
-        public HomeRepository(ApplicationDbContext context)
+        public CrudRepository(ApplicationDbContext context)
         {
             _context = context;
         }
