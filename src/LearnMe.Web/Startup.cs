@@ -40,8 +40,8 @@ namespace LearnMe.Web
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase")));
-
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), b=> b.MigrationsAssembly("LearnMe.Web"))); 
+            
             services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
             services.AddSingleton(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 
