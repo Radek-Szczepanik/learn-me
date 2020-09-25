@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LearnMe.Web.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,13 +11,13 @@ namespace LearnMe.Web.Migrations
                 name: "CalendarEvents",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Start = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    End = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDone = table.Column<bool>(type: "bit", nullable: false)
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Start = table.Column<DateTime>(nullable: false),
+                    End = table.Column<DateTime>(nullable: false),
+                    IsDone = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,10 +28,10 @@ namespace LearnMe.Web.Migrations
                 name: "Corrections",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Feedback = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FileString = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FileString = table.Column<string>(nullable: false),
+                    Feedback = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,12 +42,12 @@ namespace LearnMe.Web.Migrations
                 name: "Exercises",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ExerciseGroup = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileString = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Title = table.Column<string>(nullable: false),
+                    FileString = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: false),
+                    ExerciseGroup = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,11 +58,11 @@ namespace LearnMe.Web.Migrations
                 name: "News",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileString = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Title = table.Column<string>(nullable: false),
+                    FileString = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,12 +73,12 @@ namespace LearnMe.Web.Migrations
                 name: "Opinions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Rating = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileString = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Title = table.Column<string>(nullable: false),
+                    FileString = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: false),
+                    Rating = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,11 +89,11 @@ namespace LearnMe.Web.Migrations
                 name: "Portfolios",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileString = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Title = table.Column<string>(nullable: false),
+                    FileString = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -104,7 +104,7 @@ namespace LearnMe.Web.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
@@ -116,11 +116,11 @@ namespace LearnMe.Web.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    QuestionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AnswerText = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    KeywordOrGroupIdentifier = table.Column<int>(type: "int", nullable: false)
+                    QuestionText = table.Column<string>(nullable: false),
+                    AnswerText = table.Column<string>(nullable: false),
+                    KeywordOrGroupIdentifier = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,13 +131,13 @@ namespace LearnMe.Web.Migrations
                 name: "TutorServices",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileString = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Title = table.Column<string>(nullable: false),
+                    FileString = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    IsAvailable = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -148,12 +148,12 @@ namespace LearnMe.Web.Migrations
                 name: "UserGroups",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OptionalDesription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    OptionalDesription = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -164,20 +164,20 @@ namespace LearnMe.Web.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<int>(type: "int", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Postcode = table.Column<int>(type: "int", nullable: false),
-                    RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Role = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    UserGroupId = table.Column<int>(type: "int", nullable: true),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<int>(nullable: false),
+                    Address = table.Column<string>(nullable: false),
+                    Postcode = table.Column<int>(nullable: false),
+                    RegistrationDate = table.Column<DateTime>(nullable: false),
+                    Role = table.Column<int>(nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    UserGroupId = table.Column<int>(nullable: true),
+                    Notes = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -194,17 +194,17 @@ namespace LearnMe.Web.Migrations
                 name: "InvoiceBasics",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StudentId = table.Column<int>(type: "int", nullable: false),
-                    NumberOfHours = table.Column<int>(type: "int", nullable: false),
-                    SumToPayInPLN = table.Column<int>(type: "int", nullable: false),
-                    PaymentStatus = table.Column<int>(type: "int", nullable: false),
-                    PaymentAction = table.Column<int>(type: "int", nullable: false),
-                    InvoiceNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InvoiceFile = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
+                    StudentId = table.Column<int>(nullable: false),
+                    NumberOfHours = table.Column<int>(nullable: false),
+                    SumToPayInPLN = table.Column<int>(nullable: false),
+                    PaymentStatus = table.Column<int>(nullable: false),
+                    PaymentAction = table.Column<int>(nullable: false),
+                    InvoiceNumber = table.Column<string>(nullable: false),
+                    InvoiceFile = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,12 +221,12 @@ namespace LearnMe.Web.Migrations
                 name: "Messages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FromUserId = table.Column<int>(type: "int", nullable: false),
-                    ToUserId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageText = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FromUserId = table.Column<int>(nullable: false),
+                    ToUserId = table.Column<int>(nullable: false),
+                    Title = table.Column<string>(nullable: false),
+                    MessageText = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,22 +236,22 @@ namespace LearnMe.Web.Migrations
                         column: x => x.FromUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Messages_Users_ToUserId",
                         column: x => x.ToUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserInvoiceDatas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -268,12 +268,12 @@ namespace LearnMe.Web.Migrations
                 name: "Lessons",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LessonStatus = table.Column<int>(type: "int", nullable: false),
-                    RelatedInvoiceId = table.Column<int>(type: "int", nullable: true),
-                    CalendarEventId = table.Column<int>(type: "int", nullable: false)
+                    Title = table.Column<string>(nullable: false),
+                    LessonStatus = table.Column<int>(nullable: false),
+                    RelatedInvoiceId = table.Column<int>(nullable: true),
+                    CalendarEventId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -296,10 +296,10 @@ namespace LearnMe.Web.Migrations
                 name: "Attachments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MessageId = table.Column<int>(type: "int", nullable: true)
+                    FileName = table.Column<string>(nullable: true),
+                    MessageId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -316,10 +316,10 @@ namespace LearnMe.Web.Migrations
                 name: "UserLessons",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    LessonId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(nullable: false),
+                    LessonId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -342,11 +342,11 @@ namespace LearnMe.Web.Migrations
                 name: "Homeworks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MessageText = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserLessonId = table.Column<int>(type: "int", nullable: true),
-                    FileString = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FileString = table.Column<string>(nullable: false),
+                    MessageText = table.Column<string>(nullable: false),
+                    UserLessonId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -363,11 +363,11 @@ namespace LearnMe.Web.Migrations
                 name: "UserLessonHomeworks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserLessonId = table.Column<int>(type: "int", nullable: false),
-                    HomeworkId = table.Column<int>(type: "int", nullable: false),
-                    CorrectionId = table.Column<int>(type: "int", nullable: false)
+                    UserLessonId = table.Column<int>(nullable: false),
+                    HomeworkId = table.Column<int>(nullable: false),
+                    CorrectionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
