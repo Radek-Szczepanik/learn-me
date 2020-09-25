@@ -15,16 +15,16 @@ namespace LearnMe.Web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
+                .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0-rc.1.20451.13");
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Calendar.CalendarEvent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -51,7 +51,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ExerciseGroup")
                         .HasColumnType("int");
@@ -77,7 +77,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FileString")
                         .HasColumnType("nvarchar(max)");
@@ -100,7 +100,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FileString")
                         .HasColumnType("nvarchar(max)");
@@ -126,7 +126,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FileString")
                         .HasColumnType("nvarchar(max)");
@@ -149,7 +149,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AnswerText")
                         .IsRequired()
@@ -172,7 +172,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FileString")
                         .HasColumnType("nvarchar(max)");
@@ -201,7 +201,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -245,7 +245,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Feedback")
                         .HasColumnType("nvarchar(max)");
@@ -264,7 +264,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FileString")
                         .IsRequired()
@@ -289,7 +289,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CalendarEventId")
                         .HasColumnType("int");
@@ -319,7 +319,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
@@ -341,7 +341,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CorrectionId")
                         .HasColumnType("int");
@@ -369,7 +369,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
@@ -389,7 +389,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("FromUserId")
                         .HasColumnType("int");
@@ -419,7 +419,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.HasKey("Id");
 
@@ -431,7 +431,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -486,7 +486,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -512,7 +512,7 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -532,8 +532,6 @@ namespace LearnMe.Web.Migrations
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Lessons.Homework", b =>
@@ -554,10 +552,6 @@ namespace LearnMe.Web.Migrations
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Invoice.InvoiceBasic", "RelatedInvoice")
                         .WithMany("Lessons")
                         .HasForeignKey("RelatedInvoiceId");
-
-                    b.Navigation("CalendarEvent");
-
-                    b.Navigation("RelatedInvoice");
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Lessons.UserLesson", b =>
@@ -573,10 +567,6 @@ namespace LearnMe.Web.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Lesson");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Lessons.UserLessonHomework", b =>
@@ -598,12 +588,6 @@ namespace LearnMe.Web.Migrations
                         .HasForeignKey("UserLessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Correction");
-
-                    b.Navigation("Homework");
-
-                    b.Navigation("UserLesson");
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Mail.Attachment", b =>
@@ -611,8 +595,6 @@ namespace LearnMe.Web.Migrations
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Mail.Message", "Message")
                         .WithMany("AttachedFiles")
                         .HasForeignKey("MessageId");
-
-                    b.Navigation("Message");
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Mail.Message", b =>
@@ -628,10 +610,6 @@ namespace LearnMe.Web.Migrations
                         .HasForeignKey("ToUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("FromUser");
-
-                    b.Navigation("ToUser");
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", b =>
@@ -639,8 +617,6 @@ namespace LearnMe.Web.Migrations
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserGroup", "UserGroup")
                         .WithMany("UsersList")
                         .HasForeignKey("UserGroupId");
-
-                    b.Navigation("UserGroup");
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserInvoiceData", b =>
@@ -650,57 +626,6 @@ namespace LearnMe.Web.Migrations
                         .HasForeignKey("LearnMe.Infrastructure.Models.Domains.Users.UserInvoiceData", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Calendar.CalendarEvent", b =>
-                {
-                    b.Navigation("Lesson");
-                });
-
-            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Invoice.InvoiceBasic", b =>
-                {
-                    b.Navigation("Lessons");
-                });
-
-            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Lessons.Correction", b =>
-                {
-                    b.Navigation("UserLessonHomework");
-                });
-
-            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Lessons.Homework", b =>
-                {
-                    b.Navigation("UserLessonHomeworkList");
-                });
-
-            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Lessons.Lesson", b =>
-                {
-                    b.Navigation("UserLessons");
-                });
-
-            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Lessons.UserLesson", b =>
-                {
-                    b.Navigation("Homeworks");
-                });
-
-            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Mail.Message", b =>
-                {
-                    b.Navigation("AttachedFiles");
-                });
-
-            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", b =>
-                {
-                    b.Navigation("InvoiceData");
-
-                    b.Navigation("InvoicesList");
-
-                    b.Navigation("UserLessons");
-                });
-
-            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserGroup", b =>
-                {
-                    b.Navigation("UsersList");
                 });
 #pragma warning restore 612, 618
         }
