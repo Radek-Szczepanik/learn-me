@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace LearnMe.Web.Controllers.Libraries.CalendarController
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class CalendarEventsController : Controller
     {
 

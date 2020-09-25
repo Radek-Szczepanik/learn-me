@@ -81,55 +81,55 @@ namespace LearnMe.Controllers.Account
         public async Task<bool> LogIn(UserLogin user)
 
         {
-            ClaimsIdentity identity = null;
+            //ClaimsIdentity identity = null;
                 
-            if (ModelState.IsValid)
-            {
-                var accessDataHashed = GetHash(user.Password);
-                user.Password = accessDataHashed;
-                var pass = await _context.Users
-                    .FirstOrDefaultAsync(m => m.Email == user.Email);
+            //if (ModelState.IsValid)
+            //{
+            //    var accessDataHashed = GetHash(user.Password);
+            //    user.Password = accessDataHashed;
+            //    var pass = await _context.Users
+            //        .FirstOrDefaultAsync(m => m.Email == user.Email);
 
-                if (pass != null && user.Password == pass.Password && pass.Role == UserRole.Admin && pass.Status == UserStatus.Active)
+            //    if (pass != null && user.Password == pass.Password && pass.Role == UserRole.Admin && pass.Status == UserStatus.Active)
 
-                {
-                    identity = new ClaimsIdentity(new[] {
-                        new Claim(ClaimTypes.Name, pass.FirstName),
-                        new Claim(ClaimTypes.Role, "Admin"),
-                    }, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var principal = new ClaimsPrincipal(identity);
-                    var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            //    {
+            //        identity = new ClaimsIdentity(new[] {
+            //            new Claim(ClaimTypes.Name, pass.FirstName),
+            //            new Claim(ClaimTypes.Role, "Admin"),
+            //        }, CookieAuthenticationDefaults.AuthenticationScheme);
+            //        var principal = new ClaimsPrincipal(identity);
+            //        var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    return true;
-                }
+            //        return true;
+            //    }
 
-                if (pass != null && user.Password == pass.Password && pass.Role == UserRole.Mentor && pass.Status == UserStatus.Active)
+            //    if (pass != null && user.Password == pass.Password && pass.Role == UserRole.Mentor && pass.Status == UserStatus.Active)
 
-                {
-                    identity = new ClaimsIdentity(new[] {
-                        new Claim(ClaimTypes.Name, pass.FirstName),
-                        new Claim(ClaimTypes.Role, "Mentor"),
-                        new Claim(ClaimTypes.SerialNumber, pass.Id.ToString())
-                    }, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var principal = new ClaimsPrincipal(identity);
-                    var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            //    {
+            //        identity = new ClaimsIdentity(new[] {
+            //            new Claim(ClaimTypes.Name, pass.FirstName),
+            //            new Claim(ClaimTypes.Role, "Mentor"),
+            //            new Claim(ClaimTypes.SerialNumber, pass.Id.ToString())
+            //        }, CookieAuthenticationDefaults.AuthenticationScheme);
+            //        var principal = new ClaimsPrincipal(identity);
+            //        var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    return true;
-                }
+            //        return true;
+            //    }
 
-                if (pass != null && user.Password == pass.Password && pass.Role == UserRole.Student && pass.Status == UserStatus.Active)
-                {
-                    identity = new ClaimsIdentity(new[] {
-                        new Claim(ClaimTypes.Name, pass.FirstName),
-                        new Claim(ClaimTypes.Role, "Student"),
-                        new Claim(ClaimTypes.SerialNumber, pass.Id.ToString())
-                    }, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var principal = new ClaimsPrincipal(identity);
-                    var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            //    if (pass != null && user.Password == pass.Password && pass.Role == UserRole.Student && pass.Status == UserStatus.Active)
+            //    {
+            //        identity = new ClaimsIdentity(new[] {
+            //            new Claim(ClaimTypes.Name, pass.FirstName),
+            //            new Claim(ClaimTypes.Role, "Student"),
+            //            new Claim(ClaimTypes.SerialNumber, pass.Id.ToString())
+            //        }, CookieAuthenticationDefaults.AuthenticationScheme);
+            //        var principal = new ClaimsPrincipal(identity);
+            //        var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    return true;
-                }
-            }
+            //        return true;
+            //    }
+            //}
             return false;
         }
 
@@ -141,22 +141,22 @@ namespace LearnMe.Controllers.Account
             return true;
         }
 
-
-        public string GetHash(string password)
-        {   //TODO: send salt to database
-            byte[] salt = new byte[128 / 8];
-            //using (var rng = RandomNumberGenerator.Create())
-            //{
-            //    rng.GetBytes(salt);
-            //}
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-            password: password,
-            salt: salt,
-            prf: KeyDerivationPrf.HMACSHA1,
-            iterationCount: 10000,
-            numBytesRequested: 256 / 8));
-            return hashed;
-        }
+        //TODO assign HTTP method or move to Core because Swagger throws error if there is no HTTP method or if we have HttpPost repeated 2x in one Controller
+        //public string GetHash(string password)
+        //{   //TODO: send salt to database
+        //    byte[] salt = new byte[128 / 8];
+        //    //using (var rng = RandomNumberGenerator.Create())
+        //    //{
+        //    //    rng.GetBytes(salt);
+        //    //}
+        //    string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+        //    password: password,
+        //    salt: salt,
+        //    prf: KeyDerivationPrf.HMACSHA1,
+        //    iterationCount: 10000,
+        //    numBytesRequested: 256 / 8));
+        //    return hashed;
+        //}
 
 
 
