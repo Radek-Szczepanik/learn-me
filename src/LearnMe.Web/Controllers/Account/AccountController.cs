@@ -78,7 +78,7 @@ namespace LearnMe.Controllers.Account
 
 
         [HttpPost]
-        public async Task<bool> LogIn(UserLogin user)
+        public bool LogIn(UserLogin user)
 
         {
             //ClaimsIdentity identity = null;
