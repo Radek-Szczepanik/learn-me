@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Infrastructure.Models.Domains.Home;
 using LearnMe.Core.Interfaces;
+using LearnMe.Infrastructure.Repository.Interfaces;
 
 namespace LearnMe.Web.Controllers.Home
 {
@@ -26,7 +27,7 @@ namespace LearnMe.Web.Controllers.Home
         [HttpGet]
         public async Task<IEnumerable<News>> GetNews()
         {
-            return await _home.GetAll();
+            return await _home.GetAllAsync();
         }
 
         //// GET: api/News/5

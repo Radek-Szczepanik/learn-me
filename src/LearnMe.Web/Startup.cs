@@ -4,13 +4,15 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using LearnMe.Core.Interfaces;
 using LearnMe.Infrastructure.Repository;
-using LearnMe.Web.Controllers.Libraries.CalendarController.Utils;
 using LearnMe.Infrastructure.Data;
-using LearnMe.Infrastructure.DTOMapper;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using LearnMe.Core.DTOMapper;
+using LearnMe.Core.Interfaces.Services;
+using LearnMe.Core.Services.Calendar;
+using LearnMe.Core.Services.Calendar.Utils;
+using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.OpenApi.Models;
 
 
@@ -44,7 +46,9 @@ namespace LearnMe.Web
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), b=> b.MigrationsAssembly("LearnMe.Web"))); 
             
             services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
-            services.AddSingleton(typeof(ICrudRepository<>), typeof(CrudRepository<>));
+            services.AddScoped<ICalendar, GoogleCalendar>();
+
+            services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 
             var mapperConfig = new MapperConfiguration(mc =>
             {

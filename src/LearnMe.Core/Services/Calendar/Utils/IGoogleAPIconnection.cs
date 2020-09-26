@@ -1,7 +1,7 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 
-namespace LearnMe.Web.Controllers.Libraries.CalendarController.Utils
+namespace LearnMe.Core.Services.Calendar.Utils
 {
     public interface IGoogleAPIconnection
     {

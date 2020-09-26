@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using LearnMe.Core.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using LearnMe.Infrastructure.Models.Domains.Home;
 
 namespace LearnMe.Infrastructure.Repository
 {
-    public class CrudRepository<T> : ICrudRepository<T> where T: class
+    public class CrudRepository<T> : ICrudRepository<T> where T : class
 
     {
         private readonly ApplicationDbContext _context;
@@ -20,32 +17,34 @@ namespace LearnMe.Infrastructure.Repository
             _context = context;
         }
 
-        public void Delete(object id)
+        Task<bool> ICrudRepository<T>.DeleteAsync(object id)
         {
             throw new NotImplementedException();
         }
-
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _context.Set<T>().ToListAsync();
         }
 
-        public T GetById(object id)
+        Task<T> ICrudRepository<T>.GetByIdAsync(object id)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert(T obj)
+        public async Task<bool> InsertAsync(T obj)
+        {
+            await _context.AddAsync<T>(obj);
+            var rowsAffected = await _context.SaveChangesAsync();
+
+            return rowsAffected >= 1 ? true : false;
+        }
+
+        Task<bool> ICrudRepository<T>.SaveAsync()
         {
             throw new NotImplementedException();
         }
 
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(T obj)
+        Task<bool> ICrudRepository<T>.UpdateAsync(T obj)
         {
             throw new NotImplementedException();
         }

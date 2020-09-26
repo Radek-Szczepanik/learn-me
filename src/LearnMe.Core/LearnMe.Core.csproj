@@ -28,6 +28,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LearnMe.Shared\LearnMe.Shared.csproj" />
+    <ProjectReference Include="..\LearnMe.Infrastructure\LearnMe.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Services\Calendar\Utils\Credentials\credentials.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
