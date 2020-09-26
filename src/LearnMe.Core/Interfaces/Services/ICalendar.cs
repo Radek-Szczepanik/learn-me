@@ -11,7 +11,7 @@ namespace LearnMe.Core.Interfaces.Services
 
         Task<CalendarEventDto> GetEventByIdAsync(int id);
 
-        Task<bool> CreateEventAsync(CalendarEventDto eventData);
+        Task<bool> CreateEventAsync(CalendarEventDto eventData, string calendarId = "primary", string timezone = "Europe/Warsaw", bool isRecurringEvent = false);
 
         Task<bool> UpdateEventAsync(int id,  CalendarEventDto eventData);
 

@@ -17,36 +17,47 @@ namespace LearnMe.Infrastructure.Repository
             _context = context;
         }
 
-        Task<bool> ICrudRepository<T>.DeleteAsync(object id)
+        public async Task<bool> DeleteAsync(object id)
         {
-            throw new NotImplementedException();
+            var toBeDeleted = await _context.FindAsync<T>(id);
+            _context.Remove(toBeDeleted);
+
+            return await SaveAsync();
         }
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _context.Set<T>().ToListAsync();
+            return await _context.Set<T>()
+                                 .AsNoTracking()
+                                 .ToListAsync();
         }
 
-        Task<T> ICrudRepository<T>.GetByIdAsync(object id)
+        public async Task<T> GetByIdAsync(object id)
         {
-            throw new NotImplementedException();
+            var found = await _context.FindAsync<T>(id);
+            _context.Entry(found).State = EntityState.Detached;
+
+            return found;
         }
 
         public async Task<bool> InsertAsync(T obj)
         {
             await _context.AddAsync<T>(obj);
+            
+            return await SaveAsync();
+        }
+
+        public async Task<bool> SaveAsync()
+        {
             var rowsAffected = await _context.SaveChangesAsync();
 
             return rowsAffected >= 1 ? true : false;
         }
 
-        Task<bool> ICrudRepository<T>.SaveAsync()
+        public async Task<bool> UpdateAsync(T obj)
         {
-            throw new NotImplementedException();
-        }
+            _context.Update(obj);
 
-        Task<bool> ICrudRepository<T>.UpdateAsync(T obj)
-        {
-            throw new NotImplementedException();
+            return await SaveAsync();
         }
     }
 }

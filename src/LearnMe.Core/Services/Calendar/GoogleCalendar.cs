@@ -34,14 +34,58 @@ namespace LearnMe.Core.Services.Calendar
             _logger = logger;
         }
 
-        public Task<bool> CreateEventAsync(CalendarEventDto eventData)
+        //TODO Add Event builder implementation
+        public async Task<bool> CreateEventAsync(CalendarEventDto eventData,
+                                                 string calendarId = "primary",
+                                                 string timezone = "Europe/Warsaw",
+                                                 bool isRecurringEvent = false)
         {
-            throw new System.NotImplementedException();
+            CalendarEvent newDbEvent = _mapper.Map<CalendarEvent>(eventData);
+
+            Event newCalendarEvent = new Event()
+            {
+                Summary = newDbEvent.Title,
+                Description = newDbEvent.Description
+            };
+
+            DateTime? startDateTime = newDbEvent.Start;
+            EventDateTime start = new EventDateTime()
+            {
+                DateTime = startDateTime,
+                TimeZone = timezone
+            };
+            newCalendarEvent.Start = start;
+
+            DateTime? endDateTime = newDbEvent.End;
+            EventDateTime end = new EventDateTime()
+            {
+                DateTime = endDateTime,
+                TimeZone = timezone
+            };
+            newCalendarEvent.End = end;
+
+            if (isRecurringEvent)
+            {
+                String[] recurrence = new String[] { "RRULE:FREQ=DAILY;COUNT=7" };
+                newCalendarEvent.Recurrence = recurrence.ToList();
+            }
+
+            // FOR FUTURE - ADD ATTENDEES
+            //EventAttendee[] attendees = new EventAttendee[]
+            //{
+            //    new EventAttendee() { Email = "<---email-address--->@gmail.com" },
+            //};
+            //newEvent.Attendees = attendees.ToList();
+
+            var createdEvent = await _calendarService.Events.Insert(newCalendarEvent, calendarId).ExecuteAsync();
+            newDbEvent.CalendarId = createdEvent.Id;
+
+            return await _repository.InsertAsync(newDbEvent);
         }
 
-        public Task<bool> DeleteEventAsync(int id)
+        public async Task<bool> DeleteEventAsync(int id)
         {
-            throw new System.NotImplementedException();
+            return await _repository.DeleteAsync(id);
         }
 
         private void SynchronizeDatabaseWithCalendar(string calendarId = "primary")
@@ -63,6 +107,7 @@ namespace LearnMe.Core.Services.Calendar
 
                 if (!databaseEventsCalendarIds.Contains(eventResult.Id))
                 {
+                    // TODO Fix the issue that 1st call of the method goes out from all the methods up to Controller resulting in NullReferenceException
                     _repository.InsertAsync(new CalendarEvent()
                     {
                         Title = eventResult.Summary,
@@ -93,14 +138,22 @@ namespace LearnMe.Core.Services.Calendar
             return results;
         }
 
-        public Task<CalendarEventDto> GetEventByIdAsync(int id)
+        public async Task<CalendarEventDto> GetEventByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var foundEvent = await _repository.GetByIdAsync(id);
+
+            return _mapper.Map<CalendarEventDto>(foundEvent);
         }
 
-        public Task<bool> UpdateEventAsync(int id, CalendarEventDto eventData)
+        public async Task<bool> UpdateEventAsync(int id, CalendarEventDto eventData)
         {
-            throw new System.NotImplementedException();
+            CalendarEvent toUpdateData = _mapper.Map<CalendarEvent>(eventData);
+            toUpdateData.Id = id;
+
+            var eventFromDbToUpdate = _repository.GetByIdAsync(id).Result;
+            toUpdateData.CalendarId = eventFromDbToUpdate.CalendarId;
+
+            return await _repository.UpdateAsync(toUpdateData);
         }
     }
 }

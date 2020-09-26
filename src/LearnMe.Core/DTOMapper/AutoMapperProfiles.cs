@@ -6,14 +6,10 @@ using LearnMe.Infrastructure.Models.Domains.Users;
 
 namespace LearnMe.Core.DTOMapper
 {
-    /* tutaj tworzymy mapy, tylko właściwości
-       z takimi samymi nazwami zostaną zmapowane */
-  
     public class AutoMapperProfiles : Profile
     {
         public AutoMapperProfiles()
         {
-            // mapujemy z klasy UserBasic do klasy UserBasicDto
             CreateMap<UserBasic, UserBasicDto>();
             CreateMap<UserGroup, UserGroupDto>();
             CreateMap<UserInvoiceData, UserInvoiceDataDto>();
@@ -21,6 +17,7 @@ namespace LearnMe.Core.DTOMapper
             CreateMap<UserRegistration, UserRegistrationDto>();
 
             CreateMap<CalendarEvent, CalendarEventDto>();
+            CreateMap<CalendarEventDto, CalendarEvent>();
         }
     }
 }
