@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
+using LearnMe.Core.Services.Calendar.Utils;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using Microsoft.Extensions.Logging;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
@@ -17,34 +18,37 @@ namespace LearnMe.Core.Services.Calendar
     public class GoogleCalendar : ICalendar
     {
         private readonly CalendarService _calendarService;
-        private readonly string _applicationName = "Learn Me WEB Applicaton";
+        private readonly string _applicationName = Constants.ApplicationName;
         private readonly ICrudRepository<CalendarEvent> _repository;
         private readonly ISynchronizer _synchronizer;
         private readonly IGoogleCRUD _googleCrudAccess;
         private readonly IMapper _mapper;
         private readonly ILogger<GoogleCalendar> _logger;
 
-        public GoogleCalendar(IGoogleAPIconnection googleAPIconnection,
-                              ICrudRepository<CalendarEvent> repository,
-                              ISynchronizer synchronizer,
-                              IGoogleCRUD googleCrudAccess,
-                              IMapper mapper,
-                              ILogger<GoogleCalendar> logger)
+        public GoogleCalendar(
+            IGoogleAPIconnection googleAPIconnection, 
+            ICrudRepository<CalendarEvent> repository, 
+            ISynchronizer synchronizer, 
+            IGoogleCRUD googleCrudAccess, 
+            IMapper mapper, 
+            ILogger<GoogleCalendar> logger)
         {
             var token = googleAPIconnection.GetToken();
             _calendarService = googleAPIconnection.CreateCalendarService(token, _applicationName);
-            _repository = repository;
-            _synchronizer = synchronizer;
-            _googleCrudAccess = googleCrudAccess;
-            _mapper = mapper;
-            _logger = logger;
+
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
+            _googleCrudAccess = googleCrudAccess ?? throw new ArgumentNullException(nameof(googleCrudAccess));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         //TODO Add Event builder implementation
-        public async Task<bool> CreateEventAsync(CalendarEventDto eventData,
-                                                 string calendarId = "primary",
-                                                 string timezone = "Europe/Warsaw",
-                                                 bool isRecurringEvent = false)
+        public async Task<bool> CreateEventAsync(
+            CalendarEventDto eventData, 
+            string calendarId = Constants.CalendarId, 
+            string timezone = Constants.Timezone, 
+            bool isRecurringEvent = false)
         {
             CalendarEvent newDbEvent = _mapper.Map<CalendarEvent>(eventData);
 
@@ -54,7 +58,7 @@ namespace LearnMe.Core.Services.Calendar
                 Description = newDbEvent.Description
             };
 
-            DateTime? startDateTime = newDbEvent.Start;
+            DateTime? startDateTime = newDbEvent?.Start;
             EventDateTime start = new EventDateTime()
             {
                 DateTime = startDateTime,
@@ -62,7 +66,7 @@ namespace LearnMe.Core.Services.Calendar
             };
             newCalendarEvent.Start = start;
 
-            DateTime? endDateTime = newDbEvent.End;
+            DateTime? endDateTime = newDbEvent?.End;
             EventDateTime end = new EventDateTime()
             {
                 DateTime = endDateTime,
@@ -94,7 +98,7 @@ namespace LearnMe.Core.Services.Calendar
             return await _repository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(string calendarId = "primary")
+        public async Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(string calendarId = Constants.CalendarId)
         {
             // Step 1 - synchronize Google calendar with DB
             await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_googleCrudAccess, _calendarService, _repository);

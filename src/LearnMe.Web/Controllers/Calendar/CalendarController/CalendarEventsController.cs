@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using LearnMe.Core.DTO.Calendar;
 using LearnMe.Core.Interfaces.Services;
@@ -14,11 +15,12 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         private readonly ICalendar _calendar;
         private readonly ILogger<CalendarEventsController> _logger;
 
-        public CalendarEventsController(ICalendar calendar,
-                                        ILogger<CalendarEventsController> logger)
+        public CalendarEventsController(
+            ICalendar calendar,
+            ILogger<CalendarEventsController> logger)
         {
-            _calendar = calendar;
-            _logger = logger;
+            _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         // GET: api/<controller>

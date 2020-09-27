@@ -50,7 +50,7 @@ namespace LearnMe.Infrastructure.Repository
         {
             var rowsAffected = await _context.SaveChangesAsync();
 
-            return rowsAffected >= 1 ? true : false;
+            return rowsAffected >= 1;
         }
 
         public async Task<bool> UpdateAsync(T obj)

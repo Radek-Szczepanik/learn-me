@@ -7,9 +7,10 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
 {
     public interface ISynchronizer
     {
-        Task<int> SynchronizeDatabaseWithCalendarAsync(IGoogleCRUD googleCalendarAccess,
-                                                       CalendarService calendarService,
-                                                       ICrudRepository<CalendarEvent> repository,
-                                                       string calendarId = "primary");
+        Task<int> SynchronizeDatabaseWithCalendarAsync(
+            IGoogleCRUD googleCalendarAccess, 
+            CalendarService calendarService, 
+            ICrudRepository<CalendarEvent> repository, 
+            string calendarId = Constants.CalendarId);
     }
 }

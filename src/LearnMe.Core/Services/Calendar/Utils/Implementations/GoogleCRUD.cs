@@ -8,9 +8,10 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 {
     public class GoogleCRUD : IGoogleCRUD
     {
-        public async Task<IEnumerable<Event>> GetAllEventsAsync(CalendarService calendarService,
-                                                          bool includeCancelled = false,
-                                                          string calendarId = "primary")
+        public async Task<IEnumerable<Event>> GetAllEventsAsync(
+            CalendarService calendarService, 
+            bool includeCancelled = false, 
+            string calendarId = Constants.CalendarId)
         {
             EventsResource.ListRequest request = calendarService.Events.List(calendarId);
             request.ShowDeleted = includeCancelled;

@@ -7,8 +7,9 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
 {
     public interface IGoogleCRUD
     {
-        Task<IEnumerable<Event>> GetAllEventsAsync(CalendarService calendarService,
-                                                   bool includeCancelled = false,
-                                                   string calendarId = "primary");
+        Task<IEnumerable<Event>> GetAllEventsAsync(
+            CalendarService calendarService,
+            bool includeCancelled = false, 
+            string calendarId = Constants.CalendarId);
     }
 }

@@ -27,6 +27,7 @@ namespace LearnMe.Web.Controllers.Home
         [HttpGet]
         public async Task<IEnumerable<News>> GetNews()
         {
+            // TODO Add pagination at the very beginning of the implementation
             return await _home.GetAllAsync();
         }
 
