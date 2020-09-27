@@ -16,5 +16,7 @@ namespace LearnMe.Core.Interfaces.Services
         Task<bool> UpdateEventAsync(int id,  CalendarEventDto eventData);
 
         Task<bool> DeleteEventAsync(int id);
+
+        //IEnumerable<CalendarEventDto> SynchronizeDatabaseWithCalendarAsync(string calendarId = "primary");
     }
 }

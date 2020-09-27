@@ -11,7 +11,8 @@ using AutoMapper;
 using LearnMe.Core.DTOMapper;
 using LearnMe.Core.Interfaces.Services;
 using LearnMe.Core.Services.Calendar;
-using LearnMe.Core.Services.Calendar.Utils;
+using LearnMe.Core.Services.Calendar.Utils.Implementations;
+using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.OpenApi.Models;
 
@@ -47,6 +48,8 @@ namespace LearnMe.Web
             
             services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
             services.AddScoped<ICalendar, GoogleCalendar>();
+            services.AddScoped<IGoogleCRUD, GoogleCRUD>();
+            services.AddScoped<ISynchronizer, Synchronizer>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 

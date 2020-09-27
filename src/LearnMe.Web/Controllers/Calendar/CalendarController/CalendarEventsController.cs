@@ -25,6 +25,7 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CalendarEventDto>>> GetAsync()
             => Ok(await _calendar.GetAllEventsAsync());
+            //=> Ok(_calendar.SynchronizeDatabaseWithCalendarAsync());
 
         // GET api/<controller>/5
         [HttpGet("{id}")]

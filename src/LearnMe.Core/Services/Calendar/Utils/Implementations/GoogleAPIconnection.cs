@@ -5,9 +5,10 @@ using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using System.IO;
 using System.Threading;
+using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 
 
-namespace LearnMe.Core.Services.Calendar.Utils
+namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 {
     public class GoogleAPIconnection : IGoogleAPIconnection
     {

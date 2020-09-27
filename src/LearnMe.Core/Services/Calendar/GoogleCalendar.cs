@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
-using LearnMe.Core.Services.Calendar.Utils;
+using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using Microsoft.Extensions.Logging;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Repository.Interfaces;
@@ -19,17 +19,23 @@ namespace LearnMe.Core.Services.Calendar
         private readonly CalendarService _calendarService;
         private readonly string _applicationName = "Learn Me WEB Applicaton";
         private readonly ICrudRepository<CalendarEvent> _repository;
+        private readonly ISynchronizer _synchronizer;
+        private readonly IGoogleCRUD _googleCrudAccess;
         private readonly IMapper _mapper;
         private readonly ILogger<GoogleCalendar> _logger;
 
         public GoogleCalendar(IGoogleAPIconnection googleAPIconnection,
                               ICrudRepository<CalendarEvent> repository,
+                              ISynchronizer synchronizer,
+                              IGoogleCRUD googleCrudAccess,
                               IMapper mapper,
                               ILogger<GoogleCalendar> logger)
         {
             var token = googleAPIconnection.GetToken();
             _calendarService = googleAPIconnection.CreateCalendarService(token, _applicationName);
             _repository = repository;
+            _synchronizer = synchronizer;
+            _googleCrudAccess = googleCrudAccess;
             _mapper = mapper;
             _logger = logger;
         }
@@ -88,43 +94,10 @@ namespace LearnMe.Core.Services.Calendar
             return await _repository.DeleteAsync(id);
         }
 
-        private void SynchronizeDatabaseWithCalendar(string calendarId = "primary")
-        {
-            EventsResource.ListRequest request = _calendarService.Events.List(calendarId);
-            IEnumerable<Event> eventsFromCalendarResult = request.ExecuteAsync().Result.Items;
-
-            var allDatabaseEvents = _repository.GetAllAsync().Result;
-            IList<string> databaseEventsCalendarIds = new List<string>();
-            foreach (var eventFromDatabase in allDatabaseEvents)
-            {
-                databaseEventsCalendarIds.Add(eventFromDatabase.CalendarId);
-            }
-
-            foreach (var eventResult in eventsFromCalendarResult)
-            {
-                // TODO: Add to Calendar specific log
-                //Console.WriteLine($"{eventResult.Summary}\n {eventResult.Location}\n {eventResult.Start.DateTime}");
-
-                if (!databaseEventsCalendarIds.Contains(eventResult.Id))
-                {
-                    // TODO Fix the issue that 1st call of the method goes out from all the methods up to Controller resulting in NullReferenceException
-                    _repository.InsertAsync(new CalendarEvent()
-                    {
-                        Title = eventResult.Summary,
-                        Description = eventResult.Description,
-                        Start = eventResult.Start.DateTime,
-                        End = eventResult.End.DateTime,
-                        IsDone = false,
-                        CalendarId = eventResult.Id
-                    });
-                }
-            }
-        }
-
         public async Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(string calendarId = "primary")
         {
             // Step 1 - synchronize Google calendar with DB
-            //SynchronizeDatabaseWithCalendar();
+            await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_googleCrudAccess, _calendarService, _repository);
 
             // Step 2 - get all data from DB
             var eventsResult = await _repository.GetAllAsync();
