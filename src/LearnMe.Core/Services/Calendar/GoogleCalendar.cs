@@ -17,8 +17,9 @@ namespace LearnMe.Core.Services.Calendar
 {
     public class GoogleCalendar : ICalendar
     {
-        private readonly CalendarService _calendarService;
-        private readonly string _applicationName = Constants.ApplicationName;
+        //private readonly CalendarService _calendarService;
+        private readonly ICalendarService _calendarService;
+        //private readonly string _applicationName = Constants.ApplicationName;
         private readonly ICrudRepository<CalendarEvent> _repository;
         private readonly ISynchronizer _synchronizer;
         private readonly IGoogleCRUD _googleCrudAccess;
@@ -26,6 +27,7 @@ namespace LearnMe.Core.Services.Calendar
         private readonly ILogger<GoogleCalendar> _logger;
 
         public GoogleCalendar(
+            ICalendarService calendarService,
             IGoogleAPIconnection googleAPIconnection, 
             ICrudRepository<CalendarEvent> repository, 
             ISynchronizer synchronizer, 
@@ -34,8 +36,9 @@ namespace LearnMe.Core.Services.Calendar
             ILogger<GoogleCalendar> logger)
         {
             // TODO Remove asynchronous operations from constructor
-            var token = googleAPIconnection.GetToken().Result;
-            _calendarService = googleAPIconnection.CreateCalendarService(token, _applicationName);
+            //var token = googleAPIconnection.GetToken().Result;
+            //_calendarService = googleAPIconnection.CreateCalendarService(token, _applicationName);
+            _calendarService = calendarService;
 
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
@@ -88,8 +91,9 @@ namespace LearnMe.Core.Services.Calendar
             //};
             //newEvent.Attendees = attendees.ToList();
 
-            var createdEvent = await _calendarService.Events.Insert(newCalendarEvent, calendarId).ExecuteAsync();
-            newDbEvent.CalendarId = createdEvent.Id;
+            // TODO Uncomment after tests
+            //var createdEvent = await _calendarService.Events.Insert(newCalendarEvent, calendarId).ExecuteAsync();
+            //newDbEvent.CalendarId = createdEvent.Id;
 
             return await _repository.InsertAsync(newDbEvent);
         }
@@ -102,7 +106,7 @@ namespace LearnMe.Core.Services.Calendar
         public async Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(string calendarId = Constants.CalendarId)
         {
             // Step 1 - synchronize Google calendar with DB
-            await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_googleCrudAccess, _calendarService, _repository);
+            //await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_googleCrudAccess, _calendarService, _repository);
 
             // Step 2 - get all data from DB
             var eventsResult = await _repository.GetAllAsync();

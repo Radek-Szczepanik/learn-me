@@ -9,7 +9,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
     public class GoogleCRUD : IGoogleCRUD
     {
         public async Task<IEnumerable<Event>> GetAllEventsAsync(
-            CalendarService calendarService, 
+            CustomCalendarService calendarService, 
             bool includeCancelled = false, 
             string calendarId = Constants.CalendarId)
         {
