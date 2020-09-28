@@ -27,6 +27,7 @@
   </ItemGroup>
 
 	<ItemGroup>
+    <ProjectReference Include="..\LearnMe.Core\LearnMe.Core.csproj" />
     <ProjectReference Include="..\LearnMe.Shared\LearnMe.Shared.csproj" />
   </ItemGroup>
 

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Infrastructure.Models.Domains.Home;
 using LearnMe.Core.Interfaces;
-using LearnMe.Infrastructure.Repository.Interfaces;
 
 namespace LearnMe.Web.Controllers.Home
 {
@@ -27,8 +26,7 @@ namespace LearnMe.Web.Controllers.Home
         [HttpGet]
         public async Task<IEnumerable<News>> GetNews()
         {
-            // TODO Add pagination at the very beginning of the implementation
-            return await _home.GetAllAsync(10, 1);
+            return await _home.GetAll();
         }
 
         //// GET: api/News/5

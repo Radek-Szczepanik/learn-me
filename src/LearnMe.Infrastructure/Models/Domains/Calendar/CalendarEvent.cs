@@ -1,7 +1,7 @@
 ﻿using System;
+using LearnMe.Infrastructure.Models.Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using LearnMe.Infrastructure.Models.Base;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
 using LearnMe.Infrastructure.Models.Domains.Users;
 
@@ -13,9 +13,9 @@ namespace LearnMe.Infrastructure.Models.Domains.Calendar
 
         public string Description { get; set; }
         
-        public DateTime? Start { get; set; }
+        public DateTime Start { get; set; }
         
-        public DateTime? End { get; set; }
+        public DateTime End { get; set; }
 
         public bool IsDone { get; set; }
 
@@ -23,7 +23,5 @@ namespace LearnMe.Infrastructure.Models.Domains.Calendar
         public IList<UserBasic> Attendees { get; set; }
 
         public Lesson Lesson { get; set; }
-
-        public string CalendarId { get; set; }
     }
 }
