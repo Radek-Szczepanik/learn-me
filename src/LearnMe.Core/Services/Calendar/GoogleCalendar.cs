@@ -12,6 +12,7 @@ using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using Microsoft.Extensions.Logging;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Repository.Interfaces;
+using LearnMe.Shared.Enum.Calendar;
 
 namespace LearnMe.Core.Services.Calendar
 {
@@ -23,6 +24,7 @@ namespace LearnMe.Core.Services.Calendar
         private readonly ISynchronizer _synchronizer;
         private readonly IGoogleCRUD _googleCrudAccess;
         private readonly IMapper _mapper;
+        private readonly IEventBuilder _eventBuilder;
         private readonly ILogger<GoogleCalendar> _logger;
 
         public GoogleCalendar(
@@ -31,6 +33,7 @@ namespace LearnMe.Core.Services.Calendar
             ISynchronizer synchronizer, 
             IGoogleCRUD googleCrudAccess, 
             IMapper mapper, 
+            IEventBuilder eventBuilder,
             ILogger<GoogleCalendar> logger)
         {
             // TODO Remove asynchronous operations from constructor
@@ -41,53 +44,34 @@ namespace LearnMe.Core.Services.Calendar
             _synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
             _googleCrudAccess = googleCrudAccess ?? throw new ArgumentNullException(nameof(googleCrudAccess));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _eventBuilder = eventBuilder ?? throw new ArgumentNullException(nameof(eventBuilder));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        //TODO Add Event builder implementation
         public async Task<bool> CreateEventAsync(
             CalendarEventDto eventData, 
             string calendarId = Constants.CalendarId, 
             string timezone = Constants.Timezone, 
-            bool isRecurringEvent = false)
+            bool isRecurringEvent = false,
+            Recurrence period = Recurrence.DAILY,
+            int recurringEventsCount = 5,
+            DateTime? recurUntilDateTime = null)
         {
             CalendarEvent newDbEvent = _mapper.Map<CalendarEvent>(eventData);
 
-            Event newCalendarEvent = new Event()
-            {
-                Summary = newDbEvent.Title,
-                Description = newDbEvent.Description
-            };
-
-            DateTime? startDateTime = newDbEvent?.Start;
-            EventDateTime start = new EventDateTime()
-            {
-                DateTime = startDateTime,
-                TimeZone = timezone
-            };
-            newCalendarEvent.Start = start;
-
-            DateTime? endDateTime = newDbEvent?.End;
-            EventDateTime end = new EventDateTime()
-            {
-                DateTime = endDateTime,
-                TimeZone = timezone
-            };
-            newCalendarEvent.End = end;
+            _eventBuilder.BuildBasicEventWithDescription(
+                newDbEvent.Title,
+                newDbEvent?.Start,
+                newDbEvent?.End,
+                newDbEvent.Description);
 
             if (isRecurringEvent)
             {
-                String[] recurrence = new String[] { "RRULE:FREQ=DAILY;COUNT=7" };
-                newCalendarEvent.Recurrence = recurrence.ToList();
+                _eventBuilder.SetRecurrence(period, recurringEventsCount, recurUntilDateTime);
             }
 
-            // FOR FUTURE - ADD ATTENDEES
-            //EventAttendee[] attendees = new EventAttendee[]
-            //{
-            //    new EventAttendee() { Email = "<---email-address--->@gmail.com" },
-            //};
-            //newEvent.Attendees = attendees.ToList();
-
+            Event newCalendarEvent = _eventBuilder.GetEvent();
+                
             var createdEvent = await _calendarService.Events.Insert(newCalendarEvent, calendarId).ExecuteAsync();
             newDbEvent.CalendarId = createdEvent.Id;
 

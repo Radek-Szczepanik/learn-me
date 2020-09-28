@@ -53,6 +53,8 @@ namespace LearnMe.Web
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 
+            services.AddSingleton<IEventBuilder, EventBuilder>();
+
             var mapperConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new AutoMapperProfiles());
