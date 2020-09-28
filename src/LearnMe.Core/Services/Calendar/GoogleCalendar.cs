@@ -33,7 +33,8 @@ namespace LearnMe.Core.Services.Calendar
             IMapper mapper, 
             ILogger<GoogleCalendar> logger)
         {
-            var token = googleAPIconnection.GetToken();
+            // TODO Remove asynchronous operations from constructor
+            var token = googleAPIconnection.GetToken().Result;
             _calendarService = googleAPIconnection.CreateCalendarService(token, _applicationName);
 
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));

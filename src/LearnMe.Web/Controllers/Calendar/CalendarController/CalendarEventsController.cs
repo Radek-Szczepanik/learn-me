@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using LearnMe.Core.DTO.Calendar;
 using LearnMe.Core.Interfaces.Services;
@@ -25,14 +26,33 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
 
         // GET: api/<controller>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CalendarEventDto>>> GetAsync()
-            => Ok(await _calendar.GetAllEventsAsync());
-            //=> Ok(_calendar.SynchronizeDatabaseWithCalendarAsync());
+        public async Task<ActionResult<IEnumerable<CalendarEventDto>>> GetAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            return Ok(await _calendar.GetAllEventsAsync());
+        }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CalendarEventDto>> GetByIdAsync(int id)
-            => Ok(await _calendar.GetEventByIdAsync(id));
+        public async Task<ActionResult<CalendarEventDto>> GetByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // TODO: Consider another option:
+            // The below code returns 204 No Content when id not found:
+            //return Ok(await _calendar.GetEventByIdAsync(id)); 
+
+            var result = await _calendar.GetEventByIdAsync(id);
+
+            if (result != null)
+            {
+                return Ok(result);
+            } else
+            {
+                return NotFound();
+            }
+        }
 
         // POST api/<controller>
         [HttpPost]
@@ -47,6 +67,16 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync(int id)
-            => Ok(await _calendar.DeleteEventAsync(id));
+        {
+            var result = await _calendar.DeleteEventAsync(id);
+
+            if (result)
+            {
+                return Ok(result);
+            } else
+            {
+                return NotFound();
+            }
+        }
     }
 }

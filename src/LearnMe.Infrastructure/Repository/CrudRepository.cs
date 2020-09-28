@@ -20,9 +20,20 @@ namespace LearnMe.Infrastructure.Repository
         public async Task<bool> DeleteAsync(object id)
         {
             var toBeDeleted = await _context.FindAsync<T>(id);
-            _context.Remove(toBeDeleted);
 
-            return await SaveAsync();
+            if (toBeDeleted != null)
+            {
+                _context.Remove(toBeDeleted);
+
+                return await SaveAsync();
+            }
+            else
+            {
+                // TODO How to make difference between id not found to not deleted
+                // to return correct HTTP response 404 or we shall return 404 at all times
+                // (either not successful delete or id not found ?)
+                return false;
+            }
         }
         public async Task<IEnumerable<T>> GetAllAsync()
         {
@@ -34,9 +45,17 @@ namespace LearnMe.Infrastructure.Repository
         public async Task<T> GetByIdAsync(object id)
         {
             var found = await _context.FindAsync<T>(id);
-            _context.Entry(found).State = EntityState.Detached;
 
-            return found;
+            if (found != null)
+            {
+                _context.Entry(found).State = EntityState.Detached;
+
+                return found;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<bool> InsertAsync(T obj)
