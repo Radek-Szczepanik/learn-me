@@ -1,94 +1,82 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Calendar.v3.Data;
-using LearnMe.Web.Controllers.Libraries.CalendarController.Utils;
+using System.Threading;
+using System.Threading.Tasks;
+using LearnMe.Core.DTO.Calendar;
+using LearnMe.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace LearnMe.Web.Controllers.Libraries.CalendarController
+namespace LearnMe.Web.Controllers.Calendar.CalendarController
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CalendarEventsController : Controller
     {
-
-        // If modifying these scopes, delete your previously saved credentials
-        // at ~/.credentials/calendar-dotnet-quickstart.json
-        static string ApplicationName = "Learn Me WEB Applicaton";
-
+        private readonly ICalendar _calendar;
         private readonly ILogger<CalendarEventsController> _logger;
 
-        private readonly CalendarService calendarService;
-
         public CalendarEventsController(
-            ILogger<CalendarEventsController> logger,
-            IGoogleAPIconnection googleAPIconnection)
+            ICalendar calendar,
+            ILogger<CalendarEventsController> logger)
         {
-            _logger = logger;
-            var token = googleAPIconnection.GetToken();
-            calendarService = googleAPIconnection.CreateCalendarService(token, ApplicationName);
+            _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<Event> Get()
+        public async Task<ActionResult<IEnumerable<CalendarEventDto>>> GetAsync(int eventsPerPage, int pageNumber, CancellationToken cancellationToken)
         {
-            // Define parameters of request.
-            EventsResource.ListRequest request = calendarService.Events.List("primary");
-            request.TimeMin = DateTime.Now;
-            request.ShowDeleted = false;
-            request.SingleEvents = true;
-            request.MaxResults = 10;
-            request.OrderBy = EventsResource.ListRequest.OrderByEnum.StartTime;
+            cancellationToken.ThrowIfCancellationRequested();
 
-            // List events.
-            Events events = request.Execute();
-            Console.WriteLine("Upcoming events:");
-            if (events.Items != null && events.Items.Count > 0)
-            {
-                foreach (var eventItem in events.Items)
-                {
-                    string when = eventItem.Start.DateTime.ToString();
-                    if (String.IsNullOrEmpty(when))
-                    {
-                        when = eventItem.Start.Date;
-                    }
-                    Console.WriteLine("{0} ({1})", eventItem.Summary, when);
-                }
-            } else
-            {
-                Console.WriteLine("No upcoming events found.");
-            }
-
-            return events.Items;
+            return Ok(await _calendar.GetAllEventsAsync(eventsPerPage, pageNumber));
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<CalendarEventDto>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            return "value";
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // TODO: Consider another option:
+            // The below code returns 204 No Content when id not found:
+            //return Ok(await _calendar.GetEventByIdAsync(id)); 
+
+            var result = await _calendar.GetEventByIdAsync(id);
+
+            if (result != null)
+            {
+                return Ok(result);
+            } else
+            {
+                return NotFound();
+            }
         }
 
         // POST api/<controller>
         [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
+        public async Task<ActionResult<bool>> PostAsync([FromBody] CalendarEventDto eventData)
+            => Ok(await _calendar.CreateEventAsync(eventData));
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        public async Task<ActionResult<bool>> PutAsync(int id, [FromBody] CalendarEventDto eventData)
+            => Ok(await _calendar.UpdateEventAsync(id, eventData));
 
         // DELETE api/<controller>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult<bool>> DeleteAsync(int id)
         {
+            var result = await _calendar.DeleteEventAsync(id);
+
+            if (result)
+            {
+                return Ok(result);
+            } else
+            {
+                return NotFound();
+            }
         }
     }
 }

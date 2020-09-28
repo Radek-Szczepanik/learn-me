@@ -1,11 +1,12 @@
-﻿using Google.Apis.Auth.OAuth2;
+﻿using System.Threading.Tasks;
+using Google.Apis.Auth.OAuth2;
 using Google.Apis.Calendar.v3;
 
-namespace LearnMe.Web.Controllers.Libraries.CalendarController.Utils
+namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
 {
     public interface IGoogleAPIconnection
     {
-        UserCredential GetToken();
+        Task<UserCredential> GetToken();
 
         CalendarService CreateCalendarService(UserCredential credential, string applicationName);
     }

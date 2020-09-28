@@ -5,11 +5,13 @@ using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
+using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 
 
-namespace LearnMe.Web.Controllers.Libraries.CalendarController.Utils
+namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 {
-    class GoogleAPIconnection : IGoogleAPIconnection
+    public class GoogleAPIconnection : IGoogleAPIconnection
     {
         public CalendarService CreateCalendarService(UserCredential cred, string appName)
         {
@@ -23,23 +25,20 @@ namespace LearnMe.Web.Controllers.Libraries.CalendarController.Utils
             return service;
         }
 
-        public UserCredential GetToken()
+        public async Task<UserCredential> GetToken()
         {
             string[] Scopes = { CalendarService.Scope.Calendar };
 
-            UserCredential credential;
-
-            using var stream = new FileStream("Controllers\\Libraries\\CalendarController\\Utils\\credentials.json", FileMode.Open, FileAccess.Read);
+            using var stream = new FileStream("..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\credentials.json", FileMode.Open, FileAccess.Read);
             // The file token.json stores the user's access and refresh tokens, and is created
             // automatically when the authorization flow completes for the first time.
-            string credPath = "Controllers\\Libraries\\CalendarController\\Utils\\token.json";
-            credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+            string credPath = "..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\token.json";
+            UserCredential credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                 GoogleClientSecrets.Load(stream).Secrets,
                 Scopes,
                 "testaspnetgooglapi@gmail.com",
                 CancellationToken.None,
-                new FileDataStore(credPath, true)).Result;
-            Console.WriteLine("Credential file saved to: " + credPath);
+                new FileDataStore(credPath, true));
 
             return credential;
         }
