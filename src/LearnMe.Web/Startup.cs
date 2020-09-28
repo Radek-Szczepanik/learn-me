@@ -9,18 +9,13 @@ using LearnMe.Infrastructure.Repository;
 using LearnMe.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using Google.Apis.Auth.OAuth2;
 using LearnMe.Core.DTOMapper;
 using LearnMe.Core.Interfaces.Services;
 using LearnMe.Core.Services.Calendar;
 using LearnMe.Core.Services.Calendar.Utils.Implementations;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Repository.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
-using System.IO;
-using System.Threading;
-using Google.Apis.Util.Store;
 
 namespace LearnMe.Web
 {
@@ -52,30 +47,6 @@ namespace LearnMe.Web
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), b=> b.MigrationsAssembly("LearnMe.Web")));
 
             services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
-
-            services.AddScoped(async x =>
-            {
-                var context = x.GetService<IHttpContextAccessor>().HttpContext;
-
-                string[] Scopes = { CustomCalendarService.Scope.Calendar };
-
-                using var stream = new FileStream("..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\credentials.json", FileMode.Open, FileAccess.Read);
-                // The file token.json stores the user's access and refresh tokens, and is created
-                // automatically when the authorization flow completes for the first time.
-                string credPath = "..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\token.json";
-                UserCredential credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "testaspnetgooglapi@gmail.com",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true));
-
-                // TODO Analyze if this is needed
-                context.Items.Add("UserToken", credential);
-
-                return credential ?? throw new ArgumentNullException(nameof(credential));
-            });
-
             services.AddScoped<ICalendar, GoogleCalendar>();
             services.AddScoped<IGoogleCRUD, GoogleCRUD>();
             services.AddScoped<ISynchronizer, Synchronizer>();
