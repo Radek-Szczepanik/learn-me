@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using LearnMe.Infrastructure.Data;
 using LearnMe.Infrastructure.Repository.Interfaces;
@@ -35,9 +36,11 @@ namespace LearnMe.Infrastructure.Repository
                 return false;
             }
         }
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync(int itemsPerPage, int pageNumber)
         {
             return await _context.Set<T>()
+                                 .Skip((pageNumber - 1) * itemsPerPage)
+                                 .Take(itemsPerPage)
                                  .AsNoTracking()
                                  .ToListAsync();
         }

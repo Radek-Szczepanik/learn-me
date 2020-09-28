@@ -89,13 +89,16 @@ namespace LearnMe.Core.Services.Calendar
             return await _repository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(string calendarId = Constants.CalendarId)
+        public async Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(
+            int eventsPerPage,
+            int pageNumber,
+            string calendarId = Constants.CalendarId)
         {
             // Step 1 - synchronize Google calendar with DB
-            await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_googleCrudAccess, _calendarService, _repository);
+            //await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_googleCrudAccess, _calendarService, _repository);
 
             // Step 2 - get all data from DB
-            var eventsResult = await _repository.GetAllAsync();
+            var eventsResult = await _repository.GetAllAsync(eventsPerPage, pageNumber);
 
             IList<CalendarEventDto> results = new List<CalendarEventDto>();
             foreach (var eventResult in eventsResult)

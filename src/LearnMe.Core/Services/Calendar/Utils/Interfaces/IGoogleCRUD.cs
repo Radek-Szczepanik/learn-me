@@ -9,7 +9,9 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
     {
         Task<IEnumerable<Event>> GetAllEventsAsync(
             CalendarService calendarService,
-            bool includeCancelled = false, 
-            string calendarId = Constants.CalendarId);
+            bool includeCancelled = false,
+            string calendarId = Constants.CalendarId,
+            int maxNumberOfResults = 250,
+            string nextPageToken = null);
     }
 }

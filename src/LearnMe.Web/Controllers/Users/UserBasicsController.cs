@@ -27,7 +27,7 @@ namespace LearnMe.Controllers.Users
             [HttpGet]
             public async Task<IEnumerable<UserBasicDto>> GetNews()
             {   
-                   return await _crudRepository.GetAllAsync();
+                   return await _crudRepository.GetAllAsync(10, 1);
             }
 
             //private readonly ApplicationDbContext _context;

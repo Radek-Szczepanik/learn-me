@@ -5,7 +5,7 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
 {
     public interface ICrudRepository<T> where T: class
     {
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetAllAsync(int itemsPerPage, int pageNumber);
 
         Task<T> GetByIdAsync(object id);
         

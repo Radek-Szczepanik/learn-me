@@ -19,9 +19,9 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         {
             int synchronizedRowsCounter = 0;
 
-            IEnumerable<Event> eventsFromCalendarResult = await googleCalendarAccess.GetAllEventsAsync(calendarService);
+            IEnumerable<Event> eventsFromCalendarResult = await googleCalendarAccess.GetAllEventsAsync(calendarService, maxNumberOfResults:10);
 
-            IList<string> databaseCalendarIds = Helpers.GetListOfCalendarIdsFromDatabase(repository);
+            IList<string> databaseCalendarIds = await Helpers.GetListOfCalendarIdsFromDatabase(repository);
 
             foreach (var eventResult in eventsFromCalendarResult)
             {

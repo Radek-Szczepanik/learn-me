@@ -9,7 +9,10 @@ namespace LearnMe.Core.Interfaces.Services
 {
     public interface ICalendar
     {
-        Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(string calendarId = Constants.CalendarId);
+        Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(
+            int eventsPerPage,
+            int pageNumber,
+            string calendarId = Constants.CalendarId);
 
         Task<CalendarEventDto> GetEventByIdAsync(int id);
 

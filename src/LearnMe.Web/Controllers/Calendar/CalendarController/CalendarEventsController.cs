@@ -26,11 +26,11 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
 
         // GET: api/<controller>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CalendarEventDto>>> GetAsync(CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<CalendarEventDto>>> GetAsync(int eventsPerPage, int pageNumber, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return Ok(await _calendar.GetAllEventsAsync());
+            return Ok(await _calendar.GetAllEventsAsync(eventsPerPage, pageNumber));
         }
 
         // GET api/<controller>/5
