@@ -23,6 +23,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 
             Events result = await request.ExecuteAsync();
 
+            // TODO Update this logic: pagination for retrieving external API data
             if (result.NextPageToken == null)
             {
                 return result.Items;
