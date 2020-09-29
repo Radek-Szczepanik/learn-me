@@ -34,10 +34,7 @@ namespace LearnMe.Controllers.Account
         //{
         //    if (ModelState.IsValid)
         //    {
-        //        var temp = GetHash(user.Password);
-        //        user.Password = temp;
-        //        user.RegistrationDate = DateTime.UtcNow;
-        //        user.Status = Status.Inactive;
+        //        
         //        _context.Add(user);
         //        await _context.SaveChangesAsync();
         //        return RedirectToAction("Index", "Account");

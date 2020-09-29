@@ -17,7 +17,6 @@ namespace LearnMe.Core.Services.Account
 {
     class LoginService : ILoginService
     {
-        [ValidateAntiForgeryToken]
         public UserBasicDto RegisterHashDateTime(UserBasicDto user)
         {
             var temp = user.Password.GetHashCode();
