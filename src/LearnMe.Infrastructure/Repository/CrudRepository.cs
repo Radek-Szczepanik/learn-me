@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
-using LearnMe.Core.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using LearnMe.Infrastructure.Models.Domains.Home;
 
 namespace LearnMe.Infrastructure.Repository
 {
-    public class CrudRepository<T> : ICrudRepository<T> where T: class
+    public class CrudRepository<T> : ICrudRepository<T> where T : class
 
     {
         private readonly ApplicationDbContext _context;
@@ -20,34 +18,68 @@ namespace LearnMe.Infrastructure.Repository
             _context = context;
         }
 
-        public void Delete(object id)
+        public async Task<bool> DeleteAsync(object id)
         {
-            throw new NotImplementedException();
+            var toBeDeleted = await _context.FindAsync<T>(id);
+
+            if (toBeDeleted != null)
+            {
+                _context.Remove(toBeDeleted);
+
+                return await SaveAsync();
+            }
+            else
+            {
+                // TODO How to make difference between id not found to not deleted
+                // to return correct HTTP response 404 or we shall return 404 at all times
+                // (either not successful delete or id not found ?)
+                return false;
+            }
+        }
+        public async Task<IEnumerable<T>> GetAllAsync(int itemsPerPage, int pageNumber)
+        {
+            return await _context.Set<T>()
+                                 .Skip((pageNumber - 1) * itemsPerPage)
+                                 .Take(itemsPerPage)
+                                 .AsNoTracking()
+                                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<T> GetByIdAsync(object id)
         {
-            return await _context.Set<T>().ToListAsync();
+            var found = await _context.FindAsync<T>(id);
+
+            if (found != null)
+            {
+                _context.Entry(found).State = EntityState.Detached;
+
+                return found;
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public T GetById(object id)
+        public async Task<bool> InsertAsync(T obj)
         {
-            throw new NotImplementedException();
+            await _context.AddAsync<T>(obj);
+            
+            return await SaveAsync();
         }
 
-        public void Insert(T obj)
+        public async Task<bool> SaveAsync()
         {
-            throw new NotImplementedException();
+            var rowsAffected = await _context.SaveChangesAsync();
+
+            return rowsAffected >= 1;
         }
 
-        public void Save()
+        public async Task<bool> UpdateAsync(T obj)
         {
-            throw new NotImplementedException();
-        }
+            _context.Update(obj);
 
-        public void Update(T obj)
-        {
-            throw new NotImplementedException();
+            return await SaveAsync();
         }
     }
 }
