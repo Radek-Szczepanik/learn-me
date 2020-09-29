@@ -5,37 +5,61 @@ using Google.Apis.Services;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Google.Apis.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 {
     public class CustomCalendarService : CalendarService, ICalendarService<Event>
     {
         private readonly string _calendarId;
+        private readonly IHttpContextAccessor _accessor;
 
-        public CustomCalendarService(UserCredential credentials) : base()
-        {
-            new CalendarService(new BaseClientService.Initializer()
+        public CustomCalendarService(IHttpContextAccessor accessor) : base(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = credentials,
-                ApplicationName = Constants.ApplicationName,
-            });
+                HttpClientInitializer = (UserCredential)accessor.HttpContext.Items["UserToken"],
+                ApplicationName = Constants.ApplicationName
+            })
+        {
+            //_accessor = accessor;
+            //_accessor.HttpContext.Items.TryGetValue("UserToken", out var token);
+
+            //HttpClientInitializer = (UserCredential) token;
+            //override
+
+            //base(new BaseClientService.Initializer()
+            //{
+            //    HttpClientInitializer = (UserCredential)token,
+            //    ApplicationName = Constants.ApplicationName,
+            //});
+
+            //base.HttpClientInitializer = (UserCredential) token;
+
+            //base.
 
             _calendarId = Constants.CalendarId;
         }
 
-        public Task<bool> DeleteEventAsync(string id)
+        public async Task<bool> DeleteEventAsync(string id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<Event> GetEventByIdAsync(string id)
+        public async Task<Event> GetEventByIdAsync(string id)
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<IEnumerable<Event>> GetEventsAsync()
+        public async Task<IEnumerable<Event>> GetEventsAsync(
+            bool includeCancelled = false,
+            string calendarId = Constants.CalendarId)
         {
-            throw new System.NotImplementedException();
+            EventsResource.ListRequest request = base.Events.List(calendarId);
+            request.ShowDeleted = includeCancelled;
+
+            Events result = await request.ExecuteAsync();
+
+            return result.Items;
         }
 
         public async Task<Event> InsertEventAsync(Event obj)
@@ -45,7 +69,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             return createdEvent;
         }
 
-        public Task<bool> UpdateEventAsync(Event obj)
+        public async Task<bool> UpdateEventAsync(Event obj)
         {
             throw new System.NotImplementedException();
         }
@@ -66,6 +90,56 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         //        HttpClientInitializer = credentials,
         //        ApplicationName = Constants.ApplicationName,
         //    });
+        //}
+
+
+        //public CustomCalendarService(
+        //    IHttpContextAccessor accessor) : base()
+        //{
+        //    _accessor = accessor;
+        //    _accessor.HttpContext.Items.TryGetValue("UserToken", out var token);
+
+        //    new CalendarService(new BaseClientService.Initializer()
+        //    {
+        //        HttpClientInitializer = (UserCredential)token,
+        //        ApplicationName = Constants.ApplicationName,
+        //    });
+
+        //    _calendarId = Constants.CalendarId;
+        //}
+
+        //public CustomCalendarService(
+        //    IHttpContextAccessor accessor,
+        //    IConfigurableHttpClientInitializer initializer) : base(new BaseClientService.Initializer()
+        //{
+        //    HttpClientInitializer = (UserCredential)token,
+        //    ApplicationName = Constants.ApplicationName,
+        //})
+        //{
+        //    _accessor = accessor;
+        //    _accessor.HttpContext.Items.TryGetValue("UserToken", out var token);
+
+        //    var tokenTry = _accessor.HttpContext.Items.
+
+        //        _calendarId = Constants.CalendarId;
+        //}
+
+        //public CustomCalendarService(IHttpContextAccessor accessor)
+        //{
+        //    _accessor = accessor;
+        //    _accessor.HttpContext.Items.TryGetValue("UserToken", out var token);
+
+        //    base(new BaseClientService.Initializer()
+        //    {
+        //        HttpClientInitializer = (UserCredential)token,
+        //        ApplicationName = Constants.ApplicationName,
+        //    });
+
+        //    base.HttpClientInitializer = (UserCredential)token;
+
+        //    base.
+
+        //        _calendarId = Constants.CalendarId;
         //}
     }
 }

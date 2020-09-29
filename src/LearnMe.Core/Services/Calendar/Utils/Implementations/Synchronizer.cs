@@ -12,14 +12,13 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
     public class Synchronizer : ISynchronizer
     {
         public async Task<int> SynchronizeDatabaseWithCalendarAsync(
-            IGoogleCRUD googleCalendarAccess,
-            CalendarService calendarService,
+            ICalendarService<Event> calendarService,
             ICrudRepository<CalendarEvent> repository,
             string calendarId = Constants.CalendarId)
         {
             int synchronizedRowsCounter = 0;
 
-            IEnumerable<Event> eventsFromCalendarResult = await googleCalendarAccess.GetAllEventsAsync(calendarService);
+            IEnumerable<Event> eventsFromCalendarResult = await calendarService.GetEventsAsync();
 
             IList<string> databaseCalendarIds = Helpers.GetListOfCalendarIdsFromDatabase(repository);
 

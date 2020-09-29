@@ -20,7 +20,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
 using System.IO;
 using System.Threading;
+using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Util.Store;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace LearnMe.Web
 {
@@ -52,8 +54,9 @@ namespace LearnMe.Web
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), b=> b.MigrationsAssembly("LearnMe.Web")));
 
             services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddScoped(async x =>
+            services.AddSingleton(async x =>
             {
                 var context = x.GetService<IHttpContextAccessor>().HttpContext;
 
@@ -77,8 +80,10 @@ namespace LearnMe.Web
             });
 
             services.AddScoped<ICalendar, GoogleCalendar>();
-            services.AddScoped<IGoogleCRUD, GoogleCRUD>();
+
+            //services.AddScoped<IGoogleCRUD, GoogleCRUD>();
             services.AddScoped<ISynchronizer, Synchronizer>();
+            services.AddScoped<ICalendarService<Event>, CustomCalendarService>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 

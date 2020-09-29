@@ -22,7 +22,7 @@ namespace LearnMe.Core.Services.Calendar
         //private readonly string _applicationName = Constants.ApplicationName;
         private readonly ICrudRepository<CalendarEvent> _repository;
         private readonly ISynchronizer _synchronizer;
-        private readonly IGoogleCRUD _googleCrudAccess;
+        //private readonly IGoogleCRUD _googleCrudAccess;
         private readonly IMapper _mapper;
         private readonly ILogger<GoogleCalendar> _logger;
 
@@ -31,7 +31,7 @@ namespace LearnMe.Core.Services.Calendar
             IGoogleAPIconnection googleAPIconnection, 
             ICrudRepository<CalendarEvent> repository, 
             ISynchronizer synchronizer, 
-            IGoogleCRUD googleCrudAccess, 
+            //IGoogleCRUD googleCrudAccess, 
             IMapper mapper, 
             ILogger<GoogleCalendar> logger)
         {
@@ -42,7 +42,7 @@ namespace LearnMe.Core.Services.Calendar
 
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
-            _googleCrudAccess = googleCrudAccess ?? throw new ArgumentNullException(nameof(googleCrudAccess));
+            //_googleCrudAccess = googleCrudAccess ?? throw new ArgumentNullException(nameof(googleCrudAccess));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -98,7 +98,8 @@ namespace LearnMe.Core.Services.Calendar
         public async Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(string calendarId = Constants.CalendarId)
         {
             // Step 1 - synchronize Google calendar with DB
-            await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_googleCrudAccess, _calendarService, _repository);
+            //await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_googleCrudAccess, _calendarService, _repository);
+            await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_calendarService, _repository);
 
             // Step 2 - get all data from DB
             var eventsResult = await _repository.GetAllAsync();
