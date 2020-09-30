@@ -21,22 +21,6 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                 ApplicationName = Constants.ApplicationName
             })
         {
-            //_accessor = accessor;
-            //_accessor.HttpContext.Items.TryGetValue("UserToken", out var token);
-
-            //HttpClientInitializer = (UserCredential) token;
-            //override
-
-            //base(new BaseClientService.Initializer()
-            //{
-            //    HttpClientInitializer = (UserCredential)token,
-            //    ApplicationName = Constants.ApplicationName,
-            //});
-
-            //base.HttpClientInitializer = (UserCredential) token;
-
-            //base.
-
             _calendarId = Constants.CalendarId;
         }
 
@@ -140,6 +124,31 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         //    base.
 
         //        _calendarId = Constants.CalendarId;
+        //}
+
+        //public CustomCalendarService(IHttpContextAccessor accessor) : base(new BaseClientService.Initializer()
+        //{
+        //    HttpClientInitializer = (UserCredential)accessor.HttpContext.Items["UserToken"],
+        //    ApplicationName = Constants.ApplicationName
+        //})
+        //{
+        //    //_accessor = accessor;
+        //    //_accessor.HttpContext.Items.TryGetValue("UserToken", out var token);
+
+        //    //HttpClientInitializer = (UserCredential) token;
+        //    //override
+
+        //    //base(new BaseClientService.Initializer()
+        //    //{
+        //    //    HttpClientInitializer = (UserCredential)token,
+        //    //    ApplicationName = Constants.ApplicationName,
+        //    //});
+
+        //    //base.HttpClientInitializer = (UserCredential) token;
+
+        //    //base.
+
+        //    _calendarId = Constants.CalendarId;
         //}
     }
 }
