@@ -11,9 +11,9 @@ namespace LearnMe.Core.DTO.Config
 {
     public class RepositoryMapper<T> : IRepositoryMapper<T> where T : class
     {
-        private readonly Mapper _mapper;
+        private readonly IMapper _mapper;
 
-        public RepositoryMapper(Mapper mapper)
+        public RepositoryMapper(IMapper mapper)
         {
             _mapper = mapper;
 

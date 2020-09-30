@@ -9,7 +9,9 @@ using LearnMe.Core.Interfaces;
 using LearnMe.Core.DTO.User;
 using LearnMe.Infrastructure.Models.Domains.Users;
 using LearnMe.Infrastructure.Repository.Interfaces;
-using AutoMapper;
+using LearnMe.Core.DTO.Config;
+using LearnMe.Core.Interfaces.DTO;
+
 
 namespace LearnMe.Controllers.Users
 {
@@ -18,11 +20,15 @@ namespace LearnMe.Controllers.Users
     public class UserBasicsController : ControllerBase
     {
            private readonly ICrudRepository<UserBasicDto> _crudRepository;
-       
+           private readonly IRepositoryMapper<UserBasicDto> _mapper;
 
-            public UserBasicsController(ICrudRepository<UserBasicDto> crudRepository)
+
+
+        public UserBasicsController(ICrudRepository<UserBasicDto> crudRepository, IRepositoryMapper<UserBasicDto> mapper)
             {
                 _crudRepository = crudRepository;
+                _mapper = mapper;
+
             }
 
         //// GET: api/News
@@ -85,10 +91,10 @@ namespace LearnMe.Controllers.Users
 
 
         [HttpPost]
-        public bool AddUser(UserBasic user)
+        public async Task<bool> AddUser(UserBasicDto user)
         {
             //_mapper.Map<UserBasic>(user);
-            _crudRepository.InsertAsync(user);
+            await _crudRepository.InsertAsync(user);
             return true; 
         }
 

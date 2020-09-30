@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using LearnMe.Infrastructure.Data;
 using LearnMe.Infrastructure.Models.Domains.Users;
-using LearnMe.Core.DTO.User;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+using LearnMe.Core.DTO.User;
+using LearnMe.Core.Interfaces.DTO;
+using LearnMe.Core.DTO.Config;
 
 namespace LearnMe.Infrastructure.Repository
 {
@@ -15,10 +16,11 @@ namespace LearnMe.Infrastructure.Repository
 
     {
         private readonly ApplicationDbContext _context;
-        private readonly Mapper _mapper;
+        private readonly IRepositoryMapper<T> _mapper;
 
 
-        public CrudRepository(ApplicationDbContext context, Mapper mapper)
+
+        public CrudRepository(ApplicationDbContext context, IRepositoryMapper<T> mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -69,14 +71,9 @@ namespace LearnMe.Infrastructure.Repository
 
         public async Task<bool> InsertAsync(T obj)
         {
-            if (obj.GetType() == typeof(UserBasicDto))
-            {
-
-            }    
-                
-
-            await _context.AddAsync(obj);
-
+            var temp = _mapper.UserDtoMapper(obj);
+            await _context.AddAsync(temp);
+            await _context.SaveChangesAsync();
             return await SaveAsync();
         }
 
@@ -93,5 +90,7 @@ namespace LearnMe.Infrastructure.Repository
 
             return await SaveAsync();
         }
+
+        
     }
 }
