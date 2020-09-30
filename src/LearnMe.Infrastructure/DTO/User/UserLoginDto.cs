@@ -5,7 +5,6 @@ namespace LearnMe.Core.DTO.User
 {
     public class UserLoginDto
     {
-        [NotMapped]
         public class UserLogin
         {
             [Required(ErrorMessage = "This field is required")]

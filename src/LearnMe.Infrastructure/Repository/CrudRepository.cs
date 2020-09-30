@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Users;
+using LearnMe.Core.DTO.User;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace LearnMe.Infrastructure.Repository
 {
@@ -12,10 +15,13 @@ namespace LearnMe.Infrastructure.Repository
 
     {
         private readonly ApplicationDbContext _context;
+        private readonly Mapper _mapper;
 
-        public CrudRepository(ApplicationDbContext context)
+
+        public CrudRepository(ApplicationDbContext context, Mapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<bool> DeleteAsync(object id)
@@ -63,8 +69,14 @@ namespace LearnMe.Infrastructure.Repository
 
         public async Task<bool> InsertAsync(T obj)
         {
-            await _context.AddAsync<T>(obj);
-            
+            if (obj.GetType() == typeof(UserBasicDto))
+            {
+
+            }    
+                
+
+            await _context.AddAsync(obj);
+
             return await SaveAsync();
         }
 

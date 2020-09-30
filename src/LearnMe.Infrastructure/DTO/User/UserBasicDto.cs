@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace LearnMe.Core.DTO.User
+namespace LearnMe.Infrastructure.DTO.User
 {
     public class UserBasicDto
     {

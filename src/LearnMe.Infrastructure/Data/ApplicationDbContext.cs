@@ -35,11 +35,10 @@ namespace LearnMe.Infrastructure.Data
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<UserBasic> Users { get; set; }
+        public DbSet<UserBasic> UsersBasic { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<UserInvoiceData> UserInvoiceDatas { get; set; }
-        public DbSet<UserLogin> UserLogins { get; set; }
-        public DbSet<UserRegistration> UserRegistrations { get; set; }
+   
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)

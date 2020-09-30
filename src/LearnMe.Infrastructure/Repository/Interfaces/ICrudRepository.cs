@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
-
-
-namespace LearnMe.Core.Interfaces
+namespace LearnMe.Infrastructure.Repository.Interfaces
 {
-    public interface ICrudRepository<T> where T: class
+    public interface ICrudRepository<T> where T : class
     {
-        // public Task<List<News>> GetAll();
-        Task<IEnumerable<T>> GetAll();
-        T GetById(object id);
-        void Insert(T obj);
-        void Update(T obj);
-        void Delete(object id);
-        void Save();
+        Task<IEnumerable<T>> GetAllAsync(int itemsPerPage, int pageNumber);
+
+        Task<T> GetByIdAsync(object id);
+
+        Task<bool> InsertAsync(T obj);
+
+        Task<bool> UpdateAsync(T obj);
+
+        Task<bool> DeleteAsync(object id);
+
+        Task<bool> SaveAsync();
     }
 }
