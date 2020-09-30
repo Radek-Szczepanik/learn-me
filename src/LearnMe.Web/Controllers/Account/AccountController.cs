@@ -74,10 +74,10 @@ namespace LearnMe.Controllers.Account
         }
 
 
-        [HttpPost]
-        public bool LogIn(UserLogin user)
+    //    [HttpPost]
+   //     public bool LogIn(UserLogin user)
 
-        {
+  //      {
             //ClaimsIdentity identity = null;
                 
             //if (ModelState.IsValid)
@@ -127,8 +127,8 @@ namespace LearnMe.Controllers.Account
             //        return true;
             //    }
             //}
-            return false;
-        }
+   //         return false;
+    //    }
 
         [HttpOptions]
         public bool Logout()

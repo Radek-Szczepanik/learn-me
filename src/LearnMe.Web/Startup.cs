@@ -9,13 +9,15 @@ using LearnMe.Infrastructure.Repository;
 using LearnMe.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using LearnMe.Core.DTOMapper;
+using LearnMe.Core.DTO.Config;
 using LearnMe.Core.Interfaces.Services;
 using LearnMe.Core.Services.Calendar;
 using LearnMe.Core.Services.Calendar.Utils.Implementations;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.OpenApi.Models;
+using LearnMe.Core.Interfaces.DTO;
+
 
 namespace LearnMe.Web
 {
@@ -56,6 +58,8 @@ namespace LearnMe.Web
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 
             services.AddSingleton<IEventBuilder, EventBuilder>();
+
+            services.AddScoped(typeof(IRepositoryMapper<>), typeof(RepositoryMapper<>));
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
