@@ -35,7 +35,6 @@ namespace LearnMe.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
@@ -45,7 +44,6 @@ namespace LearnMe.Web
 
 
             services.AddControllersWithViews();
-            // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -55,33 +53,8 @@ namespace LearnMe.Web
 
             services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
             services.AddHttpContextAccessor();
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            //services.AddTransient(async x =>
-            //{
-            //    var context = x.GetService<IHttpContextAccessor>().HttpContext;
-
-            //    string[] Scopes = { CustomCalendarService.Scope.Calendar };
-
-            //    using var stream = new FileStream("..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\credentials.json", FileMode.Open, FileAccess.Read);
-            //    // The file token.json stores the user's access and refresh tokens, and is created
-            //    // automatically when the authorization flow completes for the first time.
-            //    string credPath = "..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\token.json";
-            //    UserCredential credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-            //        GoogleClientSecrets.Load(stream).Secrets,
-            //        Scopes,
-            //        "testaspnetgooglapi@gmail.com",
-            //        CancellationToken.None,
-            //        new FileDataStore(credPath, true));
-
-            //    //// TODO Analyze if this is needed
-            //    context.Items.Add(new String[] {"UserToken"}, credential);
-
-            //    return credential ?? throw new ArgumentNullException(nameof(credential));
-            //});
 
             services.AddSingleton<ITokenService, TokenService>();
-
             services.AddSingleton<IToken>(provider =>
             {
                 var tokenService = provider.GetService<ITokenService>();
@@ -89,11 +62,9 @@ namespace LearnMe.Web
                 return token;
             });
 
-            services.AddScoped<ICalendar, GoogleCalendar>();
-
-            //services.AddScoped<IGoogleCRUD, GoogleCRUD>();
-            services.AddScoped<ISynchronizer, Synchronizer>();
             services.AddScoped<ICalendarService<Event>, CustomCalendarService>();
+            services.AddScoped<ICalendar, GoogleCalendar>();
+            services.AddScoped<ISynchronizer, Synchronizer>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 

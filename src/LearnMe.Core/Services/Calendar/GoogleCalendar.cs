@@ -17,32 +17,22 @@ namespace LearnMe.Core.Services.Calendar
 {
     public class GoogleCalendar : ICalendar
     {
-        //private readonly CalendarService _calendarService;
-        private readonly ICalendarService<Event> _calendarService;
-        //private readonly string _applicationName = Constants.ApplicationName;
         private readonly ICrudRepository<CalendarEvent> _repository;
+        private readonly ICalendarService<Event> _calendarService;
         private readonly ISynchronizer _synchronizer;
-        //private readonly IGoogleCRUD _googleCrudAccess;
         private readonly IMapper _mapper;
         private readonly ILogger<GoogleCalendar> _logger;
 
         public GoogleCalendar(
+            ICrudRepository<CalendarEvent> repository,
             ICalendarService<Event> calendarService,
-            IGoogleAPIconnection googleAPIconnection, 
-            ICrudRepository<CalendarEvent> repository, 
             ISynchronizer synchronizer, 
-            //IGoogleCRUD googleCrudAccess, 
             IMapper mapper, 
             ILogger<GoogleCalendar> logger)
         {
-            // TODO Remove asynchronous operations from constructor
-            //var token = googleAPIconnection.GetToken().Result;
-            //_calendarService = googleAPIconnection.CreateCalendarService(token, _applicationName);
-            _calendarService = calendarService;
-
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _calendarService = calendarService ?? throw new ArgumentNullException(nameof(calendarService));
             _synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
-            //_googleCrudAccess = googleCrudAccess ?? throw new ArgumentNullException(nameof(googleCrudAccess));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
