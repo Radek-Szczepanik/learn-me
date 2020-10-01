@@ -51,9 +51,6 @@ namespace LearnMe.Web
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), b=> b.MigrationsAssembly("LearnMe.Web")));
 
-            services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
-            services.AddHttpContextAccessor();
-
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IToken>(provider =>
             {
@@ -89,8 +86,6 @@ namespace LearnMe.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.UseMiddleware(typeof(AgaCustomMiddleMiddleware));
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
