@@ -13,16 +13,30 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
     public class CustomCalendarService : CalendarService, ICalendarService<Event>
     {
         private readonly string _calendarId;
-        private readonly IHttpContextAccessor _accessor;
+        private readonly IToken _credentialToken;
 
-        public CustomCalendarService(IHttpContextAccessor accessor) : base(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = (UserCredential)accessor.HttpContext.Items["UserToken"],
-                ApplicationName = Constants.ApplicationName
-            })
+        public CustomCalendarService(IToken credentialToken) : base(new BaseClientService.Initializer()
+        {
+            HttpClientInitializer = credentialToken.Credential,
+            ApplicationName = Constants.ApplicationName
+        })
         {
             _calendarId = Constants.CalendarId;
         }
+
+
+        //private readonly IHttpContextAccessor _accessor;
+
+        //public CustomCalendarService(IHttpContextAccessor accessor) : base(new BaseClientService.Initializer()
+        //{
+        //    HttpClientInitializer = (UserCredential)accessor.HttpContext.Items["UserToken"],
+        //    //HttpClientInitializer = token,
+        //    ApplicationName = Constants.ApplicationName
+        //})
+        //{
+        //    _accessor = accessor;
+        //    _calendarId = Constants.CalendarId;
+        //}
 
         public async Task<bool> DeleteEventAsync(string id)
         {
@@ -150,5 +164,23 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 
         //    _calendarId = Constants.CalendarId;
         //}
+    }
+
+    public class AgaCustomMiddleMiddleware
+    {
+        private readonly RequestDelegate _requestDelegate;
+
+        public AgaCustomMiddleMiddleware(RequestDelegate requestDelegate)
+        {
+            _requestDelegate = requestDelegate;
+        }
+
+        public async Task Invoke(HttpContext context)
+        {
+
+            // Your HttpContext related task is in here.
+
+            await _requestDelegate(context);
+        }
     }
 }

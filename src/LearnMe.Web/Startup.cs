@@ -54,29 +54,39 @@ namespace LearnMe.Web
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), b=> b.MigrationsAssembly("LearnMe.Web")));
 
             services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddSingleton(async x =>
+            //services.AddTransient(async x =>
+            //{
+            //    var context = x.GetService<IHttpContextAccessor>().HttpContext;
+
+            //    string[] Scopes = { CustomCalendarService.Scope.Calendar };
+
+            //    using var stream = new FileStream("..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\credentials.json", FileMode.Open, FileAccess.Read);
+            //    // The file token.json stores the user's access and refresh tokens, and is created
+            //    // automatically when the authorization flow completes for the first time.
+            //    string credPath = "..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\token.json";
+            //    UserCredential credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+            //        GoogleClientSecrets.Load(stream).Secrets,
+            //        Scopes,
+            //        "testaspnetgooglapi@gmail.com",
+            //        CancellationToken.None,
+            //        new FileDataStore(credPath, true));
+
+            //    //// TODO Analyze if this is needed
+            //    context.Items.Add(new String[] {"UserToken"}, credential);
+
+            //    return credential ?? throw new ArgumentNullException(nameof(credential));
+            //});
+
+            services.AddSingleton<ITokenService, TokenService>();
+
+            services.AddSingleton<IToken>(provider =>
             {
-                var context = x.GetService<IHttpContextAccessor>().HttpContext;
-
-                string[] Scopes = { CustomCalendarService.Scope.Calendar };
-
-                using var stream = new FileStream("..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\credentials.json", FileMode.Open, FileAccess.Read);
-                // The file token.json stores the user's access and refresh tokens, and is created
-                // automatically when the authorization flow completes for the first time.
-                string credPath = "..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\token.json";
-                UserCredential credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    Scopes,
-                    "testaspnetgooglapi@gmail.com",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true));
-
-                // TODO Analyze if this is needed
-                context.Items.Add("UserToken", credential);
-
-                return credential ?? throw new ArgumentNullException(nameof(credential));
+                var tokenService = provider.GetService<ITokenService>();
+                var token = tokenService.GetToken().GetAwaiter().GetResult();
+                return token;
             });
 
             services.AddScoped<ICalendar, GoogleCalendar>();
@@ -108,6 +118,8 @@ namespace LearnMe.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseMiddleware(typeof(AgaCustomMiddleMiddleware));
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
