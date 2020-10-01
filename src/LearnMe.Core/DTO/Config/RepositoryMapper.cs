@@ -13,6 +13,7 @@ namespace LearnMe.Core.DTO.Config
     {
         private readonly IMapper _mapper;
 
+
         public RepositoryMapper(IMapper mapper)
         {
             _mapper = mapper;
@@ -21,12 +22,7 @@ namespace LearnMe.Core.DTO.Config
 
         public UserBasic UserDtoMapper(T obj)
         {
-            if (obj.GetType() == typeof(UserBasicDto))
-            {
-                var user = _mapper.Map<UserBasic>(obj);
-                return user;
-            }
-            return null;
+            return _mapper.Map<UserBasic>(obj);
         }
     }
 }

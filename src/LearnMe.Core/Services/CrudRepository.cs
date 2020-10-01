@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using LearnMe.Core.DTO.User;
 using LearnMe.Core.Interfaces.DTO;
 using LearnMe.Core.DTO.Config;
+using AutoMapper;
+
 
 namespace LearnMe.Infrastructure.Repository
 {
@@ -71,9 +73,12 @@ namespace LearnMe.Infrastructure.Repository
 
         public async Task<bool> InsertAsync(T obj)
         {
-            var temp = _mapper.UserDtoMapper(obj);
-            await _context.AddAsync(temp);
-            await _context.SaveChangesAsync();
+            if (obj.GetType() == typeof(UserLoginDto) || obj.GetType() == typeof(UserRegistrationDto))
+            {
+                //var user = _mapper.Map<UserBasic>(obj);
+                await _context.AddAsync(_mapper.UserDtoMapper(obj));
+            }
+                    
             return await SaveAsync();
         }
 

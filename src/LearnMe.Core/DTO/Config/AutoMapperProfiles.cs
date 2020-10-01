@@ -11,6 +11,8 @@ namespace LearnMe.Core.DTO.Config
         public AutoMapperProfiles()
         {
             CreateMap<UserBasic, UserBasicDto>().ReverseMap();
+            CreateMap<UserBasic, UserRegistrationDto>().ReverseMap();
+
             CreateMap<UserGroup, UserGroupDto>();
             CreateMap<UserInvoiceData, UserInvoiceDataDto>();
             CreateMap<UserBasic, UserLoginDto>();

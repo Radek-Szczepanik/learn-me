@@ -19,15 +19,16 @@ namespace LearnMe.Controllers.Users
     [ApiController]
     public class UserBasicsController : ControllerBase
     {
-           private readonly ICrudRepository<UserBasicDto> _crudRepository;
-           private readonly IRepositoryMapper<UserBasicDto> _mapper;
+           private readonly ICrudRepository<UserRegistrationDto> _crudRepositoryRegistration;
+           private readonly ICrudRepository<UserBasicDto> _crudRepositoryBasic;
 
 
-
-        public UserBasicsController(ICrudRepository<UserBasicDto> crudRepository, IRepositoryMapper<UserBasicDto> mapper)
+        public UserBasicsController(ICrudRepository<UserRegistrationDto> crudRepositoryRegistration,
+            ICrudRepository<UserBasicDto> crudRepositoryBasic)
             {
-                _crudRepository = crudRepository;
-                _mapper = mapper;
+                _crudRepositoryRegistration = crudRepositoryRegistration;
+                _crudRepositoryBasic = crudRepositoryBasic;
+
 
             }
 
@@ -39,12 +40,12 @@ namespace LearnMe.Controllers.Users
         //}
 
 
-        //// GET: api/UserBasics
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<UserBasic>>> GetUsers()
-        //{
-        //    return await _context.Users.ToListAsync();
-        //}
+        // GET: api/UserBasics
+        [HttpGet]
+        public async Task<IEnumerable<UserBasicDto>> GetUsers()
+        {
+            return await _crudRepositoryBasic.GetAllAsync(5, 1);
+        }
 
         //// GET: api/UserBasics/5
         //[HttpGet("{id}")]
@@ -91,10 +92,10 @@ namespace LearnMe.Controllers.Users
 
 
         [HttpPost]
-        public async Task<bool> AddUser(UserBasicDto user)
+        public async Task<bool> AddUser(UserRegistrationDto user)
         {
             //_mapper.Map<UserBasic>(user);
-            await _crudRepository.InsertAsync(user);
+            await _crudRepositoryRegistration.InsertAsync(user);
             return true; 
         }
 
