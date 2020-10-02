@@ -44,7 +44,7 @@ namespace LearnMe.Controllers.Users
         [HttpGet]
         public async Task<IEnumerable<UserBasicDto>> GetUsers()
         {
-            return await _crudRepositoryBasic.GetAllAsync(5, 1);
+            return await _crudRepositoryBasic.GetAllAsync(100, 1);
         }
 
         //// GET: api/UserBasics/5
@@ -94,7 +94,6 @@ namespace LearnMe.Controllers.Users
         [HttpPost]
         public async Task<bool> AddUser(UserRegistrationDto user)
         {
-            //_mapper.Map<UserBasic>(user);
             await _crudRepositoryRegistration.InsertAsync(user);
             return true; 
         }

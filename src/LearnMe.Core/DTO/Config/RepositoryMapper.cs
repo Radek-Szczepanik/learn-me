@@ -27,7 +27,8 @@ namespace LearnMe.Core.DTO.Config
 
         public IEnumerable<UserBasicDto> UserDtoMapperGetAll(IEnumerable<UserBasic> obj)
         {
-            return _mapper.Map<IEnumerable<UserBasicDto>>(obj);
+            var t = _mapper.Map<IEnumerable<UserBasicDto>>(obj);
+            return t;
         }
     }
 }
