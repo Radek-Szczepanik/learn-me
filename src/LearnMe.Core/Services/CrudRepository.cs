@@ -10,7 +10,7 @@ using LearnMe.Core.DTO.User;
 using LearnMe.Core.Interfaces.DTO;
 using LearnMe.Core.DTO.Config;
 using AutoMapper;
-
+using Microsoft.AspNetCore.Mvc;
 
 namespace LearnMe.Infrastructure.Repository
 {
@@ -48,11 +48,19 @@ namespace LearnMe.Infrastructure.Repository
         }
         public async Task<IEnumerable<T>> GetAllAsync(int itemsPerPage, int pageNumber)
         {
-            return await _context.Set<T>()
-                                 .Skip((pageNumber - 1) * itemsPerPage)
-                                 .Take(itemsPerPage)
-                                 .AsNoTracking()
-                                 .ToListAsync();
+            if (typeof(T) == typeof(UserBasicDto))
+            {
+                var userList = await _context.Set<UserBasic>()
+                               .Skip((pageNumber - 1) * itemsPerPage)
+                               .Take(itemsPerPage)
+                               .AsNoTracking()
+                               .ToListAsync();
+               
+                return (IEnumerable<T>)_mapper.UserDtoMapperGetAll(userList);
+            }
+
+            return null;
+
         }
 
         public async Task<T> GetByIdAsync(object id)
@@ -75,8 +83,7 @@ namespace LearnMe.Infrastructure.Repository
         {
             if (obj.GetType() == typeof(UserLoginDto) || obj.GetType() == typeof(UserRegistrationDto))
             {
-                //var user = _mapper.Map<UserBasic>(obj);
-                await _context.AddAsync(_mapper.UserDtoMapper(obj));
+               await _context.AddAsync(_mapper.UserDtoMapper(obj));
             }
                     
             return await SaveAsync();

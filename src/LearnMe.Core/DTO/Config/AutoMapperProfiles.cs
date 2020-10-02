@@ -3,6 +3,7 @@ using LearnMe.Core.DTO.Calendar;
 using LearnMe.Core.DTO.User;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Models.Domains.Users;
+using System.Collections.Generic;
 
 namespace LearnMe.Core.DTO.Config
 {
@@ -10,8 +11,8 @@ namespace LearnMe.Core.DTO.Config
     {
         public AutoMapperProfiles()
         {
-            CreateMap<UserBasic, UserBasicDto>().ReverseMap();
-            CreateMap<UserBasic, UserRegistrationDto>().ReverseMap();
+            CreateMap<UserBasic, UserBasicDto>();
+            CreateMap<UserBasic, UserRegistrationDto>();
 
             CreateMap<UserGroup, UserGroupDto>();
             CreateMap<UserInvoiceData, UserInvoiceDataDto>();
