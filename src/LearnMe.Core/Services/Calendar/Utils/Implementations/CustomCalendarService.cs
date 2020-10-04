@@ -11,11 +11,12 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
     {
         private readonly string _calendarId;
 
-        public CustomCalendarService(IToken credentialToken) : base(new BaseClientService.Initializer()
-        {
-            HttpClientInitializer = credentialToken.Credential,
-            ApplicationName = Constants.ApplicationName
-        })
+        public CustomCalendarService(IToken credentialToken) 
+            : base(new BaseClientService.Initializer() 
+            {
+                HttpClientInitializer = credentialToken.Credential, 
+                ApplicationName = Constants.ApplicationName
+            })
         {
             _calendarId = Constants.CalendarId;
         }
