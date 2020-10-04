@@ -9,20 +9,17 @@ using LearnMe.Infrastructure.Repository;
 using LearnMe.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using Google.Apis.Auth.OAuth2;
 using LearnMe.Core.DTOMapper;
 using LearnMe.Core.Interfaces.Services;
 using LearnMe.Core.Services.Calendar;
 using LearnMe.Core.Services.Calendar.Utils.Implementations;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Repository.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
 using System.IO;
 using System.Threading;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Util.Store;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace LearnMe.Web
 {
@@ -64,6 +61,8 @@ namespace LearnMe.Web
             services.AddScoped<ISynchronizer, Synchronizer>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
+
+            services.AddSingleton<IEventBuilder, EventBuilder>();
 
             var mapperConfig = new MapperConfiguration(mc =>
             {

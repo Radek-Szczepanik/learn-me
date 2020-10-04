@@ -20,7 +20,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 
             IEnumerable<Event> eventsFromCalendarResult = await calendarService.GetEventsAsync();
 
-            IList<string> databaseCalendarIds = Helpers.GetListOfCalendarIdsFromDatabase(repository);
+            IList<string> databaseCalendarIds = await Helpers.GetListOfCalendarIdsFromDatabase(repository);
 
             foreach (var eventResult in eventsFromCalendarResult)
             {
