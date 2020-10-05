@@ -35,7 +35,15 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            return Ok(await _calendar.GetAllEventsAsync(eventsPerPage, pageNumber));
+            var result = await _calendar.GetAllEventsAsync(eventsPerPage, pageNumber);
+
+            if (result != null)
+            {
+                return Ok(result);
+            } else
+            {
+                return NotFound();
+            }
         }
 
         // GET api/<controller>/5

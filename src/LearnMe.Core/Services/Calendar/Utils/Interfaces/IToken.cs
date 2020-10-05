@@ -6,9 +6,4 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
     {
         UserCredential Credential { get; set; }
     }
-
-    public class Token : IToken
-    {
-        public UserCredential Credential { get; set; }
-    }
 }

@@ -72,8 +72,7 @@ namespace LearnMe.Core.Services.Calendar
             if (insertedDbEvent != null)
             {
                 return _mapper.Map<CalendarEventDto>(insertedDbEvent);
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -101,13 +100,21 @@ namespace LearnMe.Core.Services.Calendar
             // Step 2 - get all data from DB
             var eventsResult = await _repository.GetAllAsync(eventsPerPage, pageNumber);
 
-            IList<CalendarEventDto> results = new List<CalendarEventDto>();
-            foreach (var eventResult in eventsResult)
+            if (eventsResult != null)
             {
-                results.Add(_mapper.Map<CalendarEventDto>(eventResult));
+                IList<CalendarEventDto> results = new List<CalendarEventDto>();
+                foreach (var eventResult in eventsResult)
+                {
+                    results.Add(_mapper.Map<CalendarEventDto>(eventResult));
+                }
+
+                return results;
+            }
+            else
+            {
+                return null;
             }
 
-            return results;
         }
 
         public async Task<CalendarEventDto> GetEventByIdAsync(int id)
