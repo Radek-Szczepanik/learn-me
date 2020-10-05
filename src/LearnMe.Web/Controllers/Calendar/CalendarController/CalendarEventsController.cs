@@ -6,6 +6,7 @@ using AutoMapper;
 using LearnMe.Core.DTO.Calendar;
 using LearnMe.Core.Interfaces.Services;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
+using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -18,15 +19,18 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         private readonly ICalendar _calendar;
         private readonly IMapper _mapper;
         private readonly ILogger<CalendarEventsController> _logger;
+        private readonly ICalendarEventsRepository _calendarEventsRepository;
 
         public CalendarEventsController(
             ICalendar calendar,
             IMapper mapper,
-            ILogger<CalendarEventsController> logger)
+            ILogger<CalendarEventsController> logger,
+            ICalendarEventsRepository calendarEventsRepository)
         {
             _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _calendarEventsRepository = calendarEventsRepository ?? throw new ArgumentNullException(nameof(calendarEventsRepository));
         }
 
         // GET: api/<controller>
@@ -71,12 +75,12 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
 
             if (newEvent != null)
             {
-                //TODO update - retrieve Id from DB of the newly created record to provide address to creator
-                //var newEventMappingToRetrieveId = _mapper.Map<CalendarEvent>(newEvent);
-                //return CreatedAtAction(nameof(GetByIdAsync), new {Id = newEventMappingToRetrieveId.Id}, newEvent);
-                return Ok();
-            }
-            else
+                //Added calendarId to DTO
+                var newEventDbObject = await _calendarEventsRepository.GetByCalendarIdAsync(newEvent.CalendarId);
+                // TODO: update to CreatedAtRoute since for CreatedAtAction the value is WRONG: location: https://localhost:44359/CalendarEvents/GetByIdAsync/162
+                return CreatedAtAction(nameof(GetByIdAsync), new { id = newEventDbObject.Id }, newEvent);
+                //return CreatedAtRoute(nameof(GetByIdAsync), new { id = newEventDbObject.Id }, newEvent);
+            } else
             {
                 return NotFound();
             }

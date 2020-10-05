@@ -13,29 +13,34 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 
         public ExternalCalendarService(IToken credentialToken)
             : base(new BaseClientService.Initializer()
-        {
-            HttpClientInitializer = credentialToken.Credential,
-            ApplicationName = Constants.ApplicationName
-        })
+            {
+                HttpClientInitializer = credentialToken.Credential,
+                ApplicationName = Constants.ApplicationName
+            })
         {
             _calendarId = Constants.CalendarId;
         }
 
         public async Task<bool> DeleteEventAsync(string id)
         {
-            throw new System.NotImplementedException();
+            string result = await base.Events.Delete(_calendarId, id).ExecuteAsync();
+
+            if (result != null) return true;
+            else return false;
         }
 
         public async Task<Event> GetEventByIdAsync(string id)
         {
-            throw new System.NotImplementedException();
+            {
+                Event result = await base.Events.Get(_calendarId, id).ExecuteAsync();
+
+                return result;
+            }
         }
 
-        public async Task<IEnumerable<Event>> GetEventsAsync(
-            bool includeCancelled = false,
-            string calendarId = Constants.CalendarId)
+        public async Task<IEnumerable<Event>> GetEventsAsync(bool includeCancelled = false)
         {
-            EventsResource.ListRequest request = base.Events.List(calendarId);
+            EventsResource.ListRequest request = base.Events.List(_calendarId);
             request.ShowDeleted = includeCancelled;
 
             Events result = await request.ExecuteAsync();
@@ -50,9 +55,12 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             return createdEvent;
         }
 
-        public async Task<bool> UpdateEventAsync(Event obj)
+        public async Task<bool> UpdateEventAsync(string id, Event obj)
         {
-            throw new System.NotImplementedException();
+            var updatedEvent = await base.Events.Update(obj, _calendarId, id).ExecuteAsync();
+
+            if (updatedEvent != null) return true;
+            else return false;
         }
     }
 }

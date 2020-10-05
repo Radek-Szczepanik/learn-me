@@ -114,7 +114,6 @@ namespace LearnMe.Core.Services.Calendar
             {
                 return null;
             }
-
         }
 
         public async Task<CalendarEventDto> GetEventByIdAsync(int id)
@@ -133,7 +132,9 @@ namespace LearnMe.Core.Services.Calendar
             if (eventFromDbToUpdate != null)
             {
                 toUpdateData.CalendarId = eventFromDbToUpdate.CalendarId;
-                await _externalCalendarService.UpdateEventAsync(new Event()
+                await _externalCalendarService.UpdateEventAsync(
+                    eventFromDbToUpdate.CalendarId,
+                    new Event()
                 {
                     Summary = toUpdateData.Title
                     // TODO Populate event properties from argument data
