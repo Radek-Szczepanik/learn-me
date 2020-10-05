@@ -1,12 +1,13 @@
-﻿using System;
+﻿using AutoMapper;
+using LearnMe.Core.DTO.HomeDTO;
+using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Home;
+using LearnMe.Infrastructure.Repository.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LearnMe.Infrastructure.Data;
-using LearnMe.Infrastructure.Models.Domains.Home;
 
 namespace LearnMe.Controllers.Home
 {
@@ -15,96 +16,76 @@ namespace LearnMe.Controllers.Home
     public class ExercisesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-
-        public ExercisesController(ApplicationDbContext context)
+        private readonly ICrudRepository<Exercises> _crudRepository;
+        private readonly IMapper _mapper;
+                
+        public ExercisesController(ICrudRepository<Exercises> crudRepository, ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _crudRepository = crudRepository;
+            _mapper = mapper;
         }
 
-        // GET: api/Exercises
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Exercise>>> GetExercises()
+        public async Task<ActionResult<IEnumerable<Exercises>>> GetAllExercises(int itemsPerPage = 5, int pageNumber = 1)
         {
-            return await _context.Exercises.ToListAsync();
+            var exercises = await _crudRepository.GetAllAsync(itemsPerPage, pageNumber);
+            var exercisesToReturn = _mapper.Map<IEnumerable<ExercisesDTO>>(exercises);
+
+            return Ok(exercisesToReturn);
         }
 
-        // GET: api/Exercises/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Exercise>> GetExercise(int id)
+        public async Task<ActionResult<Exercises>> GetExercise(int id)
         {
-            var exercise = await _context.Exercises.FindAsync(id);
+            var exercise = await _crudRepository.GetByIdAsync(id);
 
             if (exercise == null)
-            {
                 return NotFound();
-            }
 
-            return exercise;
+            return Ok(exercise);
         }
 
-        // PUT: api/Exercises/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutExercise(int id, Exercise exercise)
+        [HttpPost]
+        public async Task<ActionResult<Exercises>> AddExercise(Exercises exercise)
         {
-            if (id != exercise.Id)
+            await _crudRepository.InsertAsync(exercise);
+            await _crudRepository.SaveAsync();
+
+            return Ok(exercise);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Exercises>> EditExercise(int id, Exercises exercise)
+        {
+            if (id != exercise.Id && !ExerciseExists(id))
             {
                 return BadRequest();
             }
 
-            _context.Entry(exercise).State = EntityState.Modified;
+            await _crudRepository.UpdateAsync(exercise);
+            await _crudRepository.SaveAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ExerciseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(exercise);
         }
 
-        // POST: api/Exercises
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Exercise>> PostExercise(Exercise exercise)
-        {
-            _context.Exercises.Add(exercise);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetExercise", new { id = exercise.Id }, exercise);
-        }
-
-        // DELETE: api/Exercises/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Exercise>> DeleteExercise(int id)
+        public async Task<ActionResult<Exercises>> DeleteExercise(int id)
         {
-            var exercise = await _context.Exercises.FindAsync(id);
+            var exercise = await _crudRepository.GetByIdAsync(id);
+
             if (exercise == null)
-            {
                 return NotFound();
-            }
 
-            _context.Exercises.Remove(exercise);
-            await _context.SaveChangesAsync();
+            await _crudRepository.DeleteAsync(exercise);
+            await _crudRepository.SaveAsync();
 
-            return exercise;
+            return Ok(exercise);
         }
 
         private bool ExerciseExists(int id)
         {
             return _context.Exercises.Any(e => e.Id == id);
         }
-    }
+    }   
 }

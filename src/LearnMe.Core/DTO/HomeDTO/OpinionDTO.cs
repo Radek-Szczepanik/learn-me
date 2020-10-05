@@ -1,9 +1,9 @@
 ﻿using LearnMe.Infrastructure.Models.Base;
 using System.ComponentModel.DataAnnotations;
 
-namespace LearnMe.Infrastructure.Models.Domains.Home
+namespace LearnMe.Core.DTO.HomeDTO
 {
-    public class Opinion : BaseHome
+    class OpinionDTO : BaseHome
     {
         [Required(ErrorMessage = "This field is required")]
         [Range(0, 5)]

@@ -24,6 +24,7 @@ namespace LearnMe.Infrastructure.Repository
 
             if (toBeDeleted != null)
             {
+
                 _context.Remove(toBeDeleted);
 
                 return await SaveAsync();

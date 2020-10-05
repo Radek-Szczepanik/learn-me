@@ -1,16 +1,11 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using LearnMe.Infrastructure.Data;
 using LearnMe.Infrastructure.Models.Domains.Users;
-using LearnMe.Shared.Enum;
-using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LearnMe.Controllers.Account
 {
@@ -21,10 +16,12 @@ namespace LearnMe.Controllers.Account
     {
         private readonly ApplicationDbContext _context;
 
+        private readonly IMapper _mapper;
 
-        public AccountController(ApplicationDbContext context)
+        public AccountController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
 
