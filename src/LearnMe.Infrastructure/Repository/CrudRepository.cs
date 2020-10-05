@@ -27,22 +27,26 @@ namespace LearnMe.Infrastructure.Repository
                 _context.Remove(toBeDeleted);
 
                 return await SaveAsync();
-            }
-            else
+            } else
             {
-                // TODO How to make difference between id not found to not deleted
-                // to return correct HTTP response 404 or we shall return 404 at all times
-                // (either not successful delete or id not found ?)
                 return false;
             }
         }
         public async Task<IEnumerable<T>> GetAllAsync(int itemsPerPage, int pageNumber)
         {
-            return await _context.Set<T>()
-                                 .Skip((pageNumber - 1) * itemsPerPage)
-                                 .Take(itemsPerPage)
-                                 .AsNoTracking()
-                                 .ToListAsync();
+            if (itemsPerPage > 0 && pageNumber > 0)
+            {
+                return await _context.Set<T>()
+                                                 .Skip((pageNumber - 1) * itemsPerPage)
+                                                 .Take(itemsPerPage)
+                                                 .AsNoTracking()
+                                                 .ToListAsync();
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
         public async Task<T> GetByIdAsync(object id)
@@ -54,18 +58,20 @@ namespace LearnMe.Infrastructure.Repository
                 _context.Entry(found).State = EntityState.Detached;
 
                 return found;
-            }
-            else
+            } else
             {
                 return null;
             }
         }
 
-        public async Task<bool> InsertAsync(T obj)
+        public async Task<T> InsertAsync(T obj)
         {
-            await _context.AddAsync<T>(obj);
-            
-            return await SaveAsync();
+            var inserted = await _context.AddAsync<T>(obj);
+            bool isSuccess = await SaveAsync();
+
+            var newEvent = inserted.Entity;
+
+            return newEvent ?? null;
         }
 
         public async Task<bool> SaveAsync()

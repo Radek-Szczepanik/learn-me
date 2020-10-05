@@ -9,7 +9,7 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
 
         Task<T> GetByIdAsync(object id);
         
-        Task<bool> InsertAsync(T obj);
+        Task<T> InsertAsync(T obj);
         
         Task<bool> UpdateAsync(T obj);
         

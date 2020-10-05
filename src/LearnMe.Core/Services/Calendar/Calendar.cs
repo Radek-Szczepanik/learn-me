@@ -2,10 +2,8 @@
 using LearnMe.Core.DTO.Calendar;
 using LearnMe.Core.Interfaces.Services;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using LearnMe.Core.Services.Calendar.Utils;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
@@ -16,38 +14,35 @@ using LearnMe.Shared.Enum.Calendar;
 
 namespace LearnMe.Core.Services.Calendar
 {
-    public class GoogleCalendar : ICalendar
+    public class Calendar : ICalendar
     {
-        
         private readonly ICrudRepository<CalendarEvent> _repository;
-        private readonly ICalendarService<Event> _calendarService;
+        private readonly IExternalCalendarService<Event> _externalCalendarService;
         private readonly ISynchronizer _synchronizer;
         private readonly IMapper _mapper;
         private readonly IEventBuilder _eventBuilder;
-        private readonly ILogger<GoogleCalendar> _logger;
+        private readonly ILogger<Calendar> _logger;
 
-        public GoogleCalendar(
+        public Calendar(
             ICrudRepository<CalendarEvent> repository,
-            ICalendarService<Event> calendarService,
-            ISynchronizer synchronizer, 
-            IMapper mapper, 
+            IExternalCalendarService<Event> externalCalendarService,
+            ISynchronizer synchronizer,
+            IMapper mapper,
             IEventBuilder eventBuilder,
-            ILogger<GoogleCalendar> logger)
+            ILogger<Calendar> logger)
         {
-            
-
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _calendarService = calendarService ?? throw new ArgumentNullException(nameof(calendarService));
+            _externalCalendarService = externalCalendarService ?? throw new ArgumentNullException(nameof(externalCalendarService));
             _synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _eventBuilder = eventBuilder ?? throw new ArgumentNullException(nameof(eventBuilder));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<bool> CreateEventAsync(
-            CalendarEventDto eventData, 
-            string calendarId = Constants.CalendarId, 
-            string timezone = Constants.Timezone, 
+        public async Task<CalendarEventDto> CreateEventAsync(
+            CalendarEventDto eventData,
+            string calendarId = Constants.CalendarId,
+            string timezone = Constants.Timezone,
             bool isRecurringEvent = false,
             Recurrence period = Recurrence.DAILY,
             int recurringEventsCount = 5,
@@ -55,6 +50,7 @@ namespace LearnMe.Core.Services.Calendar
         {
             CalendarEvent newDbEvent = _mapper.Map<CalendarEvent>(eventData);
 
+            // Google Event
             _eventBuilder.BuildBasicEventWithDescription(
                 newDbEvent.Title,
                 newDbEvent?.Start,
@@ -66,9 +62,21 @@ namespace LearnMe.Core.Services.Calendar
                 _eventBuilder.SetRecurrence(period, recurringEventsCount, recurUntilDateTime);
             }
 
-           
+            var newCalendarEvent = await _externalCalendarService.InsertEventAsync(_eventBuilder.GetEvent());
 
-            return await _repository.InsertAsync(newDbEvent);
+            // Back to DB event
+            newDbEvent.CalendarId = newCalendarEvent.Id;
+
+            var insertedDbEvent = await _repository.InsertAsync(newDbEvent);
+
+            if (insertedDbEvent != null)
+            {
+                return _mapper.Map<CalendarEventDto>(insertedDbEvent);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<bool> DeleteEventAsync(int id)
@@ -76,7 +84,7 @@ namespace LearnMe.Core.Services.Calendar
             var eventToBeDeleted = await _repository.GetByIdAsync(id);
             if (eventToBeDeleted != null)
             {
-                await _calendarService.DeleteEventAsync(eventToBeDeleted.CalendarId);
+                await _externalCalendarService.DeleteEventAsync(eventToBeDeleted.CalendarId);
             }
 
             return await _repository.DeleteAsync(id);
@@ -88,8 +96,7 @@ namespace LearnMe.Core.Services.Calendar
             string calendarId = Constants.CalendarId)
         {
             // Step 1 - synchronize Google calendar with DB
-            //await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_googleCrudAccess, _calendarService, _repository);
-            await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_calendarService, _repository);
+            await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_externalCalendarService, _repository);
 
             // Step 2 - get all data from DB
             var eventsResult = await _repository.GetAllAsync(eventsPerPage, pageNumber);
@@ -119,11 +126,11 @@ namespace LearnMe.Core.Services.Calendar
             if (eventFromDbToUpdate != null)
             {
                 toUpdateData.CalendarId = eventFromDbToUpdate.CalendarId;
-                await _calendarService.UpdateEventAsync(new Event()
+                await _externalCalendarService.UpdateEventAsync(new Event()
                 {
                     Summary = toUpdateData.Title
                     // TODO Populate event properties from argument data
-                }); 
+                });
             }
 
             return await _repository.UpdateAsync(toUpdateData);

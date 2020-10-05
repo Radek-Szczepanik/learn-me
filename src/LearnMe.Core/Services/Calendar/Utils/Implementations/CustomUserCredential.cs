@@ -28,7 +28,7 @@
 
 //        public async Task<UserCredential> GetTokenFromAPI()
 //        {
-//            string[] Scopes = { CustomCalendarService.Scope.Calendar };
+//            string[] Scopes = { ExternalCalendarService.Scope.Calendar };
 //            using var stream =
 //                new FileStream("..\\LearnMe.Core\\Services\\Calendar\\Utils\\Credentials\\credentials.json",
 //                    FileMode.Open, FileAccess.Read);

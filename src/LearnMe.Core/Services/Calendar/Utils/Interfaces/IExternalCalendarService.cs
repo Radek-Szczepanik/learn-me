@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
 {
-    public interface ICalendarService<T> where T : class
+    public interface IExternalCalendarService<T> where T : class
     {
         Task<bool> DeleteEventAsync(string id);
 

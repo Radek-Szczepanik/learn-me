@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using LearnMe.Core.DTO.Calendar;
 using LearnMe.Core.Interfaces.Services;
+using LearnMe.Infrastructure.Models.Domains.Calendar;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -14,13 +16,16 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
     public class CalendarEventsController : Controller
     {
         private readonly ICalendar _calendar;
+        private readonly IMapper _mapper;
         private readonly ILogger<CalendarEventsController> _logger;
 
         public CalendarEventsController(
             ICalendar calendar,
+            IMapper mapper,
             ILogger<CalendarEventsController> logger)
         {
             _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -39,10 +44,6 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            // TODO: Consider another option:
-            // The below code returns 204 No Content when id not found:
-            //return Ok(await _calendar.GetEventByIdAsync(id)); 
-
             var result = await _calendar.GetEventByIdAsync(id);
 
             if (result != null)
@@ -57,7 +58,21 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         // POST api/<controller>
         [HttpPost]
         public async Task<ActionResult<bool>> PostAsync([FromBody] CalendarEventDto eventData)
-            => Ok(await _calendar.CreateEventAsync(eventData));
+        {
+            var newEvent = await _calendar.CreateEventAsync(eventData);
+
+            if (newEvent != null)
+            {
+                //TODO update - retrieve Id from DB of the newly created record to provide address to creator
+                //var newEventMappingToRetrieveId = _mapper.Map<CalendarEvent>(newEvent);
+                //return CreatedAtAction(nameof(GetByIdAsync), new {Id = newEventMappingToRetrieveId.Id}, newEvent);
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        } 
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
