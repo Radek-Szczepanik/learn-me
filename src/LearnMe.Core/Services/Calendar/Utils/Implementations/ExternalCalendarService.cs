@@ -11,7 +11,8 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
     {
         private readonly string _calendarId;
 
-        public ExternalCalendarService(IToken credentialToken) : base(new BaseClientService.Initializer()
+        public ExternalCalendarService(IToken credentialToken)
+            : base(new BaseClientService.Initializer()
         {
             HttpClientInitializer = credentialToken.Credential,
             ApplicationName = Constants.ApplicationName
