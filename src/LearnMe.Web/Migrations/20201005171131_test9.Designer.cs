@@ -4,14 +4,16 @@ using LearnMe.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LearnMe.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201005171131_test9")]
+    partial class test9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -233,16 +235,12 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("StudentId1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("SumToPayInPLN")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentId1");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("InvoiceBasics");
                 });
@@ -334,14 +332,11 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("LessonId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserLessons");
                 });
@@ -404,9 +399,6 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("FromUserId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FromUserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("MessageText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -418,14 +410,11 @@ namespace LearnMe.Web.Migrations
                     b.Property<int>("ToUserId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ToUserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("FromUserId1");
+                    b.HasIndex("FromUserId");
 
-                    b.HasIndex("ToUserId1");
+                    b.HasIndex("ToUserId");
 
                     b.ToTable("Messages");
                 });
@@ -443,6 +432,87 @@ namespace LearnMe.Web.Migrations
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PhoneNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Postcode")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RegistrationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserGroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserGroupId");
+
+                    b.ToTable("UserBasic");
+                });
+
+            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserGroup", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionalDesription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserGroups");
+                });
+
+            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserIdentity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -475,9 +545,6 @@ namespace LearnMe.Web.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -490,14 +557,8 @@ namespace LearnMe.Web.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("UserGroupId")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(256)")
@@ -513,35 +574,7 @@ namespace LearnMe.Web.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.HasIndex("UserGroupId");
-
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionalDesription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserInvoiceData", b =>
@@ -551,7 +584,13 @@ namespace LearnMe.Web.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserInvoiceDatas");
                 });
@@ -695,7 +734,7 @@ namespace LearnMe.Web.Migrations
                 {
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", "Student")
                         .WithMany("InvoicesList")
-                        .HasForeignKey("StudentId1")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -730,7 +769,9 @@ namespace LearnMe.Web.Migrations
 
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", "User")
                         .WithMany("UserLessons")
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Lessons.UserLessonHomework", b =>
@@ -765,11 +806,15 @@ namespace LearnMe.Web.Migrations
                 {
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", "FromUser")
                         .WithMany()
-                        .HasForeignKey("FromUserId1");
+                        .HasForeignKey("FromUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", "ToUser")
                         .WithMany()
-                        .HasForeignKey("ToUserId1");
+                        .HasForeignKey("ToUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", b =>
@@ -777,6 +822,15 @@ namespace LearnMe.Web.Migrations
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserGroup", "UserGroup")
                         .WithMany("UsersList")
                         .HasForeignKey("UserGroupId");
+                });
+
+            modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserInvoiceData", b =>
+                {
+                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", "User")
+                        .WithOne("InvoiceData")
+                        .HasForeignKey("LearnMe.Infrastructure.Models.Domains.Users.UserInvoiceData", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -790,7 +844,7 @@ namespace LearnMe.Web.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", null)
+                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserIdentity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -799,7 +853,7 @@ namespace LearnMe.Web.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", null)
+                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserIdentity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -814,7 +868,7 @@ namespace LearnMe.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", null)
+                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserIdentity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -823,7 +877,7 @@ namespace LearnMe.Web.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", null)
+                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserIdentity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

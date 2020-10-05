@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using LearnMe.Infrastructure.Repository;
 using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Users;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using LearnMe.Core.DTO.Config;
@@ -49,12 +50,15 @@ namespace LearnMe.Web
             });
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), b=> b.MigrationsAssembly("LearnMe.Web")));
+            services.AddDefaultIdentity<UserBasic>(options => options.SignIn.RequireConfirmedAccount = true)
+                   .AddEntityFrameworkStores<ApplicationDbContext>();
+
 
             services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
             services.AddScoped<ICalendar, GoogleCalendar>();
             services.AddScoped<IGoogleCRUD, GoogleCRUD>();
             services.AddScoped<ISynchronizer, Synchronizer>();
-
+                
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 
             services.AddSingleton<IEventBuilder, EventBuilder>();

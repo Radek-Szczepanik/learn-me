@@ -24,7 +24,7 @@ namespace LearnMe.Controllers.Account
 
         public AccountController(ApplicationDbContext context)
         {
-            _context = context;
+           _context = context;
         }
 
 

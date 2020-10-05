@@ -13,6 +13,8 @@
     <PackageReference Include="Google.Apis" Version="1.49.0" />
     <PackageReference Include="Google.Apis.Auth" Version="1.49.0" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.49.0.2086" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.8">
       <PrivateAssets>all</PrivateAssets>
