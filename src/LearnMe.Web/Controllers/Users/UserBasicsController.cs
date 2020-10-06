@@ -10,8 +10,6 @@ using LearnMe.Core.DTO.User;
 using LearnMe.Infrastructure.Models.Domains.Users;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using LearnMe.Core.DTO.Config;
-using LearnMe.Core.Interfaces.DTO;
-
 
 namespace LearnMe.Controllers.Users
 {
@@ -19,18 +17,17 @@ namespace LearnMe.Controllers.Users
     [ApiController]
     public class UserBasicsController : ControllerBase
     {
-           private readonly ICrudRepository<UserRegistrationDto> _crudRepositoryRegistration;
            private readonly ICrudRepository<UserBasicDto> _crudRepositoryBasic;
 
 
-        public UserBasicsController(ICrudRepository<UserRegistrationDto> crudRepositoryRegistration,
-            ICrudRepository<UserBasicDto> crudRepositoryBasic)
-            {
-                _crudRepositoryRegistration = crudRepositoryRegistration;
-                _crudRepositoryBasic = crudRepositoryBasic;
+        //public UserBasicsController(ICrudRepository<UserRegistrationDto> crudRepositoryRegistration,
+        //    ICrudRepository<UserBasicDto> crudRepositoryBasic)
+        //    {
+        //        _crudRepositoryRegistration = crudRepositoryRegistration;
+        //        _crudRepositoryBasic = crudRepositoryBasic;
 
 
-            }
+        //    }
 
         //// GET: api/News
         //[HttpGet]
@@ -40,12 +37,12 @@ namespace LearnMe.Controllers.Users
         //}
 
 
-        // GET: api/UserBasics
-        [HttpGet]
-        public async Task<IEnumerable<UserBasicDto>> GetUsers()
-        {
-            return await _crudRepositoryBasic.GetAllAsync(100, 1);
-        }
+        //// GET: api/UserBasics
+        //[HttpGet]
+        //public async Task<IEnumerable<UserBasicDto>> GetUsers()
+        //{
+        //    return await _crudRepositoryBasic.GetAllAsync(100, 1);
+        //}
 
         //// GET: api/UserBasics/5
         //[HttpGet("{id}")]
@@ -91,12 +88,12 @@ namespace LearnMe.Controllers.Users
         //}
 
 
-        [HttpPost]
-        public async Task<bool> AddUser(UserRegistrationDto user)
-        {
-            await _crudRepositoryRegistration.InsertAsync(user);
-            return true; 
-        }
+        //[HttpPost]
+        //public async Task<bool> AddUser(UserRegistrationDto user)
+        //{
+        //    await _crudRepositoryRegistration.InsertAsync(user);
+        //    return true; 
+        //}
 
         //// DELETE: api/UserBasics/5
         //[HttpDelete("{id}")]

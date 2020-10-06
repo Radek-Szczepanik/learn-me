@@ -6,11 +6,7 @@ using LearnMe.Infrastructure.Data;
 using LearnMe.Infrastructure.Models.Domains.Users;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using LearnMe.Core.DTO.User;
-using LearnMe.Core.Interfaces.DTO;
-using LearnMe.Core.DTO.Config;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 
 namespace LearnMe.Infrastructure.Repository
 {
@@ -18,14 +14,10 @@ namespace LearnMe.Infrastructure.Repository
 
     {
         private readonly ApplicationDbContext _context;
-        private readonly IRepositoryMapper<T> _mapper;
 
-
-
-        public CrudRepository(ApplicationDbContext context, IRepositoryMapper<T> mapper)
+        public CrudRepository(ApplicationDbContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<bool> DeleteAsync(object id)
@@ -34,6 +26,7 @@ namespace LearnMe.Infrastructure.Repository
 
             if (toBeDeleted != null)
             {
+
                 _context.Remove(toBeDeleted);
 
                 return await SaveAsync();
@@ -48,19 +41,11 @@ namespace LearnMe.Infrastructure.Repository
         }
         public async Task<IEnumerable<T>> GetAllAsync(int itemsPerPage, int pageNumber)
         {
-            if (typeof(T) == typeof(UserBasicDto))
-            {
-                var userList = await _context.Set<UserBasic>()
-                               .Skip((pageNumber - 1) * itemsPerPage)
-                               .Take(itemsPerPage)
-                               .AsNoTracking()
-                               .ToListAsync();
-               
-                return (IEnumerable<T>)_mapper.UserDtoMapperGetAll(userList);
-            }
-
-            return null;
-
+            return await _context.Set<T>()
+                                 .Skip((pageNumber - 1) * itemsPerPage)
+                                 .Take(itemsPerPage)
+                                 .AsNoTracking()
+                                 .ToListAsync();
         }
 
         public async Task<T> GetByIdAsync(object id)
@@ -81,11 +66,8 @@ namespace LearnMe.Infrastructure.Repository
 
         public async Task<bool> InsertAsync(T obj)
         {
-            if (obj.GetType() == typeof(UserLoginDto) || obj.GetType() == typeof(UserRegistrationDto))
-            {
-               await _context.AddAsync(_mapper.UserDtoMapper(obj));
-            }
-                    
+            await _context.AddAsync<T>(obj);
+
             return await SaveAsync();
         }
 
@@ -102,7 +84,5 @@ namespace LearnMe.Infrastructure.Repository
 
             return await SaveAsync();
         }
-
-        
     }
 }

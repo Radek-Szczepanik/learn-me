@@ -16,7 +16,7 @@ namespace LearnMe.Infrastructure.Models.Domains.Users
 
         //[Required(ErrorMessage = "This field is required")]
         //public string LastName { get; set; }
-              
+
         ////[Required(ErrorMessage = "This field is required")]
         //public int PhoneNumber { get; set; }
 
@@ -42,7 +42,7 @@ namespace LearnMe.Infrastructure.Models.Domains.Users
 
         public IList<UserLesson> UserLessons { get; set; }
 
-        //public UserInvoiceData InvoiceData { get; set; }
+        public UserInvoiceData InvoiceData { get; set; }
 
     }
 }

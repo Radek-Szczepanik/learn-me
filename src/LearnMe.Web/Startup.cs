@@ -17,7 +17,6 @@ using LearnMe.Core.Services.Calendar.Utils.Implementations;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.OpenApi.Models;
-using LearnMe.Core.Interfaces.DTO;
 
 
 namespace LearnMe.Web
@@ -63,7 +62,6 @@ namespace LearnMe.Web
 
             services.AddSingleton<IEventBuilder, EventBuilder>();
 
-            services.AddScoped(typeof(IRepositoryMapper<>), typeof(RepositoryMapper<>));
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
