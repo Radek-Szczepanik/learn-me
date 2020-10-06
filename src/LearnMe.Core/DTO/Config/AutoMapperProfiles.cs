@@ -18,8 +18,8 @@ namespace LearnMe.Core.DTO.Config
 
             CreateMap<UserGroup, UserGroupDto>();
             CreateMap<UserInvoiceData, UserInvoiceDataDto>();
-            CreateMap<UserBasic, UserLoginDto>();
-            CreateMap<UserBasic, RegisterDto>();
+            CreateMap<UserBasic, LoginDto>();
+            
 
             CreateMap<CalendarEvent, CalendarEventDto>();
             CreateMap<CalendarEventDto, CalendarEvent>();

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LearnMe.Core.DTO.Account
 {
     public class RegisterDto
-    {
+    {   
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -22,5 +22,9 @@ namespace LearnMe.Core.DTO.Account
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+
+        public string UserName { get => Email; set { } }
+        
     }
 }

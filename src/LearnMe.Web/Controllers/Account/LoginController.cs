@@ -10,22 +10,30 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 namespace LearnMe.Web.Controllers.Account
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class LoginController : ControllerBase
     { 
         private readonly UserManager<UserBasic> _userManager;
         private readonly SignInManager<UserBasic> _signInManager;
         private readonly ILogger<LoginController> _logger;
+        private readonly IMapper _mapper;
+
 
         public LoginController(SignInManager<UserBasic> signInManager,
             ILogger<LoginController> logger,
-            UserManager<UserBasic> userManager)
+            UserManager<UserBasic> userManager,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _mapper = mapper;
+
         }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
@@ -36,24 +44,20 @@ namespace LearnMe.Web.Controllers.Account
         public string ErrorMessage { get; set; }
 
         [HttpPost]
-        public async Task<IActionResult> OnPostAsync(RegisterDto Input, string returnUrl = null)
+        public async Task<ActionResult> OnPostAsync(LoginDto input, string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            //returnUrl = returnUrl ?? Url.Content("~/");
 
-            if (ModelState.IsValid)
-            {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var result = await _signInManager.PasswordSignInAsync(input.Email, input.Password, input.RememberMe, lockoutOnFailure: false);
+                
+               if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                return Ok();
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
@@ -63,12 +67,9 @@ namespace LearnMe.Web.Controllers.Account
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
-            }
+                return NotFound();
 
-            // If we got this far, something failed, redisplay form
-            return Page();
+                }
         }
     }
 }

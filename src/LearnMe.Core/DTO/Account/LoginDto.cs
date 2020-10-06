@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LearnMe.Core.DTO.Account
 {
-    class LoginDto
+    public class LoginDto
     {
         [Required]
         [EmailAddress]
