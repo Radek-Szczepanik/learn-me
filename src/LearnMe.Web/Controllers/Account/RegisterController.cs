@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using LearnMe.Core.DTO.Account;
 using LearnMe.Infrastructure.Models.Domains.Users;
@@ -10,8 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 
 namespace LearnMe.Web.Controllers.Account
@@ -21,42 +19,38 @@ namespace LearnMe.Web.Controllers.Account
     [AllowAnonymous]
     public class RegisterController : ControllerBase
     {
-
-
         private readonly SignInManager<UserBasic> _signInManager;
         private readonly UserManager<UserBasic> _userManager;
         private readonly ILogger<RegisterController> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IMapper _mapper;
 
         public RegisterController(
                 UserManager<UserBasic> userManager,
                 SignInManager<UserBasic> signInManager,
                 ILogger<RegisterController> logger,
-                IEmailSender emailSender)
+                IEmailSender emailSender,
+                IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _mapper = mapper;
         }   
-        public RegisterDto Input;
-        public string ReturnUrl { get; set; }
+        //public string ReturnUrl { get; set; }
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        //public async Task OnGetAsync(string returnUrl = null)
-        //{
-        //    ReturnUrl = returnUrl;
-        //    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        //}
 
         [HttpPost]
-        public async Task<ActionResult<RegisterDto>> OnPostAsync(RegisterDto Input, string returnUrl = null)
+        public async Task<ActionResult<RegisterDto>> OnPostAsync(RegisterDto input, string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            //returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            var user = new UserBasic { UserName = Input.Email, Email = Input.Email };
-            var result = await _userManager.CreateAsync(user, Input.Password);
+
+            var user = _mapper.Map<UserBasic>(input);
+            var result = await _userManager.CreateAsync(user, input.Password);
 
             if (result.Succeeded)
             {
