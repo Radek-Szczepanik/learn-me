@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
-using LearnMe.Infrastructure.Models.Domains.Shop;
 using LearnMe.Shared.Enum.Calendar;
 
 namespace LearnMe.Core.Services.Calendar.Utils.Implementations
