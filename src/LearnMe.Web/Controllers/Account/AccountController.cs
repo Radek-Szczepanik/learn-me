@@ -24,8 +24,15 @@ namespace LearnMe.Controllers.Account
 
         public AccountController(ApplicationDbContext context)
         {
-            _context = context;
+           _context = context;
         }
+
+
+
+
+
+
+
 
 
         //[HttpPost] //TODO: spr. atrybuty
@@ -34,10 +41,7 @@ namespace LearnMe.Controllers.Account
         //{
         //    if (ModelState.IsValid)
         //    {
-        //        var temp = GetHash(user.Password);
-        //        user.Password = temp;
-        //        user.RegistrationDate = DateTime.UtcNow;
-        //        user.Status = Status.Inactive;
+        //        
         //        _context.Add(user);
         //        await _context.SaveChangesAsync();
         //        return RedirectToAction("Index", "Account");
@@ -77,10 +81,10 @@ namespace LearnMe.Controllers.Account
         }
 
 
-        [HttpPost]
-        public async Task<bool> LogIn(UserLogin user)
+    //    [HttpPost]
+   //     public bool LogIn(UserLogin user)
 
-        {
+  //      {
             //ClaimsIdentity identity = null;
                 
             //if (ModelState.IsValid)
@@ -130,8 +134,8 @@ namespace LearnMe.Controllers.Account
             //        return true;
             //    }
             //}
-            return false;
-        }
+   //         return false;
+    //    }
 
         [HttpOptions]
         public bool Logout()
