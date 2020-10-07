@@ -12,18 +12,13 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using LearnMe.Core.DTO.Config;
 using LearnMe.Core.Interfaces.Services;
-using LearnMe.Core.Services.Calendar;
 using LearnMe.Core.Services.Calendar.Utils.Implementations;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.OpenApi.Models;
-using System.IO;
-using System.Threading;
 using Google.Apis.Calendar.v3.Data;
-using Google.Apis.Util.Store;
 using LearnMe.Core.Services.Account.Email;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
 
 namespace LearnMe.Web
 {
