@@ -19,7 +19,7 @@ using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.OpenApi.Models;
 using LearnMe.Core.Services.Account.Email;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace LearnMe.Web
 {
