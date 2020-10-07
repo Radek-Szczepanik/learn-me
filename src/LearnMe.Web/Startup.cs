@@ -17,6 +17,8 @@ using LearnMe.Core.Services.Calendar.Utils.Implementations;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.OpenApi.Models;
+using LearnMe.Core.Services.Account.Email;
+
 
 
 namespace LearnMe.Web
@@ -62,6 +64,11 @@ namespace LearnMe.Web
 
             services.AddSingleton<IEventBuilder, EventBuilder>();
 
+            var emailConfig = Configuration
+               .GetSection("EmailConfiguration")
+               .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -102,6 +109,9 @@ namespace LearnMe.Web
             });
 
             app.UseRouting();
+
+            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

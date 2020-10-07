@@ -10,6 +10,8 @@ using LearnMe.Core.DTO.User;
 using LearnMe.Infrastructure.Models.Domains.Users;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using LearnMe.Core.DTO.Config;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LearnMe.Controllers.Users
 {
@@ -17,24 +19,30 @@ namespace LearnMe.Controllers.Users
     [ApiController]
     public class UserBasicsController : ControllerBase
     {
-           private readonly ICrudRepository<UserBasicDto> _crudRepositoryBasic;
+        private readonly ICrudRepository<UserBasic> _crudRepository;
+        private readonly IMapper _mapper;
 
 
-        //public UserBasicsController(ICrudRepository<UserRegistrationDto> crudRepositoryRegistration,
-        //    ICrudRepository<UserBasicDto> crudRepositoryBasic)
-        //    {
-        //        _crudRepositoryRegistration = crudRepositoryRegistration;
-        //        _crudRepositoryBasic = crudRepositoryBasic;
+        public UserBasicsController(
+            ICrudRepository<UserBasic> crudRepository,
+            IMapper mapper)
+        {
+            _crudRepository = crudRepository;
+            _mapper = mapper;
 
 
-        //    }
 
-        //// GET: api/News
-        //[HttpGet]
-        //public async Task<IEnumerable<UserBasicDto>> GetNews()
-        //{   
-        //       return await _crudRepository.GetAllAsync(10, 1);
-        //}
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserBasicDto>>> GetUser()
+        {
+            var temp1 = User.Identities.ToList();
+            var temp = await _crudRepository.GetAllAsync(10, 1);
+            return Ok(temp);
+            // return  Ok(_mapper.Map<IEnumerable<UserBasicDto>>(users));
+        }
 
 
         //// GET: api/UserBasics

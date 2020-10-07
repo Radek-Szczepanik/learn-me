@@ -6,12 +6,12 @@ using LearnMe.Infrastructure.Models.Domains.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
-
-
+using LearnMe.Core.Services.Account.Email;
+using LearnMe.Core.Interfaces.Services;
+    
 namespace LearnMe.Web.Controllers.Account
 {
     [ApiController]
@@ -37,13 +37,13 @@ namespace LearnMe.Web.Controllers.Account
             _logger = logger;
             _emailSender = emailSender;
             _mapper = mapper;
-        }   
+        }
         //public string ReturnUrl { get; set; }
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
 
         [HttpPost]
-        public async Task<ActionResult<RegisterDto>> OnPostAsync(RegisterDto input, string returnUrl = null)
+        public async Task<ActionResult<RegisterDto>> OnPostAsync(RegisterDto input)
         {
             //returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -56,34 +56,34 @@ namespace LearnMe.Web.Controllers.Account
             {
                 _logger.LogInformation("User created a new account with password.");
 
-            //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            //    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            //    var callbackUrl = Url.Page(
-            //        "/Account/ConfirmEmail",
-            //        pageHandler: null,
-            //        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-            //        protocol: Request.Scheme);
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var confirmationLink = Url.Action("Register", "api", new { token, email = user.Email }, Request.Scheme);
+                var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
+                await _emailSender.SendEmailAsync(message);
+                //await _userManager.AddToRoleAsync(user, "Visitor");
 
-            //    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-            //        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-            //    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-            //    {
-            //        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-            //    }
-            //    else
-            //    {
-            //        await _signInManager.SignInAsync(user, isPersistent: false);
-            //        return LocalRedirect(returnUrl);
-            //    }
-            }
-            foreach (var error in result.Errors)
+                
+            }            foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return Ok(result);
-        }   
-       
+
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var token1 = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            if (user == null)
+                return Ok("Error");
+
+            var result = await _userManager.ConfirmEmailAsync(user, token1);
+            return Ok(result.Succeeded ? nameof(ConfirmEmail) : "Error");
+        }
     }
 }
 
