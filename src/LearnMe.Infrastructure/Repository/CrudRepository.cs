@@ -27,7 +27,8 @@ namespace LearnMe.Infrastructure.Repository
                 _context.Remove(toBeDeleted);
 
                 return await SaveAsync();
-            } else
+            }
+            else
             {
                 return false;
             }
@@ -41,8 +42,7 @@ namespace LearnMe.Infrastructure.Repository
                                                  .Take(itemsPerPage)
                                                  .AsNoTracking()
                                                  .ToListAsync();
-            }
-            else
+            } else
             {
                 return null;
             }

@@ -56,7 +56,7 @@ namespace LearnMe.Web
                 return token;
             });
 
-            services.AddScoped<IExternalCalendarService<Event>, ExternalCalendarService>();
+            services.AddScoped(typeof(IExternalCalendarService<>), typeof(ExternalCalendarService));
             services.AddScoped<ICalendar, Core.Services.Calendar.Calendar>();
             services.AddScoped<ISynchronizer, Synchronizer>();
 

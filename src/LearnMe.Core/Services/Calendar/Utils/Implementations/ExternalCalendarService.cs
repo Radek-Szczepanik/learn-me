@@ -25,8 +25,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         {
             string result = await base.Events.Delete(_calendarId, id).ExecuteAsync();
 
-            if (result != null) return true;
-            else return false;
+            return result != null;
         }
 
         public async Task<Event> GetEventByIdAsync(string id)
@@ -59,8 +58,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         {
             var updatedEvent = await base.Events.Update(obj, _calendarId, id).ExecuteAsync();
 
-            if (updatedEvent != null) return true;
-            else return false;
+            return updatedEvent != null;
         }
     }
 }
