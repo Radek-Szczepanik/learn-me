@@ -51,7 +51,7 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         }
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "EventById")]
         public async Task<ActionResult<CalendarEventDto>> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -77,10 +77,10 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
             {
                 //Added calendarId to DTO
                 var newEventDbObject = await _calendarEventsRepository.GetByCalendarIdAsync(newEvent.CalendarId);
-                // TODO: update to CreatedAtRoute since for CreatedAtAction the value is WRONG: location: https://localhost:44359/CalendarEvents/GetByIdAsync/162
-                return CreatedAtAction(nameof(GetByIdAsync), new { id = newEventDbObject.Id }, newEvent);
-                //return CreatedAtRoute(nameof(GetByIdAsync), new { id = newEventDbObject.Id }, newEvent);
-            } else
+                
+                return CreatedAtRoute("EventById", new { id = newEventDbObject.Id }, newEvent);
+            }
+            else
             {
                 return NotFound();
             }
@@ -100,7 +100,8 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
             if (result)
             {
                 return Ok(result);
-            } else
+            }
+            else
             {
                 return NotFound();
             }
