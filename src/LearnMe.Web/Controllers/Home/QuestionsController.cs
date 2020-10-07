@@ -1,12 +1,10 @@
-﻿using System;
+﻿using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Home;
+using LearnMe.Infrastructure.Repository.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LearnMe.Infrastructure.Data;
-using LearnMe.Infrastructure.Models.Domains.Home;
 
 namespace LearnMe.Controllers.Home
 {
@@ -15,96 +13,69 @@ namespace LearnMe.Controllers.Home
     public class QuestionsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ICrudRepository<Question> _crudRepository;
 
-        public QuestionsController(ApplicationDbContext context)
+        public QuestionsController(ApplicationDbContext context, ICrudRepository<Question> crudRepository)
         {
             _context = context;
+            _crudRepository = crudRepository;
         }
 
-        // GET: api/Questions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
+        public async Task<ActionResult<IEnumerable<Question>>> GetAllQuestions(int itemsPerPage = 5, int pageNumber = 1)
         {
-            return await _context.Questions.ToListAsync();
+            return Ok(await _crudRepository.GetAllAsync(itemsPerPage, pageNumber));
         }
 
-        // GET: api/Questions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Question>> GetQuestion(int id)
         {
-            var question = await _context.Questions.FindAsync(id);
+            var question = await _crudRepository.GetByIdAsync(id);
 
             if (question == null)
-            {
                 return NotFound();
-            }
 
-            return question;
+            return Ok(question);
         }
 
-        // PUT: api/Questions/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutQuestion(int id, Question question)
+        public async Task<IActionResult> EditQuestion(int id, Question question)
         {
-            if (id != question.Id)
-            {
-                return BadRequest();
-            }
+            if (id != question.Id && !QuestionExists(id))
+                return NotFound();
 
-            _context.Entry(question).State = EntityState.Modified;
+            await _crudRepository.UpdateAsync(question);
+            await _crudRepository.SaveAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!QuestionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(question);
         }
 
-        // POST: api/Questions
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Question>> PostQuestion(Question question)
+        public async Task<ActionResult<Question>> AddQuestion(Question question)
         {
-            _context.Questions.Add(question);
-            await _context.SaveChangesAsync();
+            await _crudRepository.InsertAsync(question);
+            await _crudRepository.SaveAsync();
 
-            return CreatedAtAction("GetQuestion", new { id = question.Id }, question);
+            return Ok(question);
         }
 
-        // DELETE: api/Questions/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Question>> DeleteQuestion(int id)
         {
-            var question = await _context.Questions.FindAsync(id);
+            var question = await _crudRepository.GetByIdAsync(id);
+
             if (question == null)
-            {
                 return NotFound();
-            }
 
-            _context.Questions.Remove(question);
-            await _context.SaveChangesAsync();
+            await _crudRepository.DeleteAsync(question);
+            await _crudRepository.SaveAsync();
 
-            return question;
+            return Ok(question);
         }
 
         private bool QuestionExists(int id)
         {
-            return _context.Questions.Any(e => e.Id == id);
+            return _context.Questions.Any(q => q.Id == id);
         }
     }
 }

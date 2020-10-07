@@ -22,7 +22,7 @@ namespace LearnMe.Infrastructure.Data
 
         public DbSet<CalendarEvent> CalendarEvents { get; set; }
 
-        public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<Exercises> Exercises { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Opinion> Opinions { get; set; }
         public DbSet<Portfolio> Portfolios { get; set; }

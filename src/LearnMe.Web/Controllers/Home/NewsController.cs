@@ -1,113 +1,84 @@
-﻿using System;
+﻿using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Home;
+using LearnMe.Infrastructure.Repository.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LearnMe.Infrastructure.Models.Domains.Home;
-using LearnMe.Core.Interfaces;
-using LearnMe.Infrastructure.Repository.Interfaces;
 
-namespace LearnMe.Web.Controllers.Home
+namespace LearnMe.Controllers.Home
 {
     [Route("api/[controller]")]
     [ApiController]
     public class NewsController : ControllerBase
     {
-        private readonly ICrudRepository<News> _home;
+        private readonly ApplicationDbContext _context;
+        private readonly ICrudRepository<News> _crudRepository;
 
-        public NewsController(ICrudRepository<News> home)
+        public NewsController(ICrudRepository<News> crudRepository, ApplicationDbContext context)
         {
-            _home = home;
+            _context = context;
+            _crudRepository = crudRepository;
         }
-                
 
-        // GET: api/News
         [HttpGet]
-        public async Task<IEnumerable<News>> GetNews()
+        public async Task<ActionResult<IEnumerable<News>>> GetAllNews(int itemsPerPage = 5, int pageNumber = 1)
         {
-            // TODO Add pagination at the very beginning of the implementation
-            return await _home.GetAllAsync(10, 1);
+            return Ok(await _crudRepository.GetAllAsync(itemsPerPage, pageNumber));
         }
 
-        //// GET: api/News/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<News>> GetNews(int id)
-        //{
-        //    var news = await _context.News.FindAsync(id);
+        [HttpGet("{id}")]
+        public async Task<ActionResult<News>> GetNews(int id)
+        {
+            var exercise = await _crudRepository.GetByIdAsync(id);
 
-        //    if (news == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (exercise == null)
+                return NotFound();
 
-        //    return news;
-        //}
+            return Ok(exercise);
+        }
 
-        //// PUT: api/News/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutNews(int id, News news)
-        //{
-        //    if (id != news.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPost]
+        public async Task<ActionResult<News>> AddNews(News news)
+        {
+            await _crudRepository.InsertAsync(news);
+            await _crudRepository.SaveAsync();
 
-        //    _context.Entry(news).State = EntityState.Modified;
+            return Ok(news);
+        }
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!NewsExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+        [HttpPut("{id}")]
+        public async Task<ActionResult<News>> EditNews(int id, News news)
+        {
+            if (id != news.Id && !NewsExists(id))
+            {
+                return BadRequest();
+            }
 
-        //    return NoContent();
-        //}
+            await _crudRepository.UpdateAsync(news);
+            await _crudRepository.SaveAsync();
 
-        //// POST: api/News
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPost]
-        //public async Task<ActionResult<News>> PostNews(News news)
-        //{
-        //    _context.News.Add(news);
-        //    await _context.SaveChangesAsync();
+            return Ok(news);
+        }
 
-        //    return CreatedAtAction("GetNews", new { id = news.Id }, news);
-        //}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<News>> DeleteNews(int id)
+        {
+            var news = await _crudRepository.GetByIdAsync(id);
 
-        //// DELETE: api/News/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<News>> DeleteNews(int id)
-        //{
-        //    var news = await _context.News.FindAsync(id);
-        //    if (news == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (news == null)
+                return NotFound();
 
-        //    _context.News.Remove(news);
-        //    await _context.SaveChangesAsync();
+            await _crudRepository.DeleteAsync(news);
+            await _crudRepository.SaveAsync();
 
-        //    return news;
-        //}
+            return Ok(news);
+        }
 
-        //private bool NewsExists(int id)
-        //{
-        //    return _context.News.Any(e => e.Id == id);
-        //}
+        private bool NewsExists(int id)
+        {
+            return _context.News.Any(n => n.Id == id);
+        }
     }
 }
