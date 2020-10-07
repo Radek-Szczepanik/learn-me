@@ -4,14 +4,16 @@ using LearnMe.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LearnMe.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201005172435_test10")]
+    partial class test10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -461,9 +463,6 @@ namespace LearnMe.Web.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("InvoiceDataId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -507,8 +506,6 @@ namespace LearnMe.Web.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InvoiceDataId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -779,10 +776,6 @@ namespace LearnMe.Web.Migrations
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", b =>
                 {
-                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserInvoiceData", "InvoiceData")
-                        .WithMany()
-                        .HasForeignKey("InvoiceDataId");
-
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserGroup", "UserGroup")
                         .WithMany("UsersList")
                         .HasForeignKey("UserGroupId");

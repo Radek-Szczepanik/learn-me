@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Users;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace LearnMe.Infrastructure.Repository
 {
@@ -65,7 +67,7 @@ namespace LearnMe.Infrastructure.Repository
         public async Task<bool> InsertAsync(T obj)
         {
             await _context.AddAsync<T>(obj);
-            
+
             return await SaveAsync();
         }
 

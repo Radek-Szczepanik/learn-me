@@ -1,11 +1,16 @@
-﻿using AutoMapper;
-using LearnMe.Infrastructure.Data;
-using LearnMe.Infrastructure.Models.Domains.Users;
+﻿using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Users;
+using LearnMe.Shared.Enum;
+using System.Collections.Generic;
 
 namespace LearnMe.Controllers.Account
 {
@@ -16,13 +21,18 @@ namespace LearnMe.Controllers.Account
     {
         private readonly ApplicationDbContext _context;
 
-        private readonly IMapper _mapper;
 
-        public AccountController(ApplicationDbContext context, IMapper mapper)
+        public AccountController(ApplicationDbContext context)
         {
-            _context = context;
-            _mapper = mapper;
+           _context = context;
         }
+
+
+
+
+
+
+
 
 
         //[HttpPost] //TODO: spr. atrybuty
@@ -31,10 +41,7 @@ namespace LearnMe.Controllers.Account
         //{
         //    if (ModelState.IsValid)
         //    {
-        //        var temp = GetHash(user.Password);
-        //        user.Password = temp;
-        //        user.RegistrationDate = DateTime.UtcNow;
-        //        user.Status = Status.Inactive;
+        //        
         //        _context.Add(user);
         //        await _context.SaveChangesAsync();
         //        return RedirectToAction("Index", "Account");
@@ -74,10 +81,10 @@ namespace LearnMe.Controllers.Account
         }
 
 
-        [HttpPost]
-        public async Task<bool> LogIn(UserLogin user)
+    //    [HttpPost]
+   //     public bool LogIn(UserLogin user)
 
-        {
+  //      {
             //ClaimsIdentity identity = null;
                 
             //if (ModelState.IsValid)
@@ -127,8 +134,8 @@ namespace LearnMe.Controllers.Account
             //        return true;
             //    }
             //}
-            return false;
-        }
+   //         return false;
+    //    }
 
         [HttpOptions]
         public bool Logout()

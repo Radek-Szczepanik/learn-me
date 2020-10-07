@@ -4,14 +4,16 @@ using LearnMe.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LearnMe.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201005231325_ver11")]
+    partial class ver11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -461,9 +463,6 @@ namespace LearnMe.Web.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("InvoiceDataId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -478,9 +477,6 @@ namespace LearnMe.Web.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -493,9 +489,6 @@ namespace LearnMe.Web.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -507,8 +500,6 @@ namespace LearnMe.Web.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InvoiceDataId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -699,7 +690,7 @@ namespace LearnMe.Web.Migrations
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Invoice.InvoiceBasic", b =>
                 {
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", "Student")
-                        .WithMany("InvoicesList")
+                        .WithMany()
                         .HasForeignKey("StudentId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -734,7 +725,7 @@ namespace LearnMe.Web.Migrations
                         .IsRequired();
 
                     b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", "User")
-                        .WithMany("UserLessons")
+                        .WithMany()
                         .HasForeignKey("UserId1");
                 });
 
@@ -779,11 +770,7 @@ namespace LearnMe.Web.Migrations
 
             modelBuilder.Entity("LearnMe.Infrastructure.Models.Domains.Users.UserBasic", b =>
                 {
-                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserInvoiceData", "InvoiceData")
-                        .WithMany()
-                        .HasForeignKey("InvoiceDataId");
-
-                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserGroup", "UserGroup")
+                    b.HasOne("LearnMe.Infrastructure.Models.Domains.Users.UserGroup", null)
                         .WithMany("UsersList")
                         .HasForeignKey("UserGroupId");
                 });
