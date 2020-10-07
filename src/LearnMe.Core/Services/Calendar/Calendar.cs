@@ -129,16 +129,20 @@ namespace LearnMe.Core.Services.Calendar
             toUpdateData.Id = id;
 
             var eventFromDbToUpdate = await _repository.GetByIdAsync(id);
+            
             if (eventFromDbToUpdate != null)
             {
                 toUpdateData.CalendarId = eventFromDbToUpdate.CalendarId;
+
+                _eventBuilder.BuildBasicEventWithDescription(
+                    toUpdateData.Title,
+                    toUpdateData.Start,
+                    toUpdateData.End,
+                    toUpdateData.Description);
+
                 await _externalCalendarService.UpdateEventAsync(
-                    eventFromDbToUpdate.CalendarId,
-                    new Event()
-                {
-                    Summary = toUpdateData.Title
-                    // TODO Populate event properties from argument data
-                });
+                    toUpdateData.CalendarId,
+                    _eventBuilder.GetEvent());
             }
 
             return await _repository.UpdateAsync(toUpdateData);
