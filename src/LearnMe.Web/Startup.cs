@@ -18,8 +18,8 @@ using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.OpenApi.Models;
 using LearnMe.Core.Services.Account.Email;
-
-
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LearnMe.Web
 {
@@ -43,7 +43,6 @@ namespace LearnMe.Web
             });
 
 
-            services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -53,7 +52,22 @@ namespace LearnMe.Web
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), b=> b.MigrationsAssembly("LearnMe.Web")));
             services.AddDefaultIdentity<UserBasic>(options => options.SignIn.RequireConfirmedAccount = true)
                    .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.Cookie.Name = "YourAppCookieName";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                options.LoginPath = "/Identity/Account/";
+               
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+            });
 
+            //services.AddMvc(options =>
+            //{
+            //    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            //});
 
             services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
             services.AddScoped<ICalendar, GoogleCalendar>();
@@ -63,6 +77,8 @@ namespace LearnMe.Web
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 
             services.AddSingleton<IEventBuilder, EventBuilder>();
+
+
 
             var emailConfig = Configuration
                .GetSection("EmailConfiguration")
@@ -109,9 +125,8 @@ namespace LearnMe.Web
             });
 
             app.UseRouting();
-
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -132,6 +147,7 @@ namespace LearnMe.Web
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
         }
     }
 }

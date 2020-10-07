@@ -11,12 +11,12 @@ using Microsoft.Extensions.Logging;
 using AutoMapper;
 using LearnMe.Core.Services.Account.Email;
 using LearnMe.Core.Interfaces.Services;
-    
+
+
 namespace LearnMe.Web.Controllers.Account
 {
     [ApiController]
     [Route("api/[controller]")]
-    [AllowAnonymous]
     public class RegisterController : ControllerBase
     {
         private readonly SignInManager<UserBasic> _signInManager;
@@ -43,6 +43,7 @@ namespace LearnMe.Web.Controllers.Account
 
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult<RegisterDto>> OnPostAsync(RegisterDto input)
         {
             //returnUrl = returnUrl ?? Url.Content("~/");

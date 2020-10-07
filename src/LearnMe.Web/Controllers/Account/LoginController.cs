@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace LearnMe.Web.Controllers.Account
 {
@@ -44,16 +46,16 @@ namespace LearnMe.Web.Controllers.Account
         public string ErrorMessage { get; set; }
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> OnPostAsync(LoginDto input, string returnUrl = null)
         {
             //returnUrl = returnUrl ?? Url.Content("~/");
 
                 var result = await _signInManager.PasswordSignInAsync(input.Email, input.Password, input.RememberMe, lockoutOnFailure: false);
-                
-               if (result.Succeeded)
+            if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                return Ok();
+                return Ok("User logged in.");
                 }
                 if (result.RequiresTwoFactor)
                 {

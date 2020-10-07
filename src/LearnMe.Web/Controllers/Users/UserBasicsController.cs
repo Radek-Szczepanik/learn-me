@@ -36,7 +36,7 @@ namespace LearnMe.Controllers.Users
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserBasicDto>>> GetUser()
+        public async Task<ActionResult<IEnumerable<UserBasic>>> GetUser()
         {
             var temp1 = User.Identities.ToList();
             var temp = await _crudRepository.GetAllAsync(10, 1);
