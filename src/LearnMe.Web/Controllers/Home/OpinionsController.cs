@@ -1,12 +1,11 @@
-﻿using System;
+﻿using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Home;
+using LearnMe.Infrastructure.Repository.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LearnMe.Infrastructure.Data;
-using LearnMe.Infrastructure.Models.Domains.Home;
 
 namespace LearnMe.Controllers.Home
 {
@@ -15,96 +14,69 @@ namespace LearnMe.Controllers.Home
     public class OpinionsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ICrudRepository<Opinion> _crudRepository;
 
-        public OpinionsController(ApplicationDbContext context)
+        public OpinionsController(ApplicationDbContext context, ICrudRepository<Opinion> crudRepository)
         {
             _context = context;
+            _crudRepository = crudRepository;
         }
 
-        // GET: api/Opinions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Opinion>>> GetOpinions()
+        public async Task<ActionResult<IEnumerable<Opinion>>> GetAllOpinions(int itemsPerPage = 5, int pageNumber = 1)
         {
-            return await _context.Opinions.ToListAsync();
+            return Ok(await _crudRepository.GetAllAsync(itemsPerPage, pageNumber));
         }
 
-        // GET: api/Opinions/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Opinion>> GetOpinion(int id)
         {
-            var opinion = await _context.Opinions.FindAsync(id);
+            var opinion = await _crudRepository.GetByIdAsync(id);
 
             if (opinion == null)
-            {
                 return NotFound();
-            }
 
-            return opinion;
+            return Ok(opinion);
         }
 
-        // PUT: api/Opinions/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutOpinion(int id, Opinion opinion)
+        public async Task<IActionResult> EditOpinion(int id, Opinion opinion)
         {
-            if (id != opinion.Id)
-            {
-                return BadRequest();
-            }
+            if (id != opinion.Id && !OpinionExists(id))
+                return NotFound();
 
-            _context.Entry(opinion).State = EntityState.Modified;
+            await _crudRepository.UpdateAsync(opinion);
+            await _crudRepository.SaveAsync();
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OpinionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return Ok(opinion);
         }
 
-        // POST: api/Opinions
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Opinion>> PostOpinion(Opinion opinion)
+        public async Task<ActionResult<Opinion>> AddOpinion(Opinion opinion)
         {
-            _context.Opinions.Add(opinion);
-            await _context.SaveChangesAsync();
+            await _crudRepository.InsertAsync(opinion);
+            await _crudRepository.SaveAsync();
 
-            return CreatedAtAction("GetOpinion", new { id = opinion.Id }, opinion);
+            return Ok(opinion);
         }
 
-        // DELETE: api/Opinions/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Opinion>> DeleteOpinion(int id)
         {
-            var opinion = await _context.Opinions.FindAsync(id);
+            var opinion = await _crudRepository.GetByIdAsync(id);
+
             if (opinion == null)
-            {
                 return NotFound();
-            }
 
-            _context.Opinions.Remove(opinion);
-            await _context.SaveChangesAsync();
+            await _crudRepository.DeleteAsync(opinion);
+            await _crudRepository.SaveAsync();
 
-            return opinion;
+            return Ok(opinion);
         }
 
         private bool OpinionExists(int id)
         {
-            return _context.Opinions.Any(e => e.Id == id);
+            return _context.Opinions.Any(o => o.Id == id);
         }
     }
 }

@@ -8,14 +8,21 @@ using LearnMe.Infrastructure.Models.Domains.Lessons;
 using LearnMe.Infrastructure.Models.Domains.Mail;
 using LearnMe.Infrastructure.Models.Domains.Shop;
 using LearnMe.Infrastructure.Models.Domains.Users;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LearnMe.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<UserBasic>
     {
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+           : base(options)
+        {
+        }
+
         public DbSet<CalendarEvent> CalendarEvents { get; set; }
 
-        public DbSet<Exercise> Exercises { get; set; }
+        public DbSet<Exercises> Exercises { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<Opinion> Opinions { get; set; }
         public DbSet<Portfolio> Portfolios { get; set; }
@@ -35,17 +42,11 @@ namespace LearnMe.Infrastructure.Data
 
         public DbSet<Product> Products { get; set; }
 
-        public DbSet<UserBasic> Users { get; set; }
+        //public DbSet<UserBasic> UserBasic { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<UserInvoiceData> UserInvoiceDatas { get; set; }
-        public DbSet<UserLogin> UserLogins { get; set; }
-        public DbSet<UserRegistration> UserRegistrations { get; set; }
+   
 
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-
-        }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
