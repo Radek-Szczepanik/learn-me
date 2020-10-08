@@ -17,9 +17,13 @@ using LearnMe.Core.Services.Calendar.Utils.Implementations;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.OpenApi.Models;
+using System.IO;
+using System.Threading;
+using Google.Apis.Calendar.v3.Data;
+using Google.Apis.Util.Store;
 using LearnMe.Core.Services.Account.Email;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace LearnMe.Web
 {
@@ -32,24 +36,22 @@ namespace LearnMe.Web
 
         public IConfiguration Configuration { get; }
 
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Learn Me API", Version = "v1" });
             });
 
-
-            // In production, the Angular files will be served from this directory
+            services.AddControllersWithViews();
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), b=> b.MigrationsAssembly("LearnMe.Web")));
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), 
+                b=> b.MigrationsAssembly("LearnMe.Web")));
             services.AddDefaultIdentity<UserBasic>(options => options.SignIn.RequireConfirmedAccount = true)
                    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.ConfigureApplicationCookie(options =>
@@ -64,21 +66,22 @@ namespace LearnMe.Web
                 options.SlidingExpiration = true;
             });
 
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-            //});
+            services.AddSingleton<ITokenService, TokenService>();
+            services.AddSingleton<IToken>(provider =>
+            {
+                var tokenService = provider.GetService<ITokenService>();
+                var token = tokenService.GetToken().GetAwaiter().GetResult();
+                return token;
+            });
 
-            services.AddScoped<IGoogleAPIconnection, GoogleAPIconnection>();
-            services.AddScoped<ICalendar, GoogleCalendar>();
-            services.AddScoped<IGoogleCRUD, GoogleCRUD>();
+            services.AddScoped<IExternalCalendarService<Event>, ExternalCalendarService>();
+            services.AddScoped<ICalendar, Core.Services.Calendar.Calendar>();
             services.AddScoped<ISynchronizer, Synchronizer>();
                 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
+            services.AddScoped(typeof(ICalendarEventsRepository), typeof(CalendarEventsRepository));
 
             services.AddSingleton<IEventBuilder, EventBuilder>();
-
-
 
             var emailConfig = Configuration
                .GetSection("EmailConfiguration")
@@ -95,7 +98,6 @@ namespace LearnMe.Web
             services.AddSingleton(mapper);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -125,6 +127,7 @@ namespace LearnMe.Web
             });
 
             app.UseRouting();
+            
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -147,7 +150,6 @@ namespace LearnMe.Web
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-
         }
     }
 }

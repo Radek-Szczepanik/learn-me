@@ -13,5 +13,7 @@ namespace LearnMe.Core.DTO.Calendar
         public DateTime End { get; set; }
 
         public bool IsDone { get; set; }
+
+        public string CalendarId { get; set; }
     }
 }
