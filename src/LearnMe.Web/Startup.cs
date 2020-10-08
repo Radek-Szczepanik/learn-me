@@ -78,8 +78,6 @@ namespace LearnMe.Web
 
             services.AddSingleton<IEventBuilder, EventBuilder>();
 
-
-
             var emailConfig = Configuration
                .GetSection("EmailConfiguration")
                .Get<EmailConfiguration>();
