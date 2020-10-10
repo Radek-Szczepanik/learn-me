@@ -53,9 +53,7 @@ namespace LearnMe.Web
                 options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), 
                 b=> b.MigrationsAssembly("LearnMe.Web")));
             services.AddIdentity<UserBasic, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                //.AddRoles<UserRoles>()
-                //.AddRoleManager<Role>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders(); ;
               
 
             services.ConfigureApplicationCookie(options =>

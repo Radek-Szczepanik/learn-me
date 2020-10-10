@@ -29,16 +29,12 @@ namespace LearnMe.Controllers.Users
         {
             _crudRepository = crudRepository;
             _mapper = mapper;
-
-
-
         }
 
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserBasic>>> GetUser()
         {
-            var temp1 = User.Identities.ToList();
             var temp = await _crudRepository.GetAllAsync(10, 1);
             return Ok(temp);
             // return  Ok(_mapper.Map<IEnumerable<UserBasicDto>>(users));
