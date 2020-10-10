@@ -50,23 +50,34 @@ namespace LearnMe.Web
             });
 
             services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), 
-                b=> b.MigrationsAssembly("LearnMe.Web")));
+                options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"),
+                b => b.MigrationsAssembly("LearnMe.Web")));
             services.AddIdentity<UserBasic, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders(); ;
-              
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
 
             services.ConfigureApplicationCookie(options =>
-            { 
+            {
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.Cookie.Name = "YourAppCookieName";
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.LoginPath = "/Identity/Account/";
-               
+
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });
+
+            services.AddAuthentication()
+            .AddGoogle(options =>
+             {
+             IConfigurationSection googleAuthNSection =
+             Configuration.GetSection("Authentication:Google");
+
+            options.ClientId = googleAuthNSection["ClientId"];
+            options.ClientSecret = googleAuthNSection["ClientSecret"];
+             options.SignInScheme = IdentityConstants.ExternalScheme;
+             });
 
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IToken>(provider =>
@@ -79,7 +90,7 @@ namespace LearnMe.Web
             services.AddScoped<IExternalCalendarService<Event>, ExternalCalendarService>();
             services.AddScoped<ICalendar, Core.Services.Calendar.Calendar>();
             services.AddScoped<ISynchronizer, Synchronizer>();
-                
+
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
             services.AddScoped(typeof(ICalendarEventsRepository), typeof(CalendarEventsRepository));
 
@@ -105,7 +116,8 @@ namespace LearnMe.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            } else
+            }
+            else
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -129,7 +141,7 @@ namespace LearnMe.Web
             });
 
             app.UseRouting();
-            
+
             app.UseAuthentication();
             app.UseAuthorization();
 
