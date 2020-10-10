@@ -4,14 +4,12 @@ using System.Threading.Tasks;
 using LearnMe.Core.DTO.Account;
 using LearnMe.Infrastructure.Models.Domains.Users;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
 using LearnMe.Core.Services.Account.Email;
 using LearnMe.Core.Interfaces.Services;
-using LearnMe.Shared.Enum;
 
 
 namespace LearnMe.Web.Controllers.Account
@@ -64,8 +62,7 @@ namespace LearnMe.Web.Controllers.Account
                 //var group = new UserRole();
                 await _emailSender.SendEmailAsync(message);
                 await _userManager.AddToRoleAsync(user, "test");
-
-                
+               
             }            foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);

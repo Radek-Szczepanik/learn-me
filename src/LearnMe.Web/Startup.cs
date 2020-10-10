@@ -52,13 +52,14 @@ namespace LearnMe.Web
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), 
                 b=> b.MigrationsAssembly("LearnMe.Web")));
-            services.AddDefaultIdentity<UserBasic>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
+            services.AddIdentity<UserBasic, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+                //.AddRoles<UserRoles>()
+                //.AddRoleManager<Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
               
 
             services.ConfigureApplicationCookie(options =>
-            {
+            { 
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.Cookie.Name = "YourAppCookieName";
                 options.Cookie.HttpOnly = true;
