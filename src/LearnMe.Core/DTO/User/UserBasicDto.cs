@@ -67,7 +67,6 @@ namespace LearnMe.Core.DTO.User
         public DateTime RegistrationDate { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
-        public UserRole Role { get; set; }
 
         public UserStatus Status { get; set; }
 

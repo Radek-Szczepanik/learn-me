@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using LearnMe.Core.DTO.Account;
 using LearnMe.Infrastructure.Models.Domains.Users;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -38,7 +37,7 @@ namespace LearnMe.Web.Controllers.Account
             _emailSender = emailSender;
             _mapper = mapper;
         }
-        //public string ReturnUrl { get; set; }
+
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
 
@@ -61,16 +60,13 @@ namespace LearnMe.Web.Controllers.Account
                 var confirmationLink = Url.Action("Register", "api", new { token, email = user.Email }, Request.Scheme);
                 var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
                 await _emailSender.SendEmailAsync(message);
-                //await _userManager.AddToRoleAsync(user, "Visitor");
-
-                
+                await _userManager.AddToRoleAsync(user, "Student");
+               
             }            foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             return Ok(result);
-
-
         }
 
         [HttpGet]
