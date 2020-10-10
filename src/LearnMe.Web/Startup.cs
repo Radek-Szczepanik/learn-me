@@ -23,7 +23,7 @@ using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Util.Store;
 using LearnMe.Core.Services.Account.Email;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace LearnMe.Web
 {
@@ -53,7 +53,10 @@ namespace LearnMe.Web
                 options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"), 
                 b=> b.MigrationsAssembly("LearnMe.Web")));
             services.AddDefaultIdentity<UserBasic>(options => options.SignIn.RequireConfirmedAccount = true)
-                   .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+              
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";

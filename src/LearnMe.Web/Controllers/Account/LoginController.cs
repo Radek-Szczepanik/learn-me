@@ -73,6 +73,14 @@ namespace LearnMe.Web.Controllers.Account
 
                 }
         }
+
+        [HttpOptions]
+        public bool Logout()
+        {
+            var login = HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //TODO: Redirect to Home
+            return true;
+        }
     }
 }
 
