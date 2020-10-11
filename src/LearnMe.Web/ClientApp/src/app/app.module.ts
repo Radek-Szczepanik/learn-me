@@ -9,6 +9,10 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
+import { CalendarService } from './services/calendar/calendar-service';
+
+import { DxSchedulerModule } from 'devextreme-angular';
 
 @NgModule({
   declarations: [
@@ -16,7 +20,8 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    CalendarViewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -26,9 +31,13 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-    ])
+      { path: 'calendar-view', component: CalendarViewComponent },
+    ]),
+    DxSchedulerModule,
   ],
-  providers: [],
+  providers: [
+    CalendarService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

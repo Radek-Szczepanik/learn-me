@@ -9,10 +9,12 @@
   },
   "files": [
     "test.ts",
-    "polyfills.ts"
+    "polyfills.ts",
+    "./services/calendar/calendar-service.ts"
   ],
   "include": [
     "**/*.spec.ts",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "./services/calendar/calendar-service.ts"
   ]
 }

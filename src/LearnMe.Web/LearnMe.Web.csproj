@@ -46,8 +46,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\services\calendar\calendar-service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LearnMe.Core\LearnMe.Core.csproj" />
     <ProjectReference Include="..\LearnMe.Infrastructure\LearnMe.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-service.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
