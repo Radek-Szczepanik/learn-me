@@ -36,7 +36,7 @@ namespace LearnMe.Infrastructure.Repository
                 return false;
             }
         }
-        public async Task<IEnumerable<T>> GetAllAsync(int itemsPerPage, int pageNumber)
+        public async Task<IEnumerable<T>> GetAllAsync(int itemsPerPage = 10, int pageNumber = 1)
         {
             if (itemsPerPage > 0 && pageNumber > 0)
             {
