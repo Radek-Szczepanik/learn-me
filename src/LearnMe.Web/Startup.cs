@@ -55,6 +55,16 @@ namespace LearnMe.Web
             services.AddIdentity<UserBasic, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
+            services.AddAuthentication()
+            .AddGoogle(options =>
+             {
+             IConfigurationSection googleAuthNSection =
+             Configuration.GetSection("Authentication:Google");
+
+            options.ClientId = googleAuthNSection["ClientId"];
+            options.ClientSecret = googleAuthNSection["ClientSecret"];
+                // options.SignInScheme = IdentityConstants.ExternalScheme;
+             });
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -68,16 +78,6 @@ namespace LearnMe.Web
                 options.SlidingExpiration = true;
             });
 
-            services.AddAuthentication()
-            .AddGoogle(options =>
-             {
-             IConfigurationSection googleAuthNSection =
-             Configuration.GetSection("Authentication:Google");
-
-            options.ClientId = googleAuthNSection["ClientId"];
-            options.ClientSecret = googleAuthNSection["ClientSecret"];
-             options.SignInScheme = IdentityConstants.ExternalScheme;
-             });
 
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IToken>(provider =>

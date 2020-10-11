@@ -25,48 +25,30 @@ namespace LearnMe.Web.Controllers.Account
         [HttpGet]
         public IActionResult GoogleLogin()
         {
-            string redirectUrl = Url.Action("GoogleResponse", "Account");
+            string redirectUrl = Url.Action("", "response");
             var properties = signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
             return new ChallengeResult("Google", properties);
         }
 
-        [HttpOptions]
+        [HttpGet]
+        [Route("/response")]
+
         public async Task<IActionResult> GoogleResponse()
         {
             ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
             if (info == null)
                 return Ok();
 
-            //var result = await signInManager.ExternalLoginSignInAsync(info.Principal, info.ProviderKey, false);
-            string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value };
+            var userInfo = info.Principal.FindFirst(ClaimTypes.Email).Value;
+            var user = await userManager.FindByEmailAsync(userInfo);
 
-            var usera = userManager.FindByEmailAsync(userInfo[1]);
-            //usera.
-          //  var result = signInManager.PasswordSignInAsync(usera.)
-            
-
-            if (usera == null)
-                return Ok(userInfo);
-            else
+            if (user != null)
             {
-                UserBasic user = new UserBasic
-                {
-                    Email = info.Principal.FindFirst(ClaimTypes.Email).Value,
-                    UserName = info.Principal.FindFirst(ClaimTypes.Email).Value
-                };
-
-                IdentityResult identResult = await userManager.CreateAsync(user);
-                if (identResult.Succeeded)
-                {
-                    identResult = await userManager.AddLoginAsync(user, info);
-                    if (identResult.Succeeded)
-                    {
-                        await signInManager.SignInAsync(user, false);
-                        return Ok();
-                    }
-                }
+                await signInManager.SignInAsync(user, false);
                 return Ok();
             }
+
+            return NotFound();
         }
     }
 }
