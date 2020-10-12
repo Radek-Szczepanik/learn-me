@@ -1,25 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Repository.Interfaces;
-
 
 namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 {
     public class Synchronizer : ISynchronizer
     {
         public async Task<int> SynchronizeDatabaseWithCalendarAsync(
-            IGoogleCRUD googleCalendarAccess,
-            CalendarService calendarService,
+            IExternalCalendarService<Event> externalCalendarService,
             ICrudRepository<CalendarEvent> repository,
             string calendarId = Constants.CalendarId)
         {
             int synchronizedRowsCounter = 0;
 
-            IEnumerable<Event> eventsFromCalendarResult = await googleCalendarAccess.GetAllEventsAsync(calendarService, maxNumberOfResults:10);
+            IEnumerable<Event> eventsFromCalendarResult = await externalCalendarService.GetEventsAsync();
 
             IList<string> databaseCalendarIds = await Helpers.GetListOfCalendarIdsFromDatabase(repository);
 

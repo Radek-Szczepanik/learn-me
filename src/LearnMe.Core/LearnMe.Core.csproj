@@ -12,17 +12,21 @@
     <PackageReference Include="AngularJS.Route" Version="1.8.0" />
     <PackageReference Include="AngularJS.Sanitize" Version="1.8.0" />
     <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
 
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
    
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\LearnMe.Shared\LearnMe.Shared.csproj" />
-    <ProjectReference Include="..\LearnMe.Infrastructure\LearnMe.Infrastructure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\LearnMe.Shared\LearnMe.Shared.csproj" />
+		<ProjectReference Include="..\LearnMe.Infrastructure\LearnMe.Infrastructure.csproj" />
+	</ItemGroup>
 
   <ItemGroup>
     <None Update="Services\Calendar\Utils\Credentials\credentials.json">
