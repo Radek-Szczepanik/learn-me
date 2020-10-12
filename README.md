@@ -10,7 +10,7 @@ Modular web application for foreign language tutors (with a possibility to be ex
 - Clean Architecture
 - Angular powered Bootstrap
 - AutoMapper
-- Sqagger
+- Swagger
 - ASP.NET Identity
 - Angular 10
 - Entity Framework Core
