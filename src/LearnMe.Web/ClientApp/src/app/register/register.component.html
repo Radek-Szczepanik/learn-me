@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <form #registerForm="ngForm" (ngSubmit)="register()">
+      <h2 style="text-align: center; margin-top: 10px">Rejestracja</h2>
+      <hr />
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="First Name" required name="FirstName" [(ngModel)]="model.firstName" />
+        </div>
+   
+
+      <div class="form-group">
+        <input type="password" class="form-control" placeholder="Hasło" required name="password" [(ngModel)]="model.password" />
+      </div>
+
+      <div class="form-group text-center">
+        <button class="btn-primary btn-success mr-3" type="submit">Zarejestruj się</button>
+        <button class="btn-primary btn-danger" type="button" [routerLink]="['/home']">Anuluj</button>
+      </div>
+    </form>
+  </div>
+</div>
