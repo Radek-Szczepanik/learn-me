@@ -13,8 +13,8 @@ namespace LearnMe.Web.Controllers.Account
     [ApiController]
     public class LoginGoogleController : ControllerBase
     {
-        private UserManager<UserBasic> userManager;
-        private SignInManager<UserBasic> signInManager;
+        private readonly UserManager<UserBasic> userManager;
+        private readonly SignInManager<UserBasic> signInManager;
 
         public LoginGoogleController(UserManager<UserBasic> userMgr, SignInManager<UserBasic> signinMgr)
         {
@@ -45,10 +45,9 @@ namespace LearnMe.Web.Controllers.Account
             if (user != null)
             {
                 await signInManager.SignInAsync(user, false);
-                return Ok();
+                return Ok("Logged in :)");
             }
-
-            return NotFound();
+            return NotFound("User not found");
         }
     }
 }

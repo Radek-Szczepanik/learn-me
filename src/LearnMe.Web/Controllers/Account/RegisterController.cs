@@ -74,7 +74,7 @@ namespace LearnMe.Web.Controllers.Account
         {
             var user = await _userManager.FindByEmailAsync(email);
             var token1 = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
+            
             if (user == null)
                 return Ok("Error");
 
