@@ -1,7 +1,24 @@
 <div class="long-title">
   <h3>Umów się</h3>
 </div>
-<dx-scheduler></dx-scheduler>
+
+<dx-scheduler [dataSource]="appointmentsData"
+              [remoteFiltering]="true"
+              [views]='["day", "workWeek", "month"]'
+              currentView="day"
+              [currentDate]="currentDate"
+              [startDayHour]="9"
+              [endDayHour]="19"
+              [height]="600"
+              textExpr="Text"
+              startDateExpr="StartDate"
+              endDateExpr="EndDate"
+              allDayExpr="AllDay">
+</dx-scheduler>
+
+<!--<dx-scheduler [dataSource]="events">
+
+</dx-scheduler>-->
 <!--<dx-scheduler [dataSource]="events"
               [editing]="false"
               startDateExpr="start.dateTime"
@@ -15,6 +32,15 @@
               [currentDate]="currentDate"
               [height]="500">
 </dx-scheduler>-->
+
+<!--<dx-scheduler [dataSource]="dataSource">
+
+</dx-scheduler>-->
+
 <!--<div>
   Calendar placeholder
 </div>-->
+
+<!--<iframe src="https://calendar.google.com/calendar/embed?src=testaspnetgooglapi%40gmail.com&ctz=Europe%2FWarsaw" style="border: 0" width="800" height="600" frameborder="0" scrolling="no">
+
+</iframe>-->

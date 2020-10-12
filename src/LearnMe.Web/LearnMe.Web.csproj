@@ -46,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\services\calendar\calendar-event.ts" />
     <None Remove="ClientApp\src\app\services\calendar\calendar-service.ts" />
   </ItemGroup>
 
@@ -55,6 +56,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-event.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-service.ts" />
   </ItemGroup>
 

@@ -27,6 +27,7 @@
     "core-js": "^3.3.3",
     "devextreme": "20.1.7",
     "devextreme-angular": "20.1.7",
+    "devextreme-aspnet-data-nojquery": "^2.7.1",
     "jquery": "3.4.1",
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",
