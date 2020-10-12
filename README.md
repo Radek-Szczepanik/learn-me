@@ -4,7 +4,12 @@ Modular web application for foreign language tutors (with a possibility to be ex
 
 
 ## Technology 
-- ASP.net (mvc, api)
+- ASP.net (api)
+- Clean Architecture
+- Angular powered Bootstrap
+- AutoMapper
+- Sqagger
+- ASP.NET Identity
 - Angular 10
 - Entity Framework Core
 - SQL server
