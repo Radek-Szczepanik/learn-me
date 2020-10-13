@@ -1,0 +1,67 @@
+<!--<body>-->
+  <!--<div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <form #registerForm="ngForm" (ngSubmit)="register()">
+          <h2 style="text-align: center; margin-top: 10px">Logowanie</h2>
+          <hr />
+          <div class="form-group">
+            <input type="email" class="form-control" placeholder="Email" required name="username" [(ngModel)]="model.email" />
+          </div>
+
+          <div class="form-group">
+            <input type="password" class="form-control" placeholder="Hasło" required name="password" [(ngModel)]="model.password" />
+          </div>
+
+          <div class="form-group text-center">
+            <button class="btn-primary btn-success mr-3" type="submit">Zaloguj</button>
+            <button class="btn-primary btn-danger" type="button" [routerLink]="['/home']">Anuluj</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>-->
+
+  <!--<div class="col-md-4">
+    <h4>Create a new account.</h4>
+    <form class="form-group" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group mr-2">
+        <input type="text" class="form-control" placeholder="Enter e-mail" formControlName="email" />
+      </div>
+      <div class="form-group mr-2">
+        <input type=password class="form-control" placeholder="Enter password" formControlName="password" />
+      </div>
+      <div class="form-check float-right">
+        <button type="submit" class="btn btn-primary">Login</button>
+      </div>
+    </form>
+  </div>
+</body>-->
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <input type="text" class="fadeIn second form-control" formControlName="email" placeholder="e-mail">
+      <input type="password" class="fadeIn third form-control" formControlName="password" placeholder="password">
+      <input type="submit" class="fadeIn fourth" value="Log In">
+    </form>
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>
