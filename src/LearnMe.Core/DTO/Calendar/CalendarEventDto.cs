@@ -8,9 +8,9 @@ namespace LearnMe.Core.DTO.Calendar
 
         public string Description { get; set; }
 
-        public DateTime Start { get; set; }
+        public DateTime StartDate { get; set; }
 
-        public DateTime End { get; set; }
+        public DateTime EndDate { get; set; }
 
         public bool IsDone { get; set; }
 
