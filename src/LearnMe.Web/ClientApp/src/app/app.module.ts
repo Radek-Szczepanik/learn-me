@@ -8,6 +8,7 @@ import { RegistrationComponent } from './Components/registration/registration.co
 import { LoginComponent } from './Components/login/login.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { appRouting } from './routing';
 
 
@@ -25,6 +26,7 @@ import { appRouting } from './routing';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    [NgbPaginationModule, NgbAlertModule],
     RouterModule.forRoot(appRouting)
   ],
 

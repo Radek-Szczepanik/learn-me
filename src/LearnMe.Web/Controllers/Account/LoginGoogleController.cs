@@ -45,7 +45,7 @@ namespace LearnMe.Web.Controllers.Account
             if (user != null)
             {
                 await signInManager.SignInAsync(user, false);
-                return Ok("Logged in :)");
+                return LocalRedirect("/");
             }
             return NotFound("User not found");
         }

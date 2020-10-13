@@ -19,6 +19,8 @@ export class LoginComponent {
   loginUser: Login;
   private _httpClient: HttpClient;
   private _base: string;
+  private badrequest: boolean;
+  private unauthorized: boolean;
   notLogged; admin; mentor; student: boolean;
   identity: string[];
 
@@ -36,13 +38,19 @@ export class LoginComponent {
   }
 
   public logIn = () => {
+    this.badrequest = false;
     const route: string = 'api/Login';
     this.https.getLogin(route, this.loginUser)
       .subscribe((result) => {
-        window.location.reload()
+        window.location.replace("");
       },
         (error) => {
-          console.error(error);
+          if (error.status == "400") {
+            this.badrequest = true;
+          }
+          else if (error.status == "401") {
+            this.unauthorized = true;
+          }
         });
   }
 
