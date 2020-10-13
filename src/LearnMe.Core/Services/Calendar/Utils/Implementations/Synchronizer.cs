@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Repository.Interfaces;
-
 
 namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 {

@@ -1,29 +1,26 @@
 using System;
+using AutoMapper;
+using Google.Apis.Calendar.v3.Data;
+using LearnMe.Core.DTO.Config;
+using LearnMe.Core.Interfaces.Services;
+using LearnMe.Core.Services.Account.Email;
+using LearnMe.Core.Services.Calendar.Utils.Implementations;
+using LearnMe.Core.Services.Calendar.Utils.Interfaces;
+using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Users;
+using LearnMe.Infrastructure.Repository;
+using LearnMe.Infrastructure.Repository.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using LearnMe.Infrastructure.Repository;
-using LearnMe.Infrastructure.Data;
-using LearnMe.Infrastructure.Models.Domains.Users;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using LearnMe.Core.DTO.Config;
-using LearnMe.Core.Interfaces.Services;
-using LearnMe.Core.Services.Calendar;
-using LearnMe.Core.Services.Calendar.Utils.Implementations;
-using LearnMe.Core.Services.Calendar.Utils.Interfaces;
-using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.OpenApi.Models;
-using System.IO;
-using System.Threading;
-using Google.Apis.Calendar.v3.Data;
-using Google.Apis.Util.Store;
-using LearnMe.Core.Services.Account.Email;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
+
 
 namespace LearnMe.Web
 {
@@ -40,32 +37,25 @@ namespace LearnMe.Web
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Learn Me API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Learn Me API", Version = "v1"});
             });
 
             services.AddControllersWithViews();
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
             services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"),
-                b => b.MigrationsAssembly("LearnMe.Web")));
+             options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"),
+             b => b.MigrationsAssembly("LearnMe.Web")));
             services.AddIdentity<UserBasic, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
             services.AddAuthentication()
             .AddGoogle(options =>
-             {
-             IConfigurationSection googleAuthNSection =
-             Configuration.GetSection("Authentication:Google");
-
-            options.ClientId = googleAuthNSection["ClientId"];
-            options.ClientSecret = googleAuthNSection["ClientSecret"];
-                // options.SignInScheme = IdentityConstants.ExternalScheme;
-             });
-
+            {
+                IConfigurationSection googleAuthNSection =
+                Configuration.GetSection("Authentication:Google");
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+            });
             services.ConfigureApplicationCookie(options =>
             {
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
@@ -78,7 +68,6 @@ namespace LearnMe.Web
                 options.SlidingExpiration = true;
             });
 
-
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IToken>(provider =>
             {
@@ -88,7 +77,7 @@ namespace LearnMe.Web
             });
 
             services.AddScoped<IExternalCalendarService<Event>, ExternalCalendarService>();
-            services.AddScoped<ICalendar, Core.Services.Calendar.Calendar>();
+            services.AddScoped<ICalendar, LearnMe.Core.Services.Calendar.Calendar>();
             services.AddScoped<ISynchronizer, Synchronizer>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
@@ -97,15 +86,12 @@ namespace LearnMe.Web
             services.AddSingleton<IEventBuilder, EventBuilder>();
 
             var emailConfig = Configuration
-               .GetSection("EmailConfiguration")
-               .Get<EmailConfiguration>();
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
             services.AddScoped<IEmailSender, EmailSender>();
 
-            var mapperConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new AutoMapperProfiles());
-            });
+            var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutoMapperProfiles()); });
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
@@ -135,10 +121,7 @@ namespace LearnMe.Web
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Learn Me API");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Learn Me API"); });
 
             app.UseRouting();
 

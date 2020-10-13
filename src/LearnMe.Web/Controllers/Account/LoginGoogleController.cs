@@ -37,7 +37,7 @@ namespace LearnMe.Web.Controllers.Account
         {
             ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
             if (info == null)
-                return Ok();
+                return Ok("Logged in :)");
 
             var userInfo = info.Principal.FindFirst(ClaimTypes.Email).Value;
             var user = await userManager.FindByEmailAsync(userInfo);
