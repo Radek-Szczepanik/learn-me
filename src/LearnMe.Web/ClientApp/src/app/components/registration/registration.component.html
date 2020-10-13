@@ -1,21 +1,32 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <form #registerForm="ngForm" (ngSubmit)="register()">
-      <h2 style="text-align: center; margin-top: 10px">Rejestracja</h2>
-      <hr />
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="First Name" required name="FirstName" [(ngModel)]="model.firstName" />
-        </div>
-   
+<body>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
 
-      <div class="form-group">
-        <input type="password" class="form-control" placeholder="Hasło" required name="password" [(ngModel)]="model.password" />
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+      <!-- Icon -->
+      <div class="alert alert-danger text-center" role="alert" *ngIf="unauthorized">
+        Incorrect e-mail or password
       </div>
 
-      <div class="form-group text-center">
-        <button class="btn-primary btn-success mr-3" type="submit">Zarejestruj się</button>
-        <button class="btn-primary btn-danger" type="button" [routerLink]="['/home']">Anuluj</button>
+      <div class="alert span4 alert-warning" role="alert" *ngIf="badrequest">
+        Incorrect e-mail
       </div>
-    </form>
+
+      <div class="fadeIn first">
+        <img src="" id="icon" alt="User Icon" />
+      </div>
+
+      <!-- Registration Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <input type="text" class="fadeIn second form-control" formControlName="email" placeholder="Enter e-mail">
+        <input type="password" class="fadeIn third form-control" formControlName="password" placeholder="Enter password">
+        <input type="submit" class="fadeIn fourth" value="Register">
+      </form>
+
+    </div>
   </div>
-</div>
+</body>
