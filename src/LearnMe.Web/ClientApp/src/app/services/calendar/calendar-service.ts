@@ -11,12 +11,15 @@ export class CalendarService {
   public events : CalendarEvent[] = [];
 
   loadEvents() : Observable<boolean> {
-    return this.http.get('/api/calendarevents/181')
+    return this.http.get('/api/calendarevents?eventsPerPage=100&pageNumber=1')
       .pipe(
         map((data: any[]) => {
           this.events = data;
           console.warn('data loaded from API:' + data);
+          console.debug('data - calendar service:');
           console.debug(data);
+          console.debug('events - calendar service:');
+          console.debug(this.events);
           return true;
         }));
   }

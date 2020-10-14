@@ -1,8 +1,8 @@
 export interface CalendarEvent {
   title: string;
   description: string;
-  start: Date;
-  end: Date;
+  startDate: Date;
+  endDate: Date;
   isDone: boolean;
   calendarId: string;
 }
