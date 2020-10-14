@@ -48,8 +48,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\register\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\register\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\register\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\register\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -60,10 +64,6 @@
   <ItemGroup>
     <ProjectReference Include="..\LearnMe.Core\LearnMe.Core.csproj" />
     <ProjectReference Include="..\LearnMe.Infrastructure\LearnMe.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\app\register\" />
   </ItemGroup>
 
   <ItemGroup>
