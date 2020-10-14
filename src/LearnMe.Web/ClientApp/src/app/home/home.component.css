@@ -1,0 +1,21 @@
+.nav-item {
+  font-size: 17px;
+}
+
+.btn-primary {
+  border-radius: 5px;
+  text-align: left;
+}
+
+.btn-primary:hover {
+    background-color: forestgreen !important;
+  }
+
+#kowalska {
+  width: 800px;
+  height: 100px;
+  border: solid 1px lightgray;
+  border-radius: 5px;
+  font-size: 16px;
+  font-style: italic;
+}

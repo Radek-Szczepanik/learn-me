@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
+import { Login } from '../Models/Account/login';
 
 @Injectable({
   providedIn: 'root'
@@ -11,5 +12,15 @@ export class HttpService {
   public getData(route: string)
   {
     return this.httpService.get(route);
+  }
+
+  public getLogin(route: string, body: Login)
+  {
+    return this.httpService.post(route, body);
+  }
+
+  public getIdentity(route: string)
+  {
+    return this.httpService.get<any>(route);
   }
 }

@@ -15,7 +15,6 @@ export class CalendarService {
       .pipe(
         map((data: any[]) => {
           this.events = data;
-          console.warn('data loaded from API:' + data);
           console.debug('data - calendar service:');
           console.debug(data);
           console.debug('events - calendar service:');
