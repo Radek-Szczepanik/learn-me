@@ -48,14 +48,26 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\register\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\register\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\register\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\register\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\Models\Account\login.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\LearnMe.Core\LearnMe.Core.csproj" />
     <ProjectReference Include="..\LearnMe.Infrastructure\LearnMe.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\Models\Account\login.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
