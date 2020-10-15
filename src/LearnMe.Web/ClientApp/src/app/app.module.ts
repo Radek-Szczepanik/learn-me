@@ -10,11 +10,10 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { appRouting } from './routing';
-
-import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
 import { CalendarService } from './services/calendar/calendar-service';
-
 import { DxSchedulerModule } from 'devextreme-angular';
+import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
+
 
 @NgModule({
   declarations: [
@@ -29,11 +28,9 @@ import { DxSchedulerModule } from 'devextreme-angular';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'calendar-view', component: CalendarViewComponent },
-    ]),
+    ReactiveFormsModule,
     DxSchedulerModule,
+    RouterModule.forRoot(appRouting)
   ],
   providers: [
     CalendarService
