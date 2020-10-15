@@ -12,14 +12,21 @@
         Incorrect e-mail or password
       </div>
 
-      <div class="alert span4 alert-warning" role="alert" *ngIf="errorMail">
-        {{errorMail}}
+
+      <div class="alert span4 alert-danger" role="alert" *ngFor="let error of errorPassword">
+        {{error.errorMessage}}
       </div>
-      <div class="alert span4 alert-warning" role="alert" *ngIf="errorPassword">
-        {{errorPassword}}
+
+      <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorEmail">
+        {{error}}
       </div>
-      <div class="alert span4 alert-warning" role="alert" *ngIf="errorConfirmation">
-        {{errorConfirmation}}
+
+      <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorPasswordFront">
+        {{error}}
+      </div>
+
+      <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorConfirmation">
+        {{error}}
       </div>
 
       <div class="fadeIn first">

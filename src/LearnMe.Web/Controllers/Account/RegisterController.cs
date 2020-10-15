@@ -60,32 +60,31 @@ namespace LearnMe.Web.Controllers.Account
                 var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
                 await _emailSender.SendEmailAsync(message);
                 await _userManager.AddToRoleAsync(user, "Student");
-
+                
                 return Ok();
             }
-            return BadRequest(result);
-        }
-            
-        
-
-
-
-
-
-            [HttpGet]
-            public async Task<IActionResult> ConfirmEmail(string token, string email)
+            foreach (var error in result.Errors)
             {
-                var user = await _userManager.FindByEmailAsync(email);
-                var token1 = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-                if (user == null)
-                    return Ok("Error");
-
-                var result = await _userManager.ConfirmEmailAsync(user, token1);
-                return Ok(result.Succeeded ? nameof(ConfirmEmail) : "Error");
+                ModelState.AddModelError("password", error.Description);
             }
+            return Unauthorized(ModelState);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var token1 = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            if (user == null)
+                return Ok("Error");
+
+            var result = await _userManager.ConfirmEmailAsync(user, token1);
+            return Ok(result.Succeeded ? nameof(ConfirmEmail) : "Error");
         }
     }
+}
 
 
 
