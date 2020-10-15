@@ -64,11 +64,11 @@ namespace LearnMe.Web.Controllers.Account
             }
         }
 
-        [HttpOptions]
-        public bool Logout()
+        [HttpGet]
+        public async Task<IActionResult> Logout()
         {
-            var login = HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return true;
+           await _signInManager.SignOutAsync();
+           return Ok();
         }
     }
 }

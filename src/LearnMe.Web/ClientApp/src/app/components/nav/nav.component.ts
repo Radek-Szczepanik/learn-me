@@ -41,14 +41,14 @@ export class NavComponent implements OnInit {
 
   ngOnInit() {
     let temp: string[];
-    this._httpClient.get<string[]>(this._base + 'api/account').subscribe(result => {
+    this._httpClient.get<string[]>(this._base + 'api/Identity').subscribe(result => {
       this.identity = result as string[];
       this.identityInfo(this.identity);
     });
   }
 
   logOut() {
-    this._httpClient.options<boolean>(this._base + 'api/account').subscribe((result) => {
+    this._httpClient.get(this._base + 'api/Login').subscribe((result) => {
       window.location.reload();
     },
       (error) => {
