@@ -13,10 +13,9 @@ import { CalendarService } from './services/calendar/calendar-service';
 import { DxSchedulerModule } from 'devextreme-angular';
 import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule  } from '@angular/material';
-import { MatListModule } from '@angular/material';
+import { MatButtonModule, MatListModule, MatSidenavModule, MatIconModule, MatToolbarModule} from '@angular/material';
+
+
 
 
 
@@ -28,8 +27,7 @@ import { MatListModule } from '@angular/material';
     HomeComponent,
     CalendarViewComponent,
     RegistrationComponent,
-    LoginComponent,
-    
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,7 +40,8 @@ import { MatListModule } from '@angular/material';
     MatToolbarModule,
     MatIconModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatButtonModule
   ],
   providers: [
     CalendarService

@@ -1,23 +1,138 @@
-.nav-item {
-  font-size: 17px;
+.navbar {
+  font-family: Montserrat, sans-serif;
+  margin-bottom: 0;
+  background-color: #2d2d30 !important;
+  border: 0;
+  font-size: 14px !important;
+  opacity: 0.9;
 }
 
-.btn-primary {
-  border-radius: 5px;
-  text-align: left;
-}
-
-.btn-primary:hover {
-    background-color: forestgreen !important;
+  .navbar li a, .navbar .navbar-brand {
+    color: #d5d5d5 !important;
   }
 
+.navbar-nav li a:hover {
+  color: #fff !important;
+}
+
+.navbar-nav li.active a {
+  color: #fff !important;
+  background-color: #29292c !important;
+}
+
+.navbar-default .navbar-toggle {
+  border-color: transparent;
+}
+
+.nav-tabs li a {
+  color: #777;
+}
+
+.form-control {
+  border-radius: 2px;
+}
+
+
+
+/* ------------------- Side Nav bar customization ----------------------- */
+ion-header-bar.bar.bar-assertive {
+  border-color: #ffffff;
+  background-color: #ffffff;
+  color: #000;
+  height: 90px;
+  padding: 4px 0px;
+  border-bottom: 1px solid #ddd;
+}
+
+  ion-header-bar.bar.bar-assertive .title {
+    color: #000;
+    font-weight: 900;
+    font-size: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+ion-list {
+  padding: 14px 18px;
+  display: inline-block;
+  width: 100%;
+}
+
+  ion-list:first-child {
+    margin-top: 60px;
+  }
+
+  ion-list .SideBar_Clk {
+    background: transparent;
+    border: none;
+    margin: 0px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+    ion-list .SideBar_Clk ion-icon {
+      font-size: 20px;
+      vertical-align: top;
+      margin-right: 12px;
+    }
+
+/* top navigation bar*/
+.bar.bar-Prple {
+  background: #5c00ff;
+}
+
+.bar .title {
+  color: #fff;
+}
+
+/* Card design */
+.Cst_card .card {
+  box-shadow: 0 9px 2.5rem rgba(0, 0, 0, 0.11);
+  border-radius: 6px;
+}
+
+  .Cst_card .card .item {
+    border: none;
+  }
+
+    .Cst_card .card .item.item-avatar {
+      border-bottom: 2px solid #eee !important;
+    }
+
+    .Cst_card .card .item.item-body p {
+      margin: 0 0 15px 0;
+      line-height: 1.6rem;
+      font-weight: 300;
+      font-size: 14px;
+    }
+
+.tpTlle {
+  font-size: 1.5rem;
+  font-weight: 100;
+  padding: 10px 0px 10px 14px;
+  margin: 0px 10px -10px 10px;
+  background: #eee;
+  border-radius: 4px;
+}
+
+  .tpTlle ion-icon {
+    color: #5c00ff;
+    vertical-align: middle;
+  }
+
+
 #kowalska {
-  width: 800px;
-  height: 100px;
+  width: 95%;
   border: solid 1px lightgray;
   border-radius: 5px;
   font-size: 16px;
   font-style: italic;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+p {
+  object-fit: fill;
 }
 
 

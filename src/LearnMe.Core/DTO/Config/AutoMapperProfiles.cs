@@ -27,12 +27,16 @@ namespace LearnMe.Core.DTO.Config
                 .ForMember(dest => dest.StartDate,
                     opt => opt.MapFrom(src => src.Start))
                 .ForMember(dest => dest.EndDate,
-                    opt => opt.MapFrom(src => src.End));
+                    opt => opt.MapFrom(src => src.End))
+                .ForMember(dest => dest.Subject,
+                opt => opt.MapFrom(src => src.Title));
             CreateMap<CalendarEventDto, CalendarEvent>()
                 .ForMember(dest => dest.Start,
                     opt => opt.MapFrom(src => src.StartDate))
                 .ForMember(dest => dest.End,
-                    opt => opt.MapFrom(src => src.EndDate));
+                    opt => opt.MapFrom(src => src.EndDate))
+                .ForMember(dest => dest.Title,
+                    opt => opt.MapFrom(src => src.Subject));
 
             CreateMap<Exercises, ExercisesDTO>();
             CreateMap<News, NewsDTO>();

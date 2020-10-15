@@ -1,103 +1,74 @@
-<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
-  <mat-toolbar color="primary" class="example-toolbar">
-    <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    <h1 class="example-app-name"></h1>
-  </mat-toolbar>
-
-  <mat-sidenav-container class="example-sidenav-container"
-                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-      <mat-nav-list>
-        <a mat-list-item routerLink=".">Home</a>
-        <a mat-list-item routerLink=".">Aktualności</a>
-        <a mat-list-item routerLink=".">Tłumaczenia i korekta</a>
-        <a mat-list-item routerLink=".">Korepetycje i kursy</a>
-        <a mat-list-item routerLink=".">Sklep</a>
-        <a mat-list-item routerLink=".">Ćwiczenia</a>
-        <a mat-list-item routerLink=".">FAQ</a>
-        <a mat-list-item routerLink="/calendar-view">Umów się</a>
-        <a mat-list-item routerLink=".">Strefa Ucznia</a>
-      </mat-nav-list>
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-      <div class="col-md-10">
-        <h3 style="text-align: center; margin-top: 20px; margin-bottom: 20px">O co chodzi i kim jest Pani Kowalska ?</h3>
-        <div class="container mb-3" id="kowalska">
-          <p>
-            Proin eleifend vitae risus id iaculis. Suspendisse potenti. Quisque vel varius sapien, et condimentum justo.
-            Praesent imperdiet ac odio vel finibus. Donec fermentum rutrum tellus, vel lobortis ante viverra finibus.
-            Donec hendrerit, diam a auctor suscipit, est felis fringilla purus, ac eleifend orci elit vitae urna.
-            Suspendisse non metus eros. Quisque felis odio, efficitur a mollis in, ultricies in tellus.
-          </p>
+    <div class="col-md-10">
+      <h3 style="text-align: center; margin-top: 20px; margin-bottom: 20px">O co chodzi i kim jest Pani Kowalska ?</h3>
+      <div id="kowalska">
+        <p>
+          Z Panią Kowalską szybko nauczysz się angielskiego! Uzyskasz profesjonalne przygotowanie do egzaminów.
+          Oferuję też tłumaczenia oraz korektę różnego rodzaju dokumentów. Skontaktuj się ze mną, żeby poznać szczegóły oferty!
+        </p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="card mr-5 mb-5" style="width: 15rem;">
+          <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
+          <div class="card-body">
+            <h5 class="card-title">Matura</h5>
+            <a href="#" class="btn btn-primary">Zobacz</a>
+          </div>
         </div>
-        <div class="row justify-content-center">
-          <div class="card mr-5 mb-5" style="width: 15rem;">
-            <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <a href="#" class="btn btn-primary">Zobacz</a>
-            </div>
-          </div>
 
-          <div class="card mr-5 mb-5" style="width: 15rem;">
-            <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <a href="#" class="btn btn-primary">Zobacz</a>
-            </div>
+        <div class="card mr-5 mb-5" style="width: 15rem;">
+          <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
+          <div class="card-body">
+            <h5 class="card-title">E8</h5>
+            <a href="#" class="btn btn-primary">Zobacz</a>
           </div>
+        </div>
 
-          <div class="card mr-5 mb-5" style="width: 15rem;">
-            <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <a href="#" class="btn btn-primary">Zobacz</a>
-            </div>
+        <div class="card mr-5 mb-5" style="width: 15rem;">
+          <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
+          <div class="card-body">
+            <h5 class="card-title">Certyfikaty i inne</h5>
+            <a href="#" class="btn btn-primary">Zobacz</a>
           </div>
+        </div>
 
-          <div class="card mr-5 mb-5" style="width: 15rem;">
-            <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <a href="#" class="btn btn-primary">Zobacz</a>
-            </div>
+        <div class="card mr-5 mb-5" style="width: 15rem;">
+          <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
+          <div class="card-body">
+            <h5 class="card-title">Konwersacje</h5>
+            <a href="#" class="btn btn-primary">Zobacz</a>
           </div>
+        </div>
 
-          <div class="card mr-5 mb-5" style="width: 15rem;">
-            <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <a href="#" class="btn btn-primary">Zobacz</a>
-            </div>
+        <div class="card mr-5 mb-5" style="width: 15rem;">
+          <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
+          <div class="card-body">
+            <h5 class="card-title">Tłumaczenia i korekta</h5>
+            <a href="#" class="btn btn-primary">Zobacz</a>
           </div>
+        </div>
 
-          <div class="card mr-5 mb-5" style="width: 15rem;">
-            <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <a href="#" class="btn btn-primary">Zobacz</a>
-            </div>
+        <div class="card mr-5 mb-5" style="width: 15rem;">
+          <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
+          <div class="card-body">
+            <h5 class="card-title">Zadania</h5>
+            <a href="#" class="btn btn-primary">Zobacz</a>
           </div>
+        </div>
 
-          <div class="card mr-5 mb-5" style="width: 15rem;">
-            <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <a href="#" class="btn btn-primary">Zobacz</a>
-            </div>
+        <div class="card mr-5 mb-5" style="width: 15rem;">
+          <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
+          <div class="card-body">
+            <h5 class="card-title">Sprawdź się</h5>
+            <a href="#" class="btn btn-primary">Zobacz</a>
           </div>
+        </div>
 
-          <div class="card mr-5 mb-5" style="width: 15rem;">
-            <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <a href="#" class="btn btn-primary">Zobacz</a>
-            </div>
+        <div class="card mr-5 mb-5" style="width: 15rem;">
+          <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
+          <div class="card-body">
+            <h5 class="card-title">Darmowe materiały</h5>
+            <a href="#" class="btn btn-primary">Zobacz</a>
           </div>
         </div>
       </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-</div>
+    </div>
