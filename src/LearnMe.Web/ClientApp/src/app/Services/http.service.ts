@@ -14,7 +14,7 @@ export class HttpService {
     return this.httpService.get(route);
   }
 
-  public getLogin(route: string, body: Login)
+  public post(route: string, body: any)
   {
     return this.httpService.post(route, body);
   }

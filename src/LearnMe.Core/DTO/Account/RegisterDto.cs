@@ -1,4 +1,5 @@
 ﻿using LearnMe.Shared.Enum;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LearnMe.Core.DTO.Account
 {
     public class RegisterDto
-    {   
+    {
+
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -18,6 +21,7 @@ namespace LearnMe.Core.DTO.Account
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
@@ -25,6 +29,6 @@ namespace LearnMe.Core.DTO.Account
 
 
         public string UserName { get => Email; set { } }
-        
+
     }
 }
