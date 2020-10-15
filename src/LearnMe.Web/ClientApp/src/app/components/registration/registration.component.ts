@@ -19,20 +19,20 @@ export class RegistrationComponent implements OnInit {
   registerUser: Register;
   private _httpClient: HttpClient;
   private _base: string;
-  private errorMail: string;
-  private errorPassword: string;
-  private errorConfirmation: string;
-  private errorBackend: any;
-  private badrequest: boolean;
-  private unauthorized: boolean;
-  notLogged; admin; mentor; student: boolean;
-  identity: string[];
+  private errorFirstName: any;
+  private errorLastName: any;
+  private errorPassword: any;
+  private errorConfirmation: any;
+  private errorEmail: any;
+  private errorPasswordFront: any;
 
   constructor(private https: HttpService, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._httpClient = http;
     this._base = baseUrl
 
     this.registerUser = {
+      firstname: '',
+      lastname: '',
       email: '',
       password: '',
       confirmpassword: ''
@@ -40,7 +40,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   public register = () => {
-    this.badrequest = false;
     const route: string = 'api/Register';
     this.https.post(route, this.registerUser)
       .subscribe((result) => {
@@ -48,14 +47,15 @@ export class RegistrationComponent implements OnInit {
       },
         (error) => {
           if (error.status == "400") {
-           
-            this.errorMail = error.error.errors.Email;
-            this.errorPassword = error.error.errors.Password;
+
+            this.errorPasswordFront = error.error.errors.Password;
+            this.errorEmail = error.error.errors.Email;
             this.errorConfirmation = error.error.errors.ConfirmPassword;
-            this.errorBackend = error.errors;
+            this.errorLastName = error.error.errors.FirstName;
+            this.errorFirstName = error.error.errors.LastName;
           }
           else if (error.status == "401") {
-            this.unauthorized = true;
+            this.errorPassword = error.error.password.errors;
           }
         });
   }
@@ -67,6 +67,8 @@ export class RegistrationComponent implements OnInit {
 
   private initializeForm() {
     this.registerForm = new FormGroup({
+      'firstName': new FormControl(null),
+      'lastName': new FormControl(null),
       'email': new FormControl(null),
       'password': new FormControl(null),
       'confirmPassword': new FormControl(null),
@@ -74,8 +76,13 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit() {
+    this.errorPassword = undefined;
+    this.errorPasswordFront = undefined;
+    this.errorEmail = undefined;
+    this.errorConfirmation = undefined;
+    this.errorFirstName = undefined;
+    this.errorLastName = undefined;
     this.registerUser = this.registerForm.value;
     this.register();
   }
-
 }

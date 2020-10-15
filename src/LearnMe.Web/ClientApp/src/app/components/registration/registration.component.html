@@ -1,9 +1,4 @@
 <body>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <!------ Include the above in your HEAD tag ---------->
-
   <div class="wrapper">
     <div id="formContent">
       <!-- Tabs Titles -->
@@ -12,14 +7,30 @@
         Incorrect e-mail or password
       </div>
 
-      <div class="alert span4 alert-warning" role="alert" *ngIf="errorMail">
-        {{errorMail}}
+
+      <div class="alert span4 alert-danger" role="alert" *ngFor="let error of errorPassword">
+        {{error.errorMessage}}
       </div>
-      <div class="alert span4 alert-warning" role="alert" *ngIf="errorPassword">
-        {{errorPassword}}
+
+
+      <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorFirstName">
+        {{error}}
       </div>
-      <div class="alert span4 alert-warning" role="alert" *ngIf="errorConfirmation">
-        {{errorConfirmation}}
+
+      <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorLastName">
+        {{error}}
+      </div>
+
+      <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorEmail">
+        {{error}}
+      </div>
+
+      <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorPasswordFront">
+        {{error}}
+      </div>
+
+      <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorConfirmation">
+        {{error}}
       </div>
 
       <div class="fadeIn first">
@@ -28,12 +39,16 @@
 
       <!-- Register Form -->
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <input type="text" class="fadeIn second form-control" formControlName="firstName" placeholder="Enter first name">
+        <input type="text" class="fadeIn second form-control" formControlName="lastName" placeholder="Enter last name">
         <input type="text" class="fadeIn second form-control" formControlName="email" placeholder="Enter e-mail">
         <input type="password" class="fadeIn third form-control" formControlName="password" placeholder="Enter password">
         <input type="password" class="fadeIn third form-control" formControlName="confirmPassword" placeholder="Confirm password">
 
         <input type="submit" class="fadeIn fourth" value="Sign up">
       </form>
+
+
     </div>
   </div>
 </body>
