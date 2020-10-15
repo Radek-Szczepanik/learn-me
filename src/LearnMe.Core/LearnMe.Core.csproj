@@ -34,4 +34,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Account\NewFolder\" />
+  </ItemGroup>
+
 </Project>

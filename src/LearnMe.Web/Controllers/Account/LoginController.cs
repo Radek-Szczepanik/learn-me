@@ -21,22 +21,25 @@ namespace LearnMe.Web.Controllers.Account
     public class LoginController : ControllerBase
     {
         private readonly SignInManager<UserBasic> _signInManager;
+        private readonly UserManager<UserBasic> _userManager;
+        private readonly IUserClaimsPrincipalFactory<UserBasic> _addClaim;
         private readonly ILogger<LoginController> _logger;
-        private readonly IMapper _mapper;
 
 
         public LoginController(SignInManager<UserBasic> signInManager,
             ILogger<LoginController> logger,
-            IMapper mapper)
+            UserManager<UserBasic> userManager,
+            IUserClaimsPrincipalFactory<UserBasic> addClaim)
         {
- 
+            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _mapper = mapper;
+            _addClaim = addClaim;
+
 
         }
 
-     
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostAsync(LoginDto input)
@@ -45,6 +48,7 @@ namespace LearnMe.Web.Controllers.Account
             
             if (result.Succeeded)
             {
+                await _addClaim.CreateAsync(await _userManager.FindByEmailAsync(input.Email));
                 _logger.LogInformation("User logged in.");
                 return Ok();
             }
@@ -60,11 +64,11 @@ namespace LearnMe.Web.Controllers.Account
             }
         }
 
-        [HttpOptions]
-        public bool Logout()
+        [HttpGet]
+        public async Task<IActionResult> Logout()
         {
-            var login = HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return true;
+           await _signInManager.SignOutAsync();
+           return Ok();
         }
     }
 }

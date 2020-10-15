@@ -3,6 +3,7 @@ using AutoMapper;
 using Google.Apis.Calendar.v3.Data;
 using LearnMe.Core.DTO.Config;
 using LearnMe.Core.Interfaces.Services;
+using LearnMe.Core.Services.Account;
 using LearnMe.Core.Services.Account.Email;
 using LearnMe.Core.Services.Calendar.Utils.Implementations;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
@@ -67,6 +68,7 @@ namespace LearnMe.Web
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });
+            services.AddScoped<IUserClaimsPrincipalFactory<UserBasic>, MyUserClaimsPrincipalFactory>();
 
             services.AddSingleton<ITokenService, TokenService>();
             services.AddSingleton<IToken>(provider =>
