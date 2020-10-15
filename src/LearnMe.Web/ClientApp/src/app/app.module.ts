@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { NavComponent } from './components/nav/nav.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './components/home/home.component';
 import { RegistrationComponent } from './Components/registration/registration.component';
 import { LoginComponent } from './Components/login/login.component';
 import { RouterModule } from '@angular/router';
@@ -13,6 +13,7 @@ import { appRouting } from './routing';
 import { CalendarService } from './services/calendar/calendar-service';
 import { DxSchedulerModule } from 'devextreme-angular';
 import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
+import { SidebarModule } from 'ng-sidebar';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { CalendarViewComponent } from './components/calendar-view/calendar-view.
     HomeComponent,
     CalendarViewComponent,
     RegistrationComponent,
-    LoginComponent
+    LoginComponent,
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,6 +32,7 @@ import { CalendarViewComponent } from './components/calendar-view/calendar-view.
     FormsModule,
     ReactiveFormsModule,
     DxSchedulerModule,
+    [BrowserModule, SidebarModule.forRoot()],
     RouterModule.forRoot(appRouting)
   ],
   providers: [
