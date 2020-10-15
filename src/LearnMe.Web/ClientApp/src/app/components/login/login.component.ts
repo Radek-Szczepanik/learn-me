@@ -40,7 +40,7 @@ export class LoginComponent {
   public logIn = () => {
     this.badrequest = false;
     const route: string = 'api/Login';
-    this.https.getLogin(route, this.loginUser)
+    this.https.post(route, this.loginUser)
       .subscribe((result) => {
         window.location.replace("");
       },

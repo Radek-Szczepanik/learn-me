@@ -48,7 +48,6 @@ namespace LearnMe.Web.Controllers.Account
             //returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-
             var user = _mapper.Map<UserBasic>(input);
             var result = await _userManager.CreateAsync(user, input.Password);
 
@@ -60,21 +59,23 @@ namespace LearnMe.Web.Controllers.Account
                 var confirmationLink = Url.Action("Register", "api", new { token, email = user.Email }, Request.Scheme);
                 var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
                 await _emailSender.SendEmailAsync(message);
-                await _userManager.AddToRoleAsync(user, "Student");
-               
-            }            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
+                await _userManager.AddToRoleAsync(user, "Student");            
+                return Ok();
             }
-            return Ok(result);
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("password", error.Description);
+            }
+            return Unauthorized(ModelState);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             var token1 = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            
+
             if (user == null)
                 return Ok("Error");
 
@@ -86,7 +87,7 @@ namespace LearnMe.Web.Controllers.Account
 
 
 
-              
+
 
 
 
