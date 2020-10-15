@@ -12,10 +12,15 @@
   }
 
 #kowalska {
-  width: 800px;
-  height: 100px;
+  width: 95%;
   border: solid 1px lightgray;
   border-radius: 5px;
   font-size: 16px;
   font-style: italic;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+p {
+  object-fit: fill;
 }
