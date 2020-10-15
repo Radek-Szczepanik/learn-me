@@ -225,3 +225,6 @@ footer {
 textarea {
   resize: none;
 }
+
+html, body { height: auto; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

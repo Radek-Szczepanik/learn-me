@@ -8,12 +8,17 @@ import { RegistrationComponent } from './Components/registration/registration.co
 import { LoginComponent } from './Components/login/login.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { appRouting } from './routing';
 import { CalendarService } from './services/calendar/calendar-service';
 import { DxSchedulerModule } from 'devextreme-angular';
 import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
-import { SidebarModule } from 'ng-sidebar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule  } from '@angular/material';
+import { MatListModule } from '@angular/material';
+
+
 
 
 @NgModule({
@@ -32,8 +37,12 @@ import { SidebarModule } from 'ng-sidebar';
     FormsModule,
     ReactiveFormsModule,
     DxSchedulerModule,
-    [BrowserModule, SidebarModule.forRoot()],
-    RouterModule.forRoot(appRouting)
+    RouterModule.forRoot(appRouting),
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [
     CalendarService

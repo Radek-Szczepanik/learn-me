@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { ChangeDetectorRef, OnDestroy, Component } from '@angular/core';
 
 @Component({
     selector: 'app-home',
@@ -6,11 +7,19 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnDestroy {
 
-  constructor() { }
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
 
-  ngOnInit() {
-    
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 }
+
