@@ -4,7 +4,7 @@ namespace LearnMe.Core.DTO.Calendar
 {
     public class CalendarEventDto
     {
-        public string Title { get; set; }
+        public string Subject { get; set; }
 
         public string Description { get; set; }
 

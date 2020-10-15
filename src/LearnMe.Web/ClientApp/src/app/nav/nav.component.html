@@ -1,10 +1,36 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">LearnMe</a>
-  <div class="collapse navbar-collapse">
-    <ul class="nabar-nav mr-auto"></ul>
+  <script id="app.html" type="text/ng-template">
+    <button class="button button-icon button-clear ion-navicon" ng-click="toggleLeft()">
+    </button>
+
+    <ion-side-menu side="left" id="loggedOutMenu">
+      <ion-header-bar class="bar-assertive">
+        <h1 class="title">LOGO</h1>
+      </ion-header-bar>
+      <ion-content>
+        <ion-list>
+          <button ion-item menuClose class="SideBar_Clk"><ion-icon name="compass"></ion-icon> Location</button>
+        </ion-list>
+        <ion-list>
+          <button ion-item menuClose class="SideBar_Clk"><ion-icon name="bookmarks"></ion-icon> Bookmarks</button>
+        </ion-list>
+        <ion-list>
+          <button ion-item menuClose class="SideBar_Clk"><ion-icon name="contact"></ion-icon> Contact</button>
+        </ion-list>
+        <ion-list>
+          <button ion-item menuClose class="SideBar_Clk"><ion-icon name="logo-buffer"></ion-icon> Collections</button>
+        </ion-list>
+
+      </ion-content>
+    </ion-side-menu>
+  </script>
+
+    <a class="navbar-brand" href="#">LearnMe</a>
+    <div class="collapse navbar-collapse">
+      <ul class="nabar-nav mr-auto"></ul>
       <form class="form-inline mt-2 mt-lg-0">
         <a class="btn btn-primary nav-link active my-2 my-sm-0 mr-2" [routerLink]="['/registration']">Rejestracja</a>
         <a class="btn btn-primary nav-link active my-2 my-sm-0" [routerLink]="['/login']">Logowanie</a>
       </form>
-  </div>
+    </div>
 </nav>
