@@ -58,7 +58,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\services\calendar\calendar-event.ts" />
+    <None Remove="ClientApp\src\app\services\calendar\calendar-service.ts" />
+
     <None Remove="ClientApp\src\app\Models\Account\login.ts" />
+    <None Remove="ClientApp\src\app\Models\Account\register.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,7 +71,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-event.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-service.ts" />
+
     <TypeScriptCompile Include="ClientApp\src\app\Models\Account\login.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\Models\Account\register.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

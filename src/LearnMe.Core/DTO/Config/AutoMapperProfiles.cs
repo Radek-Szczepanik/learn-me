@@ -23,8 +23,16 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<UserBasic, LoginDto>();
             
 
-            CreateMap<CalendarEvent, CalendarEventDto>();
-            CreateMap<CalendarEventDto, CalendarEvent>();
+            CreateMap<CalendarEvent, CalendarEventDto>()
+                .ForMember(dest => dest.StartDate,
+                    opt => opt.MapFrom(src => src.Start))
+                .ForMember(dest => dest.EndDate,
+                    opt => opt.MapFrom(src => src.End));
+            CreateMap<CalendarEventDto, CalendarEvent>()
+                .ForMember(dest => dest.Start,
+                    opt => opt.MapFrom(src => src.StartDate))
+                .ForMember(dest => dest.End,
+                    opt => opt.MapFrom(src => src.EndDate));
 
             CreateMap<Exercises, ExercisesDTO>();
             CreateMap<News, NewsDTO>();

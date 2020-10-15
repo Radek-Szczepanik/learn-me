@@ -10,7 +10,9 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { appRouting } from './routing';
-
+import { CalendarService } from './services/calendar/calendar-service';
+import { DxSchedulerModule } from 'devextreme-angular';
+import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
 
 
 @NgModule({
@@ -18,6 +20,7 @@ import { appRouting } from './routing';
     AppComponent,
     NavComponent,
     HomeComponent,
+    CalendarViewComponent,
     RegistrationComponent,
     LoginComponent
   ],
@@ -26,11 +29,12 @@ import { appRouting } from './routing';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    [NgbPaginationModule, NgbAlertModule],
+    DxSchedulerModule,
     RouterModule.forRoot(appRouting)
   ],
-
-  providers: [],
+  providers: [
+    CalendarService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
