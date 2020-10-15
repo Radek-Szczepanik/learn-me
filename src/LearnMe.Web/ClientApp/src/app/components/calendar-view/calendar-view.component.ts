@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarService } from '../../services/calendar/calendar-service'
+import { HttpClient } from '@angular/common/http';
+import DataSource from 'devextreme/data/data_source';
+import CustomStore from 'devextreme/data/custom_store';
 
 @Component({
   selector: 'app-calendar-view',
@@ -39,11 +42,13 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentAdding(e: any) {
-    this.data.addEvent(eventToAdd)
-      .subscribe(success => {
-        console.debug('is success in adding event');
-        console.debug(success);
-      });
+
+    //this.data.addEvent(eventToAdd)
+    //  .subscribe(success => {
+    //    console.debug('is success in adding event');
+    //    console.debug(success);
+    //  });
+
     //const isValidAppointment = this.isValidAppointment(e.component, e.appointmentData);
     //if (!isValidAppointment) {
     //  e.cancel = true;
