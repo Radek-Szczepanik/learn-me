@@ -23,8 +23,7 @@ import { SidebarModule } from 'ng-sidebar';
     HomeComponent,
     CalendarViewComponent,
     RegistrationComponent,
-    LoginComponent,
-    
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

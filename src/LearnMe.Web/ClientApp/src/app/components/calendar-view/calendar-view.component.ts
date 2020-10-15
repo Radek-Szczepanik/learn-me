@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarService } from '../../services/calendar/calendar-service'
+import { HttpClient } from '@angular/common/http';
+import DataSource from 'devextreme/data/data_source';
+import CustomStore from 'devextreme/data/custom_store';
 
 @Component({
   selector: 'app-calendar-view',
@@ -27,5 +30,37 @@ export class CalendarViewComponent implements OnInit {
         console.debug('appointmentsData - after OnInit');
         console.debug(this.appointmentsData);
       });
+  }
+
+  onAppointmentFormOpening(e: any) {
+    //const startDate = e.appointmentData.startDate;
+    //if (!this.isValidAppointmentDate(startDate)) {
+    //  e.cancel = true;
+    //  this.notifyDisableDate();
+    //}
+    //this.applyDisableDatesToDateEditors(e.form);
+  }
+
+  onAppointmentAdding(e: any) {
+
+    //this.data.addEvent(eventToAdd)
+    //  .subscribe(success => {
+    //    console.debug('is success in adding event');
+    //    console.debug(success);
+    //  });
+
+    //const isValidAppointment = this.isValidAppointment(e.component, e.appointmentData);
+    //if (!isValidAppointment) {
+    //  e.cancel = true;
+    //  this.notifyDisableDate();
+    //}
+  }
+
+  onAppointmentUpdating(e: any) {
+    //const isValidAppointment = this.isValidAppointment(e.component, e.newData);
+    //if (!isValidAppointment) {
+    //  e.cancel = true;
+    //  this.notifyDisableDate();
+    //}
   }
 }

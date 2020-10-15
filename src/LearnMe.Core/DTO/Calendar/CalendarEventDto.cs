@@ -14,6 +14,8 @@ namespace LearnMe.Core.DTO.Calendar
 
         public bool IsDone { get; set; }
 
+        public bool IsFreeSlot { get; set; }
+
         public string CalendarId { get; set; }
     }
 }

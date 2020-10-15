@@ -4,5 +4,6 @@ export interface CalendarEvent {
   startDate: Date;
   endDate: Date;
   isDone: boolean;
+  isFreeSlot: boolean;
   calendarId: string;
 }
