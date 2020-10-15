@@ -17,6 +17,15 @@
         {{error.errorMessage}}
       </div>
 
+
+      <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorFirstName">
+        {{error}}
+      </div>
+
+      <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorLastName">
+        {{error}}
+      </div>
+
       <div class="alert span4 alert-warning" role="alert" *ngFor="let error of errorEmail">
         {{error}}
       </div>
@@ -35,6 +44,8 @@
 
       <!-- Register Form -->
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <input type="text" class="fadeIn second form-control" formControlName="firstName" placeholder="Enter first name">
+        <input type="text" class="fadeIn second form-control" formControlName="lastName" placeholder="Enter last name">
         <input type="text" class="fadeIn second form-control" formControlName="email" placeholder="Enter e-mail">
         <input type="password" class="fadeIn third form-control" formControlName="password" placeholder="Enter password">
         <input type="password" class="fadeIn third form-control" formControlName="confirmPassword" placeholder="Confirm password">

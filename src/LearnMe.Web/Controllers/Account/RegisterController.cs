@@ -59,8 +59,7 @@ namespace LearnMe.Web.Controllers.Account
                 var confirmationLink = Url.Action("Register", "api", new { token, email = user.Email }, Request.Scheme);
                 var message = new Message(new string[] { user.Email }, "Confirmation email link", confirmationLink, null);
                 await _emailSender.SendEmailAsync(message);
-                await _userManager.AddToRoleAsync(user, "Student");
-                
+                await _userManager.AddToRoleAsync(user, "Student");            
                 return Ok();
             }
             foreach (var error in result.Errors)
