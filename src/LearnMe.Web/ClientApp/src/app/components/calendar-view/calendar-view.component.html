@@ -3,18 +3,20 @@
 </div>
 
 <div class="container">
-  <div class="col-lg justify-content-center">
+  <div class="col-lg-11 justify-content-center">
     <dx-scheduler [dataSource]="appointmentsData"
                   appointmentTemplate="appointmentTemplate"
                   [currentDate]="currentDate"
                   [views]='["day", "workWeek", "month"]'
                   currentView="workWeek"
                   [startDayHour]="9"
-                  [endDayHour]="19"
+                  [endDayHour]="18"
                   [height]="auto"
-                  maxAppointmentsPerCell="unlimited">
+                  maxAppointmentsPerCell="unlimited"
+                  timezone="timezone">
 
-      <div *dxTemplate="let model of 'appointmentTemplate'">
+      <div *dxTemplate="let model of 'appointmentTemplate'"
+           [ngStyle]="model.appointmentData.subject=='Wolny Slot'?{'background-color':'green'} : {'background-color': 'blue'}">
         <i>{{model.appointmentData.subject}}</i>
         <p>Description: {{model.appointmentData.description}}</p>
       </div>

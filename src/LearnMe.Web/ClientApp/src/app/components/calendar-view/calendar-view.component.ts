@@ -12,7 +12,8 @@ import CustomStore from 'devextreme/data/custom_store';
 export class CalendarViewComponent implements OnInit {
 
   appointmentsData: any;
-  currentDate: Date = new Date(2020, 9, 14);
+  currentDate: Date = new Date(2020, 9, 16);
+  timezone: string = "Europe/Warsaw";
 
   constructor(private data: CalendarService) {
     console.debug('appointmentsData:');
