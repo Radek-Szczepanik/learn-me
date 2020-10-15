@@ -2,17 +2,26 @@
   <h3>Umów się</h3>
 </div>
 
-<dx-scheduler     [dataSource]="appointmentsData"
+<div class="container">
+  <div class="col-lg justify-content-center">
+    <dx-scheduler [dataSource]="appointmentsData"
                   appointmentTemplate="appointmentTemplate"
                   [currentDate]="currentDate"
                   [views]='["day", "workWeek", "month"]'
+                  currentView="workWeek"
                   [startDayHour]="9"
                   [endDayHour]="19"
-                  [height]="600">
+                  [height]="auto"
+                  maxAppointmentsPerCell="unlimited"
+                  (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+                  (onAppointmentAdding)="onAppointmentAdding($event)"
+                  (onAppointmentUpdating)="onAppointmentUpdating($event)">
 
-  <div *dxTemplate="let model of 'appointmentTemplate'">
-    <i>{{model.appointmentData.subject}}</i>
-    <p>Description: {{model.appointmentData.description}}</p>
+      <div *dxTemplate="let model of 'appointmentTemplate'">
+        <i>{{model.appointmentData.subject}}</i>
+        <p>Description: {{model.appointmentData.description}}</p>
+      </div>
+
+    </dx-scheduler>
   </div>
-
-</dx-scheduler>
+</div>

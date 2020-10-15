@@ -82,7 +82,7 @@ import { Component } from '@angular/core';
     </ng-sidebar-container>
   `
 })
-export class DemoComponent {
+export class NavSidebarComponent {
   private _opened: boolean = false;
   private _modeNum: number = 0;
   private _positionNum: number = 0;
