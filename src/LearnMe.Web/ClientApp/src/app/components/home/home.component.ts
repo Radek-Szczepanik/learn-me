@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
 
 export class HomeComponent implements  OnInit {
 
-  
+  public ofers: string[] = ['Matura', 'Certyfikaty i inne', 'Konwersacje', 'Sprawdź się'];
+  public fotos: string[] = ['krecik.jpg', 'sasiedzi.jpg', 'uszatek.jpg', 'pingu.jpg'];
+
+
   constructor() {
     
   }

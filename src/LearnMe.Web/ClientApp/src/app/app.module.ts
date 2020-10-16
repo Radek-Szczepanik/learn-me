@@ -16,10 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatListModule, MatSidenavModule, MatIconModule, MatToolbarModule} from '@angular/material';
 
 
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
