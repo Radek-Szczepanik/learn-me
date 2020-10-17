@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { NavComponent } from './components/nav/nav.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegistrationComponent } from './Components/registration/registration.component';
 import { LoginComponent } from './Components/login/login.component';
@@ -19,7 +18,6 @@ import { MatButtonModule, MatListModule, MatSidenavModule, MatIconModule, MatToo
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent,
     HomeComponent,
     CalendarViewComponent,
     RegistrationComponent,

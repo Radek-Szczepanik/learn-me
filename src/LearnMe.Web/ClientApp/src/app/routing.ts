@@ -11,7 +11,6 @@ export const appRouting: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
-  //{ path: 'calendar-view', component: CalendarViewComponent },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
   { path: 'calendar-view', component: CalendarViewComponent },
 ];
