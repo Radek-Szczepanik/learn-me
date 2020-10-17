@@ -1,3 +1,10 @@
+
+.mat-toolbar.mat-primary {
+  background: #2d2d30 !important;
+  color: #fff !important;
+}
+
+
 html {
   scroll-behavior: smooth;
 }
@@ -8,7 +15,7 @@ body {
 }
 
 .identity {
-  color: white;
+  color: rgba(0,0,0,.87);
   text-decoration: solid;
 }
 
@@ -83,12 +90,12 @@ h3, h4 {
 }
 
 .bg-1 {
-  background: #2d2d30;
-  color: #bdbdbd;
+  background: #f5f5f5;
+  color: rgba(0,0,0,.87);
 }
 
   .bg-1 h3 {
-    color: #fff;
+    color: rgba(0,0,0,.87);
   }
 
   .bg-1 p {
@@ -225,3 +232,6 @@ footer {
 textarea {
   resize: none;
 }
+
+html, body { height: auto; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

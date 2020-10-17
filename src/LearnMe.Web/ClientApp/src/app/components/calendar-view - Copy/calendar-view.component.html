@@ -1,0 +1,18 @@
+<div class="long-title">
+  <h3>Umów się</h3>
+</div>
+
+<dx-scheduler     [dataSource]="appointmentsData"
+                  appointmentTemplate="appointmentTemplate"
+                  [currentDate]="currentDate"
+                  [views]='["day", "workWeek", "month"]'
+                  [startDayHour]="9"
+                  [endDayHour]="19"
+                  [height]="600">
+
+  <div *dxTemplate="let model of 'appointmentTemplate'">
+    <i>{{model.appointmentData.subject}}</i>
+    <p>Description: {{model.appointmentData.description}}</p>
+  </div>
+
+</dx-scheduler>
