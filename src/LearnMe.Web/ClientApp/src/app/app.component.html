@@ -19,7 +19,7 @@
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-      <mat-nav-list *ngIf="notLogged" style="margin-left:10px; margin-right: 40px">
+      <mat-nav-list *ngIf="notLogged" style="margin-right: 10px">
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="."><mat-icon aria-label="mail" style="margin-right: 15px">home</mat-icon> Home</a>
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="news"><mat-icon aria-label="mail" style="margin-right: 15px">announcement</mat-icon>News</a>
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="translation"><mat-icon aria-label="mail" style="margin-right: 15px">transform</mat-icon>Tłumaczenia i korekta</a>
@@ -30,14 +30,14 @@
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="contact"><mat-icon aria-label="mail" style="margin-right: 15px">emoji_people</mat-icon>Umów się</a>
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="login"><mat-icon aria-label="mail" style="margin-right: 15px">insert_emoticon</mat-icon>Strefa Ucznia</a>
       </mat-nav-list>
-      <mat-nav-list *ngIf="student" style="margin-left:10px; margin-right: 40px">
+      <mat-nav-list *ngIf="student" style="margin-right: 10px">
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="."><mat-icon aria-label="poczta" style="margin-right: 15px">home </mat-icon> Home</a>
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="student/lesson"><mat-icon aria-label="mail" style="margin-right: 15px">article</mat-icon>Lekcje</a>
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="calendar-view"><mat-icon aria-label="mail" style="margin-right: 15px">today</mat-icon>Kalendarz</a>
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="student/payment"><mat-icon aria-label="mail" style="margin-right: 15px">monetization_on</mat-icon>Płatności</a>
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="student/mail"><mat-icon aria-label="mail" style="margin-right: 15px">attach_email</mat-icon>Poczta</a>
       </mat-nav-list>
-      <mat-nav-list *ngIf="mentor" style="margin-left:10px; margin-right: 40px">
+      <mat-nav-list *ngIf="mentor" style="margin-right: 10px">
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="/"><mat-icon aria-label="mail" style="margin-right: 15px">home</mat-icon> Home</a>
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/pupils"><mat-icon aria-label="mail" style="margin-right: 15px">insert_emoticon</mat-icon>Uczniowie</a>
         <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/lesson"><mat-icon aria-label="mail" style="margin-right: 15px">article</mat-icon>Lekcje</a>
