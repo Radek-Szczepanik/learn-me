@@ -3,16 +3,36 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { RegistrationComponent } from './Components/registration/registration.component';
-import { LoginComponent } from './Components/login/login.component';
+import { RegistrationComponent } from './Components/account/registration/registration.component';
+import { LoginComponent } from './Components/account/login/login.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { appRouting } from './routing';
 import { CalendarService } from './services/calendar/calendar-service';
 import { DxSchedulerModule } from 'devextreme-angular';
-import { CalendarViewComponent } from './components/calendar-view/calendar-view.component';
+import { CalendarViewComponent } from './components/calendar/calendar-view/calendar-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatListModule, MatSidenavModule, MatIconModule, MatToolbarModule} from '@angular/material';
+import { FaqComponent } from './components/main/faq/faq.component';
+import { NewsComponent } from './components/main/news/news.component';
+import { TranslationsComponent } from './components/main/translations/translations.component';
+import { ExerciseComponent } from './components/main/exercise/exercise.component';
+import { PrivateLessonsComponent } from './components/main/private-lessons/private-lessons.component';
+import { ShopComponent } from './components/main/shop/shop.component';
+import { ContactComponent } from './components/main/contact/contact.component';
+import { StudentMailComponent } from './components/student/student-mail/student-mail.component';
+import { StudentLessonComponent } from './components/student/student-lesson/student-lesson.component';
+import { StudentCalendarComponent } from './components/student/student-calendar/student-calendar.component';
+import { StudentPaymentComponent } from './components/student/student-payment/student-payment.component';
+import { MentorPaymentComponent } from './components/mentor/mentor-payment/mentor-payment.component';
+import { MentorCalendarComponent } from './components/mentor/mentor-calendar/mentor-calendar.component';
+import { MentorLessonComponent } from './components/mentor/mentor-lesson/mentor-lesson.component';
+import { MentorPupilsComponent } from './components/mentor/mentor-pupils/mentor-pupils.component';
+import { MentorMailComponent } from './components/mentor/mentor-mail/mentor-mail.component';
+import { MentorNewsComponent } from './components/mentor/mentor-news/mentor-news.component';
+import { MentorFaqComponent } from './components/mentor/mentor-faq/mentor-faq.component';
+import { MentorExerciseComponent } from './components/mentor/mentor-exercise/mentor-exercise.component';
+import { MentorOpinionsComponent } from './components/mentor/mentor-opinions/mentor-opinions.component';
 
 
 @NgModule({
@@ -21,7 +41,27 @@ import { MatButtonModule, MatListModule, MatSidenavModule, MatIconModule, MatToo
     HomeComponent,
     CalendarViewComponent,
     RegistrationComponent,
-    LoginComponent
+    LoginComponent,
+    FaqComponent,
+    NewsComponent,
+    TranslationsComponent,
+    ExerciseComponent,
+    PrivateLessonsComponent,
+    ShopComponent,
+    ContactComponent,
+    StudentMailComponent,
+    StudentLessonComponent,
+    StudentCalendarComponent,
+    StudentPaymentComponent,
+    MentorPaymentComponent,
+    MentorCalendarComponent,
+    MentorLessonComponent,
+    MentorPupilsComponent,
+    MentorMailComponent,
+    MentorNewsComponent,
+    MentorFaqComponent,
+    MentorExerciseComponent,
+    MentorOpinionsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
