@@ -2,15 +2,15 @@
   <h3>Umów się</h3>
 </div>
 
-<div class="container">
-  <div class="col-lg-11 justify-content-center">
+<div class="container-flex">
+  <div class="col-lg-auto justify-content-center">
     <dx-scheduler [dataSource]="appointmentsData"
                   appointmentTemplate="appointmentTemplate"
                   [currentDate]="currentDate"
-                  [views]='["day", "workWeek", "month"]'
-                  currentView="workWeek"
-                  [startDayHour]="9"
-                  [endDayHour]="18"
+                  [views]='["day", "month", "week"]'
+                  currentView="week"
+                  [startDayHour]="7"
+                  [endDayHour]="22"
                   [height]="auto"
                   maxAppointmentsPerCell="unlimited"
                   timezone="timezone">
