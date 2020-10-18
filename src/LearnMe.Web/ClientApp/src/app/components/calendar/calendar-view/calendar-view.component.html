@@ -13,7 +13,7 @@
                   [endDayHour]="22"
                   [height]="auto"
                   maxAppointmentsPerCell="unlimited"
-                  timezone="timezone">
+                  timezone="timezone">  
 
       <div *dxTemplate="let model of 'appointmentTemplate'"
            [ngStyle]="model.appointmentData.subject=='Wolny Slot'?{'background-color':'green'} : {'background-color': 'blue'}">
