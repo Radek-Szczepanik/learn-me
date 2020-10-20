@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { HomeComponent } from "./components/home/home.component";
-import { RegistrationComponent } from "./Components/account/registration/registration.component";
-import { LoginComponent } from "./Components/account/login/login.component";
+import { RegistrationComponent } from "./components/account/registration/registration.component";
+import { LoginComponent } from "./components/account/login/login.component";
 import { CalendarViewComponent } from './components/calendar/calendar-view/calendar-view.component';
 import { FaqComponent } from './components/main/faq/faq.component';
 import { NewsComponent } from './components/main/news/news.component';
