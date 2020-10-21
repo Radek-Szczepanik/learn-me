@@ -24,14 +24,12 @@ namespace LearnMe.Controllers.Users
         private readonly UserManager<UserBasic> _userManager;
         private readonly IMapper _mapper;
 
-
         public UserBasicsController(
             UserManager<UserBasic> userManager,
             IMapper mapper)
         {
             _mapper = mapper;
             _userManager = userManager;
-
         }
 
         [HttpGet]
