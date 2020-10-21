@@ -12,6 +12,7 @@ using LearnMe.Core.Services.Account.Email;
 using LearnMe.Core.Interfaces.Services;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
+ 
 namespace LearnMe.Web.Controllers.Account
 {
     [ApiController]
@@ -20,24 +21,17 @@ namespace LearnMe.Web.Controllers.Account
     {
         private RoleManager<IdentityRole> _roleManager;
 
-        public RolesController(RoleManager<IdentityRole> roleManager)
+        public RolesController(RoleManager<IdentityRole> roleManager, 
+        UserManager<UserBasic> userManager)
         {
             _roleManager = roleManager;
-
         }
 
-
         [HttpPost]
-        public async Task<ActionResult> Create(IdentityRole roleViewModel)
+        public async Task<ActionResult> PostAsync(IdentityRole roleViewModel)
         {
-            //var role = new IdentityRole(roleViewModel.Name);
             var roleresult = await _roleManager.CreateAsync(roleViewModel);
-            //if (!roleresult.Succeeded)
-            //{
-            //    ModelState.AddModelError("", roleresult.Errors.First());
-            //    return Ok();
-            //}
-            return Ok("some_action");
+            return Ok();
         }
     }
 }
