@@ -78,6 +78,7 @@ namespace LearnMe.Web
                 return token;
             });
 
+            services.AddCors();
             services.AddScoped<IExternalCalendarService<Event>, ExternalCalendarService>();
             services.AddScoped<ICalendar, LearnMe.Core.Services.Calendar.Calendar>();
             services.AddScoped<ISynchronizer, Synchronizer>();
@@ -92,7 +93,6 @@ namespace LearnMe.Web
                 .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
             services.AddScoped<IEmailSender, EmailSender>();
-
             var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutoMapperProfiles()); });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -119,6 +119,7 @@ namespace LearnMe.Web
                 app.UseSpaStaticFiles();
             }
 
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),

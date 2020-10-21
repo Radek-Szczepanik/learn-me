@@ -15,7 +15,7 @@
 
 
   </mat-toolbar>
-  <mat-sidenav-container class="example-sidenav-container"
+  <mat-sidenav-container style="height: auto; min-height: 1000px" class="example-sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">

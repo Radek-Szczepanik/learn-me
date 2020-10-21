@@ -33,10 +33,13 @@ namespace LearnMe.Controllers.Users
 
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserBasic>>> GetUser()
+        public async Task<ActionResult> GetUser()
         {
-            var temp = await _crudRepository.GetAllAsync(10, 1);
-            return Ok(temp);
+            var users = await _crudRepository.GetAllAsync(10, 1);
+            var usersToReturn = _mapper.Map<IEnumerable<UserBasicDto>>(users);
+
+            return Ok(usersToReturn);
+
             // return  Ok(_mapper.Map<IEnumerable<UserBasicDto>>(users));
         }
 
