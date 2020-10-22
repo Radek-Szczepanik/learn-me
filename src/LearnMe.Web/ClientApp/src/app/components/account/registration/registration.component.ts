@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Register } from '../../../Models/Account/register';
+import { Register } from '../../../models/Account/register';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';

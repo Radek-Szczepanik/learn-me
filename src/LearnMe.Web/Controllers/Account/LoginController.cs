@@ -36,7 +36,6 @@ namespace LearnMe.Web.Controllers.Account
             _logger = logger;
             _addClaim = addClaim;
 
-
         }
 
 
@@ -51,6 +50,7 @@ namespace LearnMe.Web.Controllers.Account
                 await _addClaim.CreateAsync(await _userManager.FindByEmailAsync(input.Email));
                 _logger.LogInformation("User logged in.");
                 return Ok();
+                
             }
             if (result.IsLockedOut)
             {

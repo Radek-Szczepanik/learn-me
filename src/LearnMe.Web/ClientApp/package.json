@@ -31,6 +31,7 @@
     "devextreme": "20.1.8",
     "devextreme-angular": "^20.1.8",
     "devextreme-aspnet-data-nojquery": "^2.7.1",
+    "hammerjs": "^2.0.8",
     "jquery": "3.4.1",
     "ng-sidebar": "^9.4.2",
     "oidc-client": "^1.9.1",
