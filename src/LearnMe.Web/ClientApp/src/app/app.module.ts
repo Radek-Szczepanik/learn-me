@@ -1,3 +1,4 @@
+import 'hammerjs';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
@@ -37,8 +38,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
-
+import { MatInputModule } from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogContentExampleDialog } from './components/mentor/mentor-pupils/mentor-pupils.component';
 
 
 @NgModule({
@@ -67,7 +70,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MentorNewsComponent,
     MentorFaqComponent,
     MentorExerciseComponent,
-    MentorOpinionsComponent
+    MentorOpinionsComponent,
+    DialogContentExampleDialog
+
+    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -85,12 +91,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatSliderModule,
     MatTableModule,
     MatPaginatorModule,
-    MatFormFieldModule
-
+    MatFormFieldModule,
+    MatInputModule,
+    MatSortModule,
+    MatDialogModule
   ],
   providers: [
     CalendarService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    DialogContentExampleDialog
+  ]
 })
 export class AppModule { }

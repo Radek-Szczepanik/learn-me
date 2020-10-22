@@ -1,44 +1,61 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { User } from '../../../models/Users/user';
-import {AfterViewInit, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { AfterViewInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-mentor-pupils',
   templateUrl: './mentor-pupils.component.html',
   styleUrls: ['./mentor-pupils.component.css']
 })
-export class MentorPupilsComponent  {
+export class MentorPupilsComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'email'];
   dataSource: MatTableDataSource<User>;
-  users: User[];
-  a: any;
+  _http: HttpClient;
+  _baseUrl: string;
+ 
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort,  {static: true}) sort: MatSort;
 
-  // @ViewChild(MatPaginator) paginator: MatPaginator;
-  // @ViewChild(MatSort) sort: MatSort;
-
-
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<User[]>(baseUrl + 'api/UserBasics?rolename=student').subscribe(result => {
-      this.dataSource = new MatTableDataSource(result);;
-    }, error => console.log(error));
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, public dialog: MatDialog) {
+    this._http = http;
+    this._baseUrl = baseUrl;
   }
-    
-  
-  // /** Builds and returns a new User. */
-  // function createNewUser(id: number): UserData {
-  //   const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-  //       NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
-  
-  //   return {
-  //     id: id.toString(),
-  //     name: name,
-  //     progress: Math.round(Math.random() * 100).toString(),
-  //     color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-  //}
- }
-  
+
+  ngAfterViewInit() {
+    this._http.get<User[]>(this._baseUrl + 'api/UserBasics?rolename=student').subscribe(result => {
+      this.dataSource = new MatTableDataSource(result);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogContentExampleDialog);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+}
+
+@Component({
+  selector: 'dialog-content-example-dialog',
+  templateUrl: 'mentor-add-student.html',
+})
+
+export class DialogContentExampleDialog {}
