@@ -12,113 +12,53 @@ using LearnMe.Infrastructure.Repository.Interfaces;
 using LearnMe.Core.DTO.Config;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace LearnMe.Controllers.Users
-{
+{   
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserBasicsController : ControllerBase
     {
-        private readonly ICrudRepository<UserBasic> _crudRepository;
+        private readonly UserManager<UserBasic> _userManager;
         private readonly IMapper _mapper;
 
-
         public UserBasicsController(
-            ICrudRepository<UserBasic> crudRepository,
+            UserManager<UserBasic> userManager,
             IMapper mapper)
         {
-            _crudRepository = crudRepository;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
-        [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserBasic>>> GetUser()
+        public async Task<ActionResult> GetUserByRole(string rolename)
         {
-            var temp = await _crudRepository.GetAllAsync(10, 1);
-            return Ok(temp);
-            // return  Ok(_mapper.Map<IEnumerable<UserBasicDto>>(users));
+            var role = await _userManager.GetUsersInRoleAsync(rolename);
+            return Ok(role);
         }
 
+        [HttpDelete]
+        public async Task<ActionResult> DeleteUser(UserBasic user)
+        {
+            var role = await _userManager.DeleteAsync(user);
+            return Ok();
+        }
 
-        //// GET: api/UserBasics
-        //[HttpGet]
-        //public async Task<IEnumerable<UserBasicDto>> GetUsers()
-        //{
-        //    return await _crudRepositoryBasic.GetAllAsync(100, 1);
-        //}
+   
+        [HttpPut("{id}")]
+         public async Task<ActionResult> PutUser(UserBasic user)
+        {
+            var role = await _userManager.UpdateAsync(user);
+            return Ok();
+        }
 
-        //// GET: api/UserBasics/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<UserBasic>> GetUserBasic(int id)
-        //{
-        //    var userBasic = await _context.Users.FindAsync(id);
-
-        //    if (userBasic == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return userBasic;
-        //}
-
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutUserBasic(int id, UserBasic userBasic)
-        //{
-        //    if (id != userBasic.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(userBasic).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!UserBasicExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-
-        //[HttpPost]
-        //public async Task<bool> AddUser(UserRegistrationDto user)
-        //{
-        //    await _crudRepositoryRegistration.InsertAsync(user);
-        //    return true; 
-        //}
-
-        //// DELETE: api/UserBasics/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<UserBasic>> DeleteUserBasic(int id)
-        //{
-        //    var userBasic = await _context.Users.FindAsync(id);
-        //    if (userBasic == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Users.Remove(userBasic);
-        //    await _context.SaveChangesAsync();
-
-        //    return userBasic;
-        //}
-
-        //private bool UserBasicExists(int id)
-        //{
-        //    return _context.Users.Any(e => e.Id == id);
-        //}
+         [HttpPost]
+         public async Task<ActionResult> CreateUser(UserBasic user)
+        {
+            var role = await _userManager.CreateAsync(user);
+            return Ok();
+        }
     }
 }
-

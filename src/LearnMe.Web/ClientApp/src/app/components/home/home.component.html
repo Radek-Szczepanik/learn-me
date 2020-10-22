@@ -1,108 +1,68 @@
-<div class="row">
-  <div class="col-md-2" style="background-color: #343a40">
-    <ul class="nav flex-column">
-      <li class="nav-item">
-        <button class="btn-primary btn-block nav-link active mb-2" href="#">Home</button>
-      </li>
-      <li class="nav-item">
-        <button class="btn-primary btn-block nav-link active mb-2" href="#">Aktualności</button>
-      </li>
-      <li class="nav-item">
-        <button class="btn-primary btn-block nav-link active mb-2" href="#">Tłumaczenia i Korekta</button>
-      </li>
-      <li class="nav-item">
-        <button class="btn-primary btn-block nav-link active mb-2" href="#">Korepetycje i kursy</button>
-      </li>
-      <li class="nav-item">
-        <button class="btn-primary btn-block nav-link active mb-2" href="#">Sklep</button>
-      </li>
-      <li class="nav-item">
-        <button class="btn-primary btn-block nav-link active mb-2" href="#">Ćwiczenia</button>
-      </li>
-      <li class="nav-item">
-        <button class="btn-primary btn-block nav-link active mb-2" href="#">FAQ</button>
-      </li>
-      <li class="nav-item">
-        <button class="btn-primary btn-block nav-link active mb-2" [routerLink]="['/calendar-view']">Umów się</button>
-      </li>
-      <li class="nav-item">
-        <button class="btn-primary btn-block nav-link active mb-2" href="#">Strefa Ucznia</button>
-      </li>
-    </ul>
+<body id="myPage">
+
+  <img src="slider8.jpg" class="img-responsive" style="width:100%">
+
+  <div id="about" class="container">
+    <h3 class="text-center">Kim jest Pani Kowalska?</h3>
+    <p>
+      <b>Greetings web explorers (hopefully not Internet Explorers)!</b>
+      <br><br>
+      Z Panią Kowalską szybko nauczysz się angielskiego! Uzyskasz profesjonalne przygotowanie do egzaminów.
+      Oferuję też tłumaczenia oraz korektę różnego rodzaju dokumentów. Skontaktuj się ze mną, żeby poznać szczegóły oferty!
+      <br>
+      <br>
+      Have Fun!
+      <br>
   </div>
-  <div class="col-md-10">
-    <h3 style="text-align: center; margin-top: 20px; margin-bottom: 20px">O co chodzi i kim jest Pani Kowalska ?</h3>
-    <div id="kowalska">
-        <p>
-          Z Panią Kowalską szybko nauczysz się angielskiego! Uzyskasz profesjonalne przygotowanie do egzaminów.
-          Oferuję też tłumaczenia oraz korektę różnego rodzaju dokumentów. Skontaktuj się ze mną, żeby poznać szczegóły oferty!
-        </p>
-    </div>
-    <div class="row justify-content-center">
-      <div class="card mr-5 mb-5" style="width: 15rem;">
-        <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-        <div class="card-body">
-          <h5 class="card-title">Matura</h5>
-          <a href="#" class="btn btn-primary">Zobacz</a>
-        </div>
-      </div>
 
-      <div class="card mr-5 mb-5" style="width: 15rem;">
-        <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-        <div class="card-body">
-          <h5 class="card-title">E8</h5>
-          <a href="#" class="btn btn-primary">Zobacz</a>
-        </div>
-      </div>
-
-      <div class="card mr-5 mb-5" style="width: 15rem;">
-        <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-        <div class="card-body">
-          <h5 class="card-title">Certyfikaty i inne</h5>
-          <a href="#" class="btn btn-primary">Zobacz</a>
-        </div>
-      </div>
-      
-      <div class="card mr-5 mb-5" style="width: 15rem;">
-        <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-        <div class="card-body">
-          <h5 class="card-title">Konwersacje</h5>
-          <a href="#" class="btn btn-primary">Zobacz</a>
-        </div>
-      </div>
-
-      <div class="card mr-5 mb-5" style="width: 15rem;">
-        <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-        <div class="card-body">
-          <h5 class="card-title">Tłumaczenia i korekta</h5>
-          <a href="#" class="btn btn-primary">Zobacz</a>
-        </div>
-      </div>
-
-      <div class="card mr-5 mb-5" style="width: 15rem;">
-        <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-        <div class="card-body">
-          <h5 class="card-title">Zadania</h5>
-          <a href="#" class="btn btn-primary">Zobacz</a>
-        </div>
-      </div>
-
-      <div class="card mr-5 mb-5" style="width: 15rem;">
-        <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-        <div class="card-body">
-          <h5 class="card-title">Sprawdź się</h5>
-          <a href="#" class="btn btn-primary">Zobacz</a>
-        </div>
-      </div>
-
-      <div class="card mr-5 mb-5" style="width: 15rem;">
-        <img src="../../assets/books.jpg" class="card-img-top" alt="card img">
-        <div class="card-body">
-          <h5 class="card-title">Darmowe materiały</h5>
-          <a href="#" class="btn btn-primary">Zobacz</a>
+  <div id="quests" class="bg-1">
+    <div class="container">
+      <h3 class="text-center">Co oferuje Pani Kowalska?</h3>
+      <p class="text-center">Remember about <span class="badge badge-light">Golden coins!</span></p>
+      <div class="row text-center">
+        <div class="col-sm-3" *ngFor="let foto of fotos">
+          <div class="thumbnail img-thumbnail">
+            <div>
+              <img src="/{{foto}}" alt="foto" width="400" height="300">
+              <p><strong>Oferta na..</strong></p>
+              <p></p>
+              <button class="btn" data-toggle="modal">More info</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
+
+  <div id="contact" class="container">
+    <h3 class="text-center">Zapraszam do kontaktu!</h3>
+
+    <div class="row">
+      <div class="col-md-4">
+        <p>Fan? Drop a note.</p>
+        <p><span class="glyphicon glyphicon-map-marker"></span>Poland</p>
+        <p><span class="glyphicon glyphicon-phone"></span>Phone: +48 696-687-486</p>
+        <p><span class="glyphicon glyphicon-envelope"></span>Email: mail@mail.com</p>
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-sm-6 form-group">
+            <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+          </div>
+          <div class="col-sm-6 form-group">
+            <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+          </div>
+        </div>
+        <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea>
+        <br>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <button class="btn pull-right" type="submit">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>

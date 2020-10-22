@@ -1,19 +1,60 @@
-<ng-sidebar-container>
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
+  <mat-toolbar class="example-toolbar">
+    <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+    <h1 class="example-app-name">LearnMe</h1>
+    <span class="spacer" *ngIf="notLogged"></span>
+    <div *ngIf="notLogged">
+      <button mat-raised-button color="accent" style="margin-left: 10px" [routerLink]="['/login']">Sign in</button>
+      <button mat-raised-button color="accent" style="margin-left: 10px" [routerLink]="['/registration']">Registration</button>
+    </div>
+    <div *ngIf="student" class="identity" style="margin-left: auto; padding-right: 10px">Hello, {{identity[2]}} {{identity[3]}}! How are you today?</div>
+    <button mat-raised-button color="accent" *ngIf="student" style="margin-left: auto" (click)="logOut()">Sign out</button>
+    <div *ngIf="mentor" class="identity" style="margin-left: auto; padding-right: 10px">Hello, {{identity[2]}} {{identity[3]}}! How are you today?</div>
+    <button mat-raised-button color="accent" *ngIf="mentor" style="margin-left: auto" (click)="logOut()">Sign out</button>
 
-  <ng-sidebar [(opened)]="_opened">
-    <p>Sidebar contents</p>
-  </ng-sidebar>
 
-  <div ng-sidebar-content>
-    <button (click)="_toggleSidebar()">Toggle sidebar</button>
-  </div>
-
-</ng-sidebar-container>
-
-<app-nav></app-nav>
-<!--<app-nav-sidebar></app-nav-sidebar>-->
-<div class="container-flex">
-  <router-outlet></router-outlet>
+  </mat-toolbar>
+  <mat-sidenav-container style="height: auto; min-height: 1000px" class="example-sidenav-container"
+                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-nav-list *ngIf="notLogged" style="margin-right: 10px">
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="."><mat-icon aria-label="mail" style="margin-right: 15px">home</mat-icon> Home</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="news"><mat-icon aria-label="mail" style="margin-right: 15px">announcement</mat-icon>News</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="translation"><mat-icon aria-label="mail" style="margin-right: 15px">transform</mat-icon>Tłumaczenia i korekta</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="lessons"><mat-icon aria-label="mail" style="margin-right: 15px">record_voice_over </mat-icon>Korepetycje i kursy</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="shop"><mat-icon aria-label="mail" style="margin-right: 15px">shopping_cart</mat-icon>Sklep</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="exercise"><mat-icon aria-label="mail" style="margin-right: 15px">create</mat-icon>Ćwiczenia</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="faq"><mat-icon aria-label="mail" style="margin-right: 15px">error_outline</mat-icon>FAQ</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="contact"><mat-icon aria-label="mail" style="margin-right: 15px">emoji_people</mat-icon>Umów się</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="login"><mat-icon aria-label="mail" style="margin-right: 15px">insert_emoticon</mat-icon>Strefa Ucznia</a>
+      </mat-nav-list>
+      <mat-nav-list *ngIf="student" style="margin-right: 10px">
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="."><mat-icon aria-label="poczta" style="margin-right: 15px">home </mat-icon> Home</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="student/lesson"><mat-icon aria-label="mail" style="margin-right: 15px">article</mat-icon>Lekcje</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="calendar-view"><mat-icon aria-label="mail" style="margin-right: 15px">today</mat-icon>Kalendarz</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="student/payment"><mat-icon aria-label="mail" style="margin-right: 15px">monetization_on</mat-icon>Płatności</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="student/mail"><mat-icon aria-label="mail" style="margin-right: 15px">attach_email</mat-icon>Poczta</a>
+      </mat-nav-list>
+      <mat-nav-list *ngIf="mentor" style="margin-right: 10px">
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="/"><mat-icon aria-label="mail" style="margin-right: 15px">home</mat-icon> Home</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/pupils"><mat-icon aria-label="mail" style="margin-right: 15px">insert_emoticon</mat-icon>Uczniowie</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/lesson"><mat-icon aria-label="mail" style="margin-right: 15px">article</mat-icon>Lekcje</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="calendar-view"><mat-icon aria-label="mail" style="margin-right: 15px">today</mat-icon>Kalendarz</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/payment"><mat-icon aria-label="mail" style="margin-right: 15px">monetization_on</mat-icon>Płatności</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/mail"><mat-icon aria-label="mail" style="margin-right: 15px">attach_email</mat-icon>Poczta</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/news"><mat-icon aria-label="mail" style="margin-right: 15px">announcement</mat-icon>News</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/opinions"><mat-icon aria-label="mail" style="margin-right: 15px">favorite_border</mat-icon>Opinie</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/faq"><mat-icon aria-label="mail" style="margin-right: 15px">error_outline</mat-icon>FAQ</a>
+        <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/exercise"><mat-icon aria-label="mail" style="margin-right: 15px">create</mat-icon>Ćwiczenia</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="container-flex">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
 
 
