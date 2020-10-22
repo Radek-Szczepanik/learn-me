@@ -13,10 +13,10 @@
                   [endDayHour]="22"
                   [height]="auto"
                   maxAppointmentsPerCell="unlimited"
-                  timezone="timezone">  
-
+                  timezone="timezone">
+      <!--https://blog.angular-university.io/angular-ngclass-ngstyle/-->
       <div *dxTemplate="let model of 'appointmentTemplate'"
-           [ngStyle]="model.appointmentData.subject=='Wolny Slot'?{'background-color':'green'} : {'background-color': 'blue'}">
+           [ngClass]="model.appointmentData.subject=='Wolny Slot'?{nazwaklasyzpliku css} : {'background-color': 'blue'}">
         <i>{{model.appointmentData.subject}}</i>
         <p>Description: {{model.appointmentData.description}}</p>
       </div>

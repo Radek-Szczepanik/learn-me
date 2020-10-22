@@ -33,6 +33,11 @@ export class CalendarViewComponent implements OnInit {
       });
   }
 
+  // z parent komponentu będzie dostęp do tego kalenarza
+  // this.calendarApi = this.calendarComponent.getApi();
+  // let currentDate = this.calendarApi.view.currentStart;
+  // i current date przekazac z powrotem do child komponentu kalendarza
+
   onAppointmentFormOpening(e: any) {
     //const startDate = e.appointmentData.startDate;
     //if (!this.isValidAppointmentDate(startDate)) {
