@@ -33,6 +33,12 @@ import { MentorNewsComponent } from './components/mentor/mentor-news/mentor-news
 import { MentorFaqComponent } from './components/mentor/mentor-faq/mentor-faq.component';
 import { MentorExerciseComponent } from './components/mentor/mentor-exercise/mentor-exercise.component';
 import { MentorOpinionsComponent } from './components/mentor/mentor-opinions/mentor-opinions.component';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+
 
 
 @NgModule({
@@ -75,7 +81,12 @@ import { MentorOpinionsComponent } from './components/mentor/mentor-opinions/men
     MatIconModule,
     MatSidenavModule,
     MatListModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSliderModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule
+
   ],
   providers: [
     CalendarService

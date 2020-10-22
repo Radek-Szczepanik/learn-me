@@ -49,7 +49,6 @@ namespace LearnMe.Web
              b => b.MigrationsAssembly("LearnMe.Web")));
             services.AddIdentity<UserBasic, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-            
             services.AddAuthentication()
             .AddGoogle(options =>
             {
@@ -65,6 +64,7 @@ namespace LearnMe.Web
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.LoginPath = "/Identity/Account/";
+
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
             });
@@ -78,6 +78,7 @@ namespace LearnMe.Web
                 return token;
             });
 
+            services.AddCors();
             services.AddScoped<IExternalCalendarService<Event>, ExternalCalendarService>();
             services.AddScoped<ICalendar, LearnMe.Core.Services.Calendar.Calendar>();
             services.AddScoped<ISynchronizer, Synchronizer>();
@@ -92,7 +93,6 @@ namespace LearnMe.Web
                 .Get<EmailConfiguration>();
             services.AddSingleton(emailConfig);
             services.AddScoped<IEmailSender, EmailSender>();
-
             var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new AutoMapperProfiles()); });
 
             IMapper mapper = mapperConfig.CreateMapper();
@@ -119,6 +119,7 @@ namespace LearnMe.Web
                 app.UseSpaStaticFiles();
             }
 
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
@@ -134,7 +135,7 @@ namespace LearnMe.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}").RequireAuthorization();
+                    pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>

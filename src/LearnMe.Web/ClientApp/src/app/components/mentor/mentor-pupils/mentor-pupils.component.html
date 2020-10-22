@@ -1,22 +1,47 @@
-<p>
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+</mat-form-field>
 
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin bibendum convallis dolor, non iaculis odio condimentum sed. Mauris felis dolor, elementum a varius in, lacinia sed nisi. Suspendisse efficitur leo sit amet urna faucibus dignissim. Suspendisse at pellentesque nunc. In iaculis nibh nec dui sodales venenatis. Quisque ut molestie diam. Phasellus magna ante, imperdiet in sem sit amet, aliquam pellentesque arcu. Duis et turpis ut diam venenatis tempus ac mattis nisi. Vivamus id pharetra lectus. Proin sit amet tristique lacus.
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-  Nullam eu vulputate tortor. Nullam a sem consequat enim ultricies tempor. Etiam aliquam ligula in sapien congue vulputate. Cras rutrum urna quis aliquet blandit. Nulla facilisi. Vestibulum finibus leo scelerisque dui lobortis feugiat. Proin et elementum lacus.
+    <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
 
-  Quisque at dolor neque. Quisque ultricies venenatis leo quis volutpat. Mauris nec scelerisque orci, sed pulvinar justo. Maecenas consectetur nibh bibendum, bibendum dolor et, vestibulum nibh. Pellentesque dui purus, volutpat id ex sed, semper varius orci. In eu pretium orci, id sollicitudin velit. Mauris at enim quis diam cursus pellentesque pulvinar sit amet dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nunc orci purus, dapibus ut purus eget, varius mollis magna. Vestibulum eu ipsum vitae lectus euismod convallis in nec diam. In venenatis scelerisque placerat. In rutrum ut lorem nec euismod. Praesent dignissim at quam eget vehicula. Sed ut orci eget diam rutrum lacinia. Etiam placerat venenatis dui in tempus. Aliquam eros ex, vestibulum et nisi in, tempor egestas lacus.
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef> Imię </th>
+      <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+    </ng-container>
 
-  Nam maximus molestie mauris, id molestie turpis blandit eget. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam eget augue a augue interdum rhoncus. Pellentesque consequat ante ac facilisis laoreet. Integer gravida nulla et viverra rhoncus. Morbi sit amet facilisis orci. Vivamus blandit quis lorem vitae cursus. Aliquam faucibus lacinia ultricies. Ut in risus odio. Mauris sit amet justo lacus. Proin posuere ornare nulla. Sed tincidunt metus libero, vel dignissim sapien accumsan sed.
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nazwisko </th>
+      <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+    </ng-container>
 
-  In hac habitasse platea dictumst. Nullam tempus justo sed tellus tempus porta. Curabitur ornare augue at dui gravida venenatis. Nullam lacinia, eros ac suscipit tincidunt, ligula urna fringilla est, et convallis lacus tellus sit amet felis. Nunc vehicula finibus dignissim. Maecenas eget massa at metus bibendum egestas. Quisque lorem ligula, tempor eget quam in, lobortis cursus orci. Sed pretium vestibulum ex vitae dictum. Maecenas vulputate pharetra tortor, at vulputate nunc ornare nec. Nullam vehicula massa ut ante scelerisque, a vestibulum nisi ornare. Donec iaculis purus tincidunt ornare rhoncus. Morbi condimentum erat justo, id commodo sapien efficitur non. Suspendisse ut mattis nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef> E-mail </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
 
-  Pellentesque eleifend fringilla tristique. Pellentesque condimentum erat diam, semper lacinia sem gravida fringilla. Praesent in urna tempus, pharetra sapien non, tempus diam. Suspendisse neque felis, placerat a risus eget, facilisis posuere lacus. Vestibulum volutpat euismod libero quis efficitur. Vestibulum hendrerit urna vel nibh congue, at ultrices turpis tristique. Morbi nisl mauris, vehicula eget iaculis non, ultricies tempor odio. Interdum et malesuada fames ac ante ipsum primis in faucibus. Etiam imperdiet molestie nisi id semper. Maecenas posuere rutrum odio, a auctor est varius porttitor.
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+      <th mat-header-cell *matHeaderCellDef> Symbol </th>
+      <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+    </ng-container>
 
-  Integer tincidunt diam orci, eget luctus felis vehicula scelerisque. Curabitur sed pharetra lacus. Ut sagittis tincidunt ligula, a vestibulum augue maximus eu. Curabitur faucibus nisi eu ante sodales suscipit. Suspendisse ullamcorper nibh lacus, non euismod sapien placerat sit amet. Aliquam sit amet ipsum aliquet urna tempus bibendum eu at ligula. Morbi pretium enim interdum, volutpat felis et, porta ex. Nam vehicula lectus eu lacus congue, sed pharetra massa ultrices. Donec nec tincidunt tellus, vel iaculis ex. Aenean sit amet ultricies augue. Mauris a orci sem. Quisque ut ornare elit. Aliquam congue metus ut ullamcorper aliquet. Proin vel hendrerit sapien, id finibus mauris.
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-  Quisque cursus nec purus nec dapibus. Nullam ipsum risus, pretium eu est ullamcorper, finibus consequat nunc. Duis tincidunt ex id lorem suscipit convallis. Nam id turpis malesuada, tincidunt libero non, suscipit lectus. Proin vehicula dictum eros. Vestibulum ante urna, consequat eu felis sed, maximus elementum urna. Donec metus metus, maximus eget eleifend at, sagittis vitae erat. Aenean eu fringilla ligula.
 
-  Proin feugiat, orci in pellentesque accumsan, lacus purus venenatis est, at condimentum tortor metus a augue. Fusce eget neque rhoncus nunc pharetra lobortis in et mauris. Duis neque dui, rutrum eget dui vitae, feugiat sagittis leo. Nunc cursus, sem auctor volutpat luctus, purus nisi tincidunt nisi, quis iaculis augue velit non mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed semper magna eu ex convallis hendrerit. Donec vel auctor mauris. Aliquam porta erat non vehicula pellentesque. Phasellus ut sodales elit. Mauris non pulvinar augue. Donec diam lectus, dictum quis lorem sed, tincidunt dignissim enim. In mauris ante, tristique quis mi ac, fermentum malesuada tortor.
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
 
-  Donec tristique dui vel lacus pulvinar, non mattis libero accumsan. Integer lacinia tempor diam, ac rutrum elit accumsan vitae. Sed aliquet maximus dolor eget convallis. Suspendisse potenti. Fusce ultricies lectus porttitor leo blandit vulputate. Fusce ut iaculis erat. Nunc eget finibus eros, sed luctus est. Praesent faucibus nisl nec massa lacinia efficitur. Quisque dictum ipsum in elit iaculis, eget iaculis mauris scelerisque. Phasellus finibus faucibus lacinia. Suspendisse eget dignissim lacus. Pellentesque dui tellus, pretium vitae sodales et, pharetra nec risus.
-</p>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
