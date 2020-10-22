@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { RegistrationComponent } from './Components/account/registration/registration.component';
-import { LoginComponent } from './Components/account/login/login.component';
+import { RegistrationComponent } from './components/account/registration/registration.component';
+import { LoginComponent } from './components/account/login/login.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { appRouting } from './routing';
@@ -35,6 +35,10 @@ import { MentorExerciseComponent } from './components/mentor/mentor-exercise/men
 import { MentorOpinionsComponent } from './components/mentor/mentor-opinions/mentor-opinions.component';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
+
 
 
 @NgModule({
@@ -79,7 +83,9 @@ import { MatTableModule } from '@angular/material/table';
     MatListModule,
     MatButtonModule,
     MatSliderModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule
 
   ],
   providers: [

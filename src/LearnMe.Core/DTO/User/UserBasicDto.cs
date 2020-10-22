@@ -1,6 +1,3 @@
-﻿using LearnMe.Infrastructure.Models.Domains.Users;
-using LearnMe.Shared.Enum;
-
 namespace LearnMe.Core.DTO.User
 {
     public class UserBasicDto
@@ -11,4 +8,3 @@ namespace LearnMe.Core.DTO.User
         public int PhoneNumber { get; set; }
     }  
 }
-
