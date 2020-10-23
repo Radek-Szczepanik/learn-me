@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.appRouting = void 0;
 var home_component_1 = require("./components/home/home.component");
-var registration_component_1 = require("./Components/account/registration/registration.component");
-var login_component_1 = require("./Components/account/login/login.component");
+var registration_component_1 = require("./components/account/registration/registration.component");
+var login_component_1 = require("./components/account/login/login.component");
 var calendar_view_component_1 = require("./components/calendar/calendar-view/calendar-view.component");
 var faq_component_1 = require("./components/main/faq/faq.component");
 var news_component_1 = require("./components/main/news/news.component");
