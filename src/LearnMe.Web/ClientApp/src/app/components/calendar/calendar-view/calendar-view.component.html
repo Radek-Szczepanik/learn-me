@@ -7,6 +7,7 @@
     <dx-scheduler [dataSource]="appointmentsData"
                   appointmentTemplate="appointmentTemplate"
                   [currentDate]="currentDate"
+                  textExpr="subject"
                   [views]='["day", "month", "week"]'
                   currentView="week"
                   [startDayHour]="7"
@@ -20,9 +21,12 @@
       <!--https://blog.angular-university.io/angular-ngclass-ngstyle/-->
       <div *dxTemplate="let model of 'appointmentTemplate'"
            [ngStyle]="model.appointmentData.subject=='Wolny Slot'?{'background-color': 'green'} : {'background-color': 'blue'}">
-<!--           [ngClass]="model.appointmentData.subject=='Wolny Slot'?{nazwaklasyzpliku css} : {'background-color': 'blue'}">-->
+        <!--           [ngClass]="model.appointmentData.subject=='Wolny Slot'?{nazwaklasyzpliku css} : {'background-color': 'blue'}">-->
         <i>{{model.appointmentData.subject}}</i>
         <p>Description: {{model.appointmentData.description}}</p>
+        <p>Start Date: {{model.appointmentData.startDate}}</p>
+        <p>End Date: {{model.appointmentData.endDate}}</p>
+
       </div>
 
     </dx-scheduler>

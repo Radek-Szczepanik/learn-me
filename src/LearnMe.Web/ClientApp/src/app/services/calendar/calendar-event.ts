@@ -1,5 +1,6 @@
 export interface CalendarEvent {
-  title: string;
+  //title: string;
+  subject: string;
   description: string;
   startDate: Date;
   endDate: Date;

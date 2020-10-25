@@ -22,14 +22,4 @@ export class CalendarService {
           return true;
         }));
   }
-
-  //addEvent(e: CalendarEvent): Observable<CalendarEvent> {
-  //  this.http.post('/api/calendarevents', e)
-  //  .pipe(
-  //    map((data: any[]) => {
-  //      console.debug('added event:');
-  //      console.debug(e);
-  //      return e;
-  //    }));
-  //}
 }

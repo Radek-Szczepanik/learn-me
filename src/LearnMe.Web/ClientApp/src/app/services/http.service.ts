@@ -23,4 +23,12 @@ export class HttpService {
   {
     return this.httpService.get<any>(route);
   }
+
+  public delete(route: string) {
+    return this.httpService.delete(route);
+  }
+
+  public put(route: string, body: any) {
+    return this.httpService.put(route, body);
+  }
 }

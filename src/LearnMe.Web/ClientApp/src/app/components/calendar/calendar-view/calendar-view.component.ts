@@ -63,9 +63,11 @@ export class CalendarViewComponent implements OnInit {
     console.debug(e.appointmentData.subject);
     this.showToast("Added", e.appointmentData.text, "success");
 
-    //let eventToAdd: CalendarEvent;
+    console.debug('object to be added:');
+    console.debug(e);
 
-    this.eventToAdd.subject = e.appointmentData.text;
+    //this.eventToAdd.subject = e.appointmentData.text;
+    this.eventToAdd.subject = e.appointmentData.subject;
     this.eventToAdd.description = e.appointmentData.description;
     this.eventToAdd.startDate = e.appointmentData.startDate;
     this.eventToAdd.endDate = e.appointmentData.endDate;
@@ -74,29 +76,53 @@ export class CalendarViewComponent implements OnInit {
 
     console.debug(this.eventToAdd);
 
-    //this.data.addEvent(this.eventToAdd)
-    //  .subscribe(success => {
-    //    console.debug('is success in adding event');
-    //    console.debug(success);
-    //  });
     this.https.post('/api/calendarevents', this.eventToAdd)
       .subscribe(success => {
         if (success) {
           console.debug('event added to DB and Calendar');
         }
       });
-    //.subscribe(success => {
-    //  console.debug('is success in adding event');
-    //  console.debug(success);
-    //});
   }
 
   onAppointmentUpdated(e) {
     this.showToast("Updated", e.appointmentData.subject, "info");
+
+    console.debug('when updated object is:');
+    console.debug(e);
+
+    //this.eventToAdd.subject = e.appointmentData.text;
+    this.eventToAdd.subject = e.appointmentData.subject;
+    this.eventToAdd.description = e.appointmentData.description;
+    this.eventToAdd.startDate = e.appointmentData.startDate;
+    this.eventToAdd.endDate = e.appointmentData.endDate;
+    this.eventToAdd.isDone = false;
+    this.eventToAdd.isFreeSlot = true;
+    this.eventToAdd.calendarId = e.appointmentData.calendarId;
+
+    console.debug(this.eventToAdd);
+
+    this.https.put('/api/calendareventsbygoogleid/', this.eventToAdd)
+      .subscribe(success => {
+        if (success) {
+          console.debug('event updated in DB and Calendar');
+        }
+      });
   }
 
   onAppointmentDeleted(e) {
     this.showToast("Deleted", e.appointmentData.subject, "warning");
+
+    console.debug('when deleted object is:');
+    console.debug(e);
+
+    let deleteUrl = '/api/calendareventsbygoogleid/' + e.appointmentData.calendarId;
+
+    this.https.delete(deleteUrl)
+      .subscribe(success => {
+        if (success) {
+          console.debug('event deleted from DB and Calendar');
+        }
+      });
   }
 
   // z parent komponentu będzie dostęp do tego kalenarza
@@ -113,37 +139,7 @@ export class CalendarViewComponent implements OnInit {
     //this.applyDisableDatesToDateEditors(e.form);
   }
 
-  onAppointmentAdding(eventToAdd: CalendarEvent) {
+  onAppointmentAdding(eventToAdd: CalendarEvent) {}
 
-    //let eventToAdd: CalendarEvent;
-
-
-
-    //eventToAdd.title;
-    //eventToAdd.description
-    //eventToAdd.startDate
-    //eventToAdd.endDate
-    //eventToAdd.isDone = false;
-    //eventToAdd.isFreeSlot
-
-    //this.data.addEvent(eventToAdd)
-    //  .subscribe(success => {
-    //    console.debug('is success in adding event');
-    //    console.debug(success);
-    //  });
-
-    //const isValidAppointment = this.isValidAppointment(e.component, e.appointmentData);
-    //if (!isValidAppointment) {
-    //  e.cancel = true;
-    //  this.notifyDisableDate();
-    //}
-  }
-
-  onAppointmentUpdating(e: any) {
-    //const isValidAppointment = this.isValidAppointment(e.component, e.newData);
-    //if (!isValidAppointment) {
-    //  e.cancel = true;
-    //  this.notifyDisableDate();
-    //}
-  }
+  onAppointmentUpdating(e: any) {}
 }

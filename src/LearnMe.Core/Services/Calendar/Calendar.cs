@@ -17,6 +17,7 @@ namespace LearnMe.Core.Services.Calendar
     public class Calendar : ICalendar
     {
         private readonly ICrudRepository<CalendarEvent> _repository;
+        private readonly ICalendarEventsRepository _calendarEventsRepository;
         private readonly IExternalCalendarService<Event> _externalCalendarService;
         private readonly ISynchronizer _synchronizer;
         private readonly IMapper _mapper;
@@ -25,6 +26,7 @@ namespace LearnMe.Core.Services.Calendar
 
         public Calendar(
             ICrudRepository<CalendarEvent> repository,
+            ICalendarEventsRepository calendarEventsRepository,
             IExternalCalendarService<Event> externalCalendarService,
             ISynchronizer synchronizer,
             IMapper mapper,
@@ -32,6 +34,8 @@ namespace LearnMe.Core.Services.Calendar
             ILogger<Calendar> logger)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _calendarEventsRepository = calendarEventsRepository ??
+                                        throw new ArgumentNullException(nameof(calendarEventsRepository));
             _externalCalendarService = externalCalendarService ?? throw new ArgumentNullException(nameof(externalCalendarService));
             _synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -146,6 +150,48 @@ namespace LearnMe.Core.Services.Calendar
             }
 
             return await _repository.UpdateAsync(toUpdateData);
+        }
+
+        public async Task<bool> UpdateEventByCalendarIdAsync(CalendarEventDto eventData)
+        {
+            CalendarEvent toUpdateData = _mapper.Map<CalendarEvent>(eventData);
+
+            var eventFromDbToUpdate =
+                await _calendarEventsRepository.GetByCalendarIdAsync(eventData.CalendarId);
+            
+            toUpdateData.Id = eventFromDbToUpdate.Id;
+
+            if (eventFromDbToUpdate != null)
+            {
+                //toUpdateData.CalendarId = eventFromDbToUpdate.CalendarId;
+
+                _eventBuilder.BuildBasicEventWithDescription(
+                    toUpdateData.Title,
+                    toUpdateData.Start,
+                    toUpdateData.End,
+                    toUpdateData.Description);
+
+                await _externalCalendarService.UpdateEventAsync(
+                    eventFromDbToUpdate.CalendarId,
+                    _eventBuilder.GetEvent());
+            }
+
+            return await _repository.UpdateAsync(toUpdateData);
+        }
+
+        public async Task<bool> DeleteEventByCalendarIdAsync(string calendarId)
+        {
+            var result = false;
+
+            var eventToBeDeleted =
+                await _calendarEventsRepository.GetByCalendarIdAsync(calendarId);
+            if (eventToBeDeleted != null)
+            {
+                await _externalCalendarService.DeleteEventAsync(eventToBeDeleted.CalendarId);
+                result = await _repository.DeleteAsync(eventToBeDeleted.Id);
+            }
+
+            return result;
         }
     }
 }
