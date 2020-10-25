@@ -28,5 +28,9 @@ namespace LearnMe.Core.Interfaces.Services
         Task<bool> UpdateEventAsync(int id,  CalendarEventDto eventData);
 
         Task<bool> DeleteEventAsync(int id);
+
+        Task<bool> UpdateEventByCalendarIdAsync(CalendarEventDto eventData);
+
+        Task<bool> DeleteEventByCalendarIdAsync(string calendarId);
     }
 }
