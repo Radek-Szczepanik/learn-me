@@ -1,10 +1,13 @@
 table {
-    width: 100%;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .mat-form-field {
-    font-size: 14px;
-    width: 100%;
+    font-size: 16px;
+    width: 300px;
+    margin-left: 85px;
   }
   
   td, th {
@@ -23,4 +26,18 @@ body {
   float: right;
   margin: 8px;
 }
-  
+
+.mat-paginator {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  background-color: #d9d9d9;
+  font-size: 13px;
+  color: black;
+}
+
+.mat-header-cell {
+  font-size: 14px;
+  color: black;
+}

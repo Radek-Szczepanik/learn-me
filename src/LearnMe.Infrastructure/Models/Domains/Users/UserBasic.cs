@@ -17,6 +17,11 @@ namespace LearnMe.Infrastructure.Models.Domains.Users
         [Required]
         public string LastName { get; set; }
 
+        public string Adress { get; set; }
+
+        public string City { get; set; }
+
+        public int Postcode { get; set; }
 
         public UserStatus Status { get; set; }
 

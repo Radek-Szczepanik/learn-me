@@ -14,7 +14,7 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class MentorPupilsComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['firstName', 'lastName', 'email'];
+  displayedColumns: string[] = ['lp', 'firstName', 'lastName', 'actions'];
   dataSource: MatTableDataSource<User>;
   _http: HttpClient;
   _baseUrl: string;
@@ -27,6 +27,7 @@ export class MentorPupilsComponent implements AfterViewInit {
     this._baseUrl = baseUrl;
   }
 
+  
   ngAfterViewInit() {
     this._http.get<User[]>(this._baseUrl + 'api/UserBasics?rolename=student').subscribe(result => {
       this.dataSource = new MatTableDataSource(result);
@@ -51,6 +52,11 @@ export class MentorPupilsComponent implements AfterViewInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+  delete() {
+    
+    this.dialog.open(DialogElementsExampleDialog);
+  }
 }
 
 @Component({
@@ -59,3 +65,11 @@ export class MentorPupilsComponent implements AfterViewInit {
 })
 
 export class DialogContentExampleDialog {}
+
+
+@Component({
+  selector: 'dialog-elements-example-dialog',
+  templateUrl: 'mentor-delete-student.html',
+})
+
+export class DialogElementsExampleDialog {}

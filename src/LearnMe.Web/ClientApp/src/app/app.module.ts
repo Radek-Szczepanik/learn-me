@@ -28,7 +28,7 @@ import { StudentPaymentComponent } from './components/student/student-payment/st
 import { MentorPaymentComponent } from './components/mentor/mentor-payment/mentor-payment.component';
 import { MentorCalendarComponent } from './components/mentor/mentor-calendar/mentor-calendar.component';
 import { MentorLessonComponent } from './components/mentor/mentor-lesson/mentor-lesson.component';
-import { MentorPupilsComponent } from './components/mentor/mentor-pupils/mentor-pupils.component';
+import { DialogElementsExampleDialog, MentorPupilsComponent } from './components/mentor/mentor-pupils/mentor-pupils.component';
 import { MentorMailComponent } from './components/mentor/mentor-mail/mentor-mail.component';
 import { MentorNewsComponent } from './components/mentor/mentor-news/mentor-news.component';
 import { MentorFaqComponent } from './components/mentor/mentor-faq/mentor-faq.component';
@@ -71,9 +71,8 @@ import { DialogContentExampleDialog } from './components/mentor/mentor-pupils/me
     MentorFaqComponent,
     MentorExerciseComponent,
     MentorOpinionsComponent,
-    DialogContentExampleDialog
-
-    
+    DialogContentExampleDialog,
+    DialogElementsExampleDialog
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -101,7 +100,9 @@ import { DialogContentExampleDialog } from './components/mentor/mentor-pupils/me
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    DialogContentExampleDialog
+    DialogContentExampleDialog,
+    DialogElementsExampleDialog
+
   ]
 })
 export class AppModule { }
