@@ -19,6 +19,8 @@ namespace LearnMe.Infrastructure.Models.Domains.Calendar
 
         public bool IsDone { get; set; }
 
+        public bool IsFreeSlot { get; set; }
+
         [NotMapped]
         public IList<UserBasic> Attendees { get; set; }
 
