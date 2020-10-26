@@ -1,0 +1,43 @@
+table {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .mat-form-field {
+    font-size: 16px;
+    width: 300px;
+    margin-left: 85px;
+  }
+  
+  td, th {
+    width: 25%;
+  }
+
+body {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+}
+.basic-container {
+  padding: 30px;
+}
+.version-info {
+  font-size: 8pt;
+  float: right;
+  margin: 8px;
+}
+
+.mat-paginator {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  background-color: #d9d9d9;
+  font-size: 13px;
+  color: black;
+}
+
+.mat-header-cell {
+  font-size: 14px;
+  color: black;
+}
