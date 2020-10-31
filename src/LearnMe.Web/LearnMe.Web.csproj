@@ -11,87 +11,93 @@
     <UserSecretsId>5f92be67-f964-4b9d-855d-8974e476c6b5</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Angular.UI.Bootstrap" Version="2.5.0"/>
-    <PackageReference Include="angularjs" Version="1.7.8.1"/>
-    <PackageReference Include="AngularJS.Core" Version="1.8.0"/>
-    <PackageReference Include="AngularJS.Route" Version="1.8.0"/>
-    <PackageReference Include="AngularJS.Sanitize" Version="1.8.0"/>
-    <PackageReference Include="AutoMapper" Version="10.1.1"/>
-    <PackageReference Include="FontAwesome" Version="4.7.0"/>
-    <PackageReference Include="Google.Apis" Version="1.49.0"/>
-    <PackageReference Include="Google.Apis.Auth" Version="1.49.0"/>
-    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.49.0.2087"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.9"/>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9"/>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.9"/>
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.9"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9"/>
+    <PackageReference Include="Angular.UI.Bootstrap" Version="2.5.0" />
+    <PackageReference Include="angularjs" Version="1.7.8.1" />
+    <PackageReference Include="AngularJS.Core" Version="1.8.0" />
+    <PackageReference Include="AngularJS.Route" Version="1.8.0" />
+    <PackageReference Include="AngularJS.Sanitize" Version="1.8.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FontAwesome" Version="4.7.0" />
+    <PackageReference Include="Google.Apis" Version="1.49.0" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.49.0" />
+    <PackageReference Include="Google.Apis.Calendar.v3" Version="1.49.0.2087" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.9"/>
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.9" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4"/>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3"/>
-    <PackageReference Include="Angular.Material" Version="1.1.12"/>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
+    <PackageReference Include="Angular.Material" Version="1.1.12" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="ClientApp\src\app\register\**"/>
-    <Content Remove="$(SpaRoot)**"/>
-    <Content Remove="ClientApp\src\app\register\**"/>
-    <EmbeddedResource Remove="ClientApp\src\app\register\**"/>
-    <None Remove="$(SpaRoot)**"/>
-    <None Remove="ClientApp\src\app\register\**"/>
-    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**"/>
+    <Compile Remove="ClientApp\src\app\register\**" />
+    <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\register\**" />
+    <EmbeddedResource Remove="ClientApp\src\app\register\**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\app\register\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="ClientApp\src\app\Models\Users\user.ts"/>
-    <None Remove="ClientApp\src\app\services\calendar\calendar-event.ts"/>
-    <None Remove="ClientApp\src\app\services\calendar\calendar-service.ts"/>
-    <None Remove="ClientApp\src\app\models\Account\login.ts"/>
-    <None Remove="ClientApp\src\app\models\Account\register.ts"/>
+    <Compile Remove="Migrations\20201026181846_UpdatedCalendarEventTable.cs" />
+    <Compile Remove="Migrations\20201026181846_UpdatedCalendarEventTable.Designer.cs" />
+    <Compile Remove="Migrations\20201026182450_UpdatedCalendarEvent.cs" />
+    <Compile Remove="Migrations\20201026182450_UpdatedCalendarEvent.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LearnMe.Core\LearnMe.Core.csproj"/>
-    <ProjectReference Include="..\LearnMe.Infrastructure\LearnMe.Infrastructure.csproj"/>
+    <None Remove="ClientApp\src\app\Models\Users\user.ts" />
+    <None Remove="ClientApp\src\app\services\calendar\calendar-event.ts" />
+    <None Remove="ClientApp\src\app\services\calendar\calendar-service.ts" />
+    <None Remove="ClientApp\src\app\models\Account\login.ts" />
+    <None Remove="ClientApp\src\app\models\Account\register.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\Models\Users\user.ts"/>
-    <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-event.ts"/>
-    <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-service.ts"/>
-    <TypeScriptCompile Include="ClientApp\src\app\models\Account\login.ts"/>
-    <TypeScriptCompile Include="ClientApp\src\app\models\Account\register.ts"/>
+    <ProjectReference Include="..\LearnMe.Core\LearnMe.Core.csproj" />
+    <ProjectReference Include="..\LearnMe.Infrastructure\LearnMe.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\components\mentor\"/>
-    <Folder Include="ClientApp\src\app\components\student\"/>
+    <TypeScriptCompile Include="ClientApp\src\app\Models\Users\user.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-event.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\Account\login.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\Account\register.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\components\mentor\" />
+    <Folder Include="ClientApp\src\app\components\student\" />
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <Exec Command="node --version" ContinueOnError="true">
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install"/>
-    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE."/>
-    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..."/>
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
   </Target>
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install"/>
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod"/>
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' "/>
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
     <ItemGroup>
-      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**"/>
-      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'"/>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
       <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

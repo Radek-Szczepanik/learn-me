@@ -22,6 +22,8 @@ namespace LearnMe.Infrastructure.Repository
             var result = await _context.CalendarEvents
                                                    .Where(o => o.CalendarId == calendarId)
                                                    .SingleOrDefaultAsync();
+            
+            _context.Entry(result).State = EntityState.Detached;
 
             return result;
         }
