@@ -9,3 +9,20 @@
 .container {
   padding-block: 0;
 }
+
+.free-slot {
+  background-color: green;
+}
+
+.booked-slot {
+  background-color: blue;
+}
+
+i {
+  font-size: 1.2vw;
+  word-wrap: break-spaces;
+}
+
+p {
+  font-size: 1vw;
+}

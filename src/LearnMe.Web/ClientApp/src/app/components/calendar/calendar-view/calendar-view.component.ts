@@ -21,7 +21,7 @@ import CalendarEventPost = Calendarevent.CalendarEventPost;
 export class CalendarViewComponent implements OnInit {
 
   appointmentsData: CalendarEvent[];
-  currentDate: Date = new Date(2020, 9, 16);
+  currentDate: Date = new Date(2020, 9, 26);
   timezone: string = "Europe/Warsaw";
   eventToAdd: CalendarEventPost;
 
@@ -51,6 +51,9 @@ export class CalendarViewComponent implements OnInit {
         console.debug('appointmentsData - after OnInit');
         console.debug(this.appointmentsData);
       });
+
+    //console.debug('start date');
+    //console.debug(this.dxScheduler.startDate);
   }
 
   showToast(event, value, type) {
@@ -141,5 +144,10 @@ export class CalendarViewComponent implements OnInit {
 
   onAppointmentAdding(eventToAdd: CalendarEvent) {}
 
-  onAppointmentUpdating(e: any) {}
+  onAppointmentUpdating(e: any) { }
+
+  getCalendarCurrentDate() {
+    //let calendarApi = this. CalendarViewComponent.getApi();
+    //let currentDate = calendarApi.view.currentStart;
+  }
 }
