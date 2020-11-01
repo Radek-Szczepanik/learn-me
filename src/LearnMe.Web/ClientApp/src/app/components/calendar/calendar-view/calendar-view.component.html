@@ -8,34 +8,34 @@
                   appointmentTemplate="appointmentTemplate"
                   [currentDate]="currentDate"
                   textExpr="subject"
-                  [views]='["day", "month", "week"]'
-                  currentView="week"
+                  [views]='["day", "week", "workWeek", "month"]'
+                  currentView="workWeek"
                   [startDayHour]="7"
                   [endDayHour]="22"
                   [height]="auto"
                   maxAppointmentsPerCell="unlimited"
                   timezone="timezone"
+                  (onInitialized)="onInitialized($event)"
+                  (onAppointmentFormCreated)="onAppointmentFormCreated($event)"
+                  (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
                   (onAppointmentAdded)="onAppointmentAdded($event)"
                   (onAppointmentUpdated)="onAppointmentUpdated($event)"
-                  (onAppointmentDeleted)="onAppointmentDeleted($event)">
-      <!--https://blog.angular-university.io/angular-ngclass-ngstyle/-->
-      <div *dxTemplate="let model of 'appointmentTemplate'"
-           [ngStyle]="model.appointmentData.subject=='Wolny Slot'?{'background-color': 'green'} : {'background-color': 'blue'}">
-        <!--           [ngClass]="model.appointmentData.subject=='Wolny Slot'?{nazwaklasyzpliku css} : {'background-color': 'blue'}">-->
-        <i>{{model.appointmentData.subject}}</i>
-        <p>Description: {{model.appointmentData.description}}</p>
-        <p>Start Date: {{model.appointmentData.startDate}}</p>
-        <p>End Date: {{model.appointmentData.endDate}}</p>
+                  (onAppointmentDeleted)="onAppointmentDeleted($event)"
+                  id="myScheduler">
 
+      <div *dxTemplate="let model of 'appointmentTemplate'"
+           [ngClass]="{'lesson-done': model.appointmentData.isDone === true,
+                        'free-slot': model.appointmentData.isFreeSlot === true,
+                        'booked-slot': model.appointmentData.isFreeSlot !== true,
+                        'appointment-item': true}">
+        <i>{{model.appointmentData.subject}}</i>
+        <p class="text-wrap">
+          {{model.appointmentData.startDate | date:' hh:mm'}}  - {{model.appointmentData.endDate | date:' hh:mm'}}
+          <br/>
+          {{model.appointmentData.description}}
+        </p>
       </div>
 
     </dx-scheduler>
   </div>
 </div>
-
-<!--(onAppointmentFormOpening)="onAppointmentFormOpening($event)"
-(onAppointmentAdding)="onAppointmentAdding($event)"
-(onAppointmentUpdating)="onAppointmentUpdating($event)"-->
-<!--startDateExpr="start.dateTime"
-endDateExpr="end.dateTime"-->
-<!--subject="title"-->

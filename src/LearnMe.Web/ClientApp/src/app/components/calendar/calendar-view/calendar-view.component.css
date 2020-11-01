@@ -9,3 +9,27 @@
 .container {
   padding-block: 0;
 }
+
+/*.appointment-item {
+  border-radius: 10px;
+}*/
+
+.free-slot {
+  background-color: green;
+}
+
+.booked-slot {
+  background-color: blue;
+}
+
+.lesson-done {
+  background-color: #ff4081 !important;
+}
+
+i {
+  font-size: 1.2vw;
+}
+
+p {
+  font-size: 1vw;
+}

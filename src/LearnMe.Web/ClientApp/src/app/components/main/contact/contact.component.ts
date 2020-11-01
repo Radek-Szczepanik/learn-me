@@ -12,4 +12,8 @@ export class ContactComponent implements OnInit {
   ngOnInit() {
   }
 
+  getCalendarCurrentDate() {
+    //this.calendarApi = this.calendarComponent.getApi();
+    //let currentDate = this.calendarApi.view.currentStart;
+  }
 }

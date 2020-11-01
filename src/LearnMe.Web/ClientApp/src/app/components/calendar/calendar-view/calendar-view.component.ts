@@ -8,6 +8,7 @@ import CalendarEvent = Calendarevent.CalendarEvent;
 import notify from 'devextreme/ui/notify';
 import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
+import Scheduler from "devextreme/ui/scheduler";
 
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
@@ -21,9 +22,10 @@ import CalendarEventPost = Calendarevent.CalendarEventPost;
 export class CalendarViewComponent implements OnInit {
 
   appointmentsData: CalendarEvent[];
-  currentDate: Date = new Date(2020, 9, 16);
+  currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
   eventToAdd: CalendarEventPost;
+  appointmentFormUpdatedFlag: boolean = false;
 
   constructor(private data: CalendarService, private https: HttpService) {
     console.debug('appointmentsData:');
@@ -51,6 +53,21 @@ export class CalendarViewComponent implements OnInit {
         console.debug('appointmentsData - after OnInit');
         console.debug(this.appointmentsData);
       });
+
+    //console.debug('start date');
+    //console.debug(this.dxScheduler.startDate);
+  }
+
+  onInitialized(e) {
+    console.debug("on initialized fired!");
+
+    let element = document.getElementById("myScheduler");
+    let instance = Scheduler.getInstance(element) as Scheduler;
+    //let instance = DevExpress.ui.dxScheduler.getInstance(element);
+    console.debug("scheduler instance");
+    console.debug(instance);
+    let startViewDate = instance.getStartViewDate();
+    console.debug(startViewDate);
   }
 
   showToast(event, value, type) {
@@ -71,8 +88,8 @@ export class CalendarViewComponent implements OnInit {
     this.eventToAdd.description = e.appointmentData.description;
     this.eventToAdd.startDate = e.appointmentData.startDate;
     this.eventToAdd.endDate = e.appointmentData.endDate;
-    this.eventToAdd.isDone = false;
-    this.eventToAdd.isFreeSlot = true;
+    this.eventToAdd.isDone = e.appointmentData.isDone;
+    this.eventToAdd.isFreeSlot = e.appointmentData.isFreeSlot;
 
     console.debug(this.eventToAdd);
 
@@ -95,8 +112,8 @@ export class CalendarViewComponent implements OnInit {
     this.eventToAdd.description = e.appointmentData.description;
     this.eventToAdd.startDate = e.appointmentData.startDate;
     this.eventToAdd.endDate = e.appointmentData.endDate;
-    this.eventToAdd.isDone = false;
-    this.eventToAdd.isFreeSlot = true;
+    this.eventToAdd.isDone = e.appointmentData.isDone;
+    this.eventToAdd.isFreeSlot = e.appointmentData.isFreeSlot;
     this.eventToAdd.calendarId = e.appointmentData.calendarId;
 
     console.debug(this.eventToAdd);
@@ -125,21 +142,65 @@ export class CalendarViewComponent implements OnInit {
       });
   }
 
+  onAppointmentFormCreated(e) {}
+
   // z parent komponentu będzie dostęp do tego kalenarza
   // this.calendarApi = this.calendarComponent.getApi();
   // let currentDate = this.calendarApi.view.currentStart;
   // i current date przekazac z powrotem do child komponentu kalendarza
 
-  onAppointmentFormOpening(e: any) {
-    //const startDate = e.appointmentData.startDate;
-    //if (!this.isValidAppointmentDate(startDate)) {
-    //  e.cancel = true;
-    //  this.notifyDisableDate();
-    //}
-    //this.applyDisableDatesToDateEditors(e.form);
+  onAppointmentFormOpening(e) {
+    console.debug("onAppointmentFormOpening fired!");
+    //console.debug(e.form.itemOption("mainGroup").items);
+
+    if (!this.appointmentFormUpdatedFlag) {
+      let formItems = e.form.itemOption("mainGroup").items;
+
+      formItems.push(
+        {
+          dataField: "isDone",
+          editorType: "dxSwitch",
+          label: {
+            text: "Lesson Done"
+          }
+        },
+        {
+          dataField: "isFreeSlot",
+          editorType: "dxSwitch",
+          label: {
+            text: "Free Slot"
+          }
+        });
+
+      //e.form.itemOption("mainGroup").items = formItems;
+      e.form.itemOption("mainGroup",
+        {
+          items: formItems
+        });
+
+      e.form.itemOption("mainGroup.subject",
+        {
+          validationRules: [
+            {
+              type: "required",
+              message: "Subject is required"
+            }
+          ]
+        });
+
+      this.appointmentFormUpdatedFlag = true;
+    }
+
+    console.debug(e.form.itemOption("mainGroup").items);
+    console.debug(this.appointmentFormUpdatedFlag);
   }
 
   onAppointmentAdding(eventToAdd: CalendarEvent) {}
 
-  onAppointmentUpdating(e: any) {}
+  onAppointmentUpdating(e: any) { }
+
+  getCalendarCurrentDate() {
+    //let calendarApi = this. CalendarViewComponent.getApi();
+    //let currentDate = calendarApi.view.currentStart;
+  }
 }
