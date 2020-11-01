@@ -8,13 +8,15 @@
                   appointmentTemplate="appointmentTemplate"
                   [currentDate]="currentDate"
                   textExpr="subject"
-                  [views]='["day", "week", "month"]'
-                  currentView="week"
+                  [views]='["day", "week", "workWeek", "month"]'
+                  currentView="workWeek"
                   [startDayHour]="7"
                   [endDayHour]="22"
                   [height]="auto"
                   maxAppointmentsPerCell="unlimited"
                   timezone="timezone"
+                  (onAppointmentFormCreated)="onAppointmentFormCreated($event)"
+                  (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
                   (onAppointmentAdded)="onAppointmentAdded($event)"
                   (onAppointmentUpdated)="onAppointmentUpdated($event)"
                   (onAppointmentDeleted)="onAppointmentDeleted($event)">

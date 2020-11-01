@@ -21,7 +21,7 @@ import CalendarEventPost = Calendarevent.CalendarEventPost;
 export class CalendarViewComponent implements OnInit {
 
   appointmentsData: CalendarEvent[];
-  currentDate: Date = new Date(2020, 9, 26);
+  currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
   eventToAdd: CalendarEventPost;
 
@@ -128,12 +128,46 @@ export class CalendarViewComponent implements OnInit {
       });
   }
 
+  onAppointmentFormCreated(e) {
+    //var form = e.form;
+
+    //form.itemOption("subject", {
+    //    validationRules: [{
+    //      type: "required",
+    //      message: "Subject is required"
+    //    }]
+    //});
+    console.debug("onAppointmentFormCreated fired!");
+    console.debug(e);
+
+    e.form.itemOption("description", {
+      validationRules: [{
+        type: "required",
+        message: "Description is required"
+      }]
+    });
+  }
+
   // z parent komponentu będzie dostęp do tego kalenarza
   // this.calendarApi = this.calendarComponent.getApi();
   // let currentDate = this.calendarApi.view.currentStart;
   // i current date przekazac z powrotem do child komponentu kalendarza
 
-  onAppointmentFormOpening(e: any) {
+  onAppointmentFormOpening(e) {
+    console.debug("onAppointmentFormOpening fired!");
+    //console.debug(e.form.option());
+    //console.debug("form option main group");
+    //console.debug(e.form.itemOption("mainGroup"));
+    //console.debug("description")
+    //console.debug(e.form.itemOption("mainGroup").items[4]);
+    //console.debug(e.form.itemOption("mainGroup.description"));
+
+    e.form.itemOption("mainGroup.subject", {
+      validationRules: [{
+        type: "required",
+        message: "Subject is required"
+      }]
+    });
     //const startDate = e.appointmentData.startDate;
     //if (!this.isValidAppointmentDate(startDate)) {
     //  e.cancel = true;
