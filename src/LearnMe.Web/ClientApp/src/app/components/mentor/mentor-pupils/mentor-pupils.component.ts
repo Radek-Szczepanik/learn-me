@@ -5,7 +5,8 @@ import { AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogContentExampleDialog } from "./mentor-pupils.componebt.add.pupil";
 
 @Component({
   selector: 'app-mentor-pupils',
@@ -18,9 +19,9 @@ export class MentorPupilsComponent implements AfterViewInit {
   dataSource: MatTableDataSource<User>;
   _http: HttpClient;
   _baseUrl: string;
- 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  @ViewChild(MatSort,  {static: true}) sort: MatSort;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, public dialog: MatDialog) {
     this._http = http;
@@ -53,9 +54,3 @@ export class MentorPupilsComponent implements AfterViewInit {
   }
 }
 
-@Component({
-  selector: 'dialog-content-example-dialog',
-  templateUrl: 'mentor-add-student.html',
-})
-
-export class DialogContentExampleDialog {}

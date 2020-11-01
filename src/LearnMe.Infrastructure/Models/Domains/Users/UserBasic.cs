@@ -13,22 +13,20 @@ namespace LearnMe.Infrastructure.Models.Domains.Users
     {
         [Required]
         public string FirstName { get; set; }
-
         [Required]
         public string LastName { get; set; }
-
-
+        public string StreetName { get; set; }
+        public int HouseNumber { get; set; }
+        public int ApartmentNumber { get; set; }
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public int PostCode { get; set; }
         public UserStatus Status { get; set; }
-
         public UserGroup UserGroup { get; set; } // to indicate group of students
-
         public string Notes { get; set; }
-
         public IList<InvoiceBasic> InvoicesList { get; set; }
-
         public IList<UserLesson> UserLessons { get; set; }
-
         public UserInvoiceData InvoiceData { get; set; }
-
     }
 }

@@ -36,6 +36,7 @@ namespace LearnMe.Controllers.Users
         public async Task<ActionResult> GetUserByRole(string rolename)
         {
             var role = await _userManager.GetUsersInRoleAsync(rolename);
+            
             return Ok(role);
         }
 

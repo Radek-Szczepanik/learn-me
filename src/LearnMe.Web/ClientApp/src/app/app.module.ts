@@ -41,7 +41,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogContentExampleDialog } from './components/mentor/mentor-pupils/mentor-pupils.component';
+import { DialogContentExampleDialog } from './components/mentor/mentor-pupils/mentor-pupils.componebt.add.pupil';
 
 
 @NgModule({
@@ -72,7 +72,6 @@ import { DialogContentExampleDialog } from './components/mentor/mentor-pupils/me
     MentorExerciseComponent,
     MentorOpinionsComponent,
     DialogContentExampleDialog
-
     
   ],
   imports: [
