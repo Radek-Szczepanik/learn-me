@@ -22,8 +22,10 @@
                   (onAppointmentDeleted)="onAppointmentDeleted($event)">
 
       <div *dxTemplate="let model of 'appointmentTemplate'"
-           [ngClass]="{'free-slot': model.appointmentData.isFreeSlot === true,
-                        'booked-slot': model.appointmentData.isFreeSlot !== true}">
+           [ngClass]="{'lesson-done': model.appointmentData.isDone === true,
+                        'free-slot': model.appointmentData.isFreeSlot === true,
+                        'booked-slot': model.appointmentData.isFreeSlot !== true,
+                        'appointment-item': true}">
         <i>{{model.appointmentData.subject}}</i>
         <p class="text-wrap">
           {{model.appointmentData.startDate | date:' hh:mm'}}  - {{model.appointmentData.endDate | date:' hh:mm'}}

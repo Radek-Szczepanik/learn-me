@@ -24,6 +24,7 @@ export class CalendarViewComponent implements OnInit {
   currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
   eventToAdd: CalendarEventPost;
+  appointmentFormUpdatedFlag: boolean = false;
 
   constructor(private data: CalendarService, private https: HttpService) {
     console.debug('appointmentsData:');
@@ -74,8 +75,8 @@ export class CalendarViewComponent implements OnInit {
     this.eventToAdd.description = e.appointmentData.description;
     this.eventToAdd.startDate = e.appointmentData.startDate;
     this.eventToAdd.endDate = e.appointmentData.endDate;
-    this.eventToAdd.isDone = false;
-    this.eventToAdd.isFreeSlot = true;
+    this.eventToAdd.isDone = e.appointmentData.isDone;
+    this.eventToAdd.isFreeSlot = e.appointmentData.isFreeSlot;
 
     console.debug(this.eventToAdd);
 
@@ -98,8 +99,8 @@ export class CalendarViewComponent implements OnInit {
     this.eventToAdd.description = e.appointmentData.description;
     this.eventToAdd.startDate = e.appointmentData.startDate;
     this.eventToAdd.endDate = e.appointmentData.endDate;
-    this.eventToAdd.isDone = false;
-    this.eventToAdd.isFreeSlot = true;
+    this.eventToAdd.isDone = e.appointmentData.isDone;
+    this.eventToAdd.isFreeSlot = e.appointmentData.isFreeSlot;
     this.eventToAdd.calendarId = e.appointmentData.calendarId;
 
     console.debug(this.eventToAdd);
@@ -128,25 +129,7 @@ export class CalendarViewComponent implements OnInit {
       });
   }
 
-  onAppointmentFormCreated(e) {
-    //var form = e.form;
-
-    //form.itemOption("subject", {
-    //    validationRules: [{
-    //      type: "required",
-    //      message: "Subject is required"
-    //    }]
-    //});
-    console.debug("onAppointmentFormCreated fired!");
-    console.debug(e);
-
-    e.form.itemOption("description", {
-      validationRules: [{
-        type: "required",
-        message: "Description is required"
-      }]
-    });
-  }
+  onAppointmentFormCreated(e) {}
 
   // z parent komponentu będzie dostęp do tego kalenarza
   // this.calendarApi = this.calendarComponent.getApi();
@@ -155,25 +138,48 @@ export class CalendarViewComponent implements OnInit {
 
   onAppointmentFormOpening(e) {
     console.debug("onAppointmentFormOpening fired!");
-    //console.debug(e.form.option());
-    //console.debug("form option main group");
-    //console.debug(e.form.itemOption("mainGroup"));
-    //console.debug("description")
-    //console.debug(e.form.itemOption("mainGroup").items[4]);
-    //console.debug(e.form.itemOption("mainGroup.description"));
+    //console.debug(e.form.itemOption("mainGroup").items);
 
-    e.form.itemOption("mainGroup.subject", {
-      validationRules: [{
-        type: "required",
-        message: "Subject is required"
-      }]
-    });
-    //const startDate = e.appointmentData.startDate;
-    //if (!this.isValidAppointmentDate(startDate)) {
-    //  e.cancel = true;
-    //  this.notifyDisableDate();
-    //}
-    //this.applyDisableDatesToDateEditors(e.form);
+    if (!this.appointmentFormUpdatedFlag) {
+      let formItems = e.form.itemOption("mainGroup").items;
+
+      formItems.push(
+        {
+          dataField: "isDone",
+          editorType: "dxSwitch",
+          label: {
+            text: "Lesson Done"
+          }
+        },
+        {
+          dataField: "isFreeSlot",
+          editorType: "dxSwitch",
+          label: {
+            text: "Free Slot"
+          }
+        });
+
+      //e.form.itemOption("mainGroup").items = formItems;
+      e.form.itemOption("mainGroup",
+        {
+          items: formItems
+        });
+
+      e.form.itemOption("mainGroup.subject",
+        {
+          validationRules: [
+            {
+              type: "required",
+              message: "Subject is required"
+            }
+          ]
+        });
+
+      this.appointmentFormUpdatedFlag = true;
+    }
+
+    console.debug(e.form.itemOption("mainGroup").items);
+    console.debug(this.appointmentFormUpdatedFlag);
   }
 
   onAppointmentAdding(eventToAdd: CalendarEvent) {}
