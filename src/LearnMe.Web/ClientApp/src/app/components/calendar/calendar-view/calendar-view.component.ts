@@ -8,6 +8,7 @@ import CalendarEvent = Calendarevent.CalendarEvent;
 import notify from 'devextreme/ui/notify';
 import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
+import Scheduler from "devextreme/ui/scheduler";
 
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
@@ -55,6 +56,18 @@ export class CalendarViewComponent implements OnInit {
 
     //console.debug('start date');
     //console.debug(this.dxScheduler.startDate);
+  }
+
+  onInitialized(e) {
+    console.debug("on initialized fired!");
+
+    let element = document.getElementById("myScheduler");
+    let instance = Scheduler.getInstance(element) as Scheduler;
+    //let instance = DevExpress.ui.dxScheduler.getInstance(element);
+    console.debug("scheduler instance");
+    console.debug(instance);
+    let startViewDate = instance.getStartViewDate();
+    console.debug(startViewDate);
   }
 
   showToast(event, value, type) {

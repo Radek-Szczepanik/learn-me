@@ -15,11 +15,13 @@
                   [height]="auto"
                   maxAppointmentsPerCell="unlimited"
                   timezone="timezone"
+                  (onInitialized)="onInitialized($event)"
                   (onAppointmentFormCreated)="onAppointmentFormCreated($event)"
                   (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
                   (onAppointmentAdded)="onAppointmentAdded($event)"
                   (onAppointmentUpdated)="onAppointmentUpdated($event)"
-                  (onAppointmentDeleted)="onAppointmentDeleted($event)">
+                  (onAppointmentDeleted)="onAppointmentDeleted($event)"
+                  id="myScheduler">
 
       <div *dxTemplate="let model of 'appointmentTemplate'"
            [ngClass]="{'lesson-done': model.appointmentData.isDone === true,
