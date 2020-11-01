@@ -23,7 +23,7 @@
            [ngClass]="{'free-slot': model.appointmentData.isFreeSlot === true,
                         'booked-slot': model.appointmentData.isFreeSlot !== true}">
         <i>{{model.appointmentData.subject}}</i>
-        <p>
+        <p class="text-wrap">
           {{model.appointmentData.startDate | date:' hh:mm'}}  - {{model.appointmentData.endDate | date:' hh:mm'}}
           <br/>
           {{model.appointmentData.description}}
