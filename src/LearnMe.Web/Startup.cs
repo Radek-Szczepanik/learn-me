@@ -41,7 +41,7 @@ namespace LearnMe.Web
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Learn Me API", Version = "v1"});
             });
 
-            services.AddControllersWithViews();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
             services.AddDbContext<ApplicationDbContext>(

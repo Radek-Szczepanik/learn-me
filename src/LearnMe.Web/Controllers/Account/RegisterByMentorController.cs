@@ -45,12 +45,10 @@ namespace LearnMe.Web.Controllers.Account
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult<RegisterDto>> OnPostAsync(RegisterDto input)
+        public async Task<ActionResult<RegisterFromMentor>> OnPostAsync(RegisterFromMentor input)
         {
-            //returnUrl = returnUrl ?? Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             
-
             var user = _mapper.Map<UserBasic>(input);
             var code = PasswordGenerator();
             var result = await _userManager.CreateAsync(user, code);

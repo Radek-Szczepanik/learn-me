@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
-import { User } from '../../../models/Users/user';
+import { Students } from '../../../models/Users/students';
 import { AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -15,8 +15,9 @@ import { DialogContentExampleDialog } from "./mentor-pupils.componebt.add.pupil"
 })
 export class MentorPupilsComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['firstName', 'lastName', 'email'];
-  dataSource: MatTableDataSource<User>;
+  displayedColumns: string[] = ['firstName', 'lastName', 'email',  'streetName', 'houseNumber', 'apartmentNumber', 'city', 'postcode' ];
+
+   dataSource: MatTableDataSource<Students>;
   _http: HttpClient;
   _baseUrl: string;
 
@@ -29,7 +30,7 @@ export class MentorPupilsComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this._http.get<User[]>(this._baseUrl + 'api/UserBasics?rolename=student').subscribe(result => {
+    this._http.get<Students[]>(this._baseUrl + 'api/UserBasics?rolename=student').subscribe(result => {
       this.dataSource = new MatTableDataSource(result);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

@@ -33,11 +33,12 @@ namespace LearnMe.Controllers.Users
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetUserByRole(string rolename)
+        public async Task<ActionResult> GetStudents(string rolename)
         {
             var role = await _userManager.GetUsersInRoleAsync(rolename);
-            
-            return Ok(role);
+            var user = _mapper.Map<IList<UserForMentorDto>>(role);
+
+            return Ok(user);
         }
 
         [HttpDelete]

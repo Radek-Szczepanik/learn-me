@@ -8,28 +8,57 @@
   <div>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-      <!-- ID Column -->
       <ng-container matColumnDef="firstName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Imię </th>
         <td mat-cell *matCellDef="let row"> {{row.firstName}} </td>
       </ng-container>
 
-      <!-- Progress Column -->
       <ng-container matColumnDef="lastName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwisko </th>
         <td mat-cell *matCellDef="let row"> {{row.lastName}} </td>
       </ng-container>
 
-      <!-- Name Column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </th>
         <td mat-cell *matCellDef="let row"> {{row.email}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="Opcje">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+      <ng-container matColumnDef="streetName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ulica </th>
+        <td mat-cell *matCellDef="let row"> {{row.streetName}} </td>
       </ng-container>
+
+      <ng-container matColumnDef="houseNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nr Domu </th>
+        <td mat-cell *matCellDef="let row"> {{row.houseNumber}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="apartmentNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nr Mieszkania </th>
+        <td mat-cell *matCellDef="let row"> {{row.apartmentNumber}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="city">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Miasto </th>
+        <td mat-cell *matCellDef="let row"> {{row.city}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="country">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Kraj </th>
+        <td mat-cell *matCellDef="let row"> {{row.country}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="postcode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>  Kod pocztowy </th>
+        <td mat-cell *matCellDef="let row"> {{row.postcode}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="options">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>  Kod pocztowy </th>
+        <td mat-cell *matCellDef="let row"> {{row.postcode}} </td>
+      </ng-container>
+
+     
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;">

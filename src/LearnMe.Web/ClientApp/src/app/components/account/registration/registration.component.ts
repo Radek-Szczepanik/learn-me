@@ -32,18 +32,18 @@ export class RegistrationComponent implements OnInit {
     this._base = baseUrl
 
     this.userData = {
-      firstname: '',
-      lastname: '',
-      streetname:'',
-      housenumber:'',
-      apartmentnumber: 0,
+      firstName: '',
+      lastName: '',
+      streetName:'',
+      houseNumber:'',
+      apartmentNumber:'',
       email: '',
       password: '',
       street:'',
       city: '',
       country:'',
       postcode: 0,
-      confirmpassword: ''
+      confirmPassword: ''
     };
   }
 

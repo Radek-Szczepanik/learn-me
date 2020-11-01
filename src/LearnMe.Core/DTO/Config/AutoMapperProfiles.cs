@@ -21,6 +21,9 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<UserGroup, UserGroupDto>();
             CreateMap<UserInvoiceData, UserInvoiceDataDto>();
             CreateMap<UserBasic, LoginDto>();
+            CreateMap<UserBasic, UserForMentorDto>().ReverseMap();
+            CreateMap<UserBasic, RegisterFromMentor>().ReverseMap();
+
             
 
             CreateMap<CalendarEvent, CalendarEventDto>()

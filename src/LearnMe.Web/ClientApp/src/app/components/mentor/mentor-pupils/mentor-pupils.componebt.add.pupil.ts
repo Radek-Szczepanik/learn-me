@@ -28,18 +28,18 @@ export class DialogContentExampleDialog implements OnInit {
     this._httpClient = http;
     this._base = baseUrl
     this.pupilData = {
-      firstname: '',
-      lastname: '',
-      streetname: '',
-      housenumber: '',
-      apartmentnumber: 0,
+      firstName: '',
+      lastName: '',
+      streetName: '',
+      houseNumber: '',
+      apartmentNumber: '',
       email: '',
       password: 'temp',
       street: '',
       city: '',
       country: '',
       postcode: 0,
-      confirmpassword: 'temp'
+      confirmPassword: 'temp',
     };
   }
 

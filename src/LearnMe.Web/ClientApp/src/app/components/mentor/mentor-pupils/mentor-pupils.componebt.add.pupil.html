@@ -56,19 +56,19 @@
         <td>
           <mat-form-field class="example-full-width">
             <mat-label>Ulica</mat-label>
-            <input matInput>
+            <input matInput formControlName="streetName">
           </mat-form-field>
         </td>
         <td>
           <mat-form-field class="example-full-width">
             <mat-label>Numer domu</mat-label>
-            <input matInput>
+            <input matInput formControlName="houseNumber">
           </mat-form-field>
         </td>
         <td>
           <mat-form-field class="example-full-width">
             <mat-label>Numer mieszkania</mat-label>
-            <input matInput>
+            <input matInput formControlName="apartmentNumber">
           </mat-form-field>
         </td>
       </tr>
@@ -79,19 +79,19 @@
         <td>
           <mat-form-field class="example-full-width">
             <mat-label>Miasto</mat-label>
-            <input matInput placeholder="Ex. San Francisco">
-          </mat-form-field>
+            <input matInput placeholder="Ex. San Francisco" formControlName="city">
+          </mat-form-field >
         </td>
         <td>
           <mat-form-field class="example-full-width">
             <mat-label>Kraj</mat-label>
-            <input matInput placeholder="Ex. California">
+            <input matInput placeholder="Ex. California" formControlName="country">
           </mat-form-field>
         </td>
         <td>
           <mat-form-field class="example-full-width">
             <mat-label>Kod pocztowy</mat-label>
-            <input matInput #postalCode maxlength="5" placeholder="Ex. 94105">
+            <input matInput #postalCode maxlength="5" placeholder="Ex. 94105" formControlName="postcode">
             <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
           </mat-form-field>
         </td>
