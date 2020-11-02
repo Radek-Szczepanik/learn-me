@@ -42,9 +42,11 @@ namespace LearnMe.Controllers.Users
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteUser(UserBasic user)
+        public async Task<ActionResult> DeleteUser(string userEmail)
         {
-            var role = await _userManager.DeleteAsync(user);
+            
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            await _userManager.DeleteAsync(user);
             return Ok();
         }
 

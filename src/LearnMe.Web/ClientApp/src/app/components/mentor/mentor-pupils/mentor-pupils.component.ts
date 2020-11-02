@@ -5,8 +5,11 @@ import { AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogContentExampleDialog } from "./mentor-pupils.componebt.add.pupil";
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { AddPupilDialog } from "./mentor-pupils.component.add.pupil";
+import { DeletePupilDialog } from "./mentor-pupils.component.delete.pupil";
+
+
 
 @Component({
   selector: 'app-mentor-pupils',
@@ -15,9 +18,9 @@ import { DialogContentExampleDialog } from "./mentor-pupils.componebt.add.pupil"
 })
 export class MentorPupilsComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['firstName', 'lastName', 'email',  'streetName', 'houseNumber', 'apartmentNumber', 'city', 'postcode' ];
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'streetName', 'houseNumber', 'apartmentNumber', 'city', 'postcode', 'actions'];
 
-   dataSource: MatTableDataSource<Students>;
+  dataSource: MatTableDataSource<Students>;
   _http: HttpClient;
   _baseUrl: string;
 
@@ -46,12 +49,30 @@ export class MentorPupilsComponent implements AfterViewInit {
     }
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(DialogContentExampleDialog);
+  addPupil() {
+    const dialogRef = this.dialog.open(AddPupilDialog);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      this.ngAfterViewInit();
     });
   }
+  deletePupil(email: string) {
+
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data = {
+      id: 1,
+      title: email
+    };
+
+    const dialogRef = this.dialog.open(DeletePupilDialog, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.ngAfterViewInit();
+    });   
+  }
+
+
+
 }
 

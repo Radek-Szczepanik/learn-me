@@ -6,12 +6,12 @@ import { HttpService } from '../../../services/http.service';
 
 
 @Component({
-  selector: 'dialog-content-example-dialog',
-  templateUrl: 'mentor-pupils.componebt.add.pupil.html',
+  selector: 'app-mentor-pupils-add',
+  templateUrl: 'mentor-pupils.component.add.pupil.html',
   styleUrls: ['./mentor-pupils.component.css']
 })
 
-export class DialogContentExampleDialog implements OnInit {
+export class AddPupilDialog implements OnInit {
 
   pupilForm: FormGroup;
   pupilData: Register;
