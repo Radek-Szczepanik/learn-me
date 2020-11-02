@@ -43,7 +43,24 @@ export class CalendarViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.data.loadEvents()
+    // OLD LOAD EVENTS
+    //this.data.loadEvents()
+    //  .subscribe(success => {
+    //    console.debug('is success in OnInit');
+    //    console.debug(success);
+    //    if (success) {
+    //      this.appointmentsData = this.data.events;
+    //    }
+    //    console.debug('appointmentsData - after OnInit');
+    //    console.debug(this.appointmentsData);
+    //  });
+    let queryString = '?fromDate=' + this.currentDate + '&toDate=' + (this.currentDate.getDate() + 1);
+    console.debug('query string');
+    console.debug(queryString);
+    //let queryUrl = '/api/calendareventsbydate' + queryString;
+    let queryUrl = '/api/calendareventsbydate?fromDate=2020-11-01T00:00:00.881Z&toDate=2020-11-03T15:15:37.881Z';
+
+    this.data.loadEventsByDates()
       .subscribe(success => {
         console.debug('is success in OnInit');
         console.debug(success);
@@ -54,8 +71,12 @@ export class CalendarViewComponent implements OnInit {
         console.debug(this.appointmentsData);
       });
 
-    //console.debug('start date');
-    //console.debug(this.dxScheduler.startDate);
+    //this.https.getData(queryUrl)
+    //  .subscribe(success => {
+    //    if (success) {
+    //      console.debug('fetched events by date from DB');
+    //    }
+    //  });
   }
 
   onInitialized(e) {
@@ -66,8 +87,10 @@ export class CalendarViewComponent implements OnInit {
     //let instance = DevExpress.ui.dxScheduler.getInstance(element);
     console.debug("scheduler instance");
     console.debug(instance);
-    let startViewDate = instance.getStartViewDate();
-    console.debug(startViewDate);
+    //console.debug("getting start view date");
+    //let startViewDate = instance.getStartViewDate();
+    //console.debug("start view date - value:");
+    //console.debug(startViewDate);
   }
 
   showToast(event, value, type) {
@@ -193,6 +216,16 @@ export class CalendarViewComponent implements OnInit {
 
     console.debug(e.form.itemOption("mainGroup").items);
     console.debug(this.appointmentFormUpdatedFlag);
+
+    let element = document.getElementById("myScheduler");
+    let instance = Scheduler.getInstance(element) as Scheduler;
+    //let instance = DevExpress.ui.dxScheduler.getInstance(element);
+    console.debug("scheduler instance");
+    console.debug(instance);
+    console.debug("getting start view date");
+    let startViewDate = instance.getStartViewDate();
+    console.debug("start view date - value:");
+    console.debug(startViewDate);
   }
 
   onAppointmentAdding(eventToAdd: CalendarEvent) {}

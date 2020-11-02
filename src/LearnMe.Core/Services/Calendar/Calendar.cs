@@ -113,8 +113,7 @@ namespace LearnMe.Core.Services.Calendar
                 }
 
                 return results;
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -133,7 +132,7 @@ namespace LearnMe.Core.Services.Calendar
             toUpdateData.Id = id;
 
             var eventFromDbToUpdate = await _repository.GetByIdAsync(id);
-            
+
             if (eventFromDbToUpdate != null)
             {
                 toUpdateData.CalendarId = eventFromDbToUpdate.CalendarId;
@@ -158,7 +157,7 @@ namespace LearnMe.Core.Services.Calendar
 
             var eventFromDbToUpdate =
                 await _calendarEventsRepository.GetByCalendarIdAsync(eventData.CalendarId);
-            
+
             toUpdateData.Id = eventFromDbToUpdate.Id;
 
             if (eventFromDbToUpdate != null)
@@ -192,6 +191,25 @@ namespace LearnMe.Core.Services.Calendar
             }
 
             return result;
+        }
+
+        public async Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(DateTime fromDate, DateTime toDate)
+        {
+            var eventsResult = await _calendarEventsRepository.GetByFromAndToDate(fromDate, toDate);
+
+            if (eventsResult != null)
+            {
+                IList<CalendarEventDto> results = new List<CalendarEventDto>();
+                foreach (var eventResult in eventsResult)
+                {
+                    results.Add(_mapper.Map<CalendarEventDto>(eventResult));
+                }
+
+                return results;
+            } else
+            {
+                return null;
+            }
         }
     }
 }

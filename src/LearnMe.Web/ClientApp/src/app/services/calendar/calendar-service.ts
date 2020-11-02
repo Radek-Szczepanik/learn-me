@@ -22,4 +22,22 @@ export class CalendarService {
           return true;
         }));
   }
+
+  loadEventsByDates(): Observable<boolean> {
+    let from: Date = new Date(Date.parse('2020-11-01T00:00:00.881Z'));
+    let to: Date = new Date(Date.parse('2020-11-05T15:15:37.881Z'));
+    
+    let query = '/api/calendareventsbydate?fromDate=' + from.toJSON() + '&toDate=' + to.toJSON();
+    //return this.http.get('/api/calendareventsbydate?fromDate=2020-11-01T00:00:00.881Z&toDate=2020-11-03T15:15:37.881Z')
+    return this.http.get(query)
+      .pipe(
+        map((data: CalendarEvent[]) => {
+          this.events = data;
+          console.debug('data - calendar service:');
+          console.debug(data);
+          console.debug('events - calendar service:');
+          console.debug(this.events);
+          return true;
+        }));
+  }
 }
