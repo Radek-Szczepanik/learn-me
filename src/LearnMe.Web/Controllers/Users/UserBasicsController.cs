@@ -13,9 +13,10 @@ using LearnMe.Core.DTO.Config;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using LearnMe.Core.DTO.Account;
 
 namespace LearnMe.Controllers.Users
-{   
+{
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -44,22 +45,32 @@ namespace LearnMe.Controllers.Users
         [HttpDelete]
         public async Task<ActionResult> DeleteUser(string userEmail)
         {
-            
             var user = await _userManager.FindByEmailAsync(userEmail);
             await _userManager.DeleteAsync(user);
             return Ok();
         }
 
-   
-        [HttpPut("{id}")]
-         public async Task<ActionResult> PutUser(UserBasic user)
+
+        [HttpPut]
+        public async Task<ActionResult> PutUser(UpdateUserDto input)
         {
-            var role = await _userManager.UpdateAsync(user);
+            var user = await _userManager.FindByEmailAsync(input.Email);
+           
+            user.FirstName = input.FirstName;
+            user.LastName = input.LastName;
+            user.StreetName = input.StreetName;
+            user.HouseNumber = input.HouseNumber;
+            user.ApartmentNumber = input.ApartmentNumber;
+            user.City = input.City;
+            user.Country = input.Country;
+            user.PostCode = Int32.Parse(input.PostCode);
+
+            await _userManager.UpdateAsync(user);
             return Ok();
         }
 
-         [HttpPost]
-         public async Task<ActionResult> CreateUser(UserBasic user)
+        [HttpPost]
+        public async Task<ActionResult> CreateUser(UserBasic user)
         {
             var role = await _userManager.CreateAsync(user);
             return Ok();

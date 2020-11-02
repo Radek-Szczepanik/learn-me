@@ -4,10 +4,10 @@ export interface Students
  lastName: string
  email: string,
  streetName: string,
- houseNumber: number,
- apartmentNumber:number,
+ houseNumber: string,
+ apartmentNumber: string,
  street: string,
  city: string,
  country: string,
- postcode: string,
+ postcode: number,
 }

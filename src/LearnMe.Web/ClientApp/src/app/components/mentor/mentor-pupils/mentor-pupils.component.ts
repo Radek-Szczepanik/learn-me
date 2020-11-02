@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddPupilDialog } from "./mentor-pupils.component.add.pupil";
 import { DeletePupilDialog } from "./mentor-pupils.component.delete.pupil";
+import { UpdatePupilDialog } from "./mentor-pupils.component.update.pupil";
 
 
 
@@ -18,7 +19,7 @@ import { DeletePupilDialog } from "./mentor-pupils.component.delete.pupil";
 })
 export class MentorPupilsComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'streetName', 'houseNumber', 'apartmentNumber', 'city', 'postcode', 'actions'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'streetName', 'houseNumber', 'apartmentNumber', 'city', 'postcode', 'country', 'actions'];
 
   dataSource: MatTableDataSource<Students>;
   _http: HttpClient;
@@ -71,8 +72,20 @@ export class MentorPupilsComponent implements AfterViewInit {
       this.ngAfterViewInit();
     });   
   }
+  updatePupil(user: Students) {
 
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.data = {
+      id: 1,
+      title: user
+    };
 
+    const dialogRef = this.dialog.open(UpdatePupilDialog, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.ngAfterViewInit();
+    });   
+  }
 }
 

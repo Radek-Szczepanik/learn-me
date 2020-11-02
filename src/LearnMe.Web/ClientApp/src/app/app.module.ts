@@ -43,7 +43,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddPupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.add.pupil';
 import { DeletePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.delete.pupil'
-
+import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.update.pupil'
 
 
 @NgModule({
@@ -74,7 +74,8 @@ import { DeletePupilDialog } from './components/mentor/mentor-pupils/mentor-pupi
     MentorExerciseComponent,
     MentorOpinionsComponent,
     AddPupilDialog,
-    DeletePupilDialog
+    DeletePupilDialog,
+    UpdatePupilDialog
 
   ],
   imports: [
@@ -104,7 +105,8 @@ import { DeletePupilDialog } from './components/mentor/mentor-pupils/mentor-pupi
   bootstrap: [AppComponent],
   entryComponents: [
     AddPupilDialog,
-    DeletePupilDialog
+    DeletePupilDialog,
+    UpdatePupilDialog
 
   ]
 })

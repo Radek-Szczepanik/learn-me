@@ -23,6 +23,8 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<UserBasic, LoginDto>();
             CreateMap<UserBasic, UserForMentorDto>().ReverseMap();
             CreateMap<UserBasic, RegisterFromMentor>().ReverseMap();
+            CreateMap<UserBasic, UpdateUserDto>().ReverseMap();
+
 
             
 
