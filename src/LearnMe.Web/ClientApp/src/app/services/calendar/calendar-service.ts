@@ -23,10 +23,7 @@ export class CalendarService {
         }));
   }
 
-  loadEventsByDates(): Observable<boolean> {
-    let from: Date = new Date(Date.parse('2020-11-01T00:00:00.881Z'));
-    let to: Date = new Date(Date.parse('2020-11-05T15:15:37.881Z'));
-    
+  loadEventsByDates(from: Date, to: Date): Observable<boolean> {
     let query = '/api/calendareventsbydate?fromDate=' + from.toJSON() + '&toDate=' + to.toJSON();
     //return this.http.get('/api/calendareventsbydate?fromDate=2020-11-01T00:00:00.881Z&toDate=2020-11-03T15:15:37.881Z')
     return this.http.get(query)
