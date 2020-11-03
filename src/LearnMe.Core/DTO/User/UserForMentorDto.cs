@@ -11,6 +11,8 @@ namespace LearnMe.Infrastructure.Models.Domains.Users
         public string City { get; set; }
         public string Country { get; set; }
         public string Postcode { get; set; }
+        public string ImgPath { get; set; }
+
 
     }
 }

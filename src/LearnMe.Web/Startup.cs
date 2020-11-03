@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using AutoMapper;
 using Google.Apis.Calendar.v3.Data;
 using LearnMe.Core.DTO.Config;
@@ -14,11 +15,14 @@ using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
@@ -38,7 +42,7 @@ namespace LearnMe.Web
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Learn Me API", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Learn Me API", Version = "v1" });
             });
 
             services.AddControllers().AddNewtonsoftJson();
@@ -97,6 +101,13 @@ namespace LearnMe.Web
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
+
+            services.Configure<FormOptions>(o =>
+            {
+                o.ValueLengthLimit = int.MaxValue;
+                o.MultipartBodyLengthLimit = int.MaxValue;
+                o.MemoryBufferThreshold = int.MaxValue;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -118,6 +129,12 @@ namespace LearnMe.Web
             {
                 app.UseSpaStaticFiles();
             }
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot")),
+                RequestPath = new PathString("/wwwwroot")
+            });
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseSwagger();

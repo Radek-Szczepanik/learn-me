@@ -43,7 +43,8 @@ export class RegistrationComponent implements OnInit {
       city: '',
       country:'',
       postcode: 0,
-      confirmPassword: ''
+      confirmPassword: '',
+      imgPath: ''
     };
   }
 

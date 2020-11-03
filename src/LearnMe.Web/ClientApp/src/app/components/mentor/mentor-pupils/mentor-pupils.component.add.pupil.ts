@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Output, EventEmitter  } from '@angular/core';
 import { Register } from '../../../models/Account/register';
-import { HttpClient } from '@angular/common/http';
+import { HttpEventType, HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 
@@ -16,15 +16,20 @@ export class AddPupilDialog implements OnInit {
   pupilForm: FormGroup;
   pupilData: Register;
   succes: any;
+  private fileStream: string;
   private _httpClient: HttpClient;
   private _base: string;
   private errorFirstName: any;
   private errorLastName: any;
   private errorEmail: any;
   private errorPassword: any;
+  public progress: number;
+  public message: string;
+  @Output() public onUploadFinished = new EventEmitter();
 
 
-  constructor(private https: HttpService, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+
+  constructor(private https: HttpService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._httpClient = http;
     this._base = baseUrl
     this.pupilData = {
@@ -40,12 +45,33 @@ export class AddPupilDialog implements OnInit {
       country: '',
       postcode: 0,
       confirmPassword: 'temp',
+      imgPath: 'anonymusUser.png',
     };
   }
 
   ngOnInit() {
 
     this.initializeForm();
+    
+  }
+
+  public uploadFile = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    this.http.post('api/upload', formData, {reportProgress: true, observe: 'events'})
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress)
+          this.progress = Math.round(100 * event.loaded / event.total);
+        else if (event.type === HttpEventType.Response) {
+          this.message = 'Upload success.';
+          this.onUploadFinished.emit(event.body);
+          this.fileStream = fileToUpload.name;
+        }
+      });
   }
 
   private initializeForm() {
@@ -62,6 +88,7 @@ export class AddPupilDialog implements OnInit {
       'city': new FormControl(null),
       'country': new FormControl(null),
       'postcode': new FormControl(null),
+      'imgPath': new FormControl(this.fileStream)
      
     });
   }
@@ -90,6 +117,7 @@ export class AddPupilDialog implements OnInit {
     this.errorLastName = undefined;
     this.succes = undefined;
     this.pupilData = this.pupilForm.value;
+    this.pupilData.imgPath = this.fileStream;
     this.add();
   }
 }

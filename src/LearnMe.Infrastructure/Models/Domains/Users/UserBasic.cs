@@ -21,6 +21,7 @@ namespace LearnMe.Infrastructure.Models.Domains.Users
         public string City { get; set; }
         public string Country { get; set; }
         public int PostCode { get; set; }
+        public string ImgPath { get; set;}
         public UserStatus Status { get; set; }
         public UserGroup UserGroup { get; set; } // to indicate group of students
         public string Notes { get; set; }

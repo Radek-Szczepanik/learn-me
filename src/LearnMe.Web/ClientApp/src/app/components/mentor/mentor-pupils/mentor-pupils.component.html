@@ -1,10 +1,17 @@
 <mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  <mat-label>
+    <mat-icon>search</mat-icon>
+  </mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input>
 </mat-form-field>
 
-<!-- <button mat-raised-button style="margin: 1%" color="accent" (click)="openDialog()">Dodaj studenta</button> -->
 
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z5">
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  <ng-container matColumnDef="imgPath">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Foto </th>
+    <td mat-cell *matCellDef="let row"> <img src="/Images/{{row.imgPath}}" style="width:70px; height:60px; margin: 2%;"></td>
+  </ng-container>
 
   <ng-container matColumnDef="firstName">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Imię </th>
@@ -53,17 +60,20 @@
 
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>
-      <button mat-icon-button color="primary" (click)="addPupil()">
-        <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+      <button mat-icon-button (click)="addPupil()">
+        <mat-icon aria-label="Example icon-button with a heart icon" color="accent">add</mat-icon>
       </button></th>
-      <td mat-cell *matCellDef="let row">
-        <button mat-icon-button color="accent" (click)="updatePupil(row)">
-        <mat-icon aria-label="Edit">edit</mat-icon></button>
-        <button mat-icon-button color="accent" (click)="deletePupil(row.email)">
-        <mat-icon aria-label="Delete">delete</mat-icon></button>
-        <button mat-icon-button color="accent" (click)="deletePupil(row.email)">
-        <mat-icon aria-label="money">attach_money</mat-icon></button>
-        </td>
+    <td mat-cell *matCellDef="let row">
+      <button mat-icon-button color="accent" (click)="updatePupil(row)">
+        <mat-icon aria-label="Edit">edit</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" (click)="deletePupil(row.email)">
+        <mat-icon aria-label="Delete">delete</mat-icon>
+      </button>
+      <button mat-icon-button color="accent">
+        <mat-icon aria-label="money">attach_money</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

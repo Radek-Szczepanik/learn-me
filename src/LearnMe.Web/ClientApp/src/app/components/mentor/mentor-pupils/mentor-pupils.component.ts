@@ -19,7 +19,7 @@ import { UpdatePupilDialog } from "./mentor-pupils.component.update.pupil";
 })
 export class MentorPupilsComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['firstName', 'lastName', 'email', 'streetName', 'houseNumber', 'apartmentNumber', 'city', 'postcode', 'country', 'actions'];
+  displayedColumns: string[] = ['imgPath', 'firstName', 'lastName', 'email', 'streetName', 'houseNumber', 'apartmentNumber', 'city', 'postcode', 'country', 'actions'];
 
   dataSource: MatTableDataSource<Students>;
   _http: HttpClient;

@@ -1,7 +1,7 @@
 export interface Register
 {
- firstName: string
- lastName: string
+ firstName: string,
+ lastName: string,
  email: string,
  password: string,
  confirmPassword: string
@@ -12,4 +12,5 @@ export interface Register
  city: string,
  country: string,
  postcode: number,
+ imgPath: string,
 }
