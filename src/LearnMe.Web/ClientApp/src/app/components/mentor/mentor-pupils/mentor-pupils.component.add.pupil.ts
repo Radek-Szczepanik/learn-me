@@ -39,13 +39,13 @@ export class AddPupilDialog implements OnInit {
       houseNumber: '',
       apartmentNumber: '',
       email: '',
-      password: 'temp',
+      password: '',
       street: '',
       city: '',
       country: '',
       postcode: 0,
-      confirmPassword: 'temp',
-      imgPath: 'anonymusUser.png',
+      confirmPassword: '',
+      imgPath: '',
     };
   }
 
@@ -88,7 +88,7 @@ export class AddPupilDialog implements OnInit {
       'city': new FormControl(null),
       'country': new FormControl(null),
       'postcode': new FormControl(null),
-      'imgPath': new FormControl(this.fileStream)
+      'imgPath': new FormControl('anonymusUser.png')
      
     });
   }
@@ -117,7 +117,9 @@ export class AddPupilDialog implements OnInit {
     this.errorLastName = undefined;
     this.succes = undefined;
     this.pupilData = this.pupilForm.value;
-    this.pupilData.imgPath = this.fileStream;
+    if (this.fileStream != undefined){
+      this.pupilData.imgPath = this.fileStream;
+    }
     this.add();
   }
 }
