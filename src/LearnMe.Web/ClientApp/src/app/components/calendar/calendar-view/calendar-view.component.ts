@@ -61,79 +61,15 @@ export class CalendarViewComponent implements OnInit {
     //  });
   }
 
-  ngOnInit(): void {
-    //let maxDate: Date = new Date();
-    //maxDate.setDate(maxDate.getDate() + 7); // fetches 1 week (= 7 days) from current date
-
-    //this.data.loadEventsByDates(this.currentDate, maxDate)
-    //  .subscribe(success => {
-    //    console.debug('is success in OnInit');
-    //    console.debug(success);
-    //    if (success) {
-    //      this.appointmentsData = this.data.events;
-    //    }
-    //    console.debug('appointmentsData - after OnInit');
-    //    console.debug(this.appointmentsData);
-    //  });
-  }
+  ngOnInit(): void {}
 
   onInitialized(e) {
     console.debug("on initialized fired!");
-    
-    //if (this.isFirstLoadFlag) {
-    //  console.debug('if in on initialized fired!');
-    //  this.isFirstLoadFlag = false;
-    //} else {
-    //  console.debug('else in on initialized fired!');
-    //  this.getCalendarCurrentDate();
-
-    //  let maxDate: Date = new Date();
-    //  maxDate.setDate(maxDate.getDate() + 7); // fetches 1 week (= 7 days) from current date
-
-    //  this.data.loadEventsByDates(this.currentDate, maxDate)
-    //    .subscribe(success => {
-    //      console.debug('is success in OnInit');
-    //      console.debug(success);
-    //      if (success) {
-    //        this.appointmentsData = this.data.events;
-    //      }
-    //      console.debug('appointmentsData - after OnInit');
-    //      console.debug(this.appointmentsData);
-    //    });
-    //}
-
-    //let element = document.getElementById("myScheduler");
-    //let instance = Scheduler.getInstance(element) as Scheduler;
-    ////let instance = DevExpress.ui.dxScheduler.getInstance(element);
-    //console.debug("scheduler instance");
-    //console.debug(instance);
-    //console.debug("getting start view date");
-    //let startViewDate = instance.getStartViewDate();
-    //console.debug("start view date - value:");
-    //console.debug(startViewDate);
-
-    // ------------
-    //this.getCalendarCurrentDate();
-
-    // WAS WORKING - BUT NOT POSSIBLE TO FETCH START VIEW DATE FROM IT
-    //let maxDate: Date = new Date();
-    //maxDate.setDate(maxDate.getDate() + 7); // fetches 1 week (= 7 days) from current date
-
-    //this.data.loadEventsByDates(this.currentDate, maxDate)
-    //  .subscribe(success => {
-    //    console.debug('is success in OnInit');
-    //    console.debug(success);
-    //    if (success) {
-    //      this.appointmentsData = this.data.events;
-    //    }
-    //    console.debug('appointmentsData - after OnInit');
-    //    console.debug(this.appointmentsData);
-    //  });
   }
 
   onContentReady(e) {
     console.debug('on content ready fired!');
-    this.getCalendarCurrentDate(); // OK
+    this.getCalendarCurrentDate();
 
     if (this.isFirstLoadFlag) {
       this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
@@ -148,55 +84,12 @@ export class CalendarViewComponent implements OnInit {
         });
 
       this.isFirstLoadFlag = false;
+
     } else {
+
       this.isFirstLoadFlag = true;
+
     }
-    //if (this.isFirstLoadFlag) {
-    //  console.debug('if in on content ready fired!');
-    //  this.getCalendarCurrentDate();
-    //  this.isFirstLoadFlag = false;
-    //  this.appointmentsData = null;
-    //} else {
-    //  console.debug('else in on content ready fired!');
-    //  //this.getCalendarCurrentDate();
-
-    //  if (!this.dataLoaded) {
-    //    //let maxDate: Date = new Date();
-    //    //maxDate.setDate(maxDate.getDate() + 7); // fetches 1 week (= 7 days) from current date
-
-    //    //this.data.loadEventsByDates(this.currentDate, maxDate)
-    //    this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
-    //      .subscribe(success => {
-    //        console.debug('is success in OnInit');
-    //        console.debug(success);
-    //        if (success) {
-    //          this.appointmentsData = this.data.events;
-    //        }
-    //        console.debug('appointmentsData - after OnInit');
-    //        console.debug(this.appointmentsData);
-    //      });
-
-    //    this.dataLoaded = true;
-    //    this.isFirstLoadFlag = true;
-    //  }
-    //}
-
-    //this.getCalendarCurrentDate();
-
-    //let maxDate: Date = new Date();
-    //maxDate.setDate(maxDate.getDate() + 7); // fetches 1 week (= 7 days) from current date
-
-    // INFINITE LOOP JAK TUTAJ JEST LOAD
-    //this.data.loadEventsByDates(this.currentDate, maxDate)
-    //  .subscribe(success => {
-    //    console.debug('is success in OnInit');
-    //    console.debug(success);
-    //    if (success) {
-    //      this.appointmentsData = this.data.events;
-    //    }
-    //    console.debug('appointmentsData - after OnInit');
-    //    console.debug(this.appointmentsData);
-    //  });
   }
 
   showToast(event, value, type) {
@@ -271,7 +164,6 @@ export class CalendarViewComponent implements OnInit {
 
   onAppointmentFormOpening(e) {
     console.debug("onAppointmentFormOpening fired!");
-    //console.debug(e.form.itemOption("mainGroup").items);
 
     if (!this.appointmentFormUpdatedFlag) {
       let formItems = e.form.itemOption("mainGroup").items;
