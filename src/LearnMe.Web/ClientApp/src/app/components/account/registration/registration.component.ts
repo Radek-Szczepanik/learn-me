@@ -15,8 +15,9 @@ import { Router } from '@angular/router';
 export class RegistrationComponent implements OnInit {
 
   isExpanded = false;
-  registerForm: FormGroup;
-  registerUser: Register;
+  userForm: FormGroup;
+  userData: Register;
+  error: any;
   private _httpClient: HttpClient;
   private _base: string;
   private errorFirstName: any;
@@ -30,18 +31,26 @@ export class RegistrationComponent implements OnInit {
     this._httpClient = http;
     this._base = baseUrl
 
-    this.registerUser = {
-      firstname: '',
-      lastname: '',
+    this.userData = {
+      firstName: '',
+      lastName: '',
+      streetName:'',
+      houseNumber:'',
+      apartmentNumber:'',
       email: '',
       password: '',
-      confirmpassword: ''
+      street:'',
+      city: '',
+      country:'',
+      postcode: 0,
+      confirmPassword: '',
+      imgPath: ''
     };
   }
 
   public register = () => {
     const route: string = 'api/Register';
-    this.https.post(route, this.registerUser)
+    this.https.post(route, this.userData)
       .subscribe((result) => {
         window.location.replace("");
       },
@@ -66,7 +75,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   private initializeForm() {
-    this.registerForm = new FormGroup({
+    this.userForm = new FormGroup({
       'firstName': new FormControl(null),
       'lastName': new FormControl(null),
       'email': new FormControl(null),
@@ -76,13 +85,14 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit() {
+    this.error = undefined;
     this.errorPassword = undefined;
     this.errorPasswordFront = undefined;
     this.errorEmail = undefined;
     this.errorConfirmation = undefined;
     this.errorFirstName = undefined;
     this.errorLastName = undefined;
-    this.registerUser = this.registerForm.value;
+    this.userData = this.userForm.value;
     this.register();
   }
 }

@@ -1,3 +1,4 @@
+import 'hammerjs';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
@@ -37,8 +38,12 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
-
+import { MatInputModule } from '@angular/material/input';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddPupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.add.pupil';
+import { DeletePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.delete.pupil'
+import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.update.pupil'
 
 
 @NgModule({
@@ -67,7 +72,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MentorNewsComponent,
     MentorFaqComponent,
     MentorExerciseComponent,
-    MentorOpinionsComponent
+    MentorOpinionsComponent,
+    AddPupilDialog,
+    DeletePupilDialog,
+    UpdatePupilDialog
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -85,12 +94,20 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatSliderModule,
     MatTableModule,
     MatPaginatorModule,
-    MatFormFieldModule
-
+    MatFormFieldModule,
+    MatInputModule,
+    MatSortModule,
+    MatDialogModule
   ],
   providers: [
     CalendarService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    AddPupilDialog,
+    DeletePupilDialog,
+    UpdatePupilDialog
+
+  ]
 })
 export class AppModule { }
