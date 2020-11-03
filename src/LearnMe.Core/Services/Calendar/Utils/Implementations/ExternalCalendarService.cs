@@ -1,4 +1,5 @@
-﻿using Google.Apis.Calendar.v3;
+﻿using System;
+using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
@@ -41,6 +42,19 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         {
             EventsResource.ListRequest request = base.Events.List(_calendarId);
             request.ShowDeleted = includeCancelled;
+
+            Events result = await request.ExecuteAsync();
+
+            return result.Items;
+        }
+
+        public async Task<IEnumerable<Event>> GetEventsByLastUpdateAsync(
+            DateTime? updateDateTime,
+            bool includeCancelled = true)
+        {
+            EventsResource.ListRequest request = base.Events.List(_calendarId);
+            request.ShowDeleted = includeCancelled;
+            request.UpdatedMin = updateDateTime;
 
             Events result = await request.ExecuteAsync();
 
