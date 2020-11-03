@@ -41,7 +41,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogContentExampleDialog } from './components/mentor/mentor-pupils/mentor-pupils.component';
+import { AddPupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.add.pupil';
+import { DeletePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.delete.pupil'
+import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.update.pupil'
 
 
 @NgModule({
@@ -71,9 +73,10 @@ import { DialogContentExampleDialog } from './components/mentor/mentor-pupils/me
     MentorFaqComponent,
     MentorExerciseComponent,
     MentorOpinionsComponent,
-    DialogContentExampleDialog
+    AddPupilDialog,
+    DeletePupilDialog,
+    UpdatePupilDialog
 
-    
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -101,7 +104,10 @@ import { DialogContentExampleDialog } from './components/mentor/mentor-pupils/me
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    DialogContentExampleDialog
+    AddPupilDialog,
+    DeletePupilDialog,
+    UpdatePupilDialog
+
   ]
 })
 export class AppModule { }

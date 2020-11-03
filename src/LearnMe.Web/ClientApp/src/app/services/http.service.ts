@@ -25,6 +25,7 @@ export class HttpService {
   }
 
   public delete(route: string) {
+
     return this.httpService.delete(route);
   }
 

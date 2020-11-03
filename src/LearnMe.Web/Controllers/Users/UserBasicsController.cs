@@ -13,9 +13,10 @@ using LearnMe.Core.DTO.Config;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using LearnMe.Core.DTO.Account;
 
 namespace LearnMe.Controllers.Users
-{   
+{
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -33,29 +34,43 @@ namespace LearnMe.Controllers.Users
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetUserByRole(string rolename)
+        public async Task<ActionResult> GetStudents(string rolename)
         {
             var role = await _userManager.GetUsersInRoleAsync(rolename);
-            return Ok(role);
+            var user = _mapper.Map<IList<UserForMentorDto>>(role);
+
+            return Ok(user);
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteUser(UserBasic user)
+        public async Task<ActionResult> DeleteUser(string userEmail)
         {
-            var role = await _userManager.DeleteAsync(user);
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            await _userManager.DeleteAsync(user);
             return Ok();
         }
 
-   
-        [HttpPut("{id}")]
-         public async Task<ActionResult> PutUser(UserBasic user)
+
+        [HttpPut]
+        public async Task<ActionResult> PutUser(UpdateUserDto input)
         {
-            var role = await _userManager.UpdateAsync(user);
+            var user = await _userManager.FindByEmailAsync(input.Email);
+           
+            user.FirstName = input.FirstName;
+            user.LastName = input.LastName;
+            user.StreetName = input.StreetName;
+            user.HouseNumber = input.HouseNumber;
+            user.ApartmentNumber = input.ApartmentNumber;
+            user.City = input.City;
+            user.Country = input.Country;
+            user.PostCode = Int32.Parse(input.PostCode);
+
+            await _userManager.UpdateAsync(user);
             return Ok();
         }
 
-         [HttpPost]
-         public async Task<ActionResult> CreateUser(UserBasic user)
+        [HttpPost]
+        public async Task<ActionResult> CreateUser(UserBasic user)
         {
             var role = await _userManager.CreateAsync(user);
             return Ok();

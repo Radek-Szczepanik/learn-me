@@ -1,0 +1,83 @@
+  <div class="alert span4 alert-success" role="alert" *ngIf="succes">
+    Aktualizacja udana!
+  </div>
+  
+  
+  <h2 mat-dialog-title>Aktualizuj użytkownika</h2>
+  <mat-dialog-content class="mat-typography">
+    <form class="example-form" [formGroup]="pupilForm" (ngSubmit)="onSubmit()">
+      <table class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>E-mail</mat-label>
+              <input type="email" matInput value="{{description.email}}" formControlName="email">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Imię</mat-label>
+              <input matInput formControlName="firstName" value="{{description.firstName}}">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Nazwisko</mat-label>
+              <input matInput formControlName="lastName" value="{{description.lastName}}">
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+  
+      <table class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Ulica</mat-label>
+              <input matInput formControlName="streetName" value="{{description.streetName}}">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Numer domu</mat-label>
+              <input matInput formControlName="houseNumber" value="{{description.houseNumber}}">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Numer mieszkania</mat-label>
+              <input matInput formControlName="apartmentNumber" value="{{description.apartmentNumber}}">
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+  
+      <table class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Miasto</mat-label>
+              <input matInput formControlName="city" value="{{description.city}}">
+            </mat-form-field >
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Kraj</mat-label>
+              <input matInput formControlName="country" value="{{description.country}}">
+            </mat-form-field>
+          </td>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Kod pocztowy</mat-label>
+              <input matInput #postalCode maxlength="5" formControlName="postcode" value="{{description.postcode}}">
+              <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+      <mat-dialog-content>
+        <button mat-button mat-dialog-close>Powrót</button>
+        <button type="submit" mat-button>Aktualizuj</button>
+      </mat-dialog-content>
+    </form>
+  </mat-dialog-content>
