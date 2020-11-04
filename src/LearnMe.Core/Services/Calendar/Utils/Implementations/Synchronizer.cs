@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Apis.Calendar.v3.Data;
@@ -54,13 +55,14 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             var lastSynchronization = await synchronizationData.GetByIdAsync(lastSynchronizationId);
 
             IEnumerable<Event> eventsFromCalendarResult = await externalCalendarService.GetEventsByLastUpdateAsync(lastSynchronization.LastSynchronization);
+            var updateDateTime = DateTime.Now;
 
             IList<string> databaseCalendarIds = await Helpers.GetListOfCalendarIdsFromDatabase(repository);
 
             foreach (var eventResult in eventsFromCalendarResult)
             {
                 // TODO: Add to Calendar specific log
-                if (!databaseCalendarIds.Contains(eventResult.Id) && eventResult.Status != "cancelled")
+                if (!databaseCalendarIds.Any(e => e == eventResult.Id) && eventResult.Status != "cancelled")
                 {
                     await repository.InsertAsync(new CalendarEvent()
                     {
@@ -76,10 +78,17 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                 }
                 else if (eventResult.Status == "cancelled")
                 {
-                    var eventToBeDeleted =
-                        await repository.GetByCalendarIdAsync(eventResult.Id);
-                    
-                    await repository.DeleteAsync(eventToBeDeleted.Id);
+                    if (eventResult.Start == null || eventResult.End == null)
+                    {
+                        // do nothing - means one from the recurring events deleted
+                    }
+                    else
+                    {
+                        var eventToBeDeleted =
+                            await repository.GetByCalendarIdAsync(eventResult.Id);
+                        
+                        await repository.DeleteAsync(eventToBeDeleted.Id);
+                    }
                 }
                 else
                 {
@@ -94,6 +103,12 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                     });
                 }
             }
+
+            await synchronizationData.UpdateAsync(new CalendarSynchronization()
+            {
+                Id = Constants.LastSynchronizationRecordId,
+                LastSynchronization = DateTime.Now
+            });
 
             return synchronizedRowsCounter;
         }

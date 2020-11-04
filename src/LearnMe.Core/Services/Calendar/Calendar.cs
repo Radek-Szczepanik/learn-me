@@ -98,8 +98,7 @@ namespace LearnMe.Core.Services.Calendar
 
         public async Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(
             int eventsPerPage,
-            int pageNumber,
-            string calendarId = Constants.CalendarId)
+            int pageNumber)
         {
             // Step 1 - synchronize Google calendar with DB
             //await _synchronizer.SynchronizeDatabaseWithCalendarByIdAsync(_externalCalendarService, _repository);
@@ -204,6 +203,17 @@ namespace LearnMe.Core.Services.Calendar
 
         public async Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(DateTime fromDate, DateTime toDate)
         {
+            // Step 1 - synchronize Google calendar with DB
+            //await _synchronizer.SynchronizeDatabaseWithCalendarByIdAsync(_externalCalendarService, _repository);
+            var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
+                _externalCalendarService,
+                _calendarEventsRepository,
+                _synchronizationData);
+
+            _logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
+
+            // Step 2 - get all data from DB
+
             var eventsResult = await _calendarEventsRepository.GetByFromAndToDate(fromDate, toDate);
 
             if (eventsResult != null)

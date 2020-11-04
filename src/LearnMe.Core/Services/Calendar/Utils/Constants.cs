@@ -8,6 +8,6 @@
 
         public const string ApplicationName = "Learn Me WEB Applicaton";
 
-        public const int LastSynchronizationRecordId = 0;
+        public const int LastSynchronizationRecordId = 1;
     }
 }

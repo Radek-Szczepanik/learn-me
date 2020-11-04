@@ -11,8 +11,7 @@ namespace LearnMe.Core.Interfaces.Services
     {
         Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(
             int eventsPerPage,
-            int pageNumber,
-            string calendarId = Constants.CalendarId);
+            int pageNumber);
 
         Task<CalendarEventDto> GetEventByIdAsync(int id);
 
@@ -33,6 +32,8 @@ namespace LearnMe.Core.Interfaces.Services
 
         Task<bool> DeleteEventByCalendarIdAsync(string calendarId);
 
-        Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(DateTime fromDate, DateTime toDate);
+        Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(
+            DateTime fromDate,
+            DateTime toDate);
     }
 }
