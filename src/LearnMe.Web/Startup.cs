@@ -148,6 +148,9 @@ namespace LearnMe.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // Custom middleware
+            //app.UseMasterCalendarToken();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
