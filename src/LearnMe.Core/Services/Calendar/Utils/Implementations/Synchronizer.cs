@@ -80,7 +80,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                 {
                     if (eventResult.Start == null || eventResult.End == null)
                     {
-                        // do nothing - means one from the recurring events deleted
+                        // do nothing - means one from the recurring events has been deleted from external calendar
                     }
                     else
                     {

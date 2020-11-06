@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using AutoMapper;
 using Google.Apis.Calendar.v3.Data;
 using LearnMe.Core.DTO.Config;
@@ -25,6 +26,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using NETCore.MailKit.Core;
 
 
 namespace LearnMe.Web
@@ -75,6 +77,7 @@ namespace LearnMe.Web
             services.AddScoped<IUserClaimsPrincipalFactory<UserBasic>, MyUserClaimsPrincipalFactory>();
 
             services.AddSingleton<ITokenService, TokenService>();
+
             services.AddSingleton<IToken>(provider =>
             {
                 var tokenService = provider.GetService<ITokenService>();
