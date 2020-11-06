@@ -28,12 +28,6 @@ namespace LearnMe.Controllers.Home
             return Ok(await _crudRepository.GetAllAsync());
         }
 
-        // [HttpGet]
-        // public async Task<ActionResult<IEnumerable<News>>> GetAllNews(int itemsPerPage = 5, int pageNumber = 1)
-        // {
-        //     return Ok(await _crudRepository.GetAllAsync(itemsPerPage, pageNumber));
-        // }
-
         [HttpGet("{id}")]
         public async Task<ActionResult<News>> GetNews(int id)
         {

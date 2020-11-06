@@ -22,10 +22,10 @@ namespace LearnMe.Controllers.Home
             _crudRepository = crudRepository;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Opinion>>> GetAllOpinions(int itemsPerPage = 5, int pageNumber = 1)
+    [HttpGet]
+        public async Task<ActionResult<IEnumerable<Opinion>>> GetAllOpinion()
         {
-            return Ok(await _crudRepository.GetAllWithPagination(itemsPerPage, pageNumber));
+            return Ok(await _crudRepository.GetAllAsync());
         }
 
         [HttpGet("{id}")]
@@ -39,16 +39,16 @@ namespace LearnMe.Controllers.Home
             return Ok(opinion);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> EditOpinion(int id, Opinion opinion)
+        [HttpPut]
+        public async Task<IActionResult> EditOpinion(Opinion opinion)
         {
-            if (id != opinion.Id && !OpinionExists(id))
-                return NotFound();
+            // if (id != opinion.Id && !OpinionExists(id))
+            //     return NotFound();
 
             await _crudRepository.UpdateAsync(opinion);
             await _crudRepository.SaveAsync();
 
-            return Ok(opinion);
+            return Ok();
         }
 
         [HttpPost]
@@ -63,15 +63,14 @@ namespace LearnMe.Controllers.Home
         [HttpDelete("{id}")]
         public async Task<ActionResult<Opinion>> DeleteOpinion(int id)
         {
-            var opinion = await _crudRepository.GetByIdAsync(id);
+            // var opinion = await _crudRepository.GetByIdAsync(id);
 
-            if (opinion == null)
-                return NotFound();
+            // if (opinion == null)
+            //     return NotFound();
 
-            await _crudRepository.DeleteAsync(opinion);
-            await _crudRepository.SaveAsync();
+            await _crudRepository.DeleteAsync(id);
 
-            return Ok(opinion);
+            return Ok();
         }
 
         private bool OpinionExists(int id)
