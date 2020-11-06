@@ -7,5 +7,7 @@
         public const string Timezone = "Europe/Warsaw";
 
         public const string ApplicationName = "Learn Me WEB Applicaton";
+
+        public const int LastSynchronizationRecordId = 1;
     }
 }

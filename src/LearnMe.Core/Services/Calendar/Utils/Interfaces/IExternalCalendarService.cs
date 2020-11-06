@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Google.Apis.Calendar.v3.Data;
 
 namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
 {
@@ -8,6 +10,10 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
         Task<bool> DeleteEventAsync(string id);
 
         Task<IEnumerable<T>> GetEventsAsync(bool includeCancelled = false);
+
+        Task<IEnumerable<T>> GetEventsByLastUpdateAsync(
+            DateTime? updateDateTime,
+            bool includeCancelled = false);
 
         Task<T> GetEventByIdAsync(string id);
 

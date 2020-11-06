@@ -8,7 +8,6 @@ namespace LearnMe.Infrastructure.Models.Domains.Home
     /// </summary>
     public class News : BaseHome
     {
-        public string ImgPath { get; set;}
-
+        public string ImgPath { get; set; }
     }
 }

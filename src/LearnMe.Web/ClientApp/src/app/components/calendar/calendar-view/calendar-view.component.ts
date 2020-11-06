@@ -26,6 +26,11 @@ export class CalendarViewComponent implements OnInit {
   timezone: string = "Europe/Warsaw";
   eventToAdd: CalendarEventPost;
   appointmentFormUpdatedFlag: boolean = false;
+  isFirstLoadFlag: boolean = true;
+  dataLoaded: boolean = false;
+
+  startViewDate: Date;
+  endViewDate: Date;
 
   constructor(private data: CalendarService, private https: HttpService) {
     console.debug('appointmentsData:');
@@ -40,34 +45,51 @@ export class CalendarViewComponent implements OnInit {
       isFreeSlot: false,
       calendarId: ''
     };
+
+    //let maxDate: Date = new Date();
+    //maxDate.setDate(maxDate.getDate() + 7); // fetches 1 week (= 7 days) from current date
+
+    //this.data.loadEventsByDates(this.currentDate, maxDate)
+    //  .subscribe(success => {
+    //    console.debug('is success in OnInit');
+    //    console.debug(success);
+    //    if (success) {
+    //      this.appointmentsData = this.data.events;
+    //    }
+    //    console.debug('appointmentsData - after OnInit');
+    //    console.debug(this.appointmentsData);
+    //  });
   }
 
-  ngOnInit(): void {
-    this.data.loadEvents()
-      .subscribe(success => {
-        console.debug('is success in OnInit');
-        console.debug(success);
-        if (success) {
-          this.appointmentsData = this.data.events;
-        }
-        console.debug('appointmentsData - after OnInit');
-        console.debug(this.appointmentsData);
-      });
-
-    //console.debug('start date');
-    //console.debug(this.dxScheduler.startDate);
-  }
+  ngOnInit(): void {}
 
   onInitialized(e) {
     console.debug("on initialized fired!");
+  }
 
-    let element = document.getElementById("myScheduler");
-    let instance = Scheduler.getInstance(element) as Scheduler;
-    //let instance = DevExpress.ui.dxScheduler.getInstance(element);
-    console.debug("scheduler instance");
-    console.debug(instance);
-    let startViewDate = instance.getStartViewDate();
-    console.debug(startViewDate);
+  onContentReady(e) {
+    console.debug('on content ready fired!');
+    this.getCalendarCurrentDate();
+
+    if (this.isFirstLoadFlag) {
+      this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
+        .subscribe(success => {
+          console.debug('is success in OnInit');
+          console.debug(success);
+          if (success) {
+            this.appointmentsData = this.data.events;
+          }
+          console.debug('appointmentsData - after OnInit');
+          console.debug(this.appointmentsData);
+        });
+
+      this.isFirstLoadFlag = false;
+
+    } else {
+
+      this.isFirstLoadFlag = true;
+
+    }
   }
 
   showToast(event, value, type) {
@@ -83,7 +105,6 @@ export class CalendarViewComponent implements OnInit {
     console.debug('object to be added:');
     console.debug(e);
 
-    //this.eventToAdd.subject = e.appointmentData.text;
     this.eventToAdd.subject = e.appointmentData.subject;
     this.eventToAdd.description = e.appointmentData.description;
     this.eventToAdd.startDate = e.appointmentData.startDate;
@@ -107,7 +128,6 @@ export class CalendarViewComponent implements OnInit {
     console.debug('when updated object is:');
     console.debug(e);
 
-    //this.eventToAdd.subject = e.appointmentData.text;
     this.eventToAdd.subject = e.appointmentData.subject;
     this.eventToAdd.description = e.appointmentData.description;
     this.eventToAdd.startDate = e.appointmentData.startDate;
@@ -142,16 +162,8 @@ export class CalendarViewComponent implements OnInit {
       });
   }
 
-  onAppointmentFormCreated(e) {}
-
-  // z parent komponentu będzie dostęp do tego kalenarza
-  // this.calendarApi = this.calendarComponent.getApi();
-  // let currentDate = this.calendarApi.view.currentStart;
-  // i current date przekazac z powrotem do child komponentu kalendarza
-
   onAppointmentFormOpening(e) {
     console.debug("onAppointmentFormOpening fired!");
-    //console.debug(e.form.itemOption("mainGroup").items);
 
     if (!this.appointmentFormUpdatedFlag) {
       let formItems = e.form.itemOption("mainGroup").items;
@@ -172,7 +184,6 @@ export class CalendarViewComponent implements OnInit {
           }
         });
 
-      //e.form.itemOption("mainGroup").items = formItems;
       e.form.itemOption("mainGroup",
         {
           items: formItems
@@ -195,12 +206,17 @@ export class CalendarViewComponent implements OnInit {
     console.debug(this.appointmentFormUpdatedFlag);
   }
 
-  onAppointmentAdding(eventToAdd: CalendarEvent) {}
-
-  onAppointmentUpdating(e: any) { }
-
   getCalendarCurrentDate() {
-    //let calendarApi = this. CalendarViewComponent.getApi();
-    //let currentDate = calendarApi.view.currentStart;
+    let element = document.getElementById("myScheduler");
+    let instance = Scheduler.getInstance(element) as Scheduler;
+    console.debug("scheduler instance");
+    console.debug(instance);
+    console.debug("getting start view date");
+    let startViewDate = instance.getStartViewDate();
+    console.debug("start view date - value:");
+    console.debug(startViewDate);
+
+    this.startViewDate = instance.getStartViewDate();
+    this.endViewDate = instance.getEndViewDate();
   }
 }

@@ -21,6 +21,7 @@ namespace LearnMe.Infrastructure.Data
         }
 
         public DbSet<CalendarEvent> CalendarEvents { get; set; }
+        public DbSet<CalendarSynchronization> CalendarSynchronizations { get; set; }
 
         public DbSet<Exercises> Exercises { get; set; }
         public DbSet<News> News { get; set; }

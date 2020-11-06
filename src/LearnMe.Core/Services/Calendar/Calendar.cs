@@ -19,6 +19,7 @@ namespace LearnMe.Core.Services.Calendar
         private readonly ICrudRepository<CalendarEvent> _repository;
         private readonly ICalendarEventsRepository _calendarEventsRepository;
         private readonly IExternalCalendarService<Event> _externalCalendarService;
+        private readonly ICrudRepository<CalendarSynchronization> _synchronizationData;
         private readonly ISynchronizer _synchronizer;
         private readonly IMapper _mapper;
         private readonly IEventBuilder _eventBuilder;
@@ -28,6 +29,7 @@ namespace LearnMe.Core.Services.Calendar
             ICrudRepository<CalendarEvent> repository,
             ICalendarEventsRepository calendarEventsRepository,
             IExternalCalendarService<Event> externalCalendarService,
+            ICrudRepository<CalendarSynchronization> synchronizationData,
             ISynchronizer synchronizer,
             IMapper mapper,
             IEventBuilder eventBuilder,
@@ -37,6 +39,7 @@ namespace LearnMe.Core.Services.Calendar
             _calendarEventsRepository = calendarEventsRepository ??
                                         throw new ArgumentNullException(nameof(calendarEventsRepository));
             _externalCalendarService = externalCalendarService ?? throw new ArgumentNullException(nameof(externalCalendarService));
+            _synchronizationData = synchronizationData ?? throw new ArgumentNullException(nameof(synchronizationData));
             _synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _eventBuilder = eventBuilder ?? throw new ArgumentNullException(nameof(eventBuilder));
@@ -95,11 +98,16 @@ namespace LearnMe.Core.Services.Calendar
 
         public async Task<IEnumerable<CalendarEventDto>> GetAllEventsAsync(
             int eventsPerPage,
-            int pageNumber,
-            string calendarId = Constants.CalendarId)
+            int pageNumber)
         {
             // Step 1 - synchronize Google calendar with DB
-            await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_externalCalendarService, _repository);
+            //await _synchronizer.SynchronizeDatabaseWithCalendarByIdAsync(_externalCalendarService, _repository);
+            var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
+                _externalCalendarService,
+                _calendarEventsRepository,
+                _synchronizationData);
+
+            _logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
 
             // Step 2 - get all data from DB
             var eventsResult = await _repository.GetAllWithPagination(eventsPerPage, pageNumber);
@@ -113,8 +121,7 @@ namespace LearnMe.Core.Services.Calendar
                 }
 
                 return results;
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -133,7 +140,7 @@ namespace LearnMe.Core.Services.Calendar
             toUpdateData.Id = id;
 
             var eventFromDbToUpdate = await _repository.GetByIdAsync(id);
-            
+
             if (eventFromDbToUpdate != null)
             {
                 toUpdateData.CalendarId = eventFromDbToUpdate.CalendarId;
@@ -158,7 +165,7 @@ namespace LearnMe.Core.Services.Calendar
 
             var eventFromDbToUpdate =
                 await _calendarEventsRepository.GetByCalendarIdAsync(eventData.CalendarId);
-            
+
             toUpdateData.Id = eventFromDbToUpdate.Id;
 
             if (eventFromDbToUpdate != null)
@@ -192,6 +199,36 @@ namespace LearnMe.Core.Services.Calendar
             }
 
             return result;
+        }
+
+        public async Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(DateTime fromDate, DateTime toDate)
+        {
+            // Step 1 - synchronize Google calendar with DB
+            //await _synchronizer.SynchronizeDatabaseWithCalendarByIdAsync(_externalCalendarService, _repository);
+            var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
+                _externalCalendarService,
+                _calendarEventsRepository,
+                _synchronizationData);
+
+            _logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
+
+            // Step 2 - get all data from DB
+
+            var eventsResult = await _calendarEventsRepository.GetByFromAndToDate(fromDate, toDate);
+
+            if (eventsResult != null)
+            {
+                IList<CalendarEventDto> results = new List<CalendarEventDto>();
+                foreach (var eventResult in eventsResult)
+                {
+                    results.Add(_mapper.Map<CalendarEventDto>(eventResult));
+                }
+
+                return results;
+            } else
+            {
+                return null;
+            }
         }
     }
 }

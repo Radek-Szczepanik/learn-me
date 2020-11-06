@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LearnMe.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace LearnMe.Infrastructure.Repository
 {
@@ -24,6 +25,16 @@ namespace LearnMe.Infrastructure.Repository
                                                    .SingleOrDefaultAsync();
             
             _context.Entry(result).State = EntityState.Detached;
+
+            return result;
+        }
+
+        public async Task<IEnumerable<CalendarEvent>> GetByFromAndToDate(DateTime fromDate, DateTime toDate)
+        {
+            var result = await _context.CalendarEvents
+                                                        .Where(o => o.Start >= fromDate && o.End <= toDate)
+                                                        .AsNoTracking()
+                                                        .ToListAsync();
 
             return result;
         }
