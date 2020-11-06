@@ -102,7 +102,7 @@ namespace LearnMe.Core.Services.Calendar
             await _synchronizer.SynchronizeDatabaseWithCalendarAsync(_externalCalendarService, _repository);
 
             // Step 2 - get all data from DB
-            var eventsResult = await _repository.GetAllAsync(eventsPerPage, pageNumber);
+            var eventsResult = await _repository.GetAllWithPagination(eventsPerPage, pageNumber);
 
             if (eventsResult != null)
             {

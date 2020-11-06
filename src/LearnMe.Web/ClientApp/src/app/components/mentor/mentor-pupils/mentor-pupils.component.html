@@ -6,11 +6,11 @@
 </mat-form-field>
 
 
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1">
 
   <ng-container matColumnDef="imgPath">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Foto </th>
-    <td mat-cell *matCellDef="let row"> <img src="/Images/{{row.imgPath}}" style="width:70px; height:60px; margin: 2%;"></td>
+    <td mat-cell *matCellDef="let row"> <img src="/Images/{{row.imgPath}}" class="rounded-circle" style="width:60px; height:60px; margin: 5px;"></td>
   </ng-container>
 
   <ng-container matColumnDef="firstName">

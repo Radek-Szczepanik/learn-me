@@ -42,8 +42,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddPupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.add.pupil';
-import { DeletePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.delete.pupil'
-import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.update.pupil'
+import { DeletePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.delete.pupil';
+import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.update.pupil';
+import { AddNewsDialog } from "./components/mentor/mentor-news/mentor-news-add.component";
+import { DeleteNewsDialog } from "./components/mentor/mentor-news/mentor-news-delete.components";
+import { UpdateNewsDialog } from "./components/mentor/mentor-news/mentor-news-update.component";
+
 
 
 @NgModule({
@@ -75,7 +79,10 @@ import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupi
     MentorOpinionsComponent,
     AddPupilDialog,
     DeletePupilDialog,
-    UpdatePupilDialog
+    UpdatePupilDialog,
+    AddNewsDialog,
+    DeleteNewsDialog,
+    UpdateNewsDialog
 
   ],
   imports: [
@@ -106,7 +113,10 @@ import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupi
   entryComponents: [
     AddPupilDialog,
     DeletePupilDialog,
-    UpdatePupilDialog
+    UpdatePupilDialog,
+    AddNewsDialog,
+    DeleteNewsDialog,
+    UpdateNewsDialog
 
   ]
 })
