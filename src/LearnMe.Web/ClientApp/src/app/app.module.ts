@@ -47,6 +47,9 @@ import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupi
 import { AddNewsDialog } from "./components/mentor/mentor-news/mentor-news-add.component";
 import { DeleteNewsDialog } from "./components/mentor/mentor-news/mentor-news-delete.components";
 import { UpdateNewsDialog } from "./components/mentor/mentor-news/mentor-news-update.component";
+import { AddOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-add.component";
+import { UpdateOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-update.component";
+import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-delete.component";
 
 
 
@@ -82,7 +85,10 @@ import { UpdateNewsDialog } from "./components/mentor/mentor-news/mentor-news-up
     UpdatePupilDialog,
     AddNewsDialog,
     DeleteNewsDialog,
-    UpdateNewsDialog
+    UpdateNewsDialog,
+    AddOpinionsDialog,
+    UpdateOpinionsDialog,
+    DeleteOpinionsDialog
 
   ],
   imports: [
@@ -116,7 +122,10 @@ import { UpdateNewsDialog } from "./components/mentor/mentor-news/mentor-news-up
     UpdatePupilDialog,
     AddNewsDialog,
     DeleteNewsDialog,
-    UpdateNewsDialog
+    UpdateNewsDialog,
+    AddOpinionsDialog,
+    UpdateOpinionsDialog,
+    DeleteOpinionsDialog
 
   ]
 })
