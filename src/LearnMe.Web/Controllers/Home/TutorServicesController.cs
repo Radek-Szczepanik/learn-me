@@ -24,7 +24,7 @@ namespace LearnMe.Controllers.Home
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TutorService>>> GetAllTutorServices(int itemsPerPage = 5, int pageNumber = 1)
         {
-            return Ok(await _crudRepository.GetAllAsync(itemsPerPage, pageNumber));
+            return Ok(await _crudRepository.GetAllWithPagination(itemsPerPage, pageNumber));
         }
 
         [HttpGet("{id}")]

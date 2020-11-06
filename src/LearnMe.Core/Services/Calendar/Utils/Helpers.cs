@@ -12,7 +12,7 @@ namespace LearnMe.Core.Services.Calendar.Utils
             int eventsPerPage = 250,
             int pageNumber = 1)
         {
-            var allDatabaseEvents = await repository.GetAllAsync(eventsPerPage, pageNumber);
+            var allDatabaseEvents = await repository.GetAllWithPagination(eventsPerPage, pageNumber);
             
             IList<string> databaseEventsCalendarIds = new List<string>();
             foreach (var eventFromDatabase in allDatabaseEvents)

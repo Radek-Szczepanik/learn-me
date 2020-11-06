@@ -36,7 +36,15 @@ namespace LearnMe.Infrastructure.Repository
                 return false;
             }
         }
-        public async Task<IEnumerable<T>> GetAllAsync(int itemsPerPage = 10, int pageNumber = 1)
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            var news = await _context.Set<T>().ToListAsync();
+            return news;
+
+        }
+
+     
+        public async Task<IEnumerable<T>> GetAllWithPagination(int itemsPerPage = 10, int pageNumber = 1)
         {
             if (itemsPerPage > 0 && pageNumber > 0)
             {

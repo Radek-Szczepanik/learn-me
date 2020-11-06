@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, AfterContentChecked,} from '@angular/core';
 import { Students } from '../../../models/Users/students';
-import { AfterViewInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,6 +9,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddPupilDialog } from "./mentor-pupils.component.add.pupil";
 import { DeletePupilDialog } from "./mentor-pupils.component.delete.pupil";
 import { UpdatePupilDialog } from "./mentor-pupils.component.update.pupil";
+import { CrudService } from "../../../services/crud.service"
 
 
 
@@ -17,24 +18,33 @@ import { UpdatePupilDialog } from "./mentor-pupils.component.update.pupil";
   templateUrl: './mentor-pupils.component.html',
   styleUrls: ['./mentor-pupils.component.css']
 })
-export class MentorPupilsComponent implements AfterViewInit {
+export class MentorPupilsComponent implements AfterViewInit{
 
   displayedColumns: string[] = ['imgPath', 'firstName', 'lastName', 'email', 'streetName', 'houseNumber', 'apartmentNumber', 'city', 'postcode', 'country', 'actions'];
 
   dataSource: MatTableDataSource<Students>;
   _http: HttpClient;
   _baseUrl: string;
+  _crud: CrudService;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, public dialog: MatDialog) {
+  constructor(http: HttpClient, 
+    @Inject('BASE_URL') baseUrl: string, 
+    public dialog: MatDialog, 
+    crud: CrudService) {
     this._http = http;
     this._baseUrl = baseUrl;
+    this._crud = crud;
   }
 
   ngAfterViewInit() {
-    this._http.get<Students[]>(this._baseUrl + 'api/UserBasics?rolename=student').subscribe(result => {
+   this.getData();
+  }
+
+  getData(){
+      this._http.get<Students[]>(this._baseUrl + 'api/UserBasics?rolename=student').subscribe(result => {
       this.dataSource = new MatTableDataSource(result);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -70,11 +80,13 @@ export class MentorPupilsComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.ngAfterViewInit();
-    });   
+    });
   }
+
   updatePupil(user: Students) {
 
     const dialogConfig = new MatDialogConfig();
+
 
     dialogConfig.data = {
       id: 1,
@@ -84,8 +96,8 @@ export class MentorPupilsComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(UpdatePupilDialog, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
-      this.ngAfterViewInit();
-    });   
+        this.getData();
+    });
   }
 }
 
