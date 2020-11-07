@@ -49,7 +49,7 @@ export class UpdatePupilDialog implements OnInit {
   }
 
   private initializeForm() {
-      this.pupil = this.description;
+    this.pupil = this.description;
     this.pupilForm = new FormGroup({
       'firstName': new FormControl(this.pupil.firstName),
       'lastName': new FormControl(this.pupil.lastName),

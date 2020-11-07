@@ -29,7 +29,7 @@ namespace LearnMe.Controllers.Home
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Exercises>>> GetAllExercises(int itemsPerPage = 5, int pageNumber = 1)
         {
-            var exercises = await _crudRepository.GetAllAsync(itemsPerPage, pageNumber);
+            var exercises = await _crudRepository.GetAllWithPagination(itemsPerPage, pageNumber);
             var exercisesToReturn = _mapper.Map<IEnumerable<ExercisesDTO>>(exercises);
 
             return Ok(exercisesToReturn);

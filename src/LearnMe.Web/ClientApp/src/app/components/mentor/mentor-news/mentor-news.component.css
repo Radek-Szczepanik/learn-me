@@ -1,0 +1,46 @@
+table, .mat-form-field, .mat-paginator {
+    width: 100%;
+    margin: 1%;
+    max-width: 98%;
+  }
+
+
+  
+  ::ng-deep .mat-focused .mat-form-field-label {
+    /*change color of label*/
+    color: black !important;
+   }
+  
+   ::ng-deep.mat-form-field-underline {
+    /*change color of underline*/
+    background-color: black !important;
+  } 
+  
+  ::ng-deep.mat-form-field-ripple {
+   /*change color of underline when focused*/
+   background-color: #ff4081 !important;;
+  }
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: 30%;
+  }
+
+body {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+
+}
+.basic-container {
+  padding: 30px;
+}
+.version-info {
+  font-size: 8pt;
+  float: right;
+  margin: 8px;
+}
+  

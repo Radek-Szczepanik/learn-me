@@ -23,9 +23,9 @@ namespace LearnMe.Controllers.Home
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<News>>> GetAllNews(int itemsPerPage = 5, int pageNumber = 1)
+        public async Task<ActionResult<IEnumerable<News>>> GetAllNews()
         {
-            return Ok(await _crudRepository.GetAllAsync(itemsPerPage, pageNumber));
+            return Ok(await _crudRepository.GetAllAsync());
         }
 
         [HttpGet("{id}")]
@@ -48,32 +48,26 @@ namespace LearnMe.Controllers.Home
             return Ok(news);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<News>> EditNews(int id, News news)
+        [HttpPut]
+        public async Task<ActionResult<News>> EditNews(News news)
         {
-            if (id != news.Id && !NewsExists(id))
-            {
-                return BadRequest();
-            }
-
+           
             await _crudRepository.UpdateAsync(news);
-            await _crudRepository.SaveAsync();
 
-            return Ok(news);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<News>> DeleteNews(int id)
         {
-            var news = await _crudRepository.GetByIdAsync(id);
+            if (await _crudRepository.DeleteAsync(id)){
+               
+                return Ok();
+            }
+            
+            return NotFound();
 
-            if (news == null)
-                return NotFound();
-
-            await _crudRepository.DeleteAsync(news);
-            await _crudRepository.SaveAsync();
-
-            return Ok(news);
+          
         }
 
         private bool NewsExists(int id)

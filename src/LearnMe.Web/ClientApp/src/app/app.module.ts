@@ -42,8 +42,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddPupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.add.pupil';
-import { DeletePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.delete.pupil'
-import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.update.pupil'
+import { DeletePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.delete.pupil';
+import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.update.pupil';
+import { AddNewsDialog } from "./components/mentor/mentor-news/mentor-news-add.component";
+import { DeleteNewsDialog } from "./components/mentor/mentor-news/mentor-news-delete.components";
+import { UpdateNewsDialog } from "./components/mentor/mentor-news/mentor-news-update.component";
+import { AddOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-add.component";
+import { UpdateOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-update.component";
+import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-delete.component";
+
 
 
 @NgModule({
@@ -75,7 +82,13 @@ import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupi
     MentorOpinionsComponent,
     AddPupilDialog,
     DeletePupilDialog,
-    UpdatePupilDialog
+    UpdatePupilDialog,
+    AddNewsDialog,
+    DeleteNewsDialog,
+    UpdateNewsDialog,
+    AddOpinionsDialog,
+    UpdateOpinionsDialog,
+    DeleteOpinionsDialog
 
   ],
   imports: [
@@ -106,7 +119,13 @@ import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupi
   entryComponents: [
     AddPupilDialog,
     DeletePupilDialog,
-    UpdatePupilDialog
+    UpdatePupilDialog,
+    AddNewsDialog,
+    DeleteNewsDialog,
+    UpdateNewsDialog,
+    AddOpinionsDialog,
+    UpdateOpinionsDialog,
+    DeleteOpinionsDialog
 
   ]
 })

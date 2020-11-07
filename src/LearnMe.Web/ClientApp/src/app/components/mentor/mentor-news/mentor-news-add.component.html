@@ -1,0 +1,50 @@
+<div class="alert span4 alert-success" role="alert" *ngIf="succes">
+    News dodany!
+</div>
+
+
+<h2 mat-dialog-title>Dodaj News</h2>
+<mat-dialog-content class="mat-typography">
+    <form class="example-form" [formGroup]="newsForm" (ngSubmit)="onSubmit()">
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Tytuł</mat-label>
+                        <input type="email" matInput formControlName="title">
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Text</mat-label>
+                        <textarea matInput formControlName="text"></textarea>
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+
+        <mat-dialog-content>
+            <button mat-button mat-dialog-close>Powrót</button>
+            <button type="submit" mat-button>Dodaj</button>
+        </mat-dialog-content>
+    </form>
+</mat-dialog-content>
+
+<div class="row" style="margin-bottom:15px;">
+    <div class="col-md-3">
+        <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+        <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+    </div>
+    <div class="col-md-4">
+        <span class="upload" *ngIf="progress > 0">
+            {{progress}}%
+        </span>
+        <span class="upload" *ngIf="message">
+            {{message}}
+        </span>
+    </div>
+</div>
