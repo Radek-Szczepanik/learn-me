@@ -60,9 +60,13 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             {
                 settings = new string[] { $"RRULE:FREQ={period.ToString()};COUNT={numberOfEvents}" };
             }
-            else
+            else if (untilDate != null)
             {
                 settings = new string[] { $"RRULE:FREQ={period.ToString()};UNTIL={untilDate}" };
+            }
+            else
+            {
+                settings = new string[] { null };
             }
 
             this._event.Recurrence = settings.ToList();

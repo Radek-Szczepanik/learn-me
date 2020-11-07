@@ -12,13 +12,14 @@ using Moq;
 using NUnit.Framework;
 using Calendar = LearnMe.Core.Services.Calendar.Calendar;
 
-namespace LearnMe.Core.Tests.ServicesTests.CalendarTests
+namespace LearnMe.Core.Tests.ServicesTests.Utils
 {
     public class CalendarTests
     {
         private ICrudRepository<CalendarEvent> _repository;
         private ICalendarEventsRepository _calendarEventsRepository;
         private IExternalCalendarService<Event> _externalCalendarService;
+        private ICrudRepository<CalendarSynchronization> _synchronizaionRepository;
         private ISynchronizer _synchronizer;
         private IMapper _mapper;
         private IEventBuilder _eventBuilder;
@@ -32,6 +33,7 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests
             var repositoryMock = new Mock<ICrudRepository<CalendarEvent>>();
             var calendarEventsRepositoryMock = new Mock<ICalendarEventsRepository>();
             var externalCalendarServiceMock = new Mock<IExternalCalendarService<Event>>();
+            var synchronizationRepositoryMock = new Mock<ICrudRepository<CalendarSynchronization>>();
             var synchronizerMock = new Mock<ISynchronizer>();
             var mapperMock = new Mock<IMapper>();
             var eventBuilderMock = new Mock<IEventBuilder>();
@@ -48,10 +50,12 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests
                 .ReturnsAsync(new Event());
             repositoryMock.Setup(x => x.InsertAsync(It.IsAny<CalendarEvent>()))
                 .ReturnsAsync(new CalendarEvent());
+                //.ReturnsAsync((CalendarEvent)null);
 
             _repository = repositoryMock.Object;
             _calendarEventsRepository = calendarEventsRepositoryMock.Object;
             _externalCalendarService = externalCalendarServiceMock.Object;
+            _synchronizaionRepository = synchronizationRepositoryMock.Object;
             _synchronizer = synchronizerMock.Object;
             _mapper = mapperMock.Object;
             _eventBuilder = eventBuilderMock.Object;
@@ -61,6 +65,7 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests
                 _repository,
                 _calendarEventsRepository,
                 _externalCalendarService,
+                _synchronizaionRepository,
                 _synchronizer,
                 _mapper,
                 _eventBuilder,
@@ -100,6 +105,59 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests
 
             // Assert
             Assert.IsInstanceOf<CalendarEventDto>(result);
+        }
+
+        [TestCase("Subject",
+            "Description",
+            "01/20/2012", // nUnit automatically does DateTime.Parse()
+            "02/20/2012",
+            false,
+            false,
+            "primary")]
+        public async Task CreateEventAsync_CreateNotValidNotRecurringEvent_ReturnsNull(
+            string subject,
+            string description,
+            DateTime startDate,
+            DateTime endDate,
+            bool isDone,
+            bool isFreeSlot,
+            string calendarId)
+        {
+            // Arrange
+            var repositoryMock = new Mock<ICrudRepository<CalendarEvent>>();
+
+            // mock config
+            repositoryMock.Setup(x => x.InsertAsync(It.IsAny<CalendarEvent>()))
+                .ReturnsAsync((CalendarEvent)null);
+
+            _repository = repositoryMock.Object;
+
+            _calendarInstanceToTest = new Calendar(
+                _repository,
+                _calendarEventsRepository,
+                _externalCalendarService,
+                _synchronizaionRepository,
+                _synchronizer,
+                _mapper,
+                _eventBuilder,
+                _logger);
+
+            var eventToAdd = new CalendarEventDto()
+            {
+                Subject = subject,
+                Description = description,
+                StartDate = startDate,
+                EndDate = endDate,
+                IsDone = isDone,
+                IsFreeSlot = isFreeSlot,
+                CalendarId = calendarId
+            };
+
+            // Act
+            var result = await _calendarInstanceToTest.CreateEventAsync(eventToAdd);
+
+            // Assert
+            Assert.IsNull(result);
         }
     }
 }
