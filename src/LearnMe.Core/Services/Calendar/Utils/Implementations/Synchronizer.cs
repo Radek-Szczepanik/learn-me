@@ -98,7 +98,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                         Description = eventResult.Description,
                         Start = eventResult.Start.DateTime,
                         End = eventResult.End.DateTime,
-                        IsDone = false,
+                        IsDone = false, // TODO refactor it
                         CalendarId = eventResult.Id
                     });
                 }
