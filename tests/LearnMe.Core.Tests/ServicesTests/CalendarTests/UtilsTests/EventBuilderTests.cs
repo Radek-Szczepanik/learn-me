@@ -22,8 +22,6 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests.UtilsTests
         [TestCase(null)]
         public void SetSummary_SetsEventSummaryFieldWithGivenValue(string summary)
         {
-            // Arrange
-
             // Act
             _eventBuilderInstanceToTest.SetSummary(summary);
             var result = _eventBuilderInstanceToTest.GetEvent();
@@ -38,8 +36,6 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests.UtilsTests
         [TestCase(null)]
         public void SetDescription_SetsEventDescriptionFieldWithGivenValue(string description)
         {
-            // Arrange
-
             // Act
             _eventBuilderInstanceToTest.SetDescription(description);
             var result = _eventBuilderInstanceToTest.GetEvent();
@@ -52,8 +48,6 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests.UtilsTests
         [TestCase(null, Constants.Timezone)]
         public void SetStartTime_SetsEventStartTimeFieldWithGivenValue(DateTime? startDateTime, string timezone)
         {
-            // Arrange
-
             // Act
             _eventBuilderInstanceToTest.SetStartTime(startDateTime, timezone);
             var result = _eventBuilderInstanceToTest.GetEvent();
@@ -70,8 +64,6 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests.UtilsTests
         [TestCase("01/20/2012", "US/Eastern")]
         public void SetStartTime_SetsEventTimeZoneFieldWithGivenValue(DateTime? startDateTime, string timezone)
         {
-            // Arrange
-
             // Act
             _eventBuilderInstanceToTest.SetStartTime(startDateTime, timezone);
             var result = _eventBuilderInstanceToTest.GetEvent();
@@ -84,8 +76,6 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests.UtilsTests
         [TestCase(null, Constants.Timezone)]
         public void SetEndTime_SetsEventEndTimeFieldWithGivenValue(DateTime? endDateTime, string timezone)
         {
-            // Arrange
-
             // Act
             _eventBuilderInstanceToTest.SetEndTime(endDateTime, timezone);
             var result = _eventBuilderInstanceToTest.GetEvent();
@@ -102,8 +92,6 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests.UtilsTests
         [TestCase("01/20/2012", "US/Eastern")]
         public void SetEndTime_SetsEventTimeZoneFieldWithGivenValue(DateTime? endDateTime, string timezone)
         {
-            // Arrange
-
             // Act
             _eventBuilderInstanceToTest.SetEndTime(endDateTime, timezone);
             var result = _eventBuilderInstanceToTest.GetEvent();
@@ -117,11 +105,8 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests.UtilsTests
         [TestCase(Recurrence.DAILY, 10)]
         [TestCase(Recurrence.DAILY, 01)]
         [TestCase(Recurrence.DAILY, Int32.MaxValue)]
-        [TestCase(Recurrence.DAILY, Int32.MinValue)]
-        [TestCase(Recurrence.DAILY, -1)]
-        [TestCase(Recurrence.DAILY, 0)]
         [TestCase(Recurrence.WEEKLY, 1)]
-        public void SetRecurrenceByNumberOfEvents_GivenUntilDateIsNull_SetsRecurrenceFieldWithGivenValue(
+        public void SetRecurrenceByNumberOfEvents_GivenNumberOfEventsMoreThanZeroAndUntilDateIsNull_SetsRecurrenceFieldByNumberOfEvents(
             Recurrence period,
             int numberOfEvents)
         {
@@ -134,41 +119,29 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests.UtilsTests
                 result.Recurrence[0]);
         }
 
-        [TestCase(Recurrence.DAILY, 1)]
-        [TestCase(Recurrence.DAILY, 2)]
-        [TestCase(Recurrence.DAILY, 10)]
-        [TestCase(Recurrence.DAILY, 01)]
-        [TestCase(Recurrence.DAILY, Int32.MaxValue)]
         [TestCase(Recurrence.DAILY, Int32.MinValue)]
         [TestCase(Recurrence.DAILY, -1)]
         [TestCase(Recurrence.DAILY, 0)]
-        [TestCase(Recurrence.WEEKLY, 1)]
-        public void SetRecurrenceByNumberOfEvents_GivenUntilDateIsValid_SetsRecurrenceFieldWithGivenValue(
+        public void SetRecurrence_GivenUntilDateIsValid_SetsRecurrenceByUntilDate(
             Recurrence period,
             int numberOfEvents)
         {
             // Arrange
-            DateTime? untilDate = DateTime.Parse("01/20/2012");
+            DateTime? untilDate = DateTime.UtcNow;
 
             // Act
             _eventBuilderInstanceToTest.SetRecurrence(period, numberOfEvents, untilDate);
             var result = _eventBuilderInstanceToTest.GetEvent();
 
             // Assert
-            Assert.AreEqual($"RRULE:FREQ={period.ToString()};COUNT={numberOfEvents}",
+            Assert.AreEqual($"RRULE:FREQ={period.ToString()};UNTIL={untilDate}",
                 result.Recurrence[0]);
         }
 
-        [TestCase(Recurrence.WEEKLY, 1, "01/20/2012")]
-        [TestCase(Recurrence.WEEKLY, 2, "01/20/2030")]
-        [TestCase(Recurrence.WEEKLY, 10, null)]
-        [TestCase(Recurrence.WEEKLY, 01, null)]
-        [TestCase(Recurrence.WEEKLY, Int32.MaxValue, "01/20/2012")]
-        [TestCase(Recurrence.WEEKLY, Int32.MinValue, "01/20/2012")]
-        [TestCase(Recurrence.WEEKLY, -1, "01/20/2012")]
-        [TestCase(Recurrence.WEEKLY, 0, "01/20/2012")]
-        [TestCase(Recurrence.DAILY, 1, "01/20/2012")]
-        public void SetRecurrenceUntilDate_SetsRecurrenceFieldWithGivenValue(
+        [TestCase(Recurrence.DAILY, Int32.MinValue, null)]
+        [TestCase(Recurrence.DAILY, -1, null)]
+        [TestCase(Recurrence.DAILY, 0, null)]
+        public void SetRecurrence_GivenInvalidInput_SetsRecurrenceAsNull(
             Recurrence period,
             int numberOfEvents,
             DateTime? untilDate)
@@ -178,8 +151,8 @@ namespace LearnMe.Core.Tests.ServicesTests.CalendarTests.UtilsTests
             var result = _eventBuilderInstanceToTest.GetEvent();
 
             // Assert
-            Assert.AreEqual($"RRULE:FREQ={period.ToString()};UNTIL={untilDate}",
-                result.End.DateTime);
+            Assert.AreEqual(null,
+                result.Recurrence[0]);
         }
     }
 }
