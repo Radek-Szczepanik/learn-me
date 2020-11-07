@@ -12,7 +12,7 @@ using Moq;
 using NUnit.Framework;
 using Calendar = LearnMe.Core.Services.Calendar.Calendar;
 
-namespace LearnMe.Core.Tests.ServicesTests.CalendarTests
+namespace LearnMe.Core.Tests.ServicesTests.Utils
 {
     public class CalendarTests
     {
