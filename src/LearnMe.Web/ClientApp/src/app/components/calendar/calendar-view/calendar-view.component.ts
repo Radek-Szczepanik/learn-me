@@ -28,6 +28,7 @@ export class CalendarViewComponent implements OnInit {
   appointmentFormUpdatedFlag: boolean = false;
   isFirstLoadFlag: boolean = true;
   dataLoaded: boolean = false;
+  dataReload: number = 0;
 
   startViewDate: Date;
   endViewDate: Date;
@@ -61,25 +62,27 @@ export class CalendarViewComponent implements OnInit {
     //  });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { console.error('ngOnInit fired'); }
 
   onInitialized(e) {
-    console.debug("on initialized fired!");
+    console.error('onInitialized fired');
+    //console.debug("on initialized fired!");
   }
 
   onContentReady(e) {
+    console.error('onContentReady fired');
+
     console.debug('on content ready fired!');
     this.getCalendarCurrentDate();
 
     if (this.isFirstLoadFlag) {
       this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
         .subscribe(success => {
-          console.debug('is success in OnInit');
           console.debug(success);
           if (success) {
             this.appointmentsData = this.data.events;
           }
-          console.debug('appointmentsData - after OnInit');
+          console.debug('appointmentsData - onContentReady');
           console.debug(this.appointmentsData);
         });
 
@@ -123,6 +126,8 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentUpdated(e) {
+    console.error('onAppointmentUpdated fired');
+
     this.showToast("Updated", e.appointmentData.subject, "info");
 
     console.debug('when updated object is:');
@@ -144,6 +149,8 @@ export class CalendarViewComponent implements OnInit {
           console.debug('event updated in DB and Calendar');
         }
       });
+
+    this.onContentReady(e);
   }
 
   onAppointmentDeleted(e) {
@@ -209,12 +216,12 @@ export class CalendarViewComponent implements OnInit {
   getCalendarCurrentDate() {
     let element = document.getElementById("myScheduler");
     let instance = Scheduler.getInstance(element) as Scheduler;
-    console.debug("scheduler instance");
-    console.debug(instance);
-    console.debug("getting start view date");
-    let startViewDate = instance.getStartViewDate();
-    console.debug("start view date - value:");
-    console.debug(startViewDate);
+    //console.debug("scheduler instance");
+    //console.debug(instance);
+    //console.debug("getting start view date");
+    //let startViewDate = instance.getStartViewDate();
+    //console.debug("start view date - value:");
+    //console.debug(startViewDate);
 
     this.startViewDate = instance.getStartViewDate();
     this.endViewDate = instance.getEndViewDate();

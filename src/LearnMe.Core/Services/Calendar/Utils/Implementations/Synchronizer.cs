@@ -62,7 +62,32 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             foreach (var eventResult in eventsFromCalendarResult)
             {
                 // TODO: Add to Calendar specific log
-                if (!databaseCalendarIds.Any(e => e == eventResult.Id) && eventResult.Status != "cancelled")
+                if (databaseCalendarIds.Any(e => e == eventResult.Id) && eventResult.Status == "cancelled")
+                {
+                    var eventToBeDeleted =
+                        await repository.GetByCalendarIdAsync(eventResult.Id);
+
+                    await repository.DeleteAsync(eventToBeDeleted.Id);
+                }
+                else if (databaseCalendarIds.Any(e => e == eventResult.Id) && eventResult.Status != "cancelled")
+                {
+                    var eventToBeUpdated =
+                        await repository.GetByCalendarIdAsync(eventResult.Id);
+
+                    await repository.UpdateAsync(new CalendarEvent()
+                    {
+                        Id = eventToBeUpdated.Id,
+                        Title = eventResult.Summary,
+                        Description = eventResult.Description,
+                        Start = eventResult.Start.DateTime,
+                        End = eventResult.End.DateTime,
+                        IsDone = false, // TODO refactor it
+                        CalendarId = eventResult.Id
+                    });
+                }
+                else if (!databaseCalendarIds.Any(e => e == eventResult.Id)
+                    && (eventResult.Start != null || eventResult.End != null)
+                    && eventResult.Status != "cancelled")
                 {
                     await repository.InsertAsync(new CalendarEvent()
                     {
@@ -73,35 +98,52 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                         IsDone = false,
                         CalendarId = eventResult.Id
                     });
+                }
+                synchronizedRowsCounter++;
 
-                    synchronizedRowsCounter++;
-                }
-                else if (eventResult.Status == "cancelled")
-                {
-                    if (eventResult.Start == null || eventResult.End == null)
-                    {
-                        // do nothing - means one from the recurring events has been deleted from external calendar
-                    }
-                    else
-                    {
-                        var eventToBeDeleted =
-                            await repository.GetByCalendarIdAsync(eventResult.Id);
+
+
+                //if (!databaseCalendarIds.Any(e => e == eventResult.Id) && eventResult.Status != "cancelled")
+                //{
+                //    await repository.InsertAsync(new CalendarEvent()
+                //    {
+                //        Title = eventResult.Summary,
+                //        Description = eventResult.Description,
+                //        Start = eventResult.Start.DateTime,
+                //        End = eventResult.End.DateTime,
+                //        IsDone = false,
+                //        CalendarId = eventResult.Id
+                //    });
+
+                //    synchronizedRowsCounter++;
+                //}
+                //else if (eventResult.Status == "cancelled")
+                //{
+                //    if (eventResult.Start == null || eventResult.End == null)
+                //    {
+                //        // do nothing - means one from the recurring events has been deleted from external calendar
+                //    }
+                //    else
+                //    {
+                //        var eventToBeDeleted =
+                //            await repository.GetByCalendarIdAsync(eventResult.Id);
                         
-                        await repository.DeleteAsync(eventToBeDeleted.Id);
-                    }
-                }
-                else
-                {
-                    await repository.UpdateAsync(new CalendarEvent()
-                    {
-                        Title = eventResult.Summary,
-                        Description = eventResult.Description,
-                        Start = eventResult.Start.DateTime,
-                        End = eventResult.End.DateTime,
-                        IsDone = false, // TODO refactor it
-                        CalendarId = eventResult.Id
-                    });
-                }
+                //        await repository.DeleteAsync(eventToBeDeleted.Id);
+                //    }
+                //}
+                //else
+                //{
+                //    await repository.UpdateAsync(new CalendarEvent()
+                //    {
+                //        Title = eventResult.Summary,
+                //        Description = eventResult.Description,
+                //        Start = eventResult.Start.DateTime,
+                //        End = eventResult.End.DateTime,
+                //        IsDone = false, // TODO refactor it
+                //        CalendarId = eventResult.Id
+                //    });
+                //}
+
             }
 
             await synchronizationData.UpdateAsync(new CalendarSynchronization()
