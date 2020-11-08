@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
+import { HttpEventType, HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { Students } from '../../../models/Users/students';
+
 
 
 @Component({
@@ -19,15 +20,19 @@ export class UpdatePupilDialog implements OnInit {
   succes: any;
   description: any;
   pupil: Students;
+  public progress: number;
+  public message: string;
+  private fileStream: string;
+  @Output() public onUploadFinished = new EventEmitter();
 
 
   constructor(private https: HttpService,
-    http: HttpClient, 
+    private http: HttpClient,
     @Inject('BASE_URL') baseUrl: string,
     private dialogRef: MatDialogRef<UpdatePupilDialog>,
-    @Inject(MAT_DIALOG_DATA) data) {   
+    @Inject(MAT_DIALOG_DATA) data) {
 
-    this.description = data.title; 
+    this.description = data.title;
     this.pupilData = {
       firstName: '',
       lastName: '',
@@ -39,7 +44,9 @@ export class UpdatePupilDialog implements OnInit {
       city: '',
       country: '',
       postcode: 0,
-     
+      imgPath: '',
+
+
     };
   }
 
@@ -61,8 +68,28 @@ export class UpdatePupilDialog implements OnInit {
       'city': new FormControl(this.pupil.city),
       'country': new FormControl(this.pupil.country),
       'postcode': new FormControl(this.pupil.postcode),
-     
+      'imgPath': new FormControl(this.pupil.imgPath)
+
     });
+  }
+
+  public uploadFile = (files) => {
+    if (files.length === 0) {
+      return;
+    }
+    let fileToUpload = <File>files[0];
+    const formData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    this.http.post('api/upload', formData, { reportProgress: true, observe: 'events' })
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress)
+          this.progress = Math.round(100 * event.loaded / event.total);
+        else if (event.type === HttpEventType.Response) {
+          this.message = 'Upload success.';
+          this.onUploadFinished.emit(event.body);
+          this.fileStream = fileToUpload.name;
+        }
+      });
   }
 
   public update = () => {
@@ -78,6 +105,9 @@ export class UpdatePupilDialog implements OnInit {
   onSubmit() {
     this.succes = undefined;
     this.pupilData = this.pupilForm.value;
+    if (this.fileStream != undefined) {
+      this.pupilData.imgPath = this.fileStream;
+    }
     this.update();
   }
 }

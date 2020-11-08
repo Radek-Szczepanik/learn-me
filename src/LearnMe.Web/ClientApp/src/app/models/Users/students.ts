@@ -10,4 +10,5 @@ export interface Students
  city: string,
  country: string,
  postcode: number,
+ imgPath: string,
 }
