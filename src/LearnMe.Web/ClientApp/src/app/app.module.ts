@@ -13,7 +13,7 @@ import { CalendarService } from './services/calendar/calendar-service';
 import { DxSchedulerModule } from 'devextreme-angular';
 import { CalendarViewComponent } from './components/calendar/calendar-view/calendar-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatListModule, MatSidenavModule, MatIconModule, MatToolbarModule} from '@angular/material';
+import { MatButtonModule, MatListModule, MatSidenavModule, MatGridListModule, MatIconModule, MatToolbarModule, MatGridTile} from '@angular/material';
 import { FaqComponent } from './components/main/faq/faq.component';
 import { NewsComponent } from './components/main/news/news.component';
 import { TranslationsComponent } from './components/main/translations/translations.component';
@@ -110,7 +110,8 @@ import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
     MatFormFieldModule,
     MatInputModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatGridListModule
   ],
   providers: [
     CalendarService
@@ -126,7 +127,9 @@ import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
     AddOpinionsDialog,
     UpdateOpinionsDialog,
     DeleteOpinionsDialog
-
+  ],
+  exports: [
+    MatGridTile
   ]
 })
 export class AppModule { }

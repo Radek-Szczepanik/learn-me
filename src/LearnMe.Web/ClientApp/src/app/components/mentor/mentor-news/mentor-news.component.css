@@ -4,8 +4,7 @@ table, .mat-form-field, .mat-paginator {
     max-width: 98%;
   }
 
-
-  
+ 
   ::ng-deep .mat-focused .mat-form-field-label {
     /*change color of label*/
     color: black !important;

@@ -64,6 +64,7 @@ namespace LearnMe.Controllers.Users
             user.City = input.City;
             user.Country = input.Country;
             user.PostCode = Int32.Parse(input.PostCode);
+            user.ImgPath = input.ImgPath;
 
             await _userManager.UpdateAsync(user);
             return Ok();

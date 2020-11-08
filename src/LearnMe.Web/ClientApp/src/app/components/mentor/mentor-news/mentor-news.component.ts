@@ -54,8 +54,8 @@ export class MentorNewsComponent {
     
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.width = '50%';
-    dialogConfig.height= '50%';
+    dialogConfig.width = '30%';
+    // dialogConfig.height= '50%';
 
     const dialogRef = this.dialog.open(AddNewsDialog, dialogConfig);
 
@@ -88,8 +88,8 @@ export class MentorNewsComponent {
       title: name
     };
     
-    dialogConfig.width = '50%';
-    dialogConfig.height= '50%';
+    dialogConfig.width = '30%';
+    //dialogConfig.height= '50%';
 
     const dialogRef = this.dialog.open(UpdateNewsDialog, dialogConfig);
 
