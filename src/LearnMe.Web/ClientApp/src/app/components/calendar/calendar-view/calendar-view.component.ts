@@ -30,8 +30,8 @@ export class CalendarViewComponent implements OnInit {
   dataLoaded: boolean = false;
   dataReload: number = 0;
 
-  startViewDate: Date;
-  endViewDate: Date;
+  startViewDate: Date; // = new Date();
+  endViewDate: Date; // = new Date();
 
   constructor(private data: CalendarService, private https: HttpService) {
     console.debug('appointmentsData:');
@@ -46,20 +46,6 @@ export class CalendarViewComponent implements OnInit {
       isFreeSlot: false,
       calendarId: ''
     };
-
-    //let maxDate: Date = new Date();
-    //maxDate.setDate(maxDate.getDate() + 7); // fetches 1 week (= 7 days) from current date
-
-    //this.data.loadEventsByDates(this.currentDate, maxDate)
-    //  .subscribe(success => {
-    //    console.debug('is success in OnInit');
-    //    console.debug(success);
-    //    if (success) {
-    //      this.appointmentsData = this.data.events;
-    //    }
-    //    console.debug('appointmentsData - after OnInit');
-    //    console.debug(this.appointmentsData);
-    //  });
   }
 
   ngOnInit(): void { console.error('ngOnInit fired'); }
@@ -70,12 +56,13 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onContentReady(e) {
-    console.error('onContentReady fired');
+    //console.error('onContentReady fired');
 
     console.debug('on content ready fired!');
     this.getCalendarCurrentDate();
 
     if (this.isFirstLoadFlag) {
+      console.error('onContentReady isFirstLoadFlag');
       this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
         .subscribe(success => {
           console.debug(success);
@@ -89,18 +76,18 @@ export class CalendarViewComponent implements OnInit {
       this.isFirstLoadFlag = false;
 
     } else {
+      console.error('onContentReady not 1st load');
 
       this.isFirstLoadFlag = true;
-
     }
   }
 
   showToast(event, value, type) {
-    notify(event + " \"" + value + "\"" + " task", type, 800);
+    notify(event + " \"" + value + "\"" + " task", type, 1800);
   }
 
   onAppointmentAdded(e) {
-    console.debug("on appointment added invoked");
+    console.error("on appointment added invoked");
     console.debug(e.appointmentData.text);
     console.debug(e.appointmentData.subject);
     this.showToast("Added", e.appointmentData.text, "success");
@@ -123,6 +110,8 @@ export class CalendarViewComponent implements OnInit {
           console.debug('event added to DB and Calendar');
         }
       });
+
+    //this.onContentReady(e);
   }
 
   onAppointmentUpdated(e) {
@@ -196,6 +185,9 @@ export class CalendarViewComponent implements OnInit {
           items: formItems
         });
 
+      this.appointmentFormUpdatedFlag = true;
+    }
+
       e.form.itemOption("mainGroup.subject",
         {
           validationRules: [
@@ -206,8 +198,7 @@ export class CalendarViewComponent implements OnInit {
           ]
         });
 
-      this.appointmentFormUpdatedFlag = true;
-    }
+    
 
     console.debug(e.form.itemOption("mainGroup").items);
     console.debug(this.appointmentFormUpdatedFlag);
@@ -225,5 +216,9 @@ export class CalendarViewComponent implements OnInit {
 
     this.startViewDate = instance.getStartViewDate();
     this.endViewDate = instance.getEndViewDate();
+  }
+
+  onAppointmentAdding(e) {
+    console.error('onAppointmentAdding fired');
   }
 }
