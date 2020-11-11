@@ -7,11 +7,6 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
 {
     public interface ISynchronizer
     {
-        Task<int> SynchronizeDatabaseWithCalendarByIdAsync(
-            IExternalCalendarService<Event> externalCalendarService, 
-            ICrudRepository<CalendarEvent> repository, 
-            string calendarId = Constants.CalendarId);
-
         Task<int> SynchronizeDatabaseWithCalendarByDateModifiedAsync(
             IExternalCalendarService<Event> externalCalendarService,
             ICalendarEventsRepository repository,

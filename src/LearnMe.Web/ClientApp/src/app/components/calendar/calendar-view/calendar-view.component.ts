@@ -145,8 +145,6 @@ export class CalendarViewComponent implements OnInit {
           console.debug('event updated in DB and Calendar');
         }
       });
-
-    //this.onContentReady(e);
   }
 
   onAppointmentDeleting(e) {
