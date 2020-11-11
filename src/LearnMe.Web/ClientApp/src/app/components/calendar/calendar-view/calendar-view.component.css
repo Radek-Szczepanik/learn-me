@@ -10,9 +10,13 @@
   padding-block: 0;
 }
 
-/*.appointment-item {
+.dx-item .dx-scheduler-appointment .dx-scheduler-appointment-vertical .dx-resizable div[role="button"] {
+  background-color: white !important;
+}
+
+.appointment-item {
   border-radius: 10px;
-}*/
+}
 
 .free-slot {
   background-color: green;

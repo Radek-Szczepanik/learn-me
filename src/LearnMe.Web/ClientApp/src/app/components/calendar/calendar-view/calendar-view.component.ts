@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarService } from '../../../services/calendar/calendar-service'
-import { HttpClient } from '@angular/common/http';
-import DataSource from 'devextreme/data/data_source';
-import CustomStore from 'devextreme/data/custom_store';
 import * as Calendarevent from "../../../services/calendar/calendar-event";
 import CalendarEvent = Calendarevent.CalendarEvent;
 import notify from 'devextreme/ui/notify';
@@ -32,8 +29,8 @@ export class CalendarViewComponent implements OnInit {
   dataLoaded: boolean = false;
   dataReload: number = 0;
 
-  startViewDate: Date; // = new Date();
-  endViewDate: Date; // = new Date();
+  startViewDate: Date;
+  endViewDate: Date;
 
   constructor(private data: CalendarService, private https: HttpService) {
     console.debug('appointmentsData:');
@@ -54,7 +51,6 @@ export class CalendarViewComponent implements OnInit {
 
   onInitialized(e) {
     console.error('onInitialized fired');
-    //console.debug("on initialized fired!");
   }
 
   onContentReady(e) {
@@ -77,17 +73,12 @@ export class CalendarViewComponent implements OnInit {
 
       this.isFirstLoadFlag = false;
       this.isFirstLoadAfterEditingEvent = false;
-      //this.isDataLoaded = true;
 
     } else {
       console.error('onContentReady not 1st load');
 
       this.isFirstLoadFlag = true;
       this.isFirstLoadAfterEditingEvent = true;
-      //if (this.isDataLoaded) {
-      //  this.isFirstLoadAfterEditingEvent = false;
-      //}
-      //this.isDataLoaded = false;
     }
   }
 
@@ -101,8 +92,6 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentAdded(e) {
-    //this.isFirstLoadAfterEditingEvent = false;
-
     console.error("on appointment added invoked");
     console.debug(e.appointmentData.text);
     console.debug(e.appointmentData.subject);
@@ -126,9 +115,6 @@ export class CalendarViewComponent implements OnInit {
           console.debug('event added to DB and Calendar');
         }
       });
-
-    //this.isFirstLoadAfterEditingEvent = true;
-    //this.onContentReady(e);
   }
 
   onAppointmentUpdating(e) {
@@ -136,8 +122,6 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentUpdated(e) {
-    //this.isFirstLoadAfterEditingEvent = false;
-
     console.error('onAppointmentUpdated fired');
 
     this.showToast("Updated", e.appointmentData.subject, "info");
@@ -170,8 +154,6 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentDeleted(e) {
-    //this.isFirstLoadAfterEditingEvent = false;
-
     this.showToast("Deleted", e.appointmentData.subject, "warning");
 
     console.debug('when deleted object is:');
@@ -236,12 +218,6 @@ export class CalendarViewComponent implements OnInit {
   getCalendarCurrentDate() {
     let element = document.getElementById("myScheduler");
     let instance = Scheduler.getInstance(element) as Scheduler;
-    //console.debug("scheduler instance");
-    //console.debug(instance);
-    //console.debug("getting start view date");
-    //let startViewDate = instance.getStartViewDate();
-    //console.debug("start view date - value:");
-    //console.debug(startViewDate);
 
     this.startViewDate = instance.getStartViewDate();
     this.endViewDate = instance.getEndViewDate();

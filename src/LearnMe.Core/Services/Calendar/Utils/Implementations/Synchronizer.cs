@@ -54,8 +54,8 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             int synchronizedRowsCounter = 0;
             var lastSynchronization = await synchronizationData.GetByIdAsync(lastSynchronizationId);
 
-            IEnumerable<Event> eventsFromCalendarResult = await externalCalendarService.GetEventsByLastUpdateAsync(lastSynchronization.LastSynchronization);
-            var updateDateTime = DateTime.Now;
+            IEnumerable<Event> eventsFromCalendarResult = await externalCalendarService.GetEventsByLastUpdateAsync(lastSynchronization.LastSynchronization, true);
+            var updateDateTime = DateTime.UtcNow; //TODO change to UtcNow
 
             IList<string> databaseCalendarIds = await Helpers.GetListOfCalendarIdsFromDatabase(repository);
 
@@ -147,11 +147,14 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 
             }
 
-            await synchronizationData.UpdateAsync(new CalendarSynchronization()
+            if (eventsFromCalendarResult.Count() != 0)
             {
-                Id = Constants.LastSynchronizationRecordId,
-                LastSynchronization = DateTime.Now
-            });
+                await synchronizationData.UpdateAsync(new CalendarSynchronization()
+                {
+                    Id = Constants.LastSynchronizationRecordId,
+                    LastSynchronization = DateTime.UtcNow
+                });
+            }
 
             return synchronizedRowsCounter;
         }
