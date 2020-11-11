@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarService } from '../../../services/calendar/calendar-service'
-import { HttpClient } from '@angular/common/http';
-import DataSource from 'devextreme/data/data_source';
-import CustomStore from 'devextreme/data/custom_store';
 import * as Calendarevent from "../../../services/calendar/calendar-event";
 import CalendarEvent = Calendarevent.CalendarEvent;
 import notify from 'devextreme/ui/notify';
@@ -27,6 +24,8 @@ export class CalendarViewComponent implements OnInit {
   eventToAdd: CalendarEventPost;
   appointmentFormUpdatedFlag: boolean = false;
   isFirstLoadFlag: boolean = true;
+  isFirstLoadAfterEditingEvent: boolean = true;
+  isDataLoaded: boolean = false;
   dataLoaded: boolean = false;
   dataReload: number = 0;
 
@@ -46,36 +45,22 @@ export class CalendarViewComponent implements OnInit {
       isFreeSlot: false,
       calendarId: ''
     };
-
-    //let maxDate: Date = new Date();
-    //maxDate.setDate(maxDate.getDate() + 7); // fetches 1 week (= 7 days) from current date
-
-    //this.data.loadEventsByDates(this.currentDate, maxDate)
-    //  .subscribe(success => {
-    //    console.debug('is success in OnInit');
-    //    console.debug(success);
-    //    if (success) {
-    //      this.appointmentsData = this.data.events;
-    //    }
-    //    console.debug('appointmentsData - after OnInit');
-    //    console.debug(this.appointmentsData);
-    //  });
   }
 
   ngOnInit(): void { console.error('ngOnInit fired'); }
 
   onInitialized(e) {
     console.error('onInitialized fired');
-    //console.debug("on initialized fired!");
   }
 
   onContentReady(e) {
-    console.error('onContentReady fired');
+    //console.error('onContentReady fired');
 
     console.debug('on content ready fired!');
     this.getCalendarCurrentDate();
 
-    if (this.isFirstLoadFlag) {
+    if (this.isFirstLoadFlag && this.isFirstLoadAfterEditingEvent) {
+      console.error('onContentReady isFirstLoadFlag');
       this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
         .subscribe(success => {
           console.debug(success);
@@ -87,20 +72,27 @@ export class CalendarViewComponent implements OnInit {
         });
 
       this.isFirstLoadFlag = false;
+      this.isFirstLoadAfterEditingEvent = false;
 
     } else {
+      console.error('onContentReady not 1st load');
 
       this.isFirstLoadFlag = true;
-
+      this.isFirstLoadAfterEditingEvent = true;
     }
   }
 
   showToast(event, value, type) {
-    notify(event + " \"" + value + "\"" + " task", type, 800);
+    notify(event + " \"" + value + "\"" + " task", type, 1800);
+  }
+
+  onAppointmentAdding(e) {
+    console.error('onAppointmentAdding fired');
+    this.isFirstLoadAfterEditingEvent = false;
   }
 
   onAppointmentAdded(e) {
-    console.debug("on appointment added invoked");
+    console.error("on appointment added invoked");
     console.debug(e.appointmentData.text);
     console.debug(e.appointmentData.subject);
     this.showToast("Added", e.appointmentData.text, "success");
@@ -123,6 +115,10 @@ export class CalendarViewComponent implements OnInit {
           console.debug('event added to DB and Calendar');
         }
       });
+  }
+
+  onAppointmentUpdating(e) {
+    this.isFirstLoadAfterEditingEvent = false;
   }
 
   onAppointmentUpdated(e) {
@@ -151,6 +147,10 @@ export class CalendarViewComponent implements OnInit {
       });
 
     this.onContentReady(e);
+  }
+
+  onAppointmentDeleting(e) {
+    this.isFirstLoadAfterEditingEvent = false;
   }
 
   onAppointmentDeleted(e) {
@@ -196,6 +196,9 @@ export class CalendarViewComponent implements OnInit {
           items: formItems
         });
 
+      this.appointmentFormUpdatedFlag = true;
+    }
+
       e.form.itemOption("mainGroup.subject",
         {
           validationRules: [
@@ -206,8 +209,7 @@ export class CalendarViewComponent implements OnInit {
           ]
         });
 
-      this.appointmentFormUpdatedFlag = true;
-    }
+    
 
     console.debug(e.form.itemOption("mainGroup").items);
     console.debug(this.appointmentFormUpdatedFlag);
@@ -216,12 +218,6 @@ export class CalendarViewComponent implements OnInit {
   getCalendarCurrentDate() {
     let element = document.getElementById("myScheduler");
     let instance = Scheduler.getInstance(element) as Scheduler;
-    //console.debug("scheduler instance");
-    //console.debug(instance);
-    //console.debug("getting start view date");
-    //let startViewDate = instance.getStartViewDate();
-    //console.debug("start view date - value:");
-    //console.debug(startViewDate);
 
     this.startViewDate = instance.getStartViewDate();
     this.endViewDate = instance.getEndViewDate();
