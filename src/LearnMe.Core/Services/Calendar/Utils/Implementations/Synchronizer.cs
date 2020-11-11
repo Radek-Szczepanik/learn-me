@@ -19,10 +19,10 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             string calendarId = Constants.CalendarId)
         {
             int synchronizedRowsCounter = 0;
-            var lastSynchronization = await synchronizationData.GetByIdAsync(lastSynchronizationId);
+            var lastSynchronizationDateTime = await GetLastSynchronizationDateFromDatabase(synchronizationData, lastSynchronizationId);
 
             IEnumerable<Event> eventsFromExternalCalendarToBeSynchronized = 
-                await externalCalendarService.GetEventsByLastUpdateAsync(lastSynchronization.LastSynchronization, true);
+                await externalCalendarService.GetEventsByLastUpdateAsync(lastSynchronizationDateTime, true);
             var updateDateTime = DateTime.UtcNow;
 
             IList<string> databaseCalendarIds = await Helpers.GetListOfCalendarIdsFromDatabase(repository);
@@ -60,13 +60,9 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                 synchronizedRowsCounter++;
             }
 
-            if (SuccessfulSynchronization(eventsFromExternalCalendarToBeSynchronized, synchronizedRowsCounter))
+            if (IsSuccessfulSynchronization(eventsFromExternalCalendarToBeSynchronized, synchronizedRowsCounter))
             {
-                await synchronizationData.UpdateAsync(new CalendarSynchronization()
-                {
-                    Id = Constants.LastSynchronizationRecordId,
-                    LastSynchronization = updateDateTime
-                });
+                await UpdateLastSynchronizationDateInDatabase(synchronizationData, updateDateTime);
             }
 
             return synchronizedRowsCounter;
@@ -82,9 +78,27 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             return (calendarEvent.Start != null || calendarEvent.End != null);
         }
 
-        private bool SuccessfulSynchronization(IEnumerable<Event> eventsToSynchronize, int numberOfSynchronizedItems)
+        private bool IsSuccessfulSynchronization(IEnumerable<Event> eventsToSynchronize, int numberOfSynchronizedItems)
         {
-            return (eventsToSynchronize.Count() != 0 && numberOfSynchronizedItems > 0);
+            return (eventsToSynchronize.Count() == numberOfSynchronizedItems);
+        }
+
+        private async Task<DateTime?> GetLastSynchronizationDateFromDatabase(
+            ICrudRepository<CalendarSynchronization> databaseTable,
+            int lastSynchronizationId)
+        {
+            var lastSynchronizationRecord = await databaseTable.GetByIdAsync(lastSynchronizationId);
+
+            return lastSynchronizationRecord.LastSynchronization;
+        }
+
+        private async Task<bool> UpdateLastSynchronizationDateInDatabase(ICrudRepository<CalendarSynchronization> tableToUpdate, DateTime dateTime)
+        {
+            return await tableToUpdate.UpdateAsync(new CalendarSynchronization()
+            {
+                Id = Constants.LastSynchronizationRecordId,
+                LastSynchronization = dateTime
+            });
         }
     }
 }
