@@ -18,6 +18,13 @@ namespace LearnMe.Infrastructure.Repository
             _context = context;
         }
 
+        public async Task<bool> DeleteByCalendarIdAsync(string calendarId)
+        {
+            var eventToBeDeleted = await GetByCalendarIdAsync(calendarId);
+
+            return await DeleteAsync(eventToBeDeleted.Id);
+        }
+
         public async Task<CalendarEvent> GetByCalendarIdAsync(string calendarId)
         {
             var result = await _context.CalendarEvents
@@ -37,6 +44,28 @@ namespace LearnMe.Infrastructure.Repository
                                                         .ToListAsync();
 
             return result;
+        }
+
+        public async Task<bool> UpdateByCalendarIdAsync(
+            string calendarId,
+            string summary,
+            string description,
+            DateTime? startDateTime,
+            DateTime? endDateTime)
+        {
+            var eventToBeUpdated = await GetByCalendarIdAsync(calendarId);
+
+            return await UpdateAsync(new CalendarEvent()
+            {
+                Id = eventToBeUpdated.Id,
+                Title = summary,
+                Description = description,
+                Start = startDateTime,
+                End = endDateTime,
+                IsDone = eventToBeUpdated.IsDone,
+                IsFreeSlot = eventToBeUpdated.IsFreeSlot,
+                CalendarId = calendarId
+            });
         }
     }
 }
