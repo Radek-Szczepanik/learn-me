@@ -146,7 +146,7 @@ export class CalendarViewComponent implements OnInit {
         }
       });
 
-    this.onContentReady(e);
+    //this.onContentReady(e);
   }
 
   onAppointmentDeleting(e) {
