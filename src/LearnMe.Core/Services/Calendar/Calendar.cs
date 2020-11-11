@@ -177,8 +177,6 @@ namespace LearnMe.Core.Services.Calendar
 
             if (eventFromDbToUpdate != null)
             {
-                //toUpdateData.CalendarId = eventFromDbToUpdate.CalendarId;
-
                 _eventBuilder.BuildBasicEventWithDescription(
                     toUpdateData.Title,
                     toUpdateData.Start,
@@ -232,7 +230,8 @@ namespace LearnMe.Core.Services.Calendar
                 }
 
                 return results;
-            } else
+            }
+            else
             {
                 return null;
             }
