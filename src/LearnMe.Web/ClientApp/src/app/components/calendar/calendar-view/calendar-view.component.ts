@@ -27,6 +27,8 @@ export class CalendarViewComponent implements OnInit {
   eventToAdd: CalendarEventPost;
   appointmentFormUpdatedFlag: boolean = false;
   isFirstLoadFlag: boolean = true;
+  isFirstLoadAfterEditingEvent: boolean = true;
+  isDataLoaded: boolean = false;
   dataLoaded: boolean = false;
   dataReload: number = 0;
 
@@ -61,7 +63,7 @@ export class CalendarViewComponent implements OnInit {
     console.debug('on content ready fired!');
     this.getCalendarCurrentDate();
 
-    if (this.isFirstLoadFlag) {
+    if (this.isFirstLoadFlag && this.isFirstLoadAfterEditingEvent) {
       console.error('onContentReady isFirstLoadFlag');
       this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
         .subscribe(success => {
@@ -74,11 +76,18 @@ export class CalendarViewComponent implements OnInit {
         });
 
       this.isFirstLoadFlag = false;
+      this.isFirstLoadAfterEditingEvent = false;
+      //this.isDataLoaded = true;
 
     } else {
       console.error('onContentReady not 1st load');
 
       this.isFirstLoadFlag = true;
+      this.isFirstLoadAfterEditingEvent = true;
+      //if (this.isDataLoaded) {
+      //  this.isFirstLoadAfterEditingEvent = false;
+      //}
+      //this.isDataLoaded = false;
     }
   }
 
@@ -86,7 +95,14 @@ export class CalendarViewComponent implements OnInit {
     notify(event + " \"" + value + "\"" + " task", type, 1800);
   }
 
+  onAppointmentAdding(e) {
+    console.error('onAppointmentAdding fired');
+    this.isFirstLoadAfterEditingEvent = false;
+  }
+
   onAppointmentAdded(e) {
+    //this.isFirstLoadAfterEditingEvent = false;
+
     console.error("on appointment added invoked");
     console.debug(e.appointmentData.text);
     console.debug(e.appointmentData.subject);
@@ -111,10 +127,17 @@ export class CalendarViewComponent implements OnInit {
         }
       });
 
+    //this.isFirstLoadAfterEditingEvent = true;
     //this.onContentReady(e);
   }
 
+  onAppointmentUpdating(e) {
+    this.isFirstLoadAfterEditingEvent = false;
+  }
+
   onAppointmentUpdated(e) {
+    //this.isFirstLoadAfterEditingEvent = false;
+
     console.error('onAppointmentUpdated fired');
 
     this.showToast("Updated", e.appointmentData.subject, "info");
@@ -142,7 +165,13 @@ export class CalendarViewComponent implements OnInit {
     this.onContentReady(e);
   }
 
+  onAppointmentDeleting(e) {
+    this.isFirstLoadAfterEditingEvent = false;
+  }
+
   onAppointmentDeleted(e) {
+    //this.isFirstLoadAfterEditingEvent = false;
+
     this.showToast("Deleted", e.appointmentData.subject, "warning");
 
     console.debug('when deleted object is:');
@@ -216,9 +245,5 @@ export class CalendarViewComponent implements OnInit {
 
     this.startViewDate = instance.getStartViewDate();
     this.endViewDate = instance.getEndViewDate();
-  }
-
-  onAppointmentAdding(e) {
-    console.error('onAppointmentAdding fired');
   }
 }
