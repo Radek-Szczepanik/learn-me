@@ -6,6 +6,8 @@ import notify from 'devextreme/ui/notify';
 import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from "devextreme/ui/scheduler";
+import DataSource from 'devextreme/data/data_source';
+import { Lesson } from '../../../Models/Lesson/lesson'
 
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
@@ -31,6 +33,9 @@ export class CalendarViewComponent implements OnInit {
 
   startViewDate: Date;
   endViewDate: Date;
+
+  //itemsLessonStatus: object[] = [{ id:1, value: "New" }, { id:2, value: "InProgress" }, { id:3, value: "Done" }];
+  itemsLessonStatus: string[] = ["New", "InProgress", "Done"];
 
   constructor(private data: CalendarService, private https: HttpService) {
     console.debug('appointmentsData:');
@@ -167,11 +172,13 @@ export class CalendarViewComponent implements OnInit {
       });
   }
 
-  onAppointmentFormOpening(e) {
+  async onAppointmentFormOpening(e) {
     console.debug("onAppointmentFormOpening fired!");
 
     if (!this.appointmentFormUpdatedFlag) {
       let formItems = e.form.itemOption("mainGroup").items;
+
+      console.debug(formItems);
 
       formItems.push(
         {
@@ -187,6 +194,30 @@ export class CalendarViewComponent implements OnInit {
           label: {
             text: "Free Slot"
           }
+        },
+        {
+          itemType: "group",
+          caption: "Lesson Data",
+          items: [
+            {
+              dataField: "title",
+              editorType: "dxTextArea",
+              label: {
+                text: "Lesson Title"
+              }
+            },
+            {
+              dataField: "lessonStatus",
+              editorType: "dxSelectBox",
+              label: {
+                text: "Lesson Status"
+              },
+              editorOptions: {
+                items: this.itemsLessonStatus,
+                value: this.itemsLessonStatus[0]
+              },
+            }],
+          colSpan: 2
         });
 
       e.form.itemOption("mainGroup",
@@ -211,6 +242,16 @@ export class CalendarViewComponent implements OnInit {
 
     console.debug(e.form.itemOption("mainGroup").items);
     console.debug(this.appointmentFormUpdatedFlag);
+
+     for (var i = 0; i < 10; i++) {
+      let formItems2 = e.form.itemOption("recurrenceGroup").items;
+      console.debug(formItems2);
+       await this.delay(1000);
+     }
+  }
+
+  async delay(ms: number) {
+    await new Promise(resolve => setTimeout(()=>resolve(), ms)).then(()=>console.log("fired"));
   }
 
   getCalendarCurrentDate() {
