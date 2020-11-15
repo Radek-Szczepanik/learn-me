@@ -23,11 +23,18 @@ namespace LearnMe.Infrastructure.Repository
 
         public async Task<Lesson> CreateLessonAsync(string calendarId, Lesson lesson)
         {
-            int relatedEventDatabaseId = FindRelatedCalendarEventDatabaseId(calendarId);
+            int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
 
-            lesson.CalendarEventId = relatedEventDatabaseId;
+            if (relatedEventDatabaseId != null)
+            {
+                lesson.CalendarEventId = (int)relatedEventDatabaseId;
 
-            return await InsertAsync(lesson);
+                return await InsertAsync(lesson);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<bool> DeleteLessonByCalendarIdAsync(string calendarId)
@@ -64,28 +71,51 @@ namespace LearnMe.Infrastructure.Repository
 
         public async Task<bool> UpdateLessonByCalendarIdAsync(string calendarId, Lesson lesson)
         {
-            int relatedEventDatabaseId = FindRelatedCalendarEventDatabaseId(calendarId);
+            int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
 
-            lesson.CalendarEventId = relatedEventDatabaseId;
+            if (relatedEventDatabaseId != null)
+            {
+                lesson.CalendarEventId = (int)relatedEventDatabaseId;
 
-            return await UpdateAsync(lesson);
+                return await UpdateAsync(lesson);
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        private int FindRelatedCalendarEventDatabaseId(string calendarId)
+        private async Task<int?> FindRelatedCalendarEventDatabaseId(string calendarId)
         {
-            var calendarEventRelatedToLesson = _calendarEventsRepository.GetByCalendarIdAsync(calendarId);
-            
-            return calendarEventRelatedToLesson.Id;
+            var calendarEventRelatedToLesson = await _calendarEventsRepository.GetByCalendarIdAsync(calendarId);
+
+            if (calendarEventRelatedToLesson != null)
+            {
+                return calendarEventRelatedToLesson.Id;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private async Task<Lesson> FindLessonByCalendarIdAsync(string calendarId)
         {
-            int relatedEventDatabaseId = FindRelatedCalendarEventDatabaseId(calendarId);
-           
+            int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
+
             var found = await _context.Lessons
                 .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId);
 
-            return found;
+            if (found != null)
+            {
+                _context.Entry(found).State = EntityState.Detached;
+
+                return found;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

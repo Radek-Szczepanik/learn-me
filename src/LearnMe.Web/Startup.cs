@@ -92,6 +92,7 @@ namespace LearnMe.Web
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
             services.AddScoped(typeof(ICalendarEventsRepository), typeof(CalendarEventsRepository));
+            services.AddScoped(typeof(ILessonsRepository), typeof(LessonsRepository));
 
             services.AddSingleton<IEventBuilder, EventBuilder>();
 
