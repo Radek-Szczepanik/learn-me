@@ -23,7 +23,10 @@ export class CalendarViewComponent implements OnInit {
   appointmentsData: CalendarEvent[];
   currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
+
   eventToAdd: CalendarEventPost;
+  lessonToAdd: Lesson;
+
   appointmentFormUpdatedFlag: boolean = false;
   isFirstLoadFlag: boolean = true;
   isFirstLoadAfterEditingEvent: boolean = true;
@@ -114,10 +117,20 @@ export class CalendarViewComponent implements OnInit {
 
     console.debug(this.eventToAdd);
 
+    this.lessonToAdd.title = e.appointmentData.title;
+    this.lessonToAdd.lessonStatus = e.appointmentData.lessonStatus;
+
     this.https.post('/api/calendarevents', this.eventToAdd)
       .toPromise().then(success => {
         if (success) {
           console.debug('event added to DB and Calendar');
+        }
+      });
+
+    this.https.post('/api/lessons', this.lessonToAdd)
+      .subscribe(success => {
+        if (success) {
+          console.debug('lesson added to DB');
         }
       });
   }
