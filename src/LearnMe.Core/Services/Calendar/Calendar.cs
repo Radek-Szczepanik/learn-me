@@ -55,6 +55,7 @@ namespace LearnMe.Core.Services.Calendar
             int recurringEventsCount = 5,
             DateTime? recurUntilDateTime = null)
         {
+            _logger.LogDebug("Create event started");
             CalendarEvent newDbEvent = _mapper.Map<CalendarEvent>(eventData);
 
             // Google Event
@@ -69,18 +70,24 @@ namespace LearnMe.Core.Services.Calendar
                 _eventBuilder.SetRecurrence(period, recurringEventsCount, recurUntilDateTime);
             }
 
+            _logger.LogDebug("Create event in Google - START");
             var newCalendarEvent = await _externalCalendarService.InsertEventAsync(_eventBuilder.GetEvent());
+            _logger.LogDebug("Create event in Google - END");
 
             // Back to DB event
             newDbEvent.CalendarId = newCalendarEvent.Id;
 
+            _logger.LogDebug("Create event in DB - START");
             var insertedDbEvent = await _repository.InsertAsync(newDbEvent);
+            _logger.LogDebug("Create event in DB - END");
 
             if (insertedDbEvent != null)
             {
+                _logger.LogDebug("Create event ended");
                 return _mapper.Map<CalendarEventDto>(insertedDbEvent);
             } else
             {
+                _logger.LogDebug("Create event ended");
                 return null;
             }
         }
