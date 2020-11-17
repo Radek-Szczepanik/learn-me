@@ -81,7 +81,7 @@ namespace LearnMe.Web
             services.AddSingleton<IToken>(provider =>
             {
                 var tokenService = provider.GetService<ITokenService>();
-                var token = tokenService.GetToken().GetAwaiter().GetResult();
+                var token = tokenService.GetTokenAsync().GetAwaiter().GetResult();
                 return token;
             });
 
