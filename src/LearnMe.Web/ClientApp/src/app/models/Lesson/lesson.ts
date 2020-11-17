@@ -1,8 +1,9 @@
 export interface Lesson
 {
- title: string,
- lessonStatus: LessonStatus,
- calendarEventId: number
+  title: string,
+  lessonStatus: number,
+  relatedInvoiceId: number,
+  calendarEventId: number,
 }
 
 export enum LessonStatus {
