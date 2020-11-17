@@ -7,7 +7,7 @@ import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from "devextreme/ui/scheduler";
 import DataSource from 'devextreme/data/data_source';
-import { Lesson } from '../../../Models/Lesson/lesson'
+import { Lesson, LessonStatus } from '../../../Models/Lesson/lesson'
 
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
@@ -52,6 +52,13 @@ export class CalendarViewComponent implements OnInit {
       isDone: false,
       isFreeSlot: false,
       calendarId: ''
+    };
+
+    this.lessonToAdd = {
+      title: '',
+      lessonStatus: 0,
+      relatedInvoiceId: null,
+      calendarEventId: 0
     };
   }
 
@@ -117,22 +124,51 @@ export class CalendarViewComponent implements OnInit {
 
     console.debug(this.eventToAdd);
 
-    this.lessonToAdd.title = e.appointmentData.title;
-    this.lessonToAdd.lessonStatus = e.appointmentData.lessonStatus;
+    let externalCalendarId = '';
 
     this.https.post('/api/calendarevents', this.eventToAdd)
       .toPromise().then(success => {
         if (success) {
           console.debug('event added to DB and Calendar');
+          console.debug(success);
+          let eventAdded = success as CalendarEvent;
+          externalCalendarId = eventAdded.calendarId;
+
+          this.lessonToAdd.title = e.appointmentData.title;
+          let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == e.appointmentData.lessonStatus);
+          this.lessonToAdd.lessonStatus = lessonStatusIndex;
+          this.lessonToAdd.relatedInvoiceId = null;
+          this.lessonToAdd.calendarEventId = 0;
+
+          console.debug('lesson to add:');
+          console.debug(this.lessonToAdd);
+
+          let route = '/api/lessons/' + externalCalendarId;
+
+          this.https.post(route, this.lessonToAdd)
+            .subscribe(success => {
+              if (success) {
+                console.debug('lesson added to DB');
+              }
+            });
         }
       });
 
-    this.https.post('/api/lessons', this.lessonToAdd)
-      .subscribe(success => {
-        if (success) {
-          console.debug('lesson added to DB');
-        }
-      });
+    // NOT NEEDED
+    //let getEventDatabaseIdUrl = '/api/calendareventsbygoogleid/' + externalCalendarId;
+
+    //let eventDatabaseId = 0;
+
+    //this.https.getData(getEventDatabaseIdUrl)
+    //  .subscribe(success => {
+    //    if (success) {
+    //      console.debug('event DB Id read and Calendar');
+    //      let eventGot = success as CalendarEvent;
+    //      eventDatabaseId = eventGot.
+    //    }
+    //  });
+
+    
   }
 
   onAppointmentUpdating(e) {
