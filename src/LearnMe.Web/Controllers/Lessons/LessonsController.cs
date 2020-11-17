@@ -75,7 +75,7 @@ namespace LearnMe.Controllers.Lessons
             if (newLessonDbObject != null)
             {
                 return CreatedAtRoute(
-                    "LessonByCalendarId", new { id = newLessonDbObject.CalendarEventId }, lesson);
+                    "LessonByCalendarId", new { calendarEventId = calendarEventId }, lesson);
             }
             else
             {

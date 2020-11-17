@@ -12,6 +12,8 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
     {
         private readonly string _calendarId;
 
+        private readonly CalendarService _calendarService;
+
         public ExternalCalendarService(IToken credentialToken)
             : base(new BaseClientService.Initializer()
             {
@@ -25,7 +27,6 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         public async Task<bool> DeleteEventAsync(string id)
         {
             string result = await base.Events.Delete(_calendarId, id).ExecuteAsync();
-
             return result != null;
         }
 

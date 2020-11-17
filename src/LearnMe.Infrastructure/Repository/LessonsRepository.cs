@@ -71,11 +71,13 @@ namespace LearnMe.Infrastructure.Repository
 
         public async Task<bool> UpdateLessonByCalendarIdAsync(string calendarId, Lesson lesson)
         {
-            int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
+            //int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
+            var lessonOldRecord = await GetLessonByCalendarIdAsync(calendarId);
 
-            if (relatedEventDatabaseId != null)
+            if (lessonOldRecord != null)
             {
-                lesson.CalendarEventId = (int)relatedEventDatabaseId;
+                lesson.Id = lessonOldRecord.Id;
+                lesson.CalendarEventId = lessonOldRecord.CalendarEventId;
 
                 return await UpdateAsync(lesson);
             }
