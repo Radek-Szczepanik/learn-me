@@ -6,7 +6,6 @@ import notify from 'devextreme/ui/notify';
 import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from "devextreme/ui/scheduler";
-import DataSource from 'devextreme/data/data_source';
 import { Lesson, LessonStatus, EventLesson } from '../../../Models/Lesson/lesson'
 
 //if (!/localhost/.test(document.location.host)) {
@@ -22,6 +21,7 @@ export class CalendarViewComponent implements OnInit {
 
   appointmentsData: CalendarEvent[];
   appointmentsAndLessonsData: EventLesson[];
+  lessons: Lesson[];
   currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
 
@@ -38,7 +38,8 @@ export class CalendarViewComponent implements OnInit {
   startViewDate: Date;
   endViewDate: Date;
 
-  //itemsLessonStatus: object[] = [{ id:1, value: "New" }, { id:2, value: "InProgress" }, { id:3, value: "Done" }];
+  currentLesson: Lesson;
+
   itemsLessonStatus: string[] = ["New", "InProgress", "Done"];
 
   constructor(private data: CalendarService, private https: HttpService) {
@@ -61,6 +62,13 @@ export class CalendarViewComponent implements OnInit {
       relatedInvoiceId: null,
       calendarEventId: 0
     };
+
+    this.currentLesson = {
+      title: '',
+      calendarEventId: 0,
+      lessonStatus: 0,
+      relatedInvoiceId: 0
+    }
   }
 
   ngOnInit(): void { console.error('ngOnInit fired'); }
@@ -70,22 +78,45 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onContentReady(e) {
-    //console.error('onContentReady fired');
-
     console.debug('on content ready fired!');
     this.getCalendarCurrentDate();
 
     if (this.isFirstLoadFlag && this.isFirstLoadAfterEditingEvent) {
       console.error('onContentReady isFirstLoadFlag');
+
       this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
         .toPromise().then(success => {
           console.debug(success);
           if (success) {
-            this.appointmentsData = this.data.events;
+            this.appointmentsAndLessonsData = this.data.events;
           }
           console.debug('appointmentsData - onContentReady');
-          console.debug(this.appointmentsData);
+          console.debug(this.appointmentsAndLessonsData);
         });
+
+      //if (this.appointmentsAndLessonsData != undefined) {
+      //  this.appointmentsAndLessonsData.forEach((item) => {
+      //    let externalCalendarId = item.calendarId;
+
+      //    let route = '/api/lessons/' + externalCalendarId;
+
+      //    this.https.getData(route)
+      //      .toPromise().then(success => {
+      //        if (success) {
+      //          let lesson = success as Lesson;
+      //          this.lessons.push(lesson);
+
+      //          let itemIndex = this.appointmentsAndLessonsData.findIndex(x => x.calendarId == item.calendarId);
+      //          this.appointmentsAndLessonsData[itemIndex].title = lesson.title;
+      //          this.appointmentsAndLessonsData[itemIndex].lessonStatus = lesson.lessonStatus;
+      //        }
+      //      });
+      //    });
+      //}
+      
+
+      console.debug('lessons after load');
+      console.debug(this.lessons);
 
       this.isFirstLoadFlag = false;
       this.isFirstLoadAfterEditingEvent = false;
@@ -196,12 +227,52 @@ export class CalendarViewComponent implements OnInit {
     console.debug('when deleted object is:');
     console.debug(e);
 
+    let deleteLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
+
+    this.https.delete(deleteLessonUrl)
+      .subscribe(success => {
+        if (success) {
+          console.debug('lesson deleted from DB and Calendar');
+        }
+      });
+
     let deleteUrl = '/api/calendareventsbygoogleid/' + e.appointmentData.calendarId;
 
     this.https.delete(deleteUrl)
       .toPromise().then(success => {
         if (success) {
           console.debug('event deleted from DB and Calendar');
+        }
+      });
+  }
+
+  onAppointmentClick(e) {
+    let externalCalendarId = e.appointmentData.calendarId;
+
+    let route = '/api/lessons/' + externalCalendarId;
+
+    this.https.getData(route)
+      .toPromise().then(success => {
+        if (success) {
+          console.debug('lesson fetched from DB');
+          console.debug(success);
+          let lesson = success as Lesson;
+
+          // ----
+          this.currentLesson = lesson;
+          // ----
+
+          e.appointmentData.title = lesson.title;
+          e.appointmentData.lessonStatus = lesson.lessonStatus;
+          console.debug('e.appointmentData');
+          console.debug(e.appointmentData);
+
+          console.error('form items investigation');
+          console.debug(e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value);
+          console.debug(e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value);
+
+          //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = lesson.title;
+          //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = lesson.lessonStatus;
         }
       });
   }
@@ -241,7 +312,7 @@ export class CalendarViewComponent implements OnInit {
                 text: "Lesson Title"
               },
               editorOptions: {
-                value: "Please add Lesson title"
+                value: "" //"Please add Lesson title"
               }
             },
             {
@@ -279,28 +350,9 @@ export class CalendarViewComponent implements OnInit {
     console.debug(e.form.itemOption("mainGroup").items);
     console.debug(this.appointmentFormUpdatedFlag);
 
-    // for (var i = 0; i < 10; i++) {
-    //  let formItems2 = e.form.itemOption("recurrenceGroup").items;
-    //  console.debug(formItems2);
-    //   await this.delay(1000);
-    //}
-
     let externalCalendarId = e.appointmentData.calendarId;
 
     let route = '/api/lessons/' + externalCalendarId;
-
-    //this.https.getData(route)
-    //  .subscribe(success => {
-    //    if (success) {
-    //      console.debug('lesson fetched from DB');
-    //      console.debug(success);
-    //      let lesson = success as Lesson;
-    //      e.appointmentData.title = lesson.title;
-    //      //let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == lesson.lessonStatus.toString());
-    //      //e.appointmentData.lessonStatus = this.itemsLessonStatus[lessonStatusIndex];
-    //      e.appointmentData.lessonStatus = lesson.lessonStatus;
-    //    }
-    //  });
 
     this.https.getData(route)
       .toPromise().then(success => {
@@ -309,25 +361,20 @@ export class CalendarViewComponent implements OnInit {
           console.debug(success);
           let lesson = success as Lesson;
           e.appointmentData.title = lesson.title;
-          //let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == lesson.lessonStatus.toString());
-          //e.appointmentData.lessonStatus = this.itemsLessonStatus[lessonStatusIndex];
           e.appointmentData.lessonStatus = lesson.lessonStatus;
           console.debug('e.appointmentData');
           console.debug(e.appointmentData);
 
-          e.form.itemOption("mainGroup").items[8].title = lesson.title;
-          e.form.itemOption("mainGroup").items[8].lessonStatus = lesson.lessonStatus;
+          console.error('form items investigation');
+          console.debug(e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value);
+          console.debug(e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value);
 
-
+          //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = lesson.title;
+          //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = lesson.lessonStatus;
+          e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+          e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.currentLesson.lessonStatus;
         }
       });
-
-    //console.debug('e.form.itemOption("Lesson Data.title")');
-    //console.debug(e.form.itemOption("Lesson Data.title"));
-    //e.form.itemOption("Lesson Data.title",
-    //  {
-    //    value: e.appointmentData.title
-    //  });
 
     console.debug('test get items');
     console.debug(e.form.itemOption("mainGroup").items[8]);
