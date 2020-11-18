@@ -1,20 +1,45 @@
-# ASP.NET Core (.NET Framework)
-# Build and test ASP.NET Core projects targeting the full .NET Framework.
-# Add steps that publish symbols, save build artifacts, and more:
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+pool:
+  vmImage: 'ubuntu-latest'
 
 trigger:
 - master
 
-pool:
-  vmImage: 'windows-latest'
-
 variables:
-   buildConfiguration: 'Release'
+  buildConfiguration: 'release'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  displayName: dotnet build $(buildConfiguration)
+  inputs:
+    command: build
+    arguments: '--configuration $(buildConfiguration)' # Update this to match your need
+
+- task: Npm@1
+  displayName: "npm install"
+  inputs:
+    command: 'install'
+    workingDir: 'ClientApp'
+
+- task: Npm@1
+  displayName: "npm run build:$(buildConfiguration)"
+  inputs:
+    command: 'custom'
+    workingDir: 'ClientApp'
+    customCommand: 'run build:$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: "dotnet publish $(buildConfiguration)"
+  inputs:
+    command: 'publish'
+    publishWebProjects: True
+    arguments: '-c $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+
 
 
 
