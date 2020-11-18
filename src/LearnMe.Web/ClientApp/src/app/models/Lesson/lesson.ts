@@ -12,3 +12,17 @@ export enum LessonStatus {
     Done
 }
 
+export interface EventLesson {
+  subject: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  isDone: boolean;
+  isFreeSlot: boolean;
+  calendarId: string;
+  title: string;
+  lessonStatus: number;
+  relatedInvoiceId: number;
+  calendarEventId: number;
+}
+
