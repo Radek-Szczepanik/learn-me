@@ -21,6 +21,7 @@ import { Lesson, LessonStatus } from '../../../Models/Lesson/lesson'
 export class CalendarViewComponent implements OnInit {
 
   appointmentsData: CalendarEvent[];
+  lessonsData: Lesson[];
   currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
 
@@ -153,22 +154,6 @@ export class CalendarViewComponent implements OnInit {
             });
         }
       });
-
-    // NOT NEEDED
-    //let getEventDatabaseIdUrl = '/api/calendareventsbygoogleid/' + externalCalendarId;
-
-    //let eventDatabaseId = 0;
-
-    //this.https.getData(getEventDatabaseIdUrl)
-    //  .subscribe(success => {
-    //    if (success) {
-    //      console.debug('event DB Id read and Calendar');
-    //      let eventGot = success as CalendarEvent;
-    //      eventDatabaseId = eventGot.
-    //    }
-    //  });
-
-    
   }
 
   onAppointmentUpdating(e) {
@@ -227,6 +212,7 @@ export class CalendarViewComponent implements OnInit {
     if (!this.appointmentFormUpdatedFlag) {
       let formItems = e.form.itemOption("mainGroup").items;
 
+      console.debug('formItems');
       console.debug(formItems);
 
       formItems.push(
@@ -253,6 +239,9 @@ export class CalendarViewComponent implements OnInit {
               editorType: "dxTextArea",
               label: {
                 text: "Lesson Title"
+              },
+              editorOptions: {
+                value: "Please add Lesson title"
               }
             },
             {
@@ -287,16 +276,59 @@ export class CalendarViewComponent implements OnInit {
           ]
         });
 
-    
-
     console.debug(e.form.itemOption("mainGroup").items);
     console.debug(this.appointmentFormUpdatedFlag);
 
-     for (var i = 0; i < 10; i++) {
-      let formItems2 = e.form.itemOption("recurrenceGroup").items;
-      console.debug(formItems2);
-       await this.delay(1000);
-     }
+    // for (var i = 0; i < 10; i++) {
+    //  let formItems2 = e.form.itemOption("recurrenceGroup").items;
+    //  console.debug(formItems2);
+    //   await this.delay(1000);
+    //}
+
+    let externalCalendarId = e.appointmentData.calendarId;
+
+    let route = '/api/lessons/' + externalCalendarId;
+
+    //this.https.getData(route)
+    //  .subscribe(success => {
+    //    if (success) {
+    //      console.debug('lesson fetched from DB');
+    //      console.debug(success);
+    //      let lesson = success as Lesson;
+    //      e.appointmentData.title = lesson.title;
+    //      //let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == lesson.lessonStatus.toString());
+    //      //e.appointmentData.lessonStatus = this.itemsLessonStatus[lessonStatusIndex];
+    //      e.appointmentData.lessonStatus = lesson.lessonStatus;
+    //    }
+    //  });
+
+    this.https.getData(route)
+      .toPromise().then(success => {
+        if (success) {
+          console.debug('lesson fetched from DB');
+          console.debug(success);
+          let lesson = success as Lesson;
+          e.appointmentData.title = lesson.title;
+          //let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == lesson.lessonStatus.toString());
+          //e.appointmentData.lessonStatus = this.itemsLessonStatus[lessonStatusIndex];
+          e.appointmentData.lessonStatus = lesson.lessonStatus;
+          console.debug('e.appointmentData');
+          console.debug(e.appointmentData);
+
+          e.form.itemOption("mainGroup").items[8].title = lesson.title;
+          e.form.itemOption("mainGroup").items[8].lessonStatus = lesson.lessonStatus;
+        }
+      });
+
+    //console.debug('e.form.itemOption("Lesson Data.title")');
+    //console.debug(e.form.itemOption("Lesson Data.title"));
+    //e.form.itemOption("Lesson Data.title",
+    //  {
+    //    value: e.appointmentData.title
+    //  });
+
+    console.debug('test get items');
+    console.debug(e.form.itemOption("mainGroup").items[8]);
   }
 
   async delay(ms: number) {
