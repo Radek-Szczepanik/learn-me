@@ -41,7 +41,7 @@ namespace LearnMe.Controllers.Lessons
                 return NotFound();
             }
 
-            return _mapper.Map<LessonDto>(lesson);
+            return Ok(_mapper.Map<LessonDto>(lesson));
         }
 
         // PUT: api/Lessons/5
