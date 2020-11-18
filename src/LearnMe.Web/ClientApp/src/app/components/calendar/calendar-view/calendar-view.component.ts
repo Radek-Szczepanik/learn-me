@@ -7,7 +7,7 @@ import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from "devextreme/ui/scheduler";
 import DataSource from 'devextreme/data/data_source';
-import { Lesson, LessonStatus } from '../../../Models/Lesson/lesson'
+import { Lesson, LessonStatus, EventLesson } from '../../../Models/Lesson/lesson'
 
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
@@ -21,7 +21,7 @@ import { Lesson, LessonStatus } from '../../../Models/Lesson/lesson'
 export class CalendarViewComponent implements OnInit {
 
   appointmentsData: CalendarEvent[];
-  lessonsData: Lesson[];
+  appointmentsAndLessonsData: EventLesson[];
   currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
 
@@ -317,6 +317,8 @@ export class CalendarViewComponent implements OnInit {
 
           e.form.itemOption("mainGroup").items[8].title = lesson.title;
           e.form.itemOption("mainGroup").items[8].lessonStatus = lesson.lessonStatus;
+
+
         }
       });
 
