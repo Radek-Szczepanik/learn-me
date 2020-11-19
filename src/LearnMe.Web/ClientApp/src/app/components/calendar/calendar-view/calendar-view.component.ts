@@ -20,7 +20,6 @@ import { Lesson, LessonStatus, EventLesson } from '../../../Models/Lesson/lesson
 export class CalendarViewComponent implements OnInit {
 
   appointmentsData: CalendarEvent[];
-  appointmentsAndLessonsData: EventLesson[];
   lessons: Lesson[];
   currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
@@ -71,18 +70,15 @@ export class CalendarViewComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void { console.error('ngOnInit fired'); }
+  ngOnInit(): void { }
 
-  onInitialized(e) {
-    console.error('onInitialized fired');
-  }
+  onInitialized(e) { }
 
   onContentReady(e) {
-    console.debug('on content ready fired!');
     this.getCalendarCurrentDate();
 
     if (this.isFirstLoadFlag && this.isFirstLoadAfterEditingEvent) {
-      console.error('onContentReady isFirstLoadFlag');
+      console.debug('onContentReady isFirstLoadFlag');
 
       this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
         .toPromise().then(success => {
@@ -90,47 +86,17 @@ export class CalendarViewComponent implements OnInit {
           if (success) {
             this.appointmentsData = this.data.events;
           }
-          console.debug('appointmentsData - onContentReady');
-          console.debug(this.appointmentsAndLessonsData);
         });
-
-      //if (this.appointmentsAndLessonsData != undefined) {
-      //  this.appointmentsAndLessonsData.forEach((item) => {
-      //    let externalCalendarId = item.calendarId;
-
-      //    let route = '/api/lessons/' + externalCalendarId;
-
-      //    this.https.getData(route)
-      //      .toPromise().then(success => {
-      //        if (success) {
-      //          let lesson = success as Lesson;
-      //          this.lessons.push(lesson);
-
-      //          let itemIndex = this.appointmentsAndLessonsData.findIndex(x => x.calendarId == item.calendarId);
-      //          this.appointmentsAndLessonsData[itemIndex].title = lesson.title;
-      //          this.appointmentsAndLessonsData[itemIndex].lessonStatus = lesson.lessonStatus;
-      //        }
-      //      });
-      //    });
-      //}
-      
-
-      console.debug('lessons after load');
-      console.debug(this.lessons);
 
       this.isFirstLoadFlag = false;
       this.isFirstLoadAfterEditingEvent = false;
 
     } else {
-      console.error('onContentReady not 1st load');
+      console.debug('onContentReady not 1st load');
 
       this.isFirstLoadFlag = true;
       this.isFirstLoadAfterEditingEvent = true;
     }
-  }
-
-  showToast(event, value, type) {
-    notify(event + " \"" + value + "\"" + " task", type, 1800);
   }
 
   onAppointmentAdding(e) {
@@ -215,6 +181,26 @@ export class CalendarViewComponent implements OnInit {
           console.debug('event updated in DB and Calendar');
         }
       });
+
+    let putLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
+
+    this.lessonToAdd.title = e.appointmentData.title;
+    console.error('e.appointmentData.lessonStatus');
+    console.error(e.appointmentData.lessonStatus);
+    let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == e.appointmentData.lessonStatus);
+    this.lessonToAdd.lessonStatus = lessonStatusIndex;
+    this.lessonToAdd.relatedInvoiceId = null;
+    this.lessonToAdd.calendarEventId = 0;
+
+    console.debug('lesson to add');
+    console.debug(this.lessonToAdd);
+
+    this.https.put(putLessonUrl, this.eventToAdd)
+      .toPromise().then(success => {
+        if (success) {
+          console.debug('lesson updated in DB and Calendar');
+        }
+      });
   }
 
   onAppointmentDeleting(e) {
@@ -268,13 +254,6 @@ export class CalendarViewComponent implements OnInit {
           e.appointmentData.lessonStatus = lesson.lessonStatus;
           console.debug('e.appointmentData');
           console.debug(e.appointmentData);
-
-          //console.error('form items investigation');
-          //console.debug(e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value);
-          //console.debug(e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value);
-
-          //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = lesson.title;
-          //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = lesson.lessonStatus;
         } else {
           this.currentLesson.title = "";
           this.currentLesson.calendarEventId = -1;
@@ -334,8 +313,8 @@ export class CalendarViewComponent implements OnInit {
           colSpan: 2
         });
 
-      formItems[8].items[0].editorOptions.value = this.currentLesson.title;
-      formItems[8].items[1].editorOptions.value = this.currentLesson.lessonStatus;
+      //formItems[8].items[0].editorOptions.value = this.currentLesson.title;
+      //formItems[8].items[1].editorOptions.value = this.currentLesson.lessonStatus;
 
       e.form.itemOption("mainGroup",
         {
@@ -344,6 +323,10 @@ export class CalendarViewComponent implements OnInit {
 
       this.appointmentFormUpdatedFlag = true;
     }
+
+    e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+    e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
+
 
       e.form.itemOption("mainGroup.subject",
         {
@@ -358,41 +341,25 @@ export class CalendarViewComponent implements OnInit {
     console.debug(e.form.itemOption("mainGroup").items);
     console.debug(this.appointmentFormUpdatedFlag);
 
-    let externalCalendarId = e.appointmentData.calendarId;
+    //let externalCalendarId = e.appointmentData.calendarId;
 
-    let route = '/api/lessons/' + externalCalendarId;
-    let lesson: Lesson;
-    this.https.getData(route)
-      .toPromise().then(success => {
-        if (success) {
-          console.debug('lesson fetched from DB');
-          console.debug(success);
-          lesson = success as Lesson;
-          e.appointmentData.title = lesson.title;
-          e.appointmentData.lessonStatus = lesson.lessonStatus;
-          console.debug('e.appointmentData');
-          console.debug(e.appointmentData);
+    //let route = '/api/lessons/' + externalCalendarId;
+    //let lesson: Lesson;
+    //this.https.getData(route)
+    //  .toPromise().then(success => {
+    //    if (success) {
+    //      console.debug('lesson fetched from DB');
+    //      console.debug(success);
+    //      lesson = success as Lesson;
+    //      e.appointmentData.title = lesson.title;
+    //      e.appointmentData.lessonStatus = lesson.lessonStatus;
+    //      console.debug('e.appointmentData');
+    //      console.debug(e.appointmentData);
+    //    }
+    //  });
 
-          //console.error('form items investigation');
-          //console.debug(e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value);
-          //console.debug(e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value);
-
-          ////e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = lesson.title;
-          ////e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = lesson.lessonStatus;
-          //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
-          //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.currentLesson.lessonStatus;
-        }
-      });
-
-    //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
-    //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.currentLesson.lessonStatus;
-
-    console.debug('test get items');
-    console.debug(e.form.itemOption("mainGroup").items[8]);
-  }
-
-  async delay(ms: number) {
-    await new Promise(resolve => setTimeout(()=>resolve(), ms)).then(()=>console.log("fired"));
+    //console.debug('test get items');
+    //console.debug(e.form.itemOption("mainGroup").items[8]);
   }
 
   getCalendarCurrentDate() {
@@ -401,5 +368,9 @@ export class CalendarViewComponent implements OnInit {
 
     this.startViewDate = instance.getStartViewDate();
     this.endViewDate = instance.getEndViewDate();
+  }
+
+  showToast(event, value, type) {
+    notify(event + " \"" + value + "\"" + " task", type, 1800);
   }
 }
