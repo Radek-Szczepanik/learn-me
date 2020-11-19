@@ -88,7 +88,7 @@ export class CalendarViewComponent implements OnInit {
         .toPromise().then(success => {
           console.debug(success);
           if (success) {
-            this.appointmentsAndLessonsData = this.data.events;
+            this.appointmentsData = this.data.events;
           }
           console.debug('appointmentsData - onContentReady');
           console.debug(this.appointmentsAndLessonsData);
@@ -178,7 +178,7 @@ export class CalendarViewComponent implements OnInit {
           let route = '/api/lessons/' + externalCalendarId;
 
           this.https.post(route, this.lessonToAdd)
-            .subscribe(success => {
+            .toPromise().then(success => {
               if (success) {
                 console.debug('lesson added to DB');
               }
@@ -230,7 +230,7 @@ export class CalendarViewComponent implements OnInit {
     let deleteLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
 
     this.https.delete(deleteLessonUrl)
-      .subscribe(success => {
+      .toPromise().then(success => {
         if (success) {
           console.debug('lesson deleted from DB and Calendar');
         }
@@ -260,6 +260,8 @@ export class CalendarViewComponent implements OnInit {
 
           // ----
           this.currentLesson = lesson;
+          console.debug('current lesson');
+          console.debug(this.currentLesson);
           // ----
 
           e.appointmentData.title = lesson.title;
@@ -267,12 +269,15 @@ export class CalendarViewComponent implements OnInit {
           console.debug('e.appointmentData');
           console.debug(e.appointmentData);
 
-          console.error('form items investigation');
-          console.debug(e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value);
-          console.debug(e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value);
+          //console.error('form items investigation');
+          //console.debug(e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value);
+          //console.debug(e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value);
 
           //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = lesson.title;
           //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = lesson.lessonStatus;
+        } else {
+          this.currentLesson.title = "";
+          this.currentLesson.calendarEventId = -1;
         }
       });
   }
@@ -329,6 +334,9 @@ export class CalendarViewComponent implements OnInit {
           colSpan: 2
         });
 
+      formItems[8].items[0].editorOptions.value = this.currentLesson.title;
+      formItems[8].items[1].editorOptions.value = this.currentLesson.lessonStatus;
+
       e.form.itemOption("mainGroup",
         {
           items: formItems
@@ -353,28 +361,31 @@ export class CalendarViewComponent implements OnInit {
     let externalCalendarId = e.appointmentData.calendarId;
 
     let route = '/api/lessons/' + externalCalendarId;
-
+    let lesson: Lesson;
     this.https.getData(route)
       .toPromise().then(success => {
         if (success) {
           console.debug('lesson fetched from DB');
           console.debug(success);
-          let lesson = success as Lesson;
+          lesson = success as Lesson;
           e.appointmentData.title = lesson.title;
           e.appointmentData.lessonStatus = lesson.lessonStatus;
           console.debug('e.appointmentData');
           console.debug(e.appointmentData);
 
-          console.error('form items investigation');
-          console.debug(e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value);
-          console.debug(e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value);
+          //console.error('form items investigation');
+          //console.debug(e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value);
+          //console.debug(e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value);
 
-          //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = lesson.title;
-          //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = lesson.lessonStatus;
-          e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
-          e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.currentLesson.lessonStatus;
+          ////e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = lesson.title;
+          ////e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = lesson.lessonStatus;
+          //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+          //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.currentLesson.lessonStatus;
         }
       });
+
+    //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+    //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.currentLesson.lessonStatus;
 
     console.debug('test get items');
     console.debug(e.form.itemOption("mainGroup").items[8]);

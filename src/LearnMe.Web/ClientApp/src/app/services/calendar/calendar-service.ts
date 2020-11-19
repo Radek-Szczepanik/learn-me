@@ -9,7 +9,7 @@ import { EventLesson } from "../../Models/Lesson/lesson";
 export class CalendarService {
   constructor(private http: HttpClient) { }
 
-  public events: EventLesson[] = [];
+  public events: CalendarEvent[] = [];
 
   //loadEvents() : Observable<boolean> {
     //return this.http.get('/api/calendarevents?eventsPerPage=100&pageNumber=1')
@@ -29,7 +29,7 @@ export class CalendarService {
 
     return this.http.get(query)
       .pipe(
-        map((data: EventLesson[]) => {
+        map((data: CalendarEvent[]) => {
           this.events = data;
           console.debug('data - calendar service:');
           console.debug(data);
