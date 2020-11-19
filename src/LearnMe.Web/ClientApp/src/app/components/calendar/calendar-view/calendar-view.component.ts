@@ -62,7 +62,7 @@ export class CalendarViewComponent implements OnInit {
     if (this.isFirstLoadFlag && this.isFirstLoadAfterEditingEvent) {
       console.error('onContentReady isFirstLoadFlag');
       this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
-        .subscribe(success => {
+        .toPromise().then(success => {
           console.debug(success);
           if (success) {
             this.appointmentsData = this.data.events;
@@ -110,7 +110,7 @@ export class CalendarViewComponent implements OnInit {
     console.debug(this.eventToAdd);
 
     this.https.post('/api/calendarevents', this.eventToAdd)
-      .subscribe(success => {
+      .toPromise().then(success => {
         if (success) {
           console.debug('event added to DB and Calendar');
         }
@@ -140,7 +140,7 @@ export class CalendarViewComponent implements OnInit {
     console.debug(this.eventToAdd);
 
     this.https.put('/api/calendareventsbygoogleid/', this.eventToAdd)
-      .subscribe(success => {
+      .toPromise().then(success => {
         if (success) {
           console.debug('event updated in DB and Calendar');
         }
@@ -162,7 +162,7 @@ export class CalendarViewComponent implements OnInit {
     let deleteUrl = '/api/calendareventsbygoogleid/' + e.appointmentData.calendarId;
 
     this.https.delete(deleteUrl)
-      .subscribe(success => {
+      .toPromise().then(success => {
         if (success) {
           console.debug('event deleted from DB and Calendar');
         }
