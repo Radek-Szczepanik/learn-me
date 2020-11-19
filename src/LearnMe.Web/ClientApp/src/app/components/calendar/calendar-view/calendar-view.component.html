@@ -6,7 +6,7 @@
 
 <div class="container-flex">
   <div class="col-lg-auto justify-content-center">
-    <dx-scheduler [dataSource]="appointmentsAndLessonsData"
+    <dx-scheduler [dataSource]="appointmentsData"
                   appointmentTemplate="appointmentTemplate"
                   [currentDate]="currentDate"
                   textExpr="subject"
@@ -25,6 +25,7 @@
                   (onAppointmentUpdated)="onAppointmentUpdated($event)"
                   (onAppointmentDeleting)="onAppointmentDeleting($event)"
                   (onAppointmentDeleted)="onAppointmentDeleted($event)"
+                  (onAppointmentClick)="onAppointmentClick($event)"
                   id="myScheduler">
 
       <div *dxTemplate="let model of 'appointmentTemplate'"
