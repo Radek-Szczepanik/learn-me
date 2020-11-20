@@ -20,12 +20,6 @@ steps:
   inputs: 
     restoreSolution: '$(solution)'
 
-- task: DotNetCoreCLI@2
-  displayName: dotnet build $(buildConfiguration)
-  inputs:
-    command: build
-    arguments: '--configuration $(buildConfiguration)' # Update this to match your need
-
 - task: Npm@1
   displayName: "npm install"
   inputs:
