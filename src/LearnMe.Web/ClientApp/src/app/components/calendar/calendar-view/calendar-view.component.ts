@@ -233,6 +233,8 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentClick(e) {
+    console.debug('on appointment click fired');
+
     let externalCalendarId = e.appointmentData.calendarId;
 
     let route = '/api/lessons/' + externalCalendarId;
@@ -259,6 +261,12 @@ export class CalendarViewComponent implements OnInit {
           this.currentLesson.calendarEventId = -1;
         }
       });
+  }
+
+  onAppointmentDoubleClick(e) {
+    console.debug('on appointment double click fired');
+    this.onAppointmentClick(e);
+    this.onAppointmentFormOpening(e);
   }
 
   async onAppointmentFormOpening(e) {
@@ -313,9 +321,6 @@ export class CalendarViewComponent implements OnInit {
           colSpan: 2
         });
 
-      //formItems[8].items[0].editorOptions.value = this.currentLesson.title;
-      //formItems[8].items[1].editorOptions.value = this.currentLesson.lessonStatus;
-
       e.form.itemOption("mainGroup",
         {
           items: formItems
@@ -324,42 +329,69 @@ export class CalendarViewComponent implements OnInit {
       this.appointmentFormUpdatedFlag = true;
     }
 
-    e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
-    e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
+    // ----- CODE DUPLICATION START -----
+    let externalCalendarId = e.appointmentData.calendarId;
+
+    let route = '/api/lessons/' + externalCalendarId;
+
+    this.https.getData(route)
+      .toPromise().then(success => {
+        if (success) {
+          console.debug('lesson fetched from DB');
+          console.debug(success);
+          let lesson = success as Lesson;
+
+          // ----
+          this.currentLesson = lesson;
+          console.debug('current lesson');
+          console.debug(this.currentLesson);
+          // ----
+
+          e.appointmentData.title = lesson.title;
+          e.appointmentData.lessonStatus = lesson.lessonStatus;
+          console.debug('e.appointmentData');
+          console.debug(e.appointmentData);
+        } else {
+          this.currentLesson.title = "";
+          this.currentLesson.calendarEventId = -1;
+        }
+
+        e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+        e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
 
 
-      e.form.itemOption("mainGroup.subject",
-        {
-          validationRules: [
-            {
-              type: "required",
-              message: "Subject is required"
-            }
-          ]
-        });
+        e.form.itemOption("mainGroup.subject",
+          {
+            validationRules: [
+              {
+                type: "required",
+                message: "Subject is required"
+              }
+            ]
+          });
 
-    console.debug(e.form.itemOption("mainGroup").items);
-    console.debug(this.appointmentFormUpdatedFlag);
+        console.debug(e.form.itemOption("mainGroup").items);
+        console.debug(this.appointmentFormUpdatedFlag);
 
-    //let externalCalendarId = e.appointmentData.calendarId;
+      });
+    // ----- CODE DUPLICATION END -----
 
-    //let route = '/api/lessons/' + externalCalendarId;
-    //let lesson: Lesson;
-    //this.https.getData(route)
-    //  .toPromise().then(success => {
-    //    if (success) {
-    //      console.debug('lesson fetched from DB');
-    //      console.debug(success);
-    //      lesson = success as Lesson;
-    //      e.appointmentData.title = lesson.title;
-    //      e.appointmentData.lessonStatus = lesson.lessonStatus;
-    //      console.debug('e.appointmentData');
-    //      console.debug(e.appointmentData);
-    //    }
-    //  });
+    //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+    //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
 
-    //console.debug('test get items');
-    //console.debug(e.form.itemOption("mainGroup").items[8]);
+
+    //  e.form.itemOption("mainGroup.subject",
+    //    {
+    //      validationRules: [
+    //        {
+    //          type: "required",
+    //          message: "Subject is required"
+    //        }
+    //      ]
+    //    });
+
+    //console.debug(e.form.itemOption("mainGroup").items);
+    //console.debug(this.appointmentFormUpdatedFlag);
   }
 
   getCalendarCurrentDate() {
