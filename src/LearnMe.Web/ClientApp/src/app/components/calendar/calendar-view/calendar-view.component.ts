@@ -195,7 +195,7 @@ export class CalendarViewComponent implements OnInit {
     console.debug('lesson to add');
     console.debug(this.lessonToAdd);
 
-    this.https.put(putLessonUrl, this.eventToAdd)
+    this.https.put(putLessonUrl, this.lessonToAdd)
       .toPromise().then(success => {
         if (success) {
           console.debug('lesson updated in DB and Calendar');
