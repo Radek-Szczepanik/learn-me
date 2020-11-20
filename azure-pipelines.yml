@@ -4,16 +4,21 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 trigger:
 - master
 
 variables:
   buildConfiguration: 'release'
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
 
 steps:
 - task: NugetToolInstaller@1
+- task: NuGetCommand@2
+  inputs: 
+    restoreSolution: '$(solution)'
 
 - task: DotNetCoreCLI@2
   displayName: dotnet build $(buildConfiguration)
