@@ -13,6 +13,14 @@ variables:
   buildConfiguration: 'release'
 
 steps:
+-task: NugetToolInstaller@1
+-task: DotNetCoreCLI@2
+ inputs:
+  command: 'custom'
+  projects: '**/*.cjproj'
+  custom: 'restore'
+  arguments: '-r $(runtime)'
+
 - task: DotNetCoreCLI@2
   displayName: dotnet build $(buildConfiguration)
   inputs:
