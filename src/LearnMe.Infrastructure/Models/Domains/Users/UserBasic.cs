@@ -1,11 +1,10 @@
 ﻿using LearnMe.Shared.Enum;
-using LearnMe.Infrastructure.Models.Base;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using LearnMe.Infrastructure.Models.Domains.Invoice;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
 using Microsoft.AspNetCore.Identity;
+using LearnMe.Infrastructure.Models.Domains.Messages;
 
 namespace LearnMe.Infrastructure.Models.Domains.Users
 {

@@ -1,8 +1,4 @@
-::ng-deep .dx-scheduler-appointment {
-  background-color: transparent !important;
-  }
-
-.long-title h3 {
+::ng-deep .long-title h3 {
   font-family: 'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;
   font-weight: 200;
   font-size: 28px;
@@ -14,9 +10,17 @@
   padding-block: 0;
 }
 
-/* .dx-item .dx-scheduler-appointment .dx-scheduler-appointment-vertical .dx-resizable div[role="button"] {
-  background-color: white !important;
-} */
+::ng-deep .dx-switch-on-value .dx-switch-handle::before {
+  background-color: #ff4081;
+}
+
+::ng-deep .dx-switch-on-value .dx-switch-handle::hover {
+  background-color: #ff4081;
+}
+
+::ng-deep .dx-item .dx-scheduler-appointment .dx-scheduler-appointment-vertical .dx-resizable div[role="button"] {
+  background-color: transparent;
+}
 
 .appointment-item {
   border-radius: 10px;
