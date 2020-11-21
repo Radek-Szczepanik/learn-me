@@ -36,7 +36,7 @@
     "ng-sidebar": "^9.4.2",
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",
-    "rxjs": "^6.5.3",
+    "rxjs": "^6.6.3",
     "zone.js": "0.10.3"
   },
   "devDependencies": {
