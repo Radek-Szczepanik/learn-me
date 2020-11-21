@@ -20,6 +20,7 @@ steps:
 
 # Restore all nuget packages and .net core tools
 - task: DotNetCoreCLI@2
+  displayName: "restore"
   inputs:
     command: 'custom'
     projects: '**/*.csproj'
@@ -28,15 +29,9 @@ steps:
 
 # Build projects
 - task: DotNetCoreCLI@2
+  displayName: "build"
   inputs:
     command: 'build'
     projects: '**/*.csproj'
     arguments: '-c $(BuildConfiguration) --no-restore -r $(runtime)'
 
-
-# Publish the zipfile as artifact
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/RemoteData.$(Build.BuildNumber).zip'
-    ArtifactName: 'RemoteData.$(Build.BuildNumber)'
-    publishLocation: 'Container'
