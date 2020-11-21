@@ -34,8 +34,8 @@ steps:
     command: 'build'
     projects: '**/*.csproj'
     arguments: '-c $(BuildConfiguration) --no-restore -r $(runtime)'
-
 - task: DotNetCoreCLI@2
+  displayName: "publish"
   inputs:
     command: 'publish'
     publishWebProjects: true
