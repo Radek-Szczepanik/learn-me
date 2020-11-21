@@ -33,13 +33,6 @@ steps:
     projects: '**/*.csproj'
     arguments: '-c $(BuildConfiguration) --no-restore -r $(runtime)'
 
-# Publish all projects to /staging/ci-build/<ProjectName>/
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
-    arguments: '-c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)'
-    zipAfterPublish: true
 
 # Archive the /staging/ci-build folder to /staging/RemoteData.<BuildNumber>
 - task: ArchiveFiles@2
