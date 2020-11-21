@@ -21,11 +21,20 @@ namespace LearnMe.Controllers.Home
             _crudRepository = crudRepository;
         }
 
+          
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Question>>> GetAllQuestions(int itemsPerPage = 5, int pageNumber = 1)
+        public async Task<ActionResult<IEnumerable<Question>>> GetAllQuestions()
         {
-            return Ok(await _crudRepository.GetAllWithPagination(itemsPerPage, pageNumber));
+            return Ok(await _crudRepository.GetAllAsync());
         }
+
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<Question>>> GetAllQuestions(int itemsPerPage = 5, int pageNumber = 1)
+        // {
+        //     return Ok(await _crudRepository.GetAllWithPagination(itemsPerPage, pageNumber));
+        // }
+
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Question>> GetQuestion(int id)

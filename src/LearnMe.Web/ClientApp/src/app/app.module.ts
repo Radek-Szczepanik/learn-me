@@ -49,7 +49,9 @@ import { DeleteNewsDialog } from "./components/mentor/mentor-news/mentor-news-de
 import { UpdateNewsDialog } from "./components/mentor/mentor-news/mentor-news-update.component";
 import { AddOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-add.component";
 import { UpdateOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-update.component";
+import { AddFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-add.component";
 import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-delete.component";
+
 
 
 
@@ -88,7 +90,8 @@ import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
     UpdateNewsDialog,
     AddOpinionsDialog,
     UpdateOpinionsDialog,
-    DeleteOpinionsDialog
+    DeleteOpinionsDialog,
+    AddFaqDialog
 
   ],
   imports: [
@@ -126,7 +129,8 @@ import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
     UpdateNewsDialog,
     AddOpinionsDialog,
     UpdateOpinionsDialog,
-    DeleteOpinionsDialog
+    DeleteOpinionsDialog,
+    AddFaqDialog
   ],
   exports: [
     MatGridTile

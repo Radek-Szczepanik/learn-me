@@ -22,7 +22,7 @@ namespace LearnMe.Controllers.Home
             _crudRepository = crudRepository;
         }
 
-    [HttpGet]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Opinion>>> GetAllOpinion()
         {
             return Ok(await _crudRepository.GetAllAsync());

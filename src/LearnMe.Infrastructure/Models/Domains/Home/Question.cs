@@ -13,7 +13,7 @@ namespace LearnMe.Infrastructure.Models.Domains.Home
 
         [Required(ErrorMessage = "This field is required")]
         public string AnswerText { get; set; }
-
-        public int KeywordOrGroupIdentifier { get; set; }
+        public int Rating { get; set; }
+       // public int KeywordOrGroupIdentifier { get; set; }
     }
 }

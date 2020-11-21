@@ -1,3 +1,7 @@
+::ng-deep .dx-scheduler-appointment {
+  background-color: transparent !important;
+  }
+
 .long-title h3 {
   font-family: 'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;
   font-weight: 200;
@@ -10,9 +14,9 @@
   padding-block: 0;
 }
 
-.dx-item .dx-scheduler-appointment .dx-scheduler-appointment-vertical .dx-resizable div[role="button"] {
+/* .dx-item .dx-scheduler-appointment .dx-scheduler-appointment-vertical .dx-resizable div[role="button"] {
   background-color: white !important;
-}
+} */
 
 .appointment-item {
   border-radius: 10px;
