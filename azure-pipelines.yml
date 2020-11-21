@@ -34,15 +34,6 @@ steps:
     arguments: '-c $(BuildConfiguration) --no-restore -r $(runtime)'
 
 
-# Archive the /staging/ci-build folder to /staging/RemoteData.<BuildNumber>
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.StagingDirectory)/ci-build'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/RemoteData.$(Build.BuildNumber).zip'
-    replaceExistingArchive: true
-
 # Publish the zipfile as artifact
 - task: PublishBuildArtifacts@1
   inputs:
