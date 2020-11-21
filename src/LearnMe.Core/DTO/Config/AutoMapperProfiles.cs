@@ -8,6 +8,8 @@ using LearnMe.Infrastructure.Models.Domains.Home;
 using LearnMe.Infrastructure.Models.Domains.Users;
 
 using System.Collections.Generic;
+using LearnMe.Infrastructure.Models.Domains.Messages;
+using LearnMe.Core.DTO.Messages;
 
 namespace LearnMe.Core.DTO.Config
 {
@@ -24,9 +26,6 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<UserBasic, UserForMentorDto>().ReverseMap();
             CreateMap<UserBasic, RegisterFromMentor>().ReverseMap();
             CreateMap<UserBasic, UpdateUserDto>().ReverseMap();
-
-
-            
 
             CreateMap<CalendarEvent, CalendarEventDto>()
                 .ForMember(dest => dest.StartDate,
@@ -49,6 +48,9 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<Portfolio, PortfolioDTO>();
             CreateMap<Question, QuestionDTO>();
             CreateMap<TutorService, TutorServiceDTO>();
+            CreateMap<Message, MessageToReturnDto>()
+                .ForMember(m => m.SenderName, opt => opt.MapFrom(u => u.Sender.FirstName))
+                .ForMember(m => m.RecipientName, opt => opt.MapFrom(u => u.Sender.LastName));
         }
     }
 }

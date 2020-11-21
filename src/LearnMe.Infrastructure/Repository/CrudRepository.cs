@@ -40,7 +40,8 @@ namespace LearnMe.Infrastructure.Repository
 
         }
 
-     
+       
+
         public async Task<IEnumerable<T>> GetAllWithPagination(int itemsPerPage = 10, int pageNumber = 1)
         {
             if (itemsPerPage > 0 && pageNumber > 0)
@@ -71,6 +72,8 @@ namespace LearnMe.Infrastructure.Repository
                 return null;
             }
         }
+
+        
 
         public async Task<T> InsertAsync(T obj)
         {
