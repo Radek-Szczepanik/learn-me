@@ -97,7 +97,7 @@ import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
     FormsModule,
     ReactiveFormsModule,
     DxSchedulerModule,
-    RouterModule.forRoot(appRouting),
+    RouterModule.forRoot(appRouting, { relativeLinkResolution: 'legacy' }),
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
