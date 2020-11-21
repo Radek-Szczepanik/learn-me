@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearnMe.Infrastructure", "s
 		{37FB576D-1575-4A60-B1A2-217098ADD3DD} = {37FB576D-1575-4A60-B1A2-217098ADD3DD}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LearnMe.Shared", "src\LearnMe.Shared\LearnMe.Shared.csproj", "{316AB8DE-25B5-45E0-934C-616C5142CC9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearnMe.Shared", "src\LearnMe.Shared\LearnMe.Shared.csproj", "{316AB8DE-25B5-45E0-934C-616C5142CC9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
