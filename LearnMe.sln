@@ -12,9 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearnMe.Core", "src\LearnMe.Core\LearnMe.Core.csproj", "{37FB576D-1575-4A60-B1A2-217098ADD3DD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearnMe.Infrastructure", "src\LearnMe.Infrastructure\LearnMe.Infrastructure.csproj", "{1DC3C632-BF76-4207-9401-CD64AF65A9AC}"
-	ProjectSection(ProjectDependencies) = postProject
-		{37FB576D-1575-4A60-B1A2-217098ADD3DD} = {37FB576D-1575-4A60-B1A2-217098ADD3DD}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LearnMe.Shared", "src\LearnMe.Shared\LearnMe.Shared.csproj", "{316AB8DE-25B5-45E0-934C-616C5142CC9C}"
 EndProject
