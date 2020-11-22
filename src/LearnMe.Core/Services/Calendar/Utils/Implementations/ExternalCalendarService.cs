@@ -5,6 +5,7 @@ using Google.Apis.Services;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using LearnMe.Core.Services.Calendar.Utils.Constants;
 
 namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 {
@@ -18,10 +19,10 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             : base(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credentialToken.Credential,
-                ApplicationName = Constants.ApplicationName
+                ApplicationName = ApplicationConstants.ApplicationName
             })
         {
-            _calendarId = Constants.CalendarId;
+            _calendarId = CalendarConstants.CalendarId;
         }
 
         public async Task<bool> DeleteEventAsync(string id)

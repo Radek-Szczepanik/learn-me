@@ -17,9 +17,9 @@ namespace LearnMe.Infrastructure.Models.Domains.Lessons
         public InvoiceBasic RelatedInvoice { get; set; }
 
         public int? RelatedInvoiceId { get; set; }
-
+        
         public CalendarEvent CalendarEvent { get; set; }
-    
+        
         public int CalendarEventId { get; set; }
 
         public IList<UserLesson> UserLessons { get; set; }

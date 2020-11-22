@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
+using LearnMe.Core.Services.Calendar.Utils.Constants;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Shared.Enum.Calendar;
 
@@ -31,7 +32,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             this._event.Description = description;
         }
 
-        public void SetStartTime(DateTime? startDateTime, string timezone = Constants.Timezone)
+        public void SetStartTime(DateTime? startDateTime, string timezone = CalendarConstants.Timezone)
         {
             this._event.Start = new EventDateTime()
             {
@@ -40,7 +41,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             };
         }
 
-        public void SetEndTime(DateTime? endDateTime, string timezone = Constants.Timezone)
+        public void SetEndTime(DateTime? endDateTime, string timezone = CalendarConstants.Timezone)
         {
             this._event.End = new EventDateTime()
             {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Google.Apis.Calendar.v3.Data;
-using LearnMe.Core.Services.Calendar.Utils;
+using LearnMe.Core.Services.Calendar.Utils.Constants;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using Microsoft.Extensions.Logging;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
@@ -48,8 +48,8 @@ namespace LearnMe.Core.Services.Calendar
 
         public async Task<CalendarEventDto> CreateEventAsync(
             CalendarEventDto eventData,
-            string calendarId = Constants.CalendarId,
-            string timezone = Constants.Timezone,
+            string calendarId = CalendarConstants.CalendarId,
+            string timezone = CalendarConstants.Timezone,
             bool isRecurringEvent = false,
             Recurrence period = Recurrence.DAILY,
             int recurringEventsCount = 5,

@@ -76,6 +76,8 @@ namespace LearnMe.Web
             });
             services.AddScoped<IUserClaimsPrincipalFactory<UserBasic>, MyUserClaimsPrincipalFactory>();
 
+            services.AddSingleton<IDate, Date>();
+
             services.AddSingleton<ITokenService, TokenService>();
 
             services.AddSingleton<IToken>(provider =>
