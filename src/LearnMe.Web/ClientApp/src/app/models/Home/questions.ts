@@ -1,8 +1,8 @@
 export interface Questions {
 
-    questionText: string;
-    answerText: string;
-    rating: number;
-    id: number;
+    questionText: string,
+    answerText: string,
+    rating: number,
+    id: number,
   }
   

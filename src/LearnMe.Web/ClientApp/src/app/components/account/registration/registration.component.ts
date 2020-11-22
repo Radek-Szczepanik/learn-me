@@ -20,12 +20,14 @@ export class RegistrationComponent implements OnInit {
   error: any;
   private _httpClient: HttpClient;
   private _base: string;
-  private errorFirstName: any;
-  private errorLastName: any;
-  private errorPassword: any;
-  private errorConfirmation: any;
-  private errorEmail: any;
-  private errorPasswordFront: any;
+  errorFirstName: any;
+  errorLastName: any;
+  errorPassword: any;
+  errorConfirmation: any;
+  errorEmail: any;
+  errorPasswordFront: any;
+  unauthorized: boolean;
+
 
   constructor(private https: HttpService, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this._httpClient = http;

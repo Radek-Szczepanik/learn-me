@@ -1,7 +1,7 @@
 import { Component, Inject} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '../../../services/http.service';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 
 @Component({
