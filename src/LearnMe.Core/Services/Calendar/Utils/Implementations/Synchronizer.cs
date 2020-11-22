@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Apis.Calendar.v3.Data;
+using LearnMe.Core.Services.Calendar.Utils.Constants;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Repository.Interfaces;
@@ -11,30 +12,37 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 {
     public class Synchronizer : ISynchronizer
     {
+        private readonly IDate _datetime;
+
+        public Synchronizer(IDate datetime)
+        {
+            _datetime = datetime;
+        }
+
         public async Task<int> SynchronizeDatabaseWithCalendarByDateModifiedAsync(
             IExternalCalendarService<Event> externalCalendarService,
             ICalendarEventsRepository repository,
             ICrudRepository<CalendarSynchronization> synchronizationData,
-            int lastSynchronizationId = Constants.LastSynchronizationRecordId,
-            string calendarId = Constants.CalendarId)
+            int lastSynchronizationId = ApplicationConstants.LastSynchronizationRecordId,
+            string calendarId = CalendarConstants.CalendarId)
         {
             int synchronizedRowsCounter = 0;
             var lastSynchronizationDateTime = await GetLastSynchronizationDateFromDatabase(synchronizationData, lastSynchronizationId);
 
             IEnumerable<Event> eventsFromExternalCalendarToBeSynchronized = 
                 await externalCalendarService.GetEventsByLastUpdateAsync(lastSynchronizationDateTime, true);
-            var updateDateTime = DateTime.UtcNow;
+            var updateDateTime = _datetime.Now;
 
             IList<string> databaseCalendarIds = await Helpers.GetListOfCalendarIdsFromDatabase(repository);
 
             foreach (var eventResult in eventsFromExternalCalendarToBeSynchronized)
             {
                 // TODO: Add to Calendar specific log
-                if (IsInDatabase(databaseCalendarIds, eventResult.Id) && eventResult.Status == "cancelled")
+                if (IsInDatabase(databaseCalendarIds, eventResult.Id) && eventResult.Status == CalendarConstants.CancelledEventStatus)
                 {
                     await repository.DeleteByCalendarIdAsync(eventResult.Id);
                 }
-                else if (IsInDatabase(databaseCalendarIds, eventResult.Id) && eventResult.Status != "cancelled")
+                else if (IsInDatabase(databaseCalendarIds, eventResult.Id) && eventResult.Status != CalendarConstants.CancelledEventStatus)
                 {
                     await repository.UpdateByCalendarIdAsync(
                         eventResult.Id,
@@ -43,8 +51,9 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                         eventResult.Start.DateTime,
                         eventResult.End.DateTime);
                 }
-                else if (!IsInDatabase(databaseCalendarIds, eventResult.Id) && eventResult.Status != "cancelled"
-                                                                            && HasNotBeenCreatedAndDeletedBeforeSynchronization(eventResult))
+                else if (!IsInDatabase(databaseCalendarIds, eventResult.Id)
+                         && eventResult.Status != CalendarConstants.CancelledEventStatus
+                         && HasNotBeenCreatedAndDeletedBeforeSynchronization(eventResult))
                 {
                     await repository.InsertAsync(new CalendarEvent()
                     {
@@ -96,7 +105,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         {
             return await tableToUpdate.UpdateAsync(new CalendarSynchronization()
             {
-                Id = Constants.LastSynchronizationRecordId,
+                Id = ApplicationConstants.LastSynchronizationRecordId,
                 LastSynchronization = dateTime
             });
         }
