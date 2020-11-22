@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Threading.Tasks;
 using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Base;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace LearnMe.Infrastructure.Repository
 {
-    public class CrudRepository<T> : ICrudRepository<T> where T : class
+    public class CrudRepository<T> : ICrudRepository<T> where T : BaseEntity
 
     {
         private readonly ApplicationDbContext _context;
@@ -36,8 +37,8 @@ namespace LearnMe.Infrastructure.Repository
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var news = await _context.Set<T>().ToListAsync();
+            
             return news;
-
         }
      
         public async Task<IEnumerable<T>> GetAllWithPagination(int itemsPerPage = 10, int pageNumber = 1)
@@ -45,11 +46,12 @@ namespace LearnMe.Infrastructure.Repository
             if (itemsPerPage > 0 && pageNumber > 0)
             {
                 return await _context.Set<T>()
-                                                 .Skip((pageNumber - 1) * itemsPerPage)
-                                                 .Take(itemsPerPage)
-                                                 .AsNoTracking()
-                                                 .ToListAsync();
-            } else
+                    .Skip((pageNumber - 1) * itemsPerPage)
+                    .Take(itemsPerPage)
+                    .AsNoTracking()
+                    .ToListAsync();
+            }
+            else
             {
                 return null;
             }
@@ -72,11 +74,9 @@ namespace LearnMe.Infrastructure.Repository
             }
         }
 
-        
-
-        public async Task<T> InsertAsync(T obj)
+        public async Task<T> InsertAsync(T entity)
         {
-            var inserted = await _context.AddAsync<T>(obj);
+            var inserted = await _context.AddAsync<T>(entity);
             bool isSuccess = await SaveAsync();
 
             var newEvent = inserted.Entity;
@@ -91,9 +91,9 @@ namespace LearnMe.Infrastructure.Repository
             return rowsAffected >= 1;
         }
 
-        public async Task<bool> UpdateAsync(T obj)
+        public async Task<bool> UpdateAsync(T entity)
         {
-            _context.Update(obj);
+            _context.Update(entity);
 
             return await SaveAsync();
         }

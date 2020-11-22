@@ -10,9 +10,9 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
         Task<IEnumerable<T>> GetAllWithPagination(int itemsPerPage = 10, int pageNumber = 1);
         Task<T> GetByIdAsync(object id);
         
-        Task<T> InsertAsync(T obj);
+        Task<T> InsertAsync(T entity);
         
-        Task<bool> UpdateAsync(T obj);
+        Task<bool> UpdateAsync(T entity);
 
         Task<bool> DeleteAsync(object id);
 

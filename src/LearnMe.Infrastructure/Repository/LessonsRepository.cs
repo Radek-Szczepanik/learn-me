@@ -106,18 +106,10 @@ namespace LearnMe.Infrastructure.Repository
             int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
 
             var found = await _context.Lessons
+                .AsNoTracking()
                 .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId);
 
-            if (found != null)
-            {
-                _context.Entry(found).State = EntityState.Detached;
-
-                return found;
-            }
-            else
-            {
-                return null;
-            }
+            return found ?? null;
         }
     }
 }
