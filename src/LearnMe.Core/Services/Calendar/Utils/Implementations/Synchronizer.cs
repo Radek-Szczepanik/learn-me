@@ -23,6 +23,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             IExternalCalendarService<Event> externalCalendarService,
             ICalendarEventsRepository repository,
             ICrudRepository<CalendarSynchronization> synchronizationData,
+            ICrudRepository<CalendarEvent> eventsData,
             int lastSynchronizationId = ApplicationConstants.LastSynchronizationRecordId,
             string calendarId = CalendarConstants.CalendarId)
         {
@@ -40,7 +41,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                 // TODO: Add to Calendar specific log
                 if (IsInDatabase(databaseCalendarIds, eventResult.Id) && eventResult.Status == CalendarConstants.CancelledEventStatus)
                 {
-                    await repository.DeleteByCalendarIdAsync(eventResult.Id);
+                    await eventsData.DeleteAsync(eventResult);
                 }
                 else if (IsInDatabase(databaseCalendarIds, eventResult.Id) && eventResult.Status != CalendarConstants.CancelledEventStatus)
                 {
