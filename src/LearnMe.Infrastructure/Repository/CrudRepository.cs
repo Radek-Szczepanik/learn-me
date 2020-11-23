@@ -18,7 +18,7 @@ namespace LearnMe.Infrastructure.Repository
             _context = context;
         }
 
-        public async Task<bool> DeleteAsync(object id)
+        public async Task<bool> DeleteAsync(int id)
         {
             var toBeDeleted = await _context.FindAsync<T>(id);
 

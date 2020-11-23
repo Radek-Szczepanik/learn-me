@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using LearnMe.Infrastructure.Models.Base;
 
 namespace LearnMe.Infrastructure.Repository.Interfaces
 {
-    public interface ICrudRepository<T> where T : class
+    public interface ICrudRepository<T> where T : BaseEntity
     {
         Task<IEnumerable<T>> GetAllAsync();
         
@@ -14,7 +15,9 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
         
         Task<bool> UpdateAsync(T entity);
 
-        Task<bool> DeleteAsync(object id);
+        Task<bool> DeleteAsync(int id);
+
+        Task<bool> DeleteAsync(T entity);
 
         Task<bool> SaveAsync();
     }
