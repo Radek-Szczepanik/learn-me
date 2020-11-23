@@ -41,7 +41,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                 // TODO: Add to Calendar specific log
                 if (IsInDatabase(databaseCalendarIds, eventResult.Id) && eventResult.Status == CalendarConstants.CancelledEventStatus)
                 {
-                    await eventsData.DeleteAsync(eventResult);
+                    await repository.DeleteByCalendarIdAsync(eventResult.Id);
                 }
                 else if (IsInDatabase(databaseCalendarIds, eventResult.Id) && eventResult.Status != CalendarConstants.CancelledEventStatus)
                 {
