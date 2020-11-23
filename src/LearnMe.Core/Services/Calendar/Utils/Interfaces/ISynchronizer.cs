@@ -12,6 +12,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
             IExternalCalendarService<Event> externalCalendarService,
             ICalendarEventsRepository repository,
             ICrudRepository<CalendarSynchronization> synchronizationData,
+            ICrudRepository<CalendarEvent> eventsData,
             int lastSynchronizationId = ApplicationConstants.LastSynchronizationRecordId,
             string calendarId = CalendarConstants.CalendarId);
     }
