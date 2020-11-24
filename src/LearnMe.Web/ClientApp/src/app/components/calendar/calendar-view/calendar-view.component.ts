@@ -38,8 +38,15 @@ export class CalendarViewComponent implements OnInit {
   endViewDate: Date;
 
   currentLesson: Lesson;
+  //currentAttendees: AttendeesEmails;
 
   itemsLessonStatus: string[] = ["New", "InProgress", "Done"];
+
+  simpleEmails = [
+    "testaspnetgooglapi@gmail.com",
+    "ag2rio@gmail.com",
+    "someFakeEmail@gmail.com"
+  ];
 
   constructor(private data: CalendarService, private https: HttpService) {
     console.debug('appointmentsData:');
@@ -319,6 +326,30 @@ export class CalendarViewComponent implements OnInit {
               },
             }],
           colSpan: 2
+        },
+        {
+          itemType: "group",
+          caption: "Attendees",
+          items: [
+            {
+              dataField: "title",
+              editorType: "dxTagBox",
+              label: {
+                text: "Attendees' emails:"
+              },
+              editorOptions: {
+                items: this.simpleEmails,
+                searchEnabled: true,
+                hideSelectedItems: true
+                //dataSource: new DevExpress.data.ArrayStore({
+                //  data: products,
+                //  key: "ID"
+                //}),
+                //displayExpr: "Name",
+                //valueExpr: "ID",
+              }
+            }],
+          colSpan: 2
         });
 
       e.form.itemOption("mainGroup",
@@ -359,6 +390,10 @@ export class CalendarViewComponent implements OnInit {
         e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
         e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
 
+        //console.error('debug attendees');
+        //console.debug(e.form.itemOption("mainGroup").items);
+
+        e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = [this.simpleEmails[0], this.simpleEmails[1]];
 
         e.form.itemOption("mainGroup.subject",
           {
