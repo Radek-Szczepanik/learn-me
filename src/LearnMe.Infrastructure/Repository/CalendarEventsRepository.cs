@@ -20,22 +20,9 @@ namespace LearnMe.Infrastructure.Repository
 
         public async Task<bool> DeleteByCalendarIdAsync(string calendarId)
         {
-            //// HELPERS
-            //var toDelete = _context.CalendarEvents
-            //    .SingleOrDefaultAsync(x => x.CalendarId == calendarId).Id;
-
-            //_context.Entry(toDelete).State = EntityState.Detached;
-
-            //return await DeleteAsync(toDelete);
-
-            var toDelete = await GetByCalendarIdAsync(calendarId);
-
-            return await DeleteAsync(toDelete.Id);
-            //return await DeleteAsync(
-            //    _context.CalendarEvents
-            //        .AsNoTracking()
-            //        .SingleOrDefaultAsync(x => x.CalendarId == calendarId)
-            //        .Id);
+            return await DeleteAsync(
+                _context.CalendarEvents
+                    .Single(x => x.CalendarId == calendarId));
         }
 
         public Task<CalendarEvent> GetByCalendarIdAsync(string calendarId)
