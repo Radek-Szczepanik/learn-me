@@ -98,5 +98,58 @@ namespace LearnMe.Controllers.Lessons
                 return NotFound();
             }
         }
+
+        // GET: api/Lessons/5
+        [HttpGet("{calendarEventId}/attendees", Name = "LessonAttendeesByCalendarId")]
+        public async Task<ActionResult<LessonDto>> GetLessonAttendeesByCalendarEventIdAsync(string calendarEventId)
+        {
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+
+            if (lesson == null)
+            {
+                return NotFound();
+            }
+
+            //return Ok(_mapper.Map<LessonDto>(lesson));
+            return Ok(lesson);
+        }
+
+        //// PUT: api/Lessons/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
+        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        //[HttpPut("{calendarEventId}")]
+        //public async Task<ActionResult<bool>> PutLessonByCalendarEventIdAsync(string calendarEventId, [FromBody] LessonDto lesson)
+        //{
+        //    var lessonData = _mapper.Map<Lesson>(lesson);
+        //    var isUpdated = await _lessonsRepository.UpdateLessonByCalendarIdAsync(calendarEventId, lessonData);
+
+        //    if (isUpdated)
+        //    {
+        //        return Ok();
+        //    } else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
+        //// POST: api/Lessons
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
+        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        //[HttpPost("{calendarEventId}")]
+        //public async Task<ActionResult<LessonDto>> PostLessonWithCalendarEventIdAsync(string calendarEventId, LessonDto lesson)
+        //{
+        //    var lessonData = _mapper.Map<Lesson>(lesson);
+        //    var newLessonDbObject = await _lessonsRepository.CreateLessonAsync(calendarEventId, lessonData);
+
+        //    if (newLessonDbObject != null)
+        //    {
+        //        return CreatedAtRoute(
+        //            "LessonByCalendarId", new { calendarEventId = calendarEventId }, lesson);
+        //    } else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
     }
 }

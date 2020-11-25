@@ -39,34 +39,24 @@ namespace LearnMe.Infrastructure.Repository
 
         public async Task<bool> DeleteLessonByCalendarIdAsync(string calendarId)
         {
-            var toBeDeleted = await FindLessonByCalendarIdAsync(calendarId);
+            int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
 
-            if (toBeDeleted != null)
-            {
-                _context.Remove(toBeDeleted);
+            _context.Remove(_context.Lessons
+                .AsNoTracking()
+                .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId));
 
-                return await SaveAsync();
-            }
-            else
-            {
-                return false;
-            }
+            return await SaveAsync();
         }
 
         public async Task<Lesson> GetLessonByCalendarIdAsync(string calendarId)
         {
-            var found = await FindLessonByCalendarIdAsync(calendarId);
-            
-            if (found != null)
-            {
-                _context.Entry(found).State = EntityState.Detached;
+            int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
 
-                return found;
-            }
-            else
-            {
-                return null;
-            }
+            var found = await _context.Lessons
+                .AsNoTracking()
+                .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId);
+
+            return found ?? null;
         }
 
         public async Task<bool> UpdateLessonByCalendarIdAsync(string calendarId, Lesson lesson)
@@ -99,17 +89,6 @@ namespace LearnMe.Infrastructure.Repository
             {
                 return null;
             }
-        }
-
-        private async Task<Lesson> FindLessonByCalendarIdAsync(string calendarId)
-        {
-            int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
-
-            var found = await _context.Lessons
-                .AsNoTracking()
-                .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId);
-
-            return found ?? null;
         }
     }
 }
