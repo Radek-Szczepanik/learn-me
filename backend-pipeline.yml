@@ -26,6 +26,10 @@ steps:
     versionSpec: '6.x'
     checkLatest: true
 
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+    checkLatest: true
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
