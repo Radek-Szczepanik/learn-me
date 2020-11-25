@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
+using LearnMe.Infrastructure.Models.Domains.Users;
 
 namespace LearnMe.Infrastructure.Repository.Interfaces
 {
@@ -12,5 +14,7 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
         Task<Lesson> GetLessonByCalendarIdAsync(string calendarId);
 
         Task<bool> UpdateLessonByCalendarIdAsync(string calendarId, Lesson lesson);
+
+        Task<IList<UserBasic>> GetLessonAttendees(Lesson lesson);
     }
 }

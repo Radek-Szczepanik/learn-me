@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using LearnMe.Core.DTO.Lessons;
+using LearnMe.Core.DTO.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Infrastructure.Data;
@@ -99,19 +100,28 @@ namespace LearnMe.Controllers.Lessons
             }
         }
 
-        // GET: api/Lessons/5
+        // GET: api/Lessons/5/Attendees
         [HttpGet("{calendarEventId}/attendees", Name = "LessonAttendeesByCalendarId")]
-        public async Task<ActionResult<LessonDto>> GetLessonAttendeesByCalendarEventIdAsync(string calendarEventId)
+        public async Task<ActionResult<IList<UserBasicDto>>> GetLessonAttendeesByCalendarEventIdAsync(string calendarEventId)
         {
             var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var attendees = await _lessonsRepository.GetLessonAttendees(lesson);
 
-            if (lesson == null)
+            IList<UserBasicDto> attendeesDtos = new List<UserBasicDto>();
+
+            if (attendees == null)
             {
                 return NotFound();
             }
+            else
+            {
+                foreach (var person in attendees)
+                {
+                    attendeesDtos.Add(_mapper.Map<UserBasicDto>(person));
+                }
+            }
 
-            //return Ok(_mapper.Map<LessonDto>(lesson));
-            return Ok(lesson);
+            return Ok(attendeesDtos);
         }
 
         //// PUT: api/Lessons/5

@@ -2,7 +2,10 @@
 using System.Threading.Tasks;
 using LearnMe.Infrastructure.Data;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
+using LearnMe.Infrastructure.Models.Domains.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace LearnMe.Infrastructure.Repository
@@ -77,6 +80,24 @@ namespace LearnMe.Infrastructure.Repository
             }
         }
 
+        public async Task<IList<UserBasic>> GetLessonAttendees(Lesson lesson)
+        {
+            IList<UserBasic> result = new List<UserBasic>();
+
+            var fullLesson = await _context.Lessons
+                .Where(x => x.Id == lesson.Id)
+                .Include(x => x.UserLessons)
+                .ThenInclude(x => x.User)
+                .SingleOrDefaultAsync();
+
+            foreach (var item in fullLesson.UserLessons)
+            {
+                result.Add(item.User);
+            }
+
+            return result;
+        } 
+        
         private async Task<int?> FindRelatedCalendarEventDatabaseId(string calendarId)
         {
             var calendarEventRelatedToLesson = await _calendarEventsRepository.GetByCalendarIdAsync(calendarId);
