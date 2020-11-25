@@ -1,7 +1,7 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
   <mat-toolbar class="example-toolbar">
     <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    <h1 class="example-app-name"> <img src="panikowalska.png" alt="Pani Kowalska" width="15%"></h1>
+    <h1 class="example-app-name"> <img src="panikowalska.png" alt="Pani Kowalska" width="12%"></h1>
     <span class="spacer" *ngIf="notLogged"></span>
     <div *ngIf="notLogged">
       <button mat-raised-button color="accent" style="margin-left: 10px" [routerLink]="['/login']">Sign in</button>
@@ -56,7 +56,3 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
-
-
-
-

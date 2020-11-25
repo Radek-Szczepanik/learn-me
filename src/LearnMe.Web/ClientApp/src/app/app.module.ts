@@ -1,4 +1,3 @@
-import 'hammerjs';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
@@ -13,7 +12,13 @@ import { CalendarService } from './services/calendar/calendar-service';
 import { DxSchedulerModule } from 'devextreme-angular';
 import { CalendarViewComponent } from './components/calendar/calendar-view/calendar-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatListModule, MatSidenavModule, MatIconModule, MatToolbarModule} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule} from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatGridTile} from '@angular/material/grid-list';
 import { FaqComponent } from './components/main/faq/faq.component';
 import { NewsComponent } from './components/main/news/news.component';
 import { TranslationsComponent } from './components/main/translations/translations.component';
@@ -35,6 +40,7 @@ import { MentorFaqComponent } from './components/mentor/mentor-faq/mentor-faq.co
 import { MentorExerciseComponent } from './components/mentor/mentor-exercise/mentor-exercise.component';
 import { MentorOpinionsComponent } from './components/mentor/mentor-opinions/mentor-opinions.component';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -49,9 +55,8 @@ import { DeleteNewsDialog } from "./components/mentor/mentor-news/mentor-news-de
 import { UpdateNewsDialog } from "./components/mentor/mentor-news/mentor-news-update.component";
 import { AddOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-add.component";
 import { UpdateOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-update.component";
+import { AddFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-add.component";
 import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-delete.component";
-
-
 
 @NgModule({
   declarations: [
@@ -88,7 +93,8 @@ import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
     UpdateNewsDialog,
     AddOpinionsDialog,
     UpdateOpinionsDialog,
-    DeleteOpinionsDialog
+    DeleteOpinionsDialog,
+    AddFaqDialog
 
   ],
   imports: [
@@ -104,13 +110,14 @@ import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
     MatSidenavModule,
     MatListModule,
     MatButtonModule,
-    MatSliderModule,
     MatTableModule,
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatGridListModule,
+    MatSelectModule 
   ],
   providers: [
     CalendarService
@@ -125,8 +132,12 @@ import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
     UpdateNewsDialog,
     AddOpinionsDialog,
     UpdateOpinionsDialog,
-    DeleteOpinionsDialog
-
+    DeleteOpinionsDialog,
+    AddFaqDialog
+  ],
+  exports: [
+    MatGridTile,
+    MatSelectModule 
   ]
 })
 export class AppModule { }

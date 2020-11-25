@@ -19,8 +19,8 @@ export class LoginComponent {
   loginUser: Login;
   private _httpClient: HttpClient;
   private _base: string;
-  private badrequest: boolean;
-  private unauthorized: boolean;
+  badrequest: boolean;
+  unauthorized: boolean;
   notLogged; admin; mentor; student: boolean;
   identity: string[];
 

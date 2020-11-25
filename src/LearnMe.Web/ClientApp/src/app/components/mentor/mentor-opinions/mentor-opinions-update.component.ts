@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { News } from "../../../models/Home/news";
 import { Opinion } from 'src/app/models/Home/opinon';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 
 @Component({

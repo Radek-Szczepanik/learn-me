@@ -1,0 +1,56 @@
+<div class="alert span4 alert-success" role="alert" *ngIf="succes">
+    Wpis dodany!
+  </div>
+
+
+  <h2 mat-dialog-title>Dodaj wpis</h2>
+  <mat-dialog-content class="mat-typography">
+    <form name="test" class="example-form" [formGroup]="questionsForm" (ngSubmit)="onSubmit()">
+        <table class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field>
+              <mat-label>Pytanie</mat-label>
+              <textarea id="questionText" matInput formControlName="questionText"></textarea>
+            </mat-form-field>
+            <div *ngIf="isValidInput('questionText')">
+              <div class="custom-alert" role="alert">
+              Pole jest wymagane
+            </div>
+          </div>
+
+          </td>
+        </tr>
+      </table>
+      <table cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field>
+              <mat-label>Odpowiedź</mat-label>
+              <textarea matInput formControlName="answerText"></textarea>
+            </mat-form-field>
+            <div *ngIf="isValidInput('answerText')"><div class="custom-alert" role="alert">
+              Pole jest wymagane
+            </div></div>
+          </td>
+        </tr>
+      </table>
+      <table class="example-full-width" cellspacing="0">
+        <tr>
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Ocena</mat-label>
+              <input matInput formControlName="rating">
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
+
+
+      <mat-dialog-content>
+        <button mat-button mat-dialog-close>Powrót</button>
+        <button type="submit" mat-button>Dodaj</button>
+      </mat-dialog-content>
+    </form>
+  </mat-dialog-content>
+

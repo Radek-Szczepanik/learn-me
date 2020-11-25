@@ -30,21 +30,14 @@
         <mat-dialog-content>
             <button mat-button mat-dialog-close>Powrót</button>
             <button type="submit" mat-button>Aktualizuj</button>
+            <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+            <button type="button" mat-raised-button color="accent" (click)="file.click()">Dodaj zdjęcie</button>
+            <span class="upload" *ngIf="progress > 0">
+                {{progress}}%
+            </span>
+            <span class="upload" *ngIf="message">
+                {{message}}
+            </span>
         </mat-dialog-content>
     </form>
 </mat-dialog-content>
-
-<div class="row" style="margin-bottom:15px;">
-    <div class="col-md-3">
-        <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
-        <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
-    </div>
-    <div class="col-md-4">
-        <span class="upload" *ngIf="progress > 0">
-            {{progress}}%
-        </span>
-        <span class="upload" *ngIf="message">
-            {{message}}
-        </span>
-    </div>
-</div>
