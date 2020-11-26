@@ -124,25 +124,7 @@ namespace LearnMe.Controllers.Lessons
             return Ok(attendeesDtos);
         }
 
-        //// PUT: api/Lessons/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPut("{calendarEventId}")]
-        //public async Task<ActionResult<bool>> PutLessonByCalendarEventIdAsync(string calendarEventId, [FromBody] LessonDto lesson)
-        //{
-        //    var lessonData = _mapper.Map<Lesson>(lesson);
-        //    var isUpdated = await _lessonsRepository.UpdateLessonByCalendarIdAsync(calendarEventId, lessonData);
-
-        //    if (isUpdated)
-        //    {
-        //        return Ok();
-        //    } else
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
-
-        // POST: api/Lessons
+        // POST: api/Lessons/5/Attendees
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost("{calendarEventId}/attendees")]
@@ -157,9 +139,27 @@ namespace LearnMe.Controllers.Lessons
             {
                 return CreatedAtRoute(
                     "LessonAttendeesByCalendarId", new { calendarEventId = calendarEventId }, result);
-            } else
+            }
+            else
             {
                 return BadRequest();
+            }
+        }
+
+        // DELETE: api/Lessons/5/Attendees
+        [HttpDelete("{calendarEventId}/attendees")]
+        public async Task<ActionResult<bool>> DeleteAttendeeFromLessonByCalendarEventId(string calendarEventId, string attendeeEmail)
+        {
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var result = await _lessonsRepository.DeleteLessonAttendeeAsync(lesson, attendeeEmail);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
             }
         }
     }

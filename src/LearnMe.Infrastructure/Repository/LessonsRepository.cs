@@ -136,6 +136,32 @@ namespace LearnMe.Infrastructure.Repository
             }
         }
 
+        public async Task<UserBasic> DeleteLessonAttendeeAsync(Lesson lesson, string attendeeEmail)
+        {
+            try
+            {
+                var userBasic = await _context.UserBasic
+                    .AsNoTracking()
+                    .Where(x => x.Email == attendeeEmail)
+                    .SingleOrDefaultAsync();
+
+                var userLesson = await _context.UserLessons
+                    .AsNoTracking()
+                    .Where(x => x.User == userBasic && x.LessonId == lesson.Id)
+                    .SingleOrDefaultAsync();
+
+                _context.UserLessons.Remove(userLesson);
+
+                await _context.SaveChangesAsync();
+
+                return userBasic;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         private async Task<int?> FindRelatedCalendarEventDatabaseId(string calendarId)
         {
             var calendarEventRelatedToLesson = await _calendarEventsRepository.GetByCalendarIdAsync(calendarId);

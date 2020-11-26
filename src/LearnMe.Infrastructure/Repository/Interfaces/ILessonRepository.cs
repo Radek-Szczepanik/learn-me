@@ -18,5 +18,7 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
         Task<IList<UserBasic>> GetLessonAttendeesAsync(Lesson lesson);
 
         Task<UserBasic> CreateLessonAttendeeAsync(Lesson lesson, string attendeeEmail);
+
+        Task<UserBasic> DeleteLessonAttendeeAsync(Lesson lesson, string attendeeEmail);
     }
 }
