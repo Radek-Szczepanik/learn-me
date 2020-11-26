@@ -15,6 +15,8 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
 
         Task<bool> UpdateLessonByCalendarIdAsync(string calendarId, Lesson lesson);
 
-        Task<IList<UserBasic>> GetLessonAttendees(Lesson lesson);
+        Task<IList<UserBasic>> GetLessonAttendeesAsync(Lesson lesson);
+
+        Task<UserBasic> CreateLessonAttendeeAsync(Lesson lesson, string attendeeEmail);
     }
 }

@@ -80,11 +80,12 @@ namespace LearnMe.Infrastructure.Repository
             }
         }
 
-        public async Task<IList<UserBasic>> GetLessonAttendees(Lesson lesson)
+        public async Task<IList<UserBasic>> GetLessonAttendeesAsync(Lesson lesson)
         {
             IList<UserBasic> result = new List<UserBasic>();
 
             var fullLesson = await _context.Lessons
+                .AsNoTracking()
                 .Where(x => x.Id == lesson.Id)
                 .Include(x => x.UserLessons)
                 .ThenInclude(x => x.User)
@@ -96,8 +97,45 @@ namespace LearnMe.Infrastructure.Repository
             }
 
             return result;
-        } 
-        
+        }
+
+        public async Task<UserBasic> CreateLessonAttendeeAsync(Lesson lesson, string attendeeEmail)
+        {
+            try
+            {
+                var fullLesson = await _context.Lessons
+                    .AsNoTracking()
+                    .Where(x => x.Id == lesson.Id)
+                    .Include(x => x.UserLessons)
+                    .ThenInclude(x => x.User)
+                    .SingleOrDefaultAsync();
+
+                var userBasic = await _context.UserBasic
+                    .AsNoTracking()
+                    .Where(x => x.Email == attendeeEmail)
+                    .SingleOrDefaultAsync();
+
+                var newUserLesson = new UserLesson()
+                {
+                    Lesson = lesson,
+                    User = userBasic
+                };
+
+                fullLesson.UserLessons.Add(newUserLesson);
+
+                _context.Lessons
+                    .Update(fullLesson);
+
+                await _context.SaveChangesAsync();
+
+                return userBasic;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         private async Task<int?> FindRelatedCalendarEventDatabaseId(string calendarId)
         {
             var calendarEventRelatedToLesson = await _calendarEventsRepository.GetByCalendarIdAsync(calendarId);
