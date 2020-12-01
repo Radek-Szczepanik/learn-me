@@ -18,25 +18,50 @@ namespace LearnMe.Infrastructure.Repository
             _context = context;
         }
 
-        public async Task<CalendarEvent> GetByCalendarIdAsync(string calendarId)
+        public async Task<bool> DeleteByCalendarIdAsync(string calendarId)
         {
-            var result = await _context.CalendarEvents
-                                                   .Where(o => o.CalendarId == calendarId)
-                                                   .SingleOrDefaultAsync();
-            
-            _context.Entry(result).State = EntityState.Detached;
+            return await DeleteAsync(
+                _context.CalendarEvents
+                    .Single(x => x.CalendarId == calendarId));
+        }
 
-            return result;
+        public Task<CalendarEvent> GetByCalendarIdAsync(string calendarId)
+        {
+            return _context.CalendarEvents
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.CalendarId == calendarId);
         }
 
         public async Task<IEnumerable<CalendarEvent>> GetByFromAndToDate(DateTime fromDate, DateTime toDate)
         {
             var result = await _context.CalendarEvents
-                                                        .Where(o => o.Start >= fromDate && o.End <= toDate)
+                                                        .Where(x => x.Start >= fromDate && x.End <= toDate)
                                                         .AsNoTracking()
                                                         .ToListAsync();
 
             return result;
+        }
+
+        public async Task<bool> UpdateByCalendarIdAsync(
+            string calendarId,
+            string summary,
+            string description,
+            DateTime? startDateTime,
+            DateTime? endDateTime)
+        {
+            var eventToBeUpdated = await GetByCalendarIdAsync(calendarId);
+
+            return await UpdateAsync(new CalendarEvent()
+            {
+                Id = eventToBeUpdated.Id,
+                Title = summary,
+                Description = description,
+                Start = startDateTime,
+                End = endDateTime,
+                IsDone = eventToBeUpdated.IsDone,
+                IsFreeSlot = eventToBeUpdated.IsFreeSlot,
+                CalendarId = calendarId
+            });
         }
     }
 }

@@ -6,6 +6,8 @@ using LearnMe.Core.DTO.Account;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Models.Domains.Home;
 using LearnMe.Infrastructure.Models.Domains.Users;
+using LearnMe.Core.DTO.Lessons;
+using LearnMe.Infrastructure.Models.Domains.Lessons;
 
 using System.Collections.Generic;
 using LearnMe.Infrastructure.Models.Domains.Messages;
@@ -48,6 +50,9 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<Portfolio, PortfolioDTO>();
             CreateMap<Question, QuestionDTO>();
             CreateMap<TutorService, TutorServiceDTO>();
+
+            CreateMap<Lesson, LessonDto>();
+            CreateMap<LessonDto, Lesson>();
             CreateMap<Message, MessageToReturnDto>()
                 .ForMember(m => m.SenderName, opt => opt.MapFrom(u => u.Sender.FirstName))
                 .ForMember(m => m.RecipientName, opt => opt.MapFrom(u => u.Sender.LastName));
