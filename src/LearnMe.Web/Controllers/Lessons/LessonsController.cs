@@ -124,14 +124,19 @@ namespace LearnMe.Controllers.Lessons
             return Ok(attendeesDtos);
         }
 
+        public class AttendeeDto
+        {
+            public string AttendeeEmail { get; set; }
+        }
+
         // POST: api/Lessons/5/Attendees
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost("{calendarEventId}/attendees")]
-        public async Task<ActionResult<UserBasicDto>> PostAttendeeToLessonByCalendarEventIdAsync(string calendarEventId, string attendeeEmail)
+        public async Task<ActionResult<UserBasicDto>> PostAttendeeToLessonByCalendarEventIdAsync(string calendarEventId, [FromBody] AttendeeDto attendee)
         {
             var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
-            var newLessonDbObject = await _lessonsRepository.CreateLessonAttendeeAsync(lesson, attendeeEmail);
+            var newLessonDbObject = await _lessonsRepository.CreateLessonAttendeeAsync(lesson, attendee.AttendeeEmail);
 
             var result = _mapper.Map<UserBasicDto>(newLessonDbObject);
 
@@ -148,10 +153,10 @@ namespace LearnMe.Controllers.Lessons
 
         // DELETE: api/Lessons/5/Attendees
         [HttpDelete("{calendarEventId}/attendees")]
-        public async Task<ActionResult<bool>> DeleteAttendeeFromLessonByCalendarEventId(string calendarEventId, string attendeeEmail)
+        public async Task<ActionResult<bool>> DeleteAttendeeFromLessonByCalendarEventId(string calendarEventId, [FromBody] AttendeeDto attendee)
         {
             var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
-            var result = await _lessonsRepository.DeleteLessonAttendeeAsync(lesson, attendeeEmail);
+            var result = await _lessonsRepository.DeleteLessonAttendeeAsync(lesson, attendee.AttendeeEmail);
 
             if (result != null)
             {

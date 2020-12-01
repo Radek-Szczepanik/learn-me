@@ -6,7 +6,7 @@ import notify from 'devextreme/ui/notify';
 import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from "devextreme/ui/scheduler";
-import { Lesson, LessonStatus, EventLesson } from '../../../Models/Lesson/lesson'
+import { Lesson, LessonStatus, EventLesson, AttendeeDto, UserBasicDto } from '../../../Models/Lesson/lesson'
 
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
@@ -39,6 +39,7 @@ export class CalendarViewComponent implements OnInit {
 
   currentLesson: Lesson;
   //currentAttendees: AttendeesEmails;
+  lessonEmails: string[] = [];
 
   itemsLessonStatus: string[] = ["New", "InProgress", "Done"];
 
@@ -154,6 +155,26 @@ export class CalendarViewComponent implements OnInit {
             .toPromise().then(success => {
               if (success) {
                 console.debug('lesson added to DB');
+
+                let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
+
+                console.error('attendeesEmails');
+                console.debug(e.appointmentData.attendeesEmails);
+
+                let emails: string[] = e.appointmentData.attendeesEmails;
+
+                emails.forEach((email) => {
+                  console.debug(email);
+                  let attendeeEmailDto: AttendeeDto = {
+                    attendeeEmail: email,
+                  }
+                  this.https.post(routeAttendees, attendeeEmailDto)
+                    .toPromise().then(success => {
+                      if (success) {
+                        console.debug('user/attendee of lesson added to DB');
+                      }
+                    });
+                });
               }
             });
         }
@@ -208,6 +229,10 @@ export class CalendarViewComponent implements OnInit {
           console.debug('lesson updated in DB and Calendar');
         }
       });
+
+    // Attendees update
+    let emails: string[] = e.appointmentData.attendeesEmails;
+
   }
 
   onAppointmentDeleting(e) {
@@ -266,6 +291,26 @@ export class CalendarViewComponent implements OnInit {
         } else {
           this.currentLesson.title = "";
           this.currentLesson.calendarEventId = -1;
+        }
+      });
+
+    //Attendees
+    let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
+    let lessonEmails: string[] = [];
+
+    this.https.getData(routeAttendees)
+      .toPromise().then(success => {
+        if (success) {
+          console.error('success get attendees');
+          console.debug(success);
+
+          let emailObjects = success as UserBasicDto[];
+          emailObjects.forEach(
+            (item) => {
+              lessonEmails.push(item.email);
+            });
+
+          console.debug(lessonEmails);
         }
       });
   }
@@ -332,7 +377,7 @@ export class CalendarViewComponent implements OnInit {
           caption: "Attendees",
           items: [
             {
-              dataField: "title",
+              dataField: "attendeesEmails",
               editorType: "dxTagBox",
               label: {
                 text: "Attendees' emails:"
@@ -390,10 +435,33 @@ export class CalendarViewComponent implements OnInit {
         e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
         e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
 
+        ////Attendees
+        //let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
+        //let lessonEmails: string[] = [];
+
+        //this.https.getData(routeAttendees)
+        //  .toPromise().then(success => {
+        //    if (success) {
+        //      console.error('success get attendees');
+        //      console.debug(success);
+
+        //      let emailObjects = success as UserBasicDto[];
+        //      emailObjects.forEach(
+        //        (item) => {
+        //          lessonEmails.push(item.email);
+        //        });
+
+        //      console.debug(lessonEmails);
+        //      e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = lessonEmails;
+        //    }
+        //  });
+
         //console.error('debug attendees');
         //console.debug(e.form.itemOption("mainGroup").items);
 
-        e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = [this.simpleEmails[0], this.simpleEmails[1]];
+        //e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = [this.simpleEmails[0], this.simpleEmails[1]];
+        let lessonStatusIndex = this.simpleEmails.findIndex(x => x == this.lessonEmails[0]);
+        e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = [this.simpleEmails[lessonStatusIndex]];
 
         e.form.itemOption("mainGroup.subject",
           {
