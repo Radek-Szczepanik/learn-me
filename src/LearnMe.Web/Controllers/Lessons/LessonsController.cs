@@ -124,6 +124,7 @@ namespace LearnMe.Controllers.Lessons
             return Ok(attendeesDtos);
         }
 
+        //TODO change to UserBasicDto maybe & remove from Controller
         public class AttendeeDto
         {
             public string AttendeeEmail { get; set; }
@@ -152,6 +153,29 @@ namespace LearnMe.Controllers.Lessons
         }
 
         // DELETE: api/Lessons/5/Attendees
+        [HttpDelete("{calendarEventId}/attendees")]
+        public async Task<ActionResult<bool>> DeleteAllAttendeesFromLessonByCalendarEventId(string calendarEventId)
+        {
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var attendees = await _lessonsRepository.GetLessonAttendeesAsync(lesson);
+            var result = true;
+            foreach (var person in attendees)
+            {
+                var deletedUser = await _lessonsRepository.DeleteLessonAttendeeAsync(lesson, person.Email);
+                if (deletedUser == null) result = false;
+            }
+
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        // DELETE: api/Lessons/5/Attendees/email@aaa.com
         [HttpDelete("{calendarEventId}/attendees/{attendeeEmail}")]
         public async Task<ActionResult<bool>> DeleteAttendeeFromLessonByCalendarEventId(string calendarEventId, string attendeeEmail)
         {

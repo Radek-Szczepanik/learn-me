@@ -305,6 +305,17 @@ export class CalendarViewComponent implements OnInit {
     console.debug('when deleted object is:');
     console.debug(e);
 
+    // Attendees delete
+    // Delete ALL emails from DB related to lesson
+    let routeAttendees = '/api/lessons/' + e.appointmentData.calendarId + '/attendees';
+    this.https.delete(routeAttendees)
+      .toPromise().then(success => {
+        if (success) {
+          console.debug('ALL users/attendees of lesson deleted from DB');
+        }
+      });
+    // Attendees end
+
     let deleteLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
 
     this.https.delete(deleteLessonUrl)
