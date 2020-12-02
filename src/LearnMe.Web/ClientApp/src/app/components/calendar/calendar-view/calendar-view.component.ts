@@ -241,6 +241,8 @@ export class CalendarViewComponent implements OnInit {
     // Attendees update
     // Emails from UI
     let emailsUI: string[] = e.appointmentData.attendeesEmails;
+    console.debug('emailsUI');
+    console.debug(emailsUI);
     // Emails from DB
     let emailsDB: string [] = [];
     let externalCalendarId = this.eventToAdd.calendarId;
@@ -248,45 +250,49 @@ export class CalendarViewComponent implements OnInit {
     this.https.getData(routeAttendees)
       .toPromise().then(success => {
         if (success) {
-          let dbEmails = success as AttendeeDto[];
+          console.debug('attendees from db');
+          console.debug(success);
+          let dbEmails = success as User[];
           dbEmails.forEach(item => {
-            emailsDB.push(item.attendeeEmail);
+            emailsDB.push(item.email);
           });
-          console.debug('user/attendee of lesson added to DB');
+          console.debug('emailsDB');
+          console.debug(emailsDB);
+
+          let differenceToAdd = emailsUI.filter(x => !emailsDB.includes(x));
+          let differenceToDelete = emailsDB.filter(x => !emailsUI.includes(x));
+          console.debug('differenceToAdd');
+          console.debug(differenceToAdd);
+          console.debug('differenceToDelete');
+          console.debug(differenceToDelete);
+
+          differenceToAdd.forEach((email) => {
+            let attendeeEmailDto: AttendeeDto = {
+              attendeeEmail: email,
+            }
+            this.https.post(routeAttendees, attendeeEmailDto)
+              .toPromise().then(success => {
+                if (success) {
+                  console.debug('email added');
+                  console.debug(email);
+                  console.debug('user/attendee of lesson added to DB');
+                }
+              });
+          });
+
+          differenceToDelete.forEach((email) => {
+            console.debug('email deleted');
+            console.debug(email);
+            let routeAttendeeDelete = routeAttendees + '/' + email;
+            this.https.delete(routeAttendeeDelete)
+              .toPromise().then(success => {
+                if (success) {
+                  console.debug('user/attendee of lesson deleted from DB');
+                }
+              });
+          });
         }
       });
-
-    let differenceToAdd = emailsUI.filter(x => !emailsDB.includes(x));
-    let differenceToDelete = emailsDB.filter(x => !emailsUI.includes(x));
-
-    differenceToAdd.forEach((email) => {
-      console.debug('email added');
-      console.debug(email);
-      let attendeeEmailDto: AttendeeDto = {
-        attendeeEmail: email,
-      }
-      this.https.post(routeAttendees, attendeeEmailDto)
-        .toPromise().then(success => {
-          if (success) {
-            console.debug('user/attendee of lesson added to DB');
-          }
-        });
-    });
-
-    differenceToDelete.forEach((email) => {
-      console.debug('email deleted');
-      console.debug(email);
-      //let attendeeEmailDto: AttendeeDto = {
-      //  attendeeEmail: email,
-      //}
-      let routeAttendeeDelete = routeAttendees + '/' + email;
-      this.https.delete(routeAttendeeDelete)
-        .toPromise().then(success => {
-          if (success) {
-            console.debug('user/attendee of lesson deleted from DB');
-          }
-        });
-    });
   }
 
   onAppointmentDeleting(e) {
@@ -444,12 +450,6 @@ export class CalendarViewComponent implements OnInit {
                 items: this.simpleEmails,
                 searchEnabled: true,
                 hideSelectedItems: true
-                //dataSource: new DevExpress.data.ArrayStore({
-                //  data: products,
-                //  key: "ID"
-                //}),
-                //displayExpr: "Name",
-                //valueExpr: "ID",
               }
             }],
           colSpan: 2
@@ -494,57 +494,10 @@ export class CalendarViewComponent implements OnInit {
         e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
 
         ////Attendees
-        //let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
-        //let lessonEmails: string[] = [];
-
-        //this.https.getData(routeAttendees)
-        //  .toPromise().then(success => {
-        //    if (success) {
-        //      console.error('success get attendees');
-        //      console.debug(success);
-
-        //      let emailObjects = success as UserBasicDto[];
-        //      emailObjects.forEach(
-        //        (item) => {
-        //          lessonEmails.push(item.email);
-        //        });
-
-        //      console.debug(lessonEmails);
-        //      e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = lessonEmails;
-        //    }
-        //  });
-
-        //console.error('debug attendees');
-        //console.debug(e.form.itemOption("mainGroup").items);
-
-        //e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = [this.simpleEmails[0], this.simpleEmails[1]];
-
-        ////OK
         let commonAttendees: string[] = this.simpleEmails.filter(value => this.lessonEmails.includes(value));
         console.debug('commonAttendees');
         console.debug(commonAttendees);
-
-        let lessonStatusIndexes = [];
-        commonAttendees.forEach(item => {
-          let index = this.simpleEmails.findIndex(x => x);
-          lessonStatusIndexes.push(index);
-        });
-        console.debug('lesson status Indexes');
-        console.debug(lessonStatusIndexes);
-
-        let attendeesValues = [];
-        lessonStatusIndexes.forEach(i => {
-          attendeesValues.push(this.simpleEmails[i]);
-        });
-        console.debug('attendeesValues');
-        console.debug(attendeesValues);
-
-        //e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = [commonAttendees[0], commonAttendees[1]];
         e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
-
-        //// OK
-        //e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = [this.simpleEmails[lessonStatusIndex]];
-        //e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = [[this.simpleEmails[0]]];
 
         e.form.itemOption("mainGroup.subject",
           {

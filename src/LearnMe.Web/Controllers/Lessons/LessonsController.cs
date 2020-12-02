@@ -152,7 +152,7 @@ namespace LearnMe.Controllers.Lessons
         }
 
         // DELETE: api/Lessons/5/Attendees
-        [HttpDelete("{calendarEventId}/attendees/{email}")]
+        [HttpDelete("{calendarEventId}/attendees/{attendeeEmail}")]
         public async Task<ActionResult<bool>> DeleteAttendeeFromLessonByCalendarEventId(string calendarEventId, string attendeeEmail)
         {
             var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
