@@ -11,6 +11,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
         Task<int> SynchronizeDatabaseWithCalendarByDateModifiedAsync(
             IExternalCalendarService<Event> externalCalendarService,
             ICalendarEventsRepository repository,
+            ILessonsRepository lessonsRepository,
             ICrudRepository<CalendarSynchronization> synchronizationData,
             ICrudRepository<CalendarEvent> eventsData,
             int lastSynchronizationId = ApplicationConstants.LastSynchronizationRecordId,

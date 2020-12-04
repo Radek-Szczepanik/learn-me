@@ -18,6 +18,7 @@ namespace LearnMe.Core.Services.Calendar
     {
         private readonly ICrudRepository<CalendarEvent> _repository;
         private readonly ICalendarEventsRepository _calendarEventsRepository;
+        private readonly ILessonsRepository _lessonsRepository;
         private readonly IExternalCalendarService<Event> _externalCalendarService;
         private readonly ICrudRepository<CalendarSynchronization> _synchronizationData;
         private readonly ICrudRepository<CalendarEvent> _eventsData;
@@ -29,6 +30,7 @@ namespace LearnMe.Core.Services.Calendar
         public Calendar(
             ICrudRepository<CalendarEvent> repository,
             ICalendarEventsRepository calendarEventsRepository,
+            ILessonsRepository lessonsRepository,
             IExternalCalendarService<Event> externalCalendarService,
             ICrudRepository<CalendarSynchronization> synchronizationData,
             ICrudRepository<CalendarEvent> eventsData,
@@ -40,6 +42,7 @@ namespace LearnMe.Core.Services.Calendar
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _calendarEventsRepository = calendarEventsRepository ??
                                         throw new ArgumentNullException(nameof(calendarEventsRepository));
+            _lessonsRepository = lessonsRepository ?? throw new ArgumentNullException(nameof(lessonsRepository));
             _externalCalendarService = externalCalendarService ?? throw new ArgumentNullException(nameof(externalCalendarService));
             _synchronizationData = synchronizationData ?? throw new ArgumentNullException(nameof(synchronizationData));
             _eventsData = eventsData ?? throw new ArgumentNullException(nameof(eventsData));
@@ -56,7 +59,8 @@ namespace LearnMe.Core.Services.Calendar
             bool isRecurringEvent = false,
             Recurrence period = Recurrence.DAILY,
             int recurringEventsCount = 5,
-            DateTime? recurUntilDateTime = null)
+            DateTime? recurUntilDateTime = null,
+            IList<string> attendeesEmails = null)
         {
             _logger.LogDebug("Create event started");
             CalendarEvent newDbEvent = _mapper.Map<CalendarEvent>(eventData);
@@ -71,6 +75,14 @@ namespace LearnMe.Core.Services.Calendar
             if (isRecurringEvent)
             {
                 _eventBuilder.SetRecurrence(period, recurringEventsCount, recurUntilDateTime);
+            }
+
+            if (attendeesEmails != null)
+            {
+                foreach (var email in attendeesEmails)
+                {
+                    _eventBuilder.AddAttendee(email);
+                }
             }
 
             _logger.LogDebug("Create event in Google - START");
@@ -114,6 +126,7 @@ namespace LearnMe.Core.Services.Calendar
             var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
                 _externalCalendarService,
                 _calendarEventsRepository,
+                _lessonsRepository,
                 _synchronizationData,
                 _eventsData);
 
@@ -145,7 +158,10 @@ namespace LearnMe.Core.Services.Calendar
             return _mapper.Map<CalendarEventDto>(foundEvent);
         }
 
-        public async Task<bool> UpdateEventAsync(int id, CalendarEventDto eventData)
+        public async Task<bool> UpdateEventAsync(
+            int id,
+            CalendarEventDto eventData,
+            IList<string> attendeesEmails = null)
         {
             CalendarEvent toUpdateData = _mapper.Map<CalendarEvent>(eventData);
             toUpdateData.Id = id;
@@ -162,6 +178,14 @@ namespace LearnMe.Core.Services.Calendar
                     toUpdateData.End,
                     toUpdateData.Description);
 
+                if (attendeesEmails != null)
+                {
+                    foreach (var email in attendeesEmails)
+                    {
+                        _eventBuilder.AddAttendee(email);
+                    }
+                }
+
                 await _externalCalendarService.UpdateEventAsync(
                     toUpdateData.CalendarId,
                     _eventBuilder.GetEvent());
@@ -170,7 +194,9 @@ namespace LearnMe.Core.Services.Calendar
             return await _repository.UpdateAsync(toUpdateData);
         }
 
-        public async Task<bool> UpdateEventByCalendarIdAsync(CalendarEventDto eventData)
+        public async Task<bool> UpdateEventByCalendarIdAsync(
+            CalendarEventDto eventData,
+            IList<string> attendeesEmails = null)
         {
             CalendarEvent toUpdateData = _mapper.Map<CalendarEvent>(eventData);
 
@@ -186,6 +212,14 @@ namespace LearnMe.Core.Services.Calendar
                     toUpdateData.Start,
                     toUpdateData.End,
                     toUpdateData.Description);
+                
+                if (attendeesEmails != null)
+                {
+                    foreach (var email in attendeesEmails)
+                    {
+                        _eventBuilder.AddAttendee(email);
+                    }
+                }
 
                 await _externalCalendarService.UpdateEventAsync(
                     eventFromDbToUpdate.CalendarId,
@@ -216,6 +250,7 @@ namespace LearnMe.Core.Services.Calendar
             var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
                 _externalCalendarService,
                 _calendarEventsRepository,
+                _lessonsRepository,
                 _synchronizationData,
                 _eventsData);
 

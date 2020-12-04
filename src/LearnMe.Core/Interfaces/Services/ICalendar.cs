@@ -22,13 +22,19 @@ namespace LearnMe.Core.Interfaces.Services
             bool isRecurringEvent = false,
             Recurrence period = Recurrence.DAILY,
             int recurringEventsCount = 5,
-            DateTime? recurUntilDateTime = null);
-
-        Task<bool> UpdateEventAsync(int id,  CalendarEventDto eventData);
+            DateTime? recurUntilDateTime = null,
+            IList<string> attendeesEmails = null);
 
         Task<bool> DeleteEventAsync(int id);
+        
+        Task<bool> UpdateEventAsync(
+            int id,
+            CalendarEventDto eventData,
+            IList<string> attendeesEmails = null);
 
-        Task<bool> UpdateEventByCalendarIdAsync(CalendarEventDto eventData);
+        Task<bool> UpdateEventByCalendarIdAsync(
+            CalendarEventDto eventData,
+            IList<string> attendeesEmails = null);
 
         Task<bool> DeleteEventByCalendarIdAsync(string calendarId);
 

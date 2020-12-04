@@ -121,13 +121,11 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentAdded(e) {
-    console.error("on appointment added invoked");
-    console.debug(e.appointmentData.text);
-    console.debug(e.appointmentData.subject);
+    console.debug("on appointment added invoked");
     this.showToast("Added", e.appointmentData.text, "success");
 
-    console.debug('object to be added:');
-    console.debug(e);
+    //console.debug('object to be added:');
+    //console.debug(e);
 
     this.eventToAdd.subject = e.appointmentData.subject;
     this.eventToAdd.description = e.appointmentData.description;
@@ -135,8 +133,6 @@ export class CalendarViewComponent implements OnInit {
     this.eventToAdd.endDate = e.appointmentData.endDate;
     this.eventToAdd.isDone = e.appointmentData.isDone;
     this.eventToAdd.isFreeSlot = e.appointmentData.isFreeSlot;
-
-    console.debug(this.eventToAdd);
 
     let externalCalendarId = '';
 

@@ -86,7 +86,12 @@ namespace LearnMe.Infrastructure.Repository
             var inserted = await _context.AddAsync<T>(entity);
             bool isSuccess = await SaveAsync();
 
-            var newEvent = inserted.Entity;
+            T newEvent = null;
+
+            if (isSuccess)
+            {
+                newEvent = inserted.Entity;
+            }
 
             return newEvent ?? null;
         }
