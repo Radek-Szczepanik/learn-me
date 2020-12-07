@@ -98,6 +98,8 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                         RelatedInvoiceId = null
                     });
 
+                    //lessonsRepository._context.Entry(found).State = EntityState.Detached;
+
                     // Insert Event=Lesson attendees
                     IList<string> attendeesEmailsToSynchronize = GetAttendeesEmailsToSynchronize(eventResult);
 
