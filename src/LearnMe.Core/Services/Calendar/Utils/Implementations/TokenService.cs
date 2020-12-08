@@ -9,7 +9,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
 {
     public class TokenService : ITokenService
     {
-        public async Task<IToken> GetTokenAsync()
+        public async Task<IToken> GetToken()
         {
             string[] Scopes = { ExternalCalendarService.Scope.Calendar };
 

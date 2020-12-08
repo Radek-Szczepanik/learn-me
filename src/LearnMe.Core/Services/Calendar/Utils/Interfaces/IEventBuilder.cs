@@ -24,8 +24,6 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
 
         bool AddAttendee(string email);
 
-        bool RemoveAttendee(string attendeeEmail);
-
         Event GetEvent();
     }
 }

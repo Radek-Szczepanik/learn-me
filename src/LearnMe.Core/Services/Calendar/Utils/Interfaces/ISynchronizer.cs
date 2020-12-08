@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Google.Apis.Calendar.v3.Data;
-using LearnMe.Core.Services.Calendar.Utils.Constants;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Repository.Interfaces;
 
@@ -8,13 +7,16 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
 {
     public interface ISynchronizer
     {
+        Task<int> SynchronizeDatabaseWithCalendarByIdAsync(
+            IExternalCalendarService<Event> externalCalendarService, 
+            ICrudRepository<CalendarEvent> repository, 
+            string calendarId = Constants.CalendarId);
+
         Task<int> SynchronizeDatabaseWithCalendarByDateModifiedAsync(
             IExternalCalendarService<Event> externalCalendarService,
             ICalendarEventsRepository repository,
-            ILessonsRepository lessonsRepository,
             ICrudRepository<CalendarSynchronization> synchronizationData,
-            ICrudRepository<CalendarEvent> eventsData,
-            int lastSynchronizationId = ApplicationConstants.LastSynchronizationRecordId,
-            string calendarId = CalendarConstants.CalendarId);
+            int lastSynchronizationId = Constants.LastSynchronizationRecordId,
+            string calendarId = Constants.CalendarId);
     }
 }

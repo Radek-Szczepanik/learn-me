@@ -76,14 +76,12 @@ namespace LearnMe.Web
             });
             services.AddScoped<IUserClaimsPrincipalFactory<UserBasic>, MyUserClaimsPrincipalFactory>();
 
-            services.AddSingleton<IDate, Date>();
-
             services.AddSingleton<ITokenService, TokenService>();
 
             services.AddSingleton<IToken>(provider =>
             {
                 var tokenService = provider.GetService<ITokenService>();
-                var token = tokenService.GetTokenAsync().GetAwaiter().GetResult();
+                var token = tokenService.GetToken().GetAwaiter().GetResult();
                 return token;
             });
 
@@ -94,7 +92,6 @@ namespace LearnMe.Web
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
             services.AddScoped(typeof(ICalendarEventsRepository), typeof(CalendarEventsRepository));
-            services.AddScoped(typeof(ILessonsRepository), typeof(LessonsRepository));
 
             services.AddSingleton<IEventBuilder, EventBuilder>();
 

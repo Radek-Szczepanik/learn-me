@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using LearnMe.Core.DTO.Calendar;
 using LearnMe.Core.Interfaces.Services;
+using LearnMe.Infrastructure.Models.Domains.Calendar;
+using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,17 +14,23 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CalendarEventsByDateController : Controller
+    public class CalendarEventsByDate : Controller
     {
         private readonly ICalendar _calendar;
+        private readonly IMapper _mapper;
         private readonly ILogger<CalendarEventsController> _logger;
+        private readonly ICalendarEventsRepository _calendarEventsRepository;
 
-        public CalendarEventsByDateController(
+        public CalendarEventsByDate(
             ICalendar calendar,
-            ILogger<CalendarEventsController> logger)
+            IMapper mapper,
+            ILogger<CalendarEventsController> logger,
+            ICalendarEventsRepository calendarEventsRepository)
         {
             _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _calendarEventsRepository = calendarEventsRepository ?? throw new ArgumentNullException(nameof(calendarEventsRepository));
         }
 
         // GET: api/<controller>
@@ -35,8 +44,7 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
             if (result != null)
             {
                 return Ok(result);
-            }
-            else
+            } else
             {
                 return NotFound();
             }
