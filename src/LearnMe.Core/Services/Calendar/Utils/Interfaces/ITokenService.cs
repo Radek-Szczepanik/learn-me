@@ -4,6 +4,6 @@ namespace LearnMe.Core.Services.Calendar.Utils.Interfaces
 {
     public interface ITokenService
     {
-        Task<IToken> GetToken();
+        Task<IToken> GetTokenAsync();
     }
 }

@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <Folder Include="Services\Account\NewFolder\" />
+    <Folder Include="Services\Lessons\" />
   </ItemGroup>
 
 </Project>
