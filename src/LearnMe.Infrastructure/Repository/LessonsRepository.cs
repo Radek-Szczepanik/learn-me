@@ -103,13 +103,8 @@ namespace LearnMe.Infrastructure.Repository
         {
             try
             {
-                //var fullLesson = await _context.Lessons
-                //    .AsNoTracking()
-                //    .Where(x => x.Id == lesson.Id)
-                //    .Include(x => x.UserLessons)
-                //    .ThenInclude(x => x.User)
-                //    .SingleOrDefaultAsync();
-                
+                _context.Entry(lesson).State = EntityState.Detached;
+
                 var fullLesson = await _context.Lessons
                     .Where(x => x.Id == lesson.Id)
                     .Include(x => x.UserLessons)
@@ -121,20 +116,28 @@ namespace LearnMe.Infrastructure.Repository
                     .Where(x => x.Email == attendeeEmail)
                     .AsNoTracking()
                     .SingleOrDefaultAsync();
+
                 _context.Entry(userBasic).State = EntityState.Detached;
+
                 var newUserLesson = new UserLesson()
                 {
                     Lesson = lesson,
                     User = userBasic
                 };
-
+                _context.Entry(fullLesson).State = EntityState.Detached;
+                _context.Entry(userBasic).State = EntityState.Detached;
+                _context.Entry(newUserLesson).State = EntityState.Detached;
                 fullLesson.UserLessons.Add(newUserLesson);
                 // TODO: Fix error when adding new Calendar Event - ok, then new Lesson - ok, then Lesson Id is apparently already tracked so Exception here - cannot add Users to synchronized new lesson
                 _context.Lessons
                     .Update(fullLesson);
 
                 await _context.SaveChangesAsync();
+
+                _context.Entry(fullLesson).State = EntityState.Detached;
                 _context.Entry(userBasic).State = EntityState.Detached;
+                _context.Entry(newUserLesson).State = EntityState.Detached;
+
                 return userBasic;
             }
             catch (Exception ex)
