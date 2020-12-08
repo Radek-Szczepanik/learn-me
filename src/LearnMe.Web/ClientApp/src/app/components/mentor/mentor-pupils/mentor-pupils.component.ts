@@ -93,10 +93,11 @@ export class MentorPupilsComponent implements AfterViewInit{
       title: user
     };
 
-    const dialogRef = this.dialog.open(UpdatePupilDialog, dialogConfig);
+    const dialogRef = this.dialog.open(UpdatePupilDialog);
 
     dialogRef.afterClosed().subscribe(result => {
         this.getData();
+
     });
   }
 }

@@ -118,6 +118,7 @@ namespace LearnMe.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            
             }
             else
             {

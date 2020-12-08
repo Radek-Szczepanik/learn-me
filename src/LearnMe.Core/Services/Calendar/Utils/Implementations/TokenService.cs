@@ -13,11 +13,11 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         {
             string[] Scopes = { ExternalCalendarService.Scope.Calendar };
 
-            using var stream = new FileStream("../LearnMe.Core/Services/Calendar/Utils/Credentials/credentials.json", FileMode.Open, FileAccess.Read);
+            using var stream = new FileStream("Credentials/credentials.json", FileMode.Open, FileAccess.Read);
 
             // The file token.json stores the user's access and refresh tokens, and is created
             // automatically when the authorization flow completes for the first time.
-            string credPath = "../LearnMe.Core/Services/Calendar/Utils/Credentials/token.json";
+            string credPath = "Credentials/token.json";
 
             UserCredential credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                 GoogleClientSecrets.Load(stream).Secrets,
