@@ -86,6 +86,18 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             }
         }
 
+        public bool RemoveAttendee(string attendeeEmail)
+        {
+            if (new EmailAddressAttribute().IsValid(attendeeEmail))
+            {
+                this._event.Attendees.Remove(new EventAttendee() { Email = attendeeEmail });
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
         public void BuildBasicEvent(
             string summary,
             DateTime? start,

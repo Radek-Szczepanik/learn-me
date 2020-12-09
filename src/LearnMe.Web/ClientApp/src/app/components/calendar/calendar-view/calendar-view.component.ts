@@ -6,7 +6,8 @@ import notify from 'devextreme/ui/notify';
 import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from "devextreme/ui/scheduler";
-import { Lesson, LessonStatus, EventLesson } from '../../../Models/Lesson/lesson'
+import { Lesson, LessonStatus, EventLesson, AttendeeDto, UserBasicDto } from '../../../Models/Lesson/lesson'
+import { User } from "../../../Models/Users/user"
 
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
@@ -39,14 +40,11 @@ export class CalendarViewComponent implements OnInit {
 
   currentLesson: Lesson;
   //currentAttendees: AttendeesEmails;
+  lessonEmails: string[] = [];
 
   itemsLessonStatus: string[] = ["New", "InProgress", "Done"];
 
-  simpleEmails = [
-    "testaspnetgooglapi@gmail.com",
-    "ag2rio@gmail.com",
-    "someFakeEmail@gmail.com"
-  ];
+  simpleEmails = [];
 
   constructor(private data: CalendarService, private https: HttpService) {
     console.debug('appointmentsData:');
@@ -75,6 +73,17 @@ export class CalendarViewComponent implements OnInit {
       lessonStatus: 0,
       relatedInvoiceId: 0
     }
+
+    let routeGetAllStudents = '/api/UserBasics?rolename=Student';
+    this.https.getData(routeGetAllStudents)
+      .toPromise().then(success => {
+        if (success) {
+          let students = success as User[];
+          students.forEach(item => {
+            this.simpleEmails.push(item.email);
+          });
+        }
+      });
   }
 
   ngOnInit(): void { }
@@ -112,13 +121,11 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentAdded(e) {
-    console.error("on appointment added invoked");
-    console.debug(e.appointmentData.text);
-    console.debug(e.appointmentData.subject);
+    console.debug("on appointment added invoked");
     this.showToast("Added", e.appointmentData.text, "success");
 
-    console.debug('object to be added:');
-    console.debug(e);
+    //console.debug('object to be added:');
+    //console.debug(e);
 
     this.eventToAdd.subject = e.appointmentData.subject;
     this.eventToAdd.description = e.appointmentData.description;
@@ -127,7 +134,7 @@ export class CalendarViewComponent implements OnInit {
     this.eventToAdd.isDone = e.appointmentData.isDone;
     this.eventToAdd.isFreeSlot = e.appointmentData.isFreeSlot;
 
-    console.debug(this.eventToAdd);
+    let externalCalendarId = '';
 
     let externalCalendarId = '';
 
@@ -154,6 +161,26 @@ export class CalendarViewComponent implements OnInit {
             .toPromise().then(success => {
               if (success) {
                 console.debug('lesson added to DB');
+
+                let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
+
+                console.error('attendeesEmails');
+                console.debug(e.appointmentData.attendeesEmails);
+
+                let emails: string[] = e.appointmentData.attendeesEmails;
+
+                emails.forEach((email) => {
+                  console.debug(email);
+                  let attendeeEmailDto: AttendeeDto = {
+                    attendeeEmail: email,
+                  }
+                  this.https.post(routeAttendees, attendeeEmailDto)
+                    .toPromise().then(success => {
+                      if (success) {
+                        console.debug('user/attendee of lesson added to DB');
+                      }
+                    });
+                });
               }
             });
         }
@@ -208,6 +235,62 @@ export class CalendarViewComponent implements OnInit {
           console.debug('lesson updated in DB and Calendar');
         }
       });
+
+    // Attendees update
+    // Emails from UI
+    let emailsUI: string[] = e.appointmentData.attendeesEmails;
+    console.debug('emailsUI');
+    console.debug(emailsUI);
+    // Emails from DB
+    let emailsDB: string [] = [];
+    let externalCalendarId = this.eventToAdd.calendarId;
+    let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
+    this.https.getData(routeAttendees)
+      .toPromise().then(success => {
+        if (success) {
+          console.debug('attendees from db');
+          console.debug(success);
+          let dbEmails = success as User[];
+          dbEmails.forEach(item => {
+            emailsDB.push(item.email);
+          });
+          console.debug('emailsDB');
+          console.debug(emailsDB);
+
+          let differenceToAdd = emailsUI.filter(x => !emailsDB.includes(x));
+          let differenceToDelete = emailsDB.filter(x => !emailsUI.includes(x));
+          console.debug('differenceToAdd');
+          console.debug(differenceToAdd);
+          console.debug('differenceToDelete');
+          console.debug(differenceToDelete);
+
+          differenceToAdd.forEach((email) => {
+            let attendeeEmailDto: AttendeeDto = {
+              attendeeEmail: email,
+            }
+            this.https.post(routeAttendees, attendeeEmailDto)
+              .toPromise().then(success => {
+                if (success) {
+                  console.debug('email added');
+                  console.debug(email);
+                  console.debug('user/attendee of lesson added to DB');
+                }
+              });
+          });
+
+          differenceToDelete.forEach((email) => {
+            console.debug('email deleted');
+            console.debug(email);
+            let routeAttendeeDelete = routeAttendees + '/' + email;
+            this.https.delete(routeAttendeeDelete)
+              .toPromise().then(success => {
+                if (success) {
+                  console.debug('user/attendee of lesson deleted from DB');
+                }
+              });
+          });
+        }
+      });
   }
 
   onAppointmentDeleting(e) {
@@ -220,23 +303,40 @@ export class CalendarViewComponent implements OnInit {
     console.debug('when deleted object is:');
     console.debug(e);
 
-    let deleteLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
-
-    this.https.delete(deleteLessonUrl)
+    // Attendees delete
+    // Delete ALL emails from DB related to lesson
+    let routeAttendees = '/api/lessons/' + e.appointmentData.calendarId + '/attendees';
+    this.https.delete(routeAttendees)
       .toPromise().then(success => {
         if (success) {
-          console.debug('lesson deleted from DB and Calendar');
+          let deleteLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
+
+          this.https.delete(deleteLessonUrl)
+            .toPromise().then(success => {
+              if (success) {
+                let deleteUrl = '/api/calendareventsbygoogleid/' + e.appointmentData.calendarId;
+
+                this.https.delete(deleteUrl)
+                  .toPromise().then(success => {
+                    if (success) {
+                      console.debug('event deleted from DB and Calendar');
+                    } else {
+                      console.debug('ERROR event NOT deleted from DB and Calendar');
+                    }
+                  });
+
+                console.debug('lesson deleted from DB and Calendar');
+              } else {
+                console.debug('ERROR lesson NOT deleted from DB and Calendar');
+              }
+            });
+
+          console.debug('ALL users/attendees of lesson deleted from DB');
+        } else {
+          console.debug('ERROR: users/attendees of lesson NOT deleted from DB');
         }
       });
-
-    let deleteUrl = '/api/calendareventsbygoogleid/' + e.appointmentData.calendarId;
-
-    this.https.delete(deleteUrl)
-      .toPromise().then(success => {
-        if (success) {
-          console.debug('event deleted from DB and Calendar');
-        }
-      });
+    // Attendees end
   }
 
   onAppointmentClick(e) {
@@ -266,6 +366,30 @@ export class CalendarViewComponent implements OnInit {
         } else {
           this.currentLesson.title = "";
           this.currentLesson.calendarEventId = -1;
+        }
+      });
+
+    //Attendees
+    let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
+    //let lessonEmails: string[] = [];
+    this.lessonEmails = [];
+
+    this.https.getData(routeAttendees)
+      .toPromise().then(success => {
+        if (success) {
+          console.error('success get attendees');
+          console.debug(success);
+
+          let emailObjects = success as UserBasicDto[];
+          emailObjects.forEach(
+            (item) => {
+              console.error('get lesson attendees - item email');
+              console.debug(item.email);
+              this.lessonEmails.push(item.email);
+              console.debug(this.lessonEmails);
+            });
+          console.debug('this.lessonEmails - final');
+          console.debug(this.lessonEmails);
         }
       });
   }
@@ -332,7 +456,7 @@ export class CalendarViewComponent implements OnInit {
           caption: "Attendees",
           items: [
             {
-              dataField: "title",
+              dataField: "attendeesEmails",
               editorType: "dxTagBox",
               label: {
                 text: "Attendees' emails:"
@@ -341,12 +465,6 @@ export class CalendarViewComponent implements OnInit {
                 items: this.simpleEmails,
                 searchEnabled: true,
                 hideSelectedItems: true
-                //dataSource: new DevExpress.data.ArrayStore({
-                //  data: products,
-                //  key: "ID"
-                //}),
-                //displayExpr: "Name",
-                //valueExpr: "ID",
               }
             }],
           colSpan: 2
@@ -387,27 +505,70 @@ export class CalendarViewComponent implements OnInit {
           this.currentLesson.calendarEventId = -1;
         }
 
-        e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
-        e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
+    // ----- CODE DUPLICATION START -----
+    let externalCalendarId = e.appointmentData.calendarId;
 
-        //console.error('debug attendees');
-        //console.debug(e.form.itemOption("mainGroup").items);
+    if (externalCalendarId !== undefined) {
+      let route = '/api/lessons/' + externalCalendarId;
 
-        e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = [this.simpleEmails[0], this.simpleEmails[1]];
+      this.https.getData(route)
+        .toPromise().then(success => {
+          if (success) {
+            console.debug('lesson fetched from DB');
+            console.debug(success);
+            let lesson = success as Lesson;
 
-        e.form.itemOption("mainGroup.subject",
+            // ----
+            this.currentLesson = lesson;
+            console.debug('current lesson');
+            console.debug(this.currentLesson);
+            // ----
+
+            e.appointmentData.title = lesson.title;
+            e.appointmentData.lessonStatus = lesson.lessonStatus;
+            console.debug('e.appointmentData');
+            console.debug(e.appointmentData);
+          } else {
+            this.currentLesson.title = "";
+            this.currentLesson.calendarEventId = -1;
+          }
+
+          e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+          e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
+            this.itemsLessonStatus[this.currentLesson.lessonStatus];
+
+          ////Attendees
+          let commonAttendees: string[] = this.simpleEmails.filter(value => this.lessonEmails.includes(value));
+          console.debug('commonAttendees');
+          console.debug(commonAttendees);
+          e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
+
+          //e.form.itemOption("mainGroup.subject",
+          //  {
+          //    validationRules: [
+          //      {
+          //        type: "required",
+          //        message: "Subject is required"
+          //      }
+          //    ]
+          //  });
+
+          console.debug(e.form.itemOption("mainGroup").items);
+          console.debug(this.appointmentFormUpdatedFlag);
+
+        });
+    } else {
+
+    }
+
+    e.form.itemOption("mainGroup.subject",
+      {
+        validationRules: [
           {
-            validationRules: [
-              {
-                type: "required",
-                message: "Subject is required"
-              }
-            ]
-          });
-
-        console.debug(e.form.itemOption("mainGroup").items);
-        console.debug(this.appointmentFormUpdatedFlag);
-
+            type: "required",
+            message: "Subject is required"
+          }
+        ]
       });
     // ----- CODE DUPLICATION END -----
 

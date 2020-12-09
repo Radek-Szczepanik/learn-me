@@ -26,3 +26,14 @@ export interface EventLesson {
   calendarEventId: number;
 }
 
+export interface AttendeeDto {
+  attendeeEmail: string;
+}
+
+export interface UserBasicDto {
+  email: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: number;
+}
+

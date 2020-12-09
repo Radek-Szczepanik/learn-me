@@ -42,13 +42,20 @@ namespace LearnMe.Infrastructure.Repository
             return await SaveAsync();
         }
 
+        public async Task<bool> DeleteAsync(T entity)
+        {
+            _context.Remove(entity);
+
+            return await SaveAsync();
+        }
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var news = await _context.Set<T>().ToListAsync();
             
             return news;
         }
-
+     
         public async Task<IEnumerable<T>> GetAllWithPagination(int itemsPerPage = 10, int pageNumber = 1)
         {
             if (itemsPerPage > 0 && pageNumber > 0)
@@ -87,7 +94,12 @@ namespace LearnMe.Infrastructure.Repository
             var inserted = await _context.AddAsync<T>(entity);
             bool isSuccess = await SaveAsync();
 
-            var newEvent = inserted.Entity;
+            T newEvent = null;
+
+            if (isSuccess)
+            {
+                newEvent = inserted.Entity;
+            }
 
             return newEvent ?? null;
         }

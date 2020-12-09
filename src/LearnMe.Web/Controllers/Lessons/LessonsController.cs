@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using LearnMe.Core.DTO.Lessons;
+using LearnMe.Core.DTO.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Infrastructure.Data;
@@ -99,19 +100,96 @@ namespace LearnMe.Controllers.Lessons
             }
         }
 
-        // GET: api/Lessons/5
+        // GET: api/Lessons/5/Attendees
         [HttpGet("{calendarEventId}/attendees", Name = "LessonAttendeesByCalendarId")]
-        public async Task<ActionResult<LessonDto>> GetLessonAttendeesByCalendarEventIdAsync(string calendarEventId)
+        public async Task<ActionResult<IList<UserBasicDto>>> GetLessonAttendeesByCalendarEventIdAsync(string calendarEventId)
         {
             var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var attendees = await _lessonsRepository.GetLessonAttendeesAsync(lesson);
 
-            if (lesson == null)
+            IList<UserBasicDto> attendeesDtos = new List<UserBasicDto>();
+
+            if (attendees == null)
             {
                 return NotFound();
             }
+            else
+            {
+                foreach (var person in attendees)
+                {
+                    attendeesDtos.Add(_mapper.Map<UserBasicDto>(person));
+                }
+            }
 
-            //return Ok(_mapper.Map<LessonDto>(lesson));
-            return Ok(lesson);
+            return Ok(attendeesDtos);
+        }
+
+        //TODO change to UserBasicDto maybe & remove from Controller
+        public class AttendeeDto
+        {
+            public string AttendeeEmail { get; set; }
+        }
+
+        // POST: api/Lessons/5/Attendees
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost("{calendarEventId}/attendees")]
+        public async Task<ActionResult<UserBasicDto>> PostAttendeeToLessonByCalendarEventIdAsync(string calendarEventId, [FromBody] AttendeeDto attendee)
+        {
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var newLessonDbObject = await _lessonsRepository.CreateLessonAttendeeAsync(lesson, attendee.AttendeeEmail);
+
+            var result = _mapper.Map<UserBasicDto>(newLessonDbObject);
+
+            if (newLessonDbObject != null)
+            {
+                return CreatedAtRoute(
+                    "LessonAttendeesByCalendarId", new { calendarEventId = calendarEventId }, result);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        // DELETE: api/Lessons/5/Attendees
+        [HttpDelete("{calendarEventId}/attendees")]
+        public async Task<ActionResult<bool>> DeleteAllAttendeesFromLessonByCalendarEventId(string calendarEventId)
+        {
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var attendees = await _lessonsRepository.GetLessonAttendeesAsync(lesson);
+            var result = true;
+            foreach (var person in attendees)
+            {
+                var deletedUser = await _lessonsRepository.DeleteLessonAttendeeAsync(lesson, person.Email);
+                if (deletedUser == null) result = false;
+            }
+
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        // DELETE: api/Lessons/5/Attendees/email@aaa.com
+        [HttpDelete("{calendarEventId}/attendees/{attendeeEmail}")]
+        public async Task<ActionResult<bool>> DeleteAttendeeFromLessonByCalendarEventId(string calendarEventId, string attendeeEmail)
+        {
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var result = await _lessonsRepository.DeleteLessonAttendeeAsync(lesson, attendeeEmail);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         //// PUT: api/Lessons/5
