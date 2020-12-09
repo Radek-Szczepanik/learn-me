@@ -122,13 +122,13 @@ namespace LearnMe.Core.Services.Calendar
             int eventsPerPage,
             int pageNumber)
         {
-            // Step 1 - synchronize Google calendar with DB
-            var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
-                _externalCalendarService,
-                _calendarEventsRepository,
-                _lessonsRepository,
-                _synchronizationData,
-                _eventsData);
+            //// Step 1 - synchronize Google calendar with DB
+            //var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
+            //    _externalCalendarService,
+            //    _calendarEventsRepository,
+            //    _lessonsRepository,
+            //    _synchronizationData,
+            //    _eventsData);
 
             _logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
 

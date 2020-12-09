@@ -156,7 +156,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         {
             IList<string> emails = new List<string>();
 
-            if (eventFromCalendar.Attendees.Count != 0)
+            if (eventFromCalendar.Attendees != null && eventFromCalendar.Attendees.Count != 0)
             {
                 foreach (var item in eventFromCalendar.Attendees)
                 {
