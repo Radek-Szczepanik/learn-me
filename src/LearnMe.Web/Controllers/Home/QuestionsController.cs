@@ -66,15 +66,10 @@ namespace LearnMe.Controllers.Home
         [HttpDelete("{id}")]
         public async Task<ActionResult<Question>> DeleteQuestion(int id)
         {
-            var question = await _crudRepository.GetByIdAsync(id);
+            // var question = await _crudRepository.GetByIdAsync(id);
 
-            if (question == null)
-                return NotFound();
-
-            await _crudRepository.DeleteAsync(question);
-            await _crudRepository.SaveAsync();
-
-            return Ok(question);
+            await _crudRepository.DeleteAsync(id);
+            return Ok();
         }
 
         private bool QuestionExists(int id)

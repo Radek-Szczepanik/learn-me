@@ -58,6 +58,7 @@ import { UpdateOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
 import { AddFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-add.component";
 import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-delete.component";
 import { UpdateFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-update.component";
+import { DeleteFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-delete.component";
 
 @NgModule({
   declarations: [
@@ -96,7 +97,8 @@ import { UpdateFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-updat
     UpdateOpinionsDialog,
     DeleteOpinionsDialog,
     AddFaqDialog,
-    UpdateFaqDialog
+    UpdateFaqDialog,
+    DeleteFaqDialog
 
   ],
   imports: [
@@ -136,7 +138,8 @@ import { UpdateFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-updat
     UpdateOpinionsDialog,
     DeleteOpinionsDialog,
     AddFaqDialog,
-    UpdateFaqDialog
+    UpdateFaqDialog,
+    DeleteFaqDialog
   ],
   exports: [
     MatGridTile,

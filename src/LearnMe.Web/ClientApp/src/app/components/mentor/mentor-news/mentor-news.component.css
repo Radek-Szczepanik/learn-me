@@ -4,6 +4,28 @@ table, .mat-form-field, .mat-paginator {
     max-width: 98%;
   }
 
+  .mat-column-imgPath{
+    width: 20%;
+  }
+
+  .mat-column-title{
+    width: 10%;
+  }
+  
+   .mat-column-text{
+    width: 47%;
+  }
+  
+.mat-column-data{
+ width: 5%;
+ margin-right: 10px;
+}
+
+
+  .mat-column-actions{
+    width: 8%;
+  }
+
  
   ::ng-deep .mat-focused .mat-form-field-label {
     /*change color of label*/
