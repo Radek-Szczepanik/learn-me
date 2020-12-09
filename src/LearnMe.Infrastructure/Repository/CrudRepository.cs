@@ -40,7 +40,7 @@ namespace LearnMe.Infrastructure.Repository
 
         }
 
-       
+
 
         public async Task<IEnumerable<T>> GetAllWithPagination(int itemsPerPage = 10, int pageNumber = 1)
         {
@@ -51,7 +51,8 @@ namespace LearnMe.Infrastructure.Repository
                                                  .Take(itemsPerPage)
                                                  .AsNoTracking()
                                                  .ToListAsync();
-            } else
+            }
+            else
             {
                 return null;
             }
@@ -67,13 +68,12 @@ namespace LearnMe.Infrastructure.Repository
                 _context.Entry(found).State = EntityState.Detached;
 
                 return found;
-            } else
+            }
+            else
             {
                 return null;
             }
         }
-
-        
 
         public async Task<T> InsertAsync(T obj)
         {
