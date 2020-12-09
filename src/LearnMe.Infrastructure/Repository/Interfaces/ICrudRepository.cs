@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using LearnMe.Infrastructure.Models.Domains.Messages;
+using LearnMe.Infrastructure.Models.Domains.Users;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LearnMe.Infrastructure.Repository.Interfaces
@@ -17,5 +19,6 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
         Task<bool> DeleteAsync(object id);
 
         Task<bool> SaveAsync();
+
     }
 }

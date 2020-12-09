@@ -48,9 +48,8 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<Portfolio, PortfolioDTO>();
             CreateMap<Question, QuestionDTO>();
             CreateMap<TutorService, TutorServiceDTO>();
-            CreateMap<Message, MessageToReturnDto>()
-                .ForMember(m => m.SenderName, opt => opt.MapFrom(u => u.Sender.FirstName))
-                .ForMember(m => m.RecipientName, opt => opt.MapFrom(u => u.Sender.LastName));
+            CreateMap<MessageToCreateDto, Message>().ReverseMap();
+            CreateMap<Message, MessageToReturnDto>();
         }
     }
 }

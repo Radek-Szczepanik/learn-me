@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Messages;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,8 +41,6 @@ namespace LearnMe.Infrastructure.Repository
 
         }
 
-       
-
         public async Task<IEnumerable<T>> GetAllWithPagination(int itemsPerPage = 10, int pageNumber = 1)
         {
             if (itemsPerPage > 0 && pageNumber > 0)
@@ -73,7 +72,6 @@ namespace LearnMe.Infrastructure.Repository
             }
         }
 
-        
 
         public async Task<T> InsertAsync(T obj)
         {
@@ -98,5 +96,6 @@ namespace LearnMe.Infrastructure.Repository
 
             return await SaveAsync();
         }
+
     }
 }

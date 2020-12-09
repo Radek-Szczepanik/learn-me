@@ -1,3 +1,4 @@
+import { MessageService } from './services/message.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
@@ -120,7 +121,8 @@ import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
     MatSelectModule 
   ],
   providers: [
-    CalendarService
+    CalendarService,
+    MessageService
   ],
   bootstrap: [AppComponent],
   entryComponents: [

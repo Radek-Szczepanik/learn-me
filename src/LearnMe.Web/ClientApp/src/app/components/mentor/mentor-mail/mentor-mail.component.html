@@ -1,11 +1,83 @@
 <section>
   <div class="example-button-row">
-    <button mat-stroked-button color="accent">Wiadomości nieprzeczytane</button>   
     <button mat-stroked-button color="accent">Wiadomości odebrane</button>   
     <button mat-stroked-button color="accent">Wiadomości wysłane</button>   
+    
   </div>
 </section>
 <hr>
-<table mat-table>
-  
+<!--
+<div class="container" style="padding: 10px">
+  <div class="row justify-content-center">
+    <h2>Wyślij wiadomość</h2>
+  </div>
+  <div class="row justify-content-center">
+    <input id="title" type="text" placeholder="Tytuł wiadomości">
+  </div>
+  <div class="row justify-content-center">
+    <textarea id="message" placeholder="Treść wiadomości"></textarea>
+  </div>
+  <div class="row justify-content-center">
+    <mat-form-field appearance="fill" id="sent">
+      <mat-label>Wybierz odbiorcę wiadomości</mat-label>
+      <mat-select>
+        <mat-option>--</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="accent">Załącznik</button>
+    <button mat-raised-button color="primary">Wyślij</button>
+  </div>
+</div>
+-->
+
+<mat-form-field>
+  <mat-label>
+    <mat-icon>search</mat-icon>
+  </mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+  <ng-container matColumnDef="data">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header id="data"> Data </th>
+    <td mat-cell *matCellDef="let row"> {{row.dateRead}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Tytuł wiadomości </th>
+    <td mat-cell *matCellDef="let row"> {{row.content}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="firstName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Imię </th>
+    <td mat-cell *matCellDef="let row"> {{row.senderName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="lastName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwisko </th>
+    <td mat-cell *matCellDef="let row"> {{row.data}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let row">
+      <button mat-icon-button color="accent">
+        <mat-icon aria-label="markAsRead">flag</mat-icon>
+      </button>
+      <button mat-icon-button color="accent">
+        <mat-icon aria-label="reply">arrow_back</mat-icon>
+      </button>
+      <button mat-icon-button color="accent">
+        <mat-icon aria-label="delete">delete</mat-icon>
+      </button>
+      <!-- <button mat-icon-button color="accent">
+        <mat-icon aria-label="money">attach_money</mat-icon>
+      </button> -->
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;">
 </table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

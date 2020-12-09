@@ -46,20 +46,20 @@ namespace LearnMe.Infrastructure.Data
 
 
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-        //    // każdy nadawca może wysłać wiele wiadomości
-        //    modelBuilder.Entity<Message>().HasOne(u => u.Sender)
-        //                             .WithMany(m => m.MessagesSent)
-        //                             .OnDelete(DeleteBehavior.Restrict);
+            // każdy nadawca może wysłać wiele wiadomości
+            modelBuilder.Entity<Message>().HasOne(u => u.Sender)
+                                     .WithMany(m => m.MessagesSent)
+                                     .OnDelete(DeleteBehavior.Restrict);
 
-        //    // każdy odbiorca może otrzymać wiele wiadomości
-        //    modelBuilder.Entity<Message>().HasOne(u => u.Recipient)
-        //                             .WithMany(m => m.MessagesRecived)
-        //                             .OnDelete(DeleteBehavior.Restrict);
-        //}
+            // każdy odbiorca może otrzymać wiele wiadomości
+            modelBuilder.Entity<Message>().HasOne(u => u.Recipient)
+                                     .WithMany(m => m.MessagesReceived)
+                                     .OnDelete(DeleteBehavior.Restrict);
+        }
 
 
         //    foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
