@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Google.Apis.Calendar.v3.Data;
-using LearnMe.Core.Services.Calendar.Utils;
+using LearnMe.Core.Services.Calendar.Utils.Constants;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using Microsoft.Extensions.Logging;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
@@ -20,6 +20,7 @@ namespace LearnMe.Core.Services.Calendar
         private readonly ICalendarEventsRepository _calendarEventsRepository;
         private readonly IExternalCalendarService<Event> _externalCalendarService;
         private readonly ICrudRepository<CalendarSynchronization> _synchronizationData;
+        private readonly ICrudRepository<CalendarEvent> _eventsData;
         private readonly ISynchronizer _synchronizer;
         private readonly IMapper _mapper;
         private readonly IEventBuilder _eventBuilder;
@@ -30,6 +31,7 @@ namespace LearnMe.Core.Services.Calendar
             ICalendarEventsRepository calendarEventsRepository,
             IExternalCalendarService<Event> externalCalendarService,
             ICrudRepository<CalendarSynchronization> synchronizationData,
+            ICrudRepository<CalendarEvent> eventsData,
             ISynchronizer synchronizer,
             IMapper mapper,
             IEventBuilder eventBuilder,
@@ -40,6 +42,7 @@ namespace LearnMe.Core.Services.Calendar
                                         throw new ArgumentNullException(nameof(calendarEventsRepository));
             _externalCalendarService = externalCalendarService ?? throw new ArgumentNullException(nameof(externalCalendarService));
             _synchronizationData = synchronizationData ?? throw new ArgumentNullException(nameof(synchronizationData));
+            _eventsData = eventsData ?? throw new ArgumentNullException(nameof(eventsData));
             _synchronizer = synchronizer ?? throw new ArgumentNullException(nameof(synchronizer));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _eventBuilder = eventBuilder ?? throw new ArgumentNullException(nameof(eventBuilder));
@@ -48,8 +51,8 @@ namespace LearnMe.Core.Services.Calendar
 
         public async Task<CalendarEventDto> CreateEventAsync(
             CalendarEventDto eventData,
-            string calendarId = Constants.CalendarId,
-            string timezone = Constants.Timezone,
+            string calendarId = CalendarConstants.CalendarId,
+            string timezone = CalendarConstants.Timezone,
             bool isRecurringEvent = false,
             Recurrence period = Recurrence.DAILY,
             int recurringEventsCount = 5,
@@ -108,11 +111,11 @@ namespace LearnMe.Core.Services.Calendar
             int pageNumber)
         {
             // Step 1 - synchronize Google calendar with DB
-            //await _synchronizer.SynchronizeDatabaseWithCalendarByIdAsync(_externalCalendarService, _repository);
             var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
                 _externalCalendarService,
                 _calendarEventsRepository,
-                _synchronizationData);
+                _synchronizationData,
+                _eventsData);
 
             _logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
 
@@ -128,7 +131,8 @@ namespace LearnMe.Core.Services.Calendar
                 }
 
                 return results;
-            } else
+            }
+            else
             {
                 return null;
             }
@@ -177,8 +181,6 @@ namespace LearnMe.Core.Services.Calendar
 
             if (eventFromDbToUpdate != null)
             {
-                //toUpdateData.CalendarId = eventFromDbToUpdate.CalendarId;
-
                 _eventBuilder.BuildBasicEventWithDescription(
                     toUpdateData.Title,
                     toUpdateData.Start,
@@ -211,16 +213,15 @@ namespace LearnMe.Core.Services.Calendar
         public async Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(DateTime fromDate, DateTime toDate)
         {
             // Step 1 - synchronize Google calendar with DB
-            //await _synchronizer.SynchronizeDatabaseWithCalendarByIdAsync(_externalCalendarService, _repository);
             var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
                 _externalCalendarService,
                 _calendarEventsRepository,
-                _synchronizationData);
+                _synchronizationData,
+                _eventsData);
 
             _logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
 
             // Step 2 - get all data from DB
-
             var eventsResult = await _calendarEventsRepository.GetByFromAndToDate(fromDate, toDate);
 
             if (eventsResult != null)
@@ -232,7 +233,8 @@ namespace LearnMe.Core.Services.Calendar
                 }
 
                 return results;
-            } else
+            }
+            else
             {
                 return null;
             }

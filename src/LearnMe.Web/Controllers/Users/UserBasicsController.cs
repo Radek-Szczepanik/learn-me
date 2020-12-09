@@ -19,16 +19,14 @@ namespace LearnMe.Controllers.Users
     {
         private readonly UserManager<UserBasic> _userManager;
         private readonly IMapper _mapper;
-        private readonly ICrudRepository<UserBasic> _crudRepository;
-
+        
         public UserBasicsController(
             UserManager<UserBasic> userManager,
-            IMapper mapper,
-            ICrudRepository<UserBasic> crudRepository)
+            IMapper mapper)
+    
         {
             _mapper = mapper;
             _userManager = userManager;
-            _crudRepository = crudRepository;
         }
 
         [HttpGet]

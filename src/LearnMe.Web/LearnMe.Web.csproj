@@ -59,6 +59,17 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Migrations\20201026181846_UpdatedCalendarEventTable.cs" />
+    <Compile Remove="Migrations\20201026181846_UpdatedCalendarEventTable.Designer.cs" />
+    <Compile Remove="Migrations\20201026182450_UpdatedCalendarEvent.cs" />
+    <Compile Remove="Migrations\20201026182450_UpdatedCalendarEvent.Designer.cs" />
+    <Compile Remove="Migrations\20201103203946_DbUpdate.cs" />
+    <Compile Remove="Migrations\20201103203946_DbUpdate.Designer.cs" />
+    <Compile Remove="Migrations\20201116212126_NewUpdatesForUI.cs" />
+    <Compile Remove="Migrations\20201116212126_NewUpdatesForUI.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\Models\Lesson\lesson.ts" />
     <None Remove="ClientApp\src\app\Models\Users\user.ts" />
     <None Remove="ClientApp\src\app\services\calendar\calendar-event.ts" />
     <None Remove="ClientApp\src\app\services\calendar\calendar-service.ts" />

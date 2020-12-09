@@ -6,6 +6,7 @@ import notify from 'devextreme/ui/notify';
 import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from "devextreme/ui/scheduler";
+import { Lesson, LessonStatus, EventLesson } from '../../../Models/Lesson/lesson'
 
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
@@ -19,9 +20,13 @@ import Scheduler from "devextreme/ui/scheduler";
 export class CalendarViewComponent implements OnInit {
 
   appointmentsData: CalendarEvent[];
+  lessons: Lesson[];
   currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
+
   eventToAdd: CalendarEventPost;
+  lessonToAdd: Lesson;
+
   appointmentFormUpdatedFlag: boolean = false;
   isFirstLoadFlag: boolean = true;
   isFirstLoadAfterEditingEvent: boolean = true;
@@ -31,6 +36,17 @@ export class CalendarViewComponent implements OnInit {
 
   startViewDate: Date;
   endViewDate: Date;
+
+  currentLesson: Lesson;
+  //currentAttendees: AttendeesEmails;
+
+  itemsLessonStatus: string[] = ["New", "InProgress", "Done"];
+
+  simpleEmails = [
+    "testaspnetgooglapi@gmail.com",
+    "ag2rio@gmail.com",
+    "someFakeEmail@gmail.com"
+  ];
 
   constructor(private data: CalendarService, private https: HttpService) {
     console.debug('appointmentsData:');
@@ -45,45 +61,49 @@ export class CalendarViewComponent implements OnInit {
       isFreeSlot: false,
       calendarId: ''
     };
+
+    this.lessonToAdd = {
+      title: '',
+      lessonStatus: 0,
+      relatedInvoiceId: null,
+      calendarEventId: 0
+    };
+
+    this.currentLesson = {
+      title: '',
+      calendarEventId: 0,
+      lessonStatus: 0,
+      relatedInvoiceId: 0
+    }
   }
 
-  ngOnInit(): void { console.error('ngOnInit fired'); }
+  ngOnInit(): void { }
 
-  onInitialized(e) {
-    console.error('onInitialized fired');
-  }
+  onInitialized(e) { }
 
   onContentReady(e) {
-    //console.error('onContentReady fired');
-
-    console.debug('on content ready fired!');
     this.getCalendarCurrentDate();
 
     if (this.isFirstLoadFlag && this.isFirstLoadAfterEditingEvent) {
-      console.error('onContentReady isFirstLoadFlag');
+      console.debug('onContentReady isFirstLoadFlag');
+
       this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
         .toPromise().then(success => {
           console.debug(success);
           if (success) {
             this.appointmentsData = this.data.events;
           }
-          console.debug('appointmentsData - onContentReady');
-          console.debug(this.appointmentsData);
         });
 
       this.isFirstLoadFlag = false;
       this.isFirstLoadAfterEditingEvent = false;
 
     } else {
-      console.error('onContentReady not 1st load');
+      console.debug('onContentReady not 1st load');
 
       this.isFirstLoadFlag = true;
       this.isFirstLoadAfterEditingEvent = true;
     }
-  }
-
-  showToast(event, value, type) {
-    notify(event + " \"" + value + "\"" + " task", type, 1800);
   }
 
   onAppointmentAdding(e) {
@@ -109,10 +129,33 @@ export class CalendarViewComponent implements OnInit {
 
     console.debug(this.eventToAdd);
 
+    let externalCalendarId = '';
+
     this.https.post('/api/calendarevents', this.eventToAdd)
       .toPromise().then(success => {
         if (success) {
           console.debug('event added to DB and Calendar');
+          console.debug(success);
+          let eventAdded = success as CalendarEvent;
+          externalCalendarId = eventAdded.calendarId;
+
+          this.lessonToAdd.title = e.appointmentData.title;
+          let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == e.appointmentData.lessonStatus);
+          this.lessonToAdd.lessonStatus = lessonStatusIndex;
+          this.lessonToAdd.relatedInvoiceId = null;
+          this.lessonToAdd.calendarEventId = 0;
+
+          console.debug('lesson to add:');
+          console.debug(this.lessonToAdd);
+
+          let route = '/api/lessons/' + externalCalendarId;
+
+          this.https.post(route, this.lessonToAdd)
+            .toPromise().then(success => {
+              if (success) {
+                console.debug('lesson added to DB');
+              }
+            });
         }
       });
   }
@@ -146,7 +189,25 @@ export class CalendarViewComponent implements OnInit {
         }
       });
 
-    //this.onContentReady(e);
+    let putLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
+
+    this.lessonToAdd.title = e.appointmentData.title;
+    console.error('e.appointmentData.lessonStatus');
+    console.error(e.appointmentData.lessonStatus);
+    let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == e.appointmentData.lessonStatus);
+    this.lessonToAdd.lessonStatus = lessonStatusIndex;
+    this.lessonToAdd.relatedInvoiceId = null;
+    this.lessonToAdd.calendarEventId = 0;
+
+    console.debug('lesson to add');
+    console.debug(this.lessonToAdd);
+
+    this.https.put(putLessonUrl, this.lessonToAdd)
+      .toPromise().then(success => {
+        if (success) {
+          console.debug('lesson updated in DB and Calendar');
+        }
+      });
   }
 
   onAppointmentDeleting(e) {
@@ -159,6 +220,15 @@ export class CalendarViewComponent implements OnInit {
     console.debug('when deleted object is:');
     console.debug(e);
 
+    let deleteLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
+
+    this.https.delete(deleteLessonUrl)
+      .toPromise().then(success => {
+        if (success) {
+          console.debug('lesson deleted from DB and Calendar');
+        }
+      });
+
     let deleteUrl = '/api/calendareventsbygoogleid/' + e.appointmentData.calendarId;
 
     this.https.delete(deleteUrl)
@@ -169,11 +239,51 @@ export class CalendarViewComponent implements OnInit {
       });
   }
 
-  onAppointmentFormOpening(e) {
+  onAppointmentClick(e) {
+    console.debug('on appointment click fired');
+
+    let externalCalendarId = e.appointmentData.calendarId;
+
+    let route = '/api/lessons/' + externalCalendarId;
+
+    this.https.getData(route)
+      .toPromise().then(success => {
+        if (success) {
+          console.debug('lesson fetched from DB');
+          console.debug(success);
+          let lesson = success as Lesson;
+
+          // ----
+          this.currentLesson = lesson;
+          console.debug('current lesson');
+          console.debug(this.currentLesson);
+          // ----
+
+          e.appointmentData.title = lesson.title;
+          e.appointmentData.lessonStatus = lesson.lessonStatus;
+          console.debug('e.appointmentData');
+          console.debug(e.appointmentData);
+        } else {
+          this.currentLesson.title = "";
+          this.currentLesson.calendarEventId = -1;
+        }
+      });
+  }
+
+  onAppointmentDoubleClick(e) {
+    console.debug('on appointment double click fired');
+    this.onAppointmentClick(e);
+    this.onAppointmentFormOpening(e);
+  }
+
+  async onAppointmentFormOpening(e) {
     console.debug("onAppointmentFormOpening fired!");
 
     if (!this.appointmentFormUpdatedFlag) {
       let formItems = e.form.itemOption("mainGroup").items;
+
+      console.debug('formItems');
+      console.debug(formItems);
 
       formItems.push(
         {
@@ -189,6 +299,57 @@ export class CalendarViewComponent implements OnInit {
           label: {
             text: "Free Slot"
           }
+        },
+        {
+          itemType: "group",
+          caption: "Lesson Data",
+          items: [
+            {
+              dataField: "title",
+              editorType: "dxTextArea",
+              label: {
+                text: "Lesson Title"
+              },
+              editorOptions: {
+                value: "" //"Please add Lesson title"
+              }
+            },
+            {
+              dataField: "lessonStatus",
+              editorType: "dxSelectBox",
+              label: {
+                text: "Lesson Status"
+              },
+              editorOptions: {
+                items: this.itemsLessonStatus,
+                value: this.itemsLessonStatus[0]
+              },
+            }],
+          colSpan: 2
+        },
+        {
+          itemType: "group",
+          caption: "Attendees",
+          items: [
+            {
+              dataField: "title",
+              editorType: "dxTagBox",
+              label: {
+                text: "Attendees' emails:"
+              },
+              editorOptions: {
+                items: this.simpleEmails,
+                searchEnabled: true,
+                hideSelectedItems: true
+                //dataSource: new DevExpress.data.ArrayStore({
+                //  data: products,
+                //  key: "ID"
+                //}),
+                //displayExpr: "Name",
+                //valueExpr: "ID",
+              }
+            }],
+          colSpan: 2
         });
 
       e.form.itemOption("mainGroup",
@@ -199,20 +360,73 @@ export class CalendarViewComponent implements OnInit {
       this.appointmentFormUpdatedFlag = true;
     }
 
-      e.form.itemOption("mainGroup.subject",
-        {
-          validationRules: [
-            {
-              type: "required",
-              message: "Subject is required"
-            }
-          ]
-        });
+    // ----- CODE DUPLICATION START -----
+    let externalCalendarId = e.appointmentData.calendarId;
 
-    
+    let route = '/api/lessons/' + externalCalendarId;
 
-    console.debug(e.form.itemOption("mainGroup").items);
-    console.debug(this.appointmentFormUpdatedFlag);
+    this.https.getData(route)
+      .toPromise().then(success => {
+        if (success) {
+          console.debug('lesson fetched from DB');
+          console.debug(success);
+          let lesson = success as Lesson;
+
+          // ----
+          this.currentLesson = lesson;
+          console.debug('current lesson');
+          console.debug(this.currentLesson);
+          // ----
+
+          e.appointmentData.title = lesson.title;
+          e.appointmentData.lessonStatus = lesson.lessonStatus;
+          console.debug('e.appointmentData');
+          console.debug(e.appointmentData);
+        } else {
+          this.currentLesson.title = "";
+          this.currentLesson.calendarEventId = -1;
+        }
+
+        e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+        e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
+
+        //console.error('debug attendees');
+        //console.debug(e.form.itemOption("mainGroup").items);
+
+        e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = [this.simpleEmails[0], this.simpleEmails[1]];
+
+        e.form.itemOption("mainGroup.subject",
+          {
+            validationRules: [
+              {
+                type: "required",
+                message: "Subject is required"
+              }
+            ]
+          });
+
+        console.debug(e.form.itemOption("mainGroup").items);
+        console.debug(this.appointmentFormUpdatedFlag);
+
+      });
+    // ----- CODE DUPLICATION END -----
+
+    //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+    //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
+
+
+    //  e.form.itemOption("mainGroup.subject",
+    //    {
+    //      validationRules: [
+    //        {
+    //          type: "required",
+    //          message: "Subject is required"
+    //        }
+    //      ]
+    //    });
+
+    //console.debug(e.form.itemOption("mainGroup").items);
+    //console.debug(this.appointmentFormUpdatedFlag);
   }
 
   getCalendarCurrentDate() {
@@ -221,5 +435,9 @@ export class CalendarViewComponent implements OnInit {
 
     this.startViewDate = instance.getStartViewDate();
     this.endViewDate = instance.getEndViewDate();
+  }
+
+  showToast(event, value, type) {
+    notify(event + " \"" + value + "\"" + " task", type, 1800);
   }
 }

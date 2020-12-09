@@ -23,9 +23,8 @@ steps:
 
 - task: NodeTool@0
   inputs:
-    versionSpec: '6.x'
+    versionSpec: '10.x'
     checkLatest: true
-
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -37,3 +36,13 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: MyBuildOutputs
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: $(Pipeline.Workspace)
+    artifactName: MyPipelineOutputs
