@@ -42,13 +42,6 @@ namespace LearnMe.Infrastructure.Repository
             return await SaveAsync();
         }
 
-        public async Task<bool> DeleteAsync(T entity)
-        {
-            _context.Remove(entity);
-
-            return await SaveAsync();
-        }
-
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var news = await _context.Set<T>().ToListAsync();

@@ -130,7 +130,7 @@ namespace LearnMe.Core.Services.Calendar
             //    _synchronizationData,
             //    _eventsData);
 
-            _logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
+            //_logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
 
             // Step 2 - get all data from DB
             var eventsResult = await _repository.GetAllWithPagination(eventsPerPage, pageNumber);
