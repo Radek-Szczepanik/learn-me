@@ -1,5 +1,7 @@
-<img src="/Header/PK-kalendarz.png" style="margin-top: 20px;"  class="rounded mx-auto d-block">   
+<img src="/Header/PK-kalendarz.png" style="margin-top: 20px;" class="rounded mx-auto d-block">
 
+
+<!--(onContentReady)="onContentReady($event)"-->
 
 <div class="long-title">
 </div>
@@ -17,7 +19,6 @@
                   maxAppointmentsPerCell="unlimited"
                   timezone="timezone"
                   (onInitialized)="onInitialized($event)"
-                  (onContentReady)="onContentReady($event)"
                   (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
                   (onAppointmentAdding)="onAppointmentAdding($event)"
                   (onAppointmentAdded)="onAppointmentAdded($event)"
@@ -37,7 +38,7 @@
         <i>{{model.appointmentData.subject}}</i>
         <p class="text-wrap">
           {{model.appointmentData.startDate | date:' hh:mm'}}  - {{model.appointmentData.endDate | date:' hh:mm'}}
-          <br/>
+          <br />
           {{model.appointmentData.description}}
         </p>
       </div>
