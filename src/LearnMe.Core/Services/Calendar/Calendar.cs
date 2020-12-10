@@ -247,14 +247,14 @@ namespace LearnMe.Core.Services.Calendar
         public async Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(DateTime fromDate, DateTime toDate)
         {
             // Step 1 - synchronize Google calendar with DB
-            var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
-                _externalCalendarService,
-                _calendarEventsRepository,
-                _lessonsRepository,
-                _synchronizationData,
-                _eventsData);
+            //var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
+            //    _externalCalendarService,
+            //    _calendarEventsRepository,
+            //    _lessonsRepository,
+            //    _synchronizationData,
+            //    _eventsData);
 
-            _logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
+            //_logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
 
             // Step 2 - get all data from DB
             var eventsResult = await _calendarEventsRepository.GetByFromAndToDate(fromDate, toDate);

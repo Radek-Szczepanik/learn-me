@@ -342,54 +342,57 @@ export class CalendarViewComponent implements OnInit {
 
     let externalCalendarId = e.appointmentData.calendarId;
 
-    let route = '/api/lessons/' + externalCalendarId;
+    if (externalCalendarId !== undefined) {
+      let route = '/api/lessons/' + externalCalendarId;
 
-    this.https.getData(route)
-      .toPromise().then(success => {
-        if (success) {
-          console.debug('lesson fetched from DB');
-          console.debug(success);
-          let lesson = success as Lesson;
+      this.https.getData(route)
+        .toPromise().then(success => {
+          if (success) {
+            console.debug('lesson fetched from DB');
+            console.debug(success);
+            let lesson = success as Lesson;
 
-          // ----
-          this.currentLesson = lesson;
-          console.debug('current lesson');
-          console.debug(this.currentLesson);
-          // ----
+            // ----
+            this.currentLesson = lesson;
+            console.debug('current lesson');
+            console.debug(this.currentLesson);
+            // ----
 
-          e.appointmentData.title = lesson.title;
-          e.appointmentData.lessonStatus = lesson.lessonStatus;
-          console.debug('e.appointmentData');
-          console.debug(e.appointmentData);
-        } else {
-          this.currentLesson.title = "";
-          this.currentLesson.calendarEventId = -1;
-        }
-      });
+            e.appointmentData.title = lesson.title;
+            e.appointmentData.lessonStatus = lesson.lessonStatus;
+            console.debug('e.appointmentData');
+            console.debug(e.appointmentData);
+          } else {
+            this.currentLesson.title = "";
+            this.currentLesson.calendarEventId = -1;
+          }
+        });
 
-    //Attendees
-    let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
-    //let lessonEmails: string[] = [];
-    this.lessonEmails = [];
+      //Attendees
+      let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
+      //let lessonEmails: string[] = [];
+      this.lessonEmails = [];
 
-    this.https.getData(routeAttendees)
-      .toPromise().then(success => {
-        if (success) {
-          console.error('success get attendees');
-          console.debug(success);
+      this.https.getData(routeAttendees)
+        .toPromise().then(success => {
+          if (success) {
+            console.error('success get attendees');
+            console.debug(success);
 
-          let emailObjects = success as UserBasicDto[];
-          emailObjects.forEach(
-            (item) => {
-              console.error('get lesson attendees - item email');
-              console.debug(item.email);
-              this.lessonEmails.push(item.email);
-              console.debug(this.lessonEmails);
-            });
-          console.debug('this.lessonEmails - final');
-          console.debug(this.lessonEmails);
-        }
-      });
+            let emailObjects = success as UserBasicDto[];
+            emailObjects.forEach(
+              (item) => {
+                console.error('get lesson attendees - item email');
+                console.debug(item.email);
+                this.lessonEmails.push(item.email);
+                console.debug(this.lessonEmails);
+              });
+            console.debug('this.lessonEmails - final');
+            console.debug(this.lessonEmails);
+          }
+        });
+    }
+    
   }
 
   onAppointmentDoubleClick(e) {
@@ -478,117 +481,72 @@ export class CalendarViewComponent implements OnInit {
       this.appointmentFormUpdatedFlag = true;
     }
 
-    // ----- CODE DUPLICATION START -----
-    let externalCalendarId = e.appointmentData.calendarId;
+      // ----- CODE DUPLICATION START -----
+      let externalCalendarId = e.appointmentData.calendarId;
 
-    let route = '/api/lessons/' + externalCalendarId;
+      if (externalCalendarId !== undefined) {
+        let route = '/api/lessons/' + externalCalendarId;
 
-    this.https.getData(route)
-      .toPromise().then(success => {
-        if (success) {
-          console.debug('lesson fetched from DB');
-          console.debug(success);
-          let lesson = success as Lesson;
+        this.https.getData(route)
+          .toPromise().then(success => {
+            if (success) {
+              console.debug('lesson fetched from DB');
+              console.debug(success);
+              let lesson = success as Lesson;
 
-          // ----
-          this.currentLesson = lesson;
-          console.debug('current lesson');
-          console.debug(this.currentLesson);
-          // ----
+              // ----
+              this.currentLesson = lesson;
+              console.debug('current lesson');
+              console.debug(this.currentLesson);
+              // ----
 
-          e.appointmentData.title = lesson.title;
-          e.appointmentData.lessonStatus = lesson.lessonStatus;
-          console.debug('e.appointmentData');
-          console.debug(e.appointmentData);
-        } else {
-          this.currentLesson.title = "";
-          this.currentLesson.calendarEventId = -1;
-        }
+              e.appointmentData.title = lesson.title;
+              e.appointmentData.lessonStatus = lesson.lessonStatus;
+              console.debug('e.appointmentData');
+              console.debug(e.appointmentData);
+            } else {
+              this.currentLesson.title = "";
+              this.currentLesson.calendarEventId = -1;
+            }
 
-        // ----- CODE DUPLICATION START -----
-        let externalCalendarId = e.appointmentData.calendarId;
+            e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+            e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
+              this.itemsLessonStatus[this.currentLesson.lessonStatus];
 
-        if (externalCalendarId !== undefined) {
-          let route = '/api/lessons/' + externalCalendarId;
+            ////Attendees
+            let commonAttendees: string[] = this.simpleEmails.filter(value => this.lessonEmails.includes(value));
+            console.debug('commonAttendees');
+            console.debug(commonAttendees);
+            e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
 
-          this.https.getData(route)
-            .toPromise().then(success => {
-              if (success) {
-                console.debug('lesson fetched from DB');
-                console.debug(success);
-                let lesson = success as Lesson;
+            //e.form.itemOption("mainGroup.subject",
+            //  {
+            //    validationRules: [
+            //      {
+            //        type: "required",
+            //        message: "Subject is required"
+            //      }
+            //    ]
+            //  });
 
-                // ----
-                this.currentLesson = lesson;
-                console.debug('current lesson');
-                console.debug(this.currentLesson);
-                // ----
+            console.debug(e.form.itemOption("mainGroup").items);
+            console.debug(this.appointmentFormUpdatedFlag);
 
-                e.appointmentData.title = lesson.title;
-                e.appointmentData.lessonStatus = lesson.lessonStatus;
-                console.debug('e.appointmentData');
-                console.debug(e.appointmentData);
-              } else {
-                this.currentLesson.title = "";
-                this.currentLesson.calendarEventId = -1;
-              }
-
-              e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
-              e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
-                this.itemsLessonStatus[this.currentLesson.lessonStatus];
-
-              ////Attendees
-              let commonAttendees: string[] = this.simpleEmails.filter(value => this.lessonEmails.includes(value));
-              console.debug('commonAttendees');
-              console.debug(commonAttendees);
-              e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
-
-              //e.form.itemOption("mainGroup.subject",
-              //  {
-              //    validationRules: [
-              //      {
-              //        type: "required",
-              //        message: "Subject is required"
-              //      }
-              //    ]
-              //  });
-
-              console.debug(e.form.itemOption("mainGroup").items);
-              console.debug(this.appointmentFormUpdatedFlag);
-
-            });
-        } else {
-
-        }
-      });
-
-        e.form.itemOption("mainGroup.subject",
-          {
-            validationRules: [
-              {
-                type: "required",
-                message: "Subject is required"
-              }
-            ]
           });
-        // ----- CODE DUPLICATION END -----
+      } else {
 
-        //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
-        //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value = this.itemsLessonStatus[this.currentLesson.lessonStatus];
+      }
 
-
-        //  e.form.itemOption("mainGroup.subject",
-        //    {
-        //      validationRules: [
-        //        {
-        //          type: "required",
-        //          message: "Subject is required"
-        //        }
-        //      ]
-        //    });
-
-        //console.debug(e.form.itemOption("mainGroup").items);
-        //console.debug(this.appointmentFormUpdatedFlag);
+      e.form.itemOption("mainGroup.subject",
+        {
+          validationRules: [
+            {
+              type: "required",
+              message: "Subject is required"
+            }
+          ]
+        });
+      // ----- CODE DUPLICATION END -----
   }
 
   getCalendarCurrentDate() {
