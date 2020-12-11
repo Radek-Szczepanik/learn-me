@@ -6,14 +6,17 @@
 trigger:
 - main
 
+# choose OS to run
 pool:
   vmImage: 'windows-latest'
 
+# create variables set
 variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
+# .Net Core dependencies
 steps:
 - task: NuGetToolInstaller@1
 
@@ -21,28 +24,7 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-    checkLatest: true
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: MyBuildOutputs
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: $(Pipeline.Workspace)
-    artifactName: MyPipelineOutputs
+# Build solution
+- script: dotnet build --configuraton $(buildConfiguration)
+  displayName: 'Build.Net Solution'
+  
