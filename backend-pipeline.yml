@@ -25,12 +25,24 @@ steps:
   inputs:
     versionSpec: '10.x'
     checkLatest: true
-- task: VSBuild@1
+# MSBuild
+# Build with MSBuild
+- task: MSBuild@1
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    solution: '**/*.sln' 
+    msbuildLocationMethod: 'version' # Optional. Options: version, location
+    msbuildVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, 12.0, 4.0
+    msbuildArchitecture: 'x86' # Optional. Options: x86, x64
+    msbuildLocation: # Optional
+    platform: # Optional
+    configuration: # Optional
+    msbuildArguments: # Optional
+    clean: false # Optional
+    maximumCpuCount: false # Optional
+    restoreNugetPackages: false # Optional
+    logProjectEvents: false # Optional
+    createLogFile: false # Optional
+    logFileVerbosity: 'normal' # Optional. Options: quiet, minimal, normal, detailed, diagnostic
 
 - task: VSTest@2
   inputs:
