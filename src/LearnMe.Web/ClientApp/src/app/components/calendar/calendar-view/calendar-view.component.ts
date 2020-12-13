@@ -179,18 +179,21 @@ export class CalendarViewComponent implements OnInit {
 
                 let emails: string[] = e.appointmentData.attendeesEmails;
 
-                emails.forEach((email) => {
-                  console.debug(email);
-                  let attendeeEmailDto: AttendeeDto = {
-                    attendeeEmail: email,
-                  }
-                  this.https.post(routeAttendees, attendeeEmailDto)
-                    .toPromise().then(success => {
-                      if (success) {
-                        console.debug('user/attendee of lesson added to DB');
-                      }
-                    });
-                });
+                if(emails !== undefined) {
+                  emails.forEach((email) => {
+                    console.debug(email);
+                    let attendeeEmailDto: AttendeeDto = {
+                      attendeeEmail: email,
+                    }
+                    this.https.post(routeAttendees, attendeeEmailDto)
+                      .toPromise().then(success => {
+                        if (success) {
+                          console.debug('user/attendee of lesson added to DB');
+                        }
+                      });
+                  });
+                }
+
               }
             });
         }
@@ -385,7 +388,7 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentClick(e) {
-    console.debug('on appointment click fired');
+    console.error('on appointment click fired');
 
     let externalCalendarId = e.appointmentData.calendarId;
 
@@ -429,13 +432,15 @@ export class CalendarViewComponent implements OnInit {
           console.debug(success);
 
           let emailObjects = success as UserBasicDto[];
-          emailObjects.forEach(
-            (item) => {
-              console.error('get lesson attendees - item email');
-              console.debug(item.email);
-              this.lessonEmails.push(item.email);
-              console.debug(this.lessonEmails);
-            });
+          if(emailObjects.length !== 0) {
+            emailObjects.forEach(
+              (item) => {
+                console.error('get lesson attendees - item email');
+                console.debug(item.email);
+                this.lessonEmails.push(item.email);
+                console.debug(this.lessonEmails);
+              });
+          }
           console.debug('this.lessonEmails - final');
           console.debug(this.lessonEmails);
         }
@@ -443,9 +448,9 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentDoubleClick(e) {
-    console.debug('on appointment double click fired');
-    this.onAppointmentClick(e);
-    this.onAppointmentFormOpening(e);
+    console.error('on appointment double click fired');
+    this.onAppointmentClick(e); console.debug('onAppointmentClick');
+    this.onAppointmentFormOpening(e); console.debug('onAppointmentFormOpening');
   }
 
   async onAppointmentFormOpening(e) {
