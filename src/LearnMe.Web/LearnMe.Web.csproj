@@ -70,6 +70,9 @@
     <ProjectReference Include="..\LearnMe.Infrastructure\LearnMe.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="C:\Users\asus\Downloads\calendar-view.component.ts">
+      <Link>calendar-view.component.ts</Link>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\Models\Users\user.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-event.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\calendar\calendar-service.ts" />
@@ -84,7 +87,7 @@
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install"/>
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
   </Target>

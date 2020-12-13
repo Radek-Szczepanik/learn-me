@@ -1,14 +1,14 @@
 <img src="/Header/PK-kalendarz.png" style="margin-top: 20px;" class="rounded mx-auto d-block">
 
 
-<!--(onContentReady)="onContentReady($event)"-->
-
 <div class="long-title">
 </div>
 
+<!--(onContentReady)="onContentReady($event)"-->
+
 <div class="container-flex">
   <div class="col-lg-auto justify-content-center">
-    <dx-scheduler [dataSource]="appointmentsData"
+    <dx-scheduler #scheduler [dataSource]="appointmentsData"
                   appointmentTemplate="appointmentTemplate"
                   [currentDate]="currentDate"
                   textExpr="subject"

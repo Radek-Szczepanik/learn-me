@@ -44,9 +44,21 @@ namespace LearnMe.Infrastructure.Repository
         {
             int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
 
-            _context.Remove(_context.Lessons
-                .AsNoTracking()
-                .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId));
+            var lesson = await _context.Lessons
+                .Include(x => x.UserLessons)
+                //.AsNoTracking()
+                .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId);
+
+            if (lesson.UserLessons != null)
+            {
+                lesson.UserLessons.Clear();
+            }
+
+            _context.Remove(lesson);
+
+            //_context.Remove(_context.Lessons
+            //    .AsNoTracking()
+            //    .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId));
 
             return await SaveAsync();
         }
