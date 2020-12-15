@@ -24,6 +24,21 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        // GET api/<controller>/5
+        [HttpGet("{calendarId}")]
+        public async Task<ActionResult<CalendarEventDto>> GetByExternalCalendarIdAsync(string calendarId)
+        {
+            var result = await _calendar.GetEventByExternalCalendarIdAsync(calendarId);
+
+            if (result != null)
+            {
+                return Ok(result);
+            } else
+            {
+                return NotFound();
+            }
+        }
+
         // PUT api/<controller>/5
         [HttpPut()]
         public async Task<ActionResult<bool>> PutAsync([FromBody] CalendarEventDto eventData)

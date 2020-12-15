@@ -158,6 +158,13 @@ namespace LearnMe.Core.Services.Calendar
             return _mapper.Map<CalendarEventDto>(foundEvent);
         }
 
+        public async Task<CalendarEventDto> GetEventByExternalCalendarIdAsync(string calendarId)
+        {
+            var foundEvent = await _calendarEventsRepository.GetByCalendarIdAsync(calendarId);
+
+            return _mapper.Map<CalendarEventDto>(foundEvent);
+        }
+
         public async Task<bool> UpdateEventAsync(
             int id,
             CalendarEventDto eventData,
