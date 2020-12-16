@@ -56,6 +56,32 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<Message, MessageToReturnDto>()
                 .ForMember(m => m.SenderName, opt => opt.MapFrom(u => u.Sender.FirstName))
                 .ForMember(m => m.RecipientName, opt => opt.MapFrom(u => u.Sender.LastName));
+
+            CreateMap<Lesson, FullLessonDto>()
+                .ForMember(dest => dest.Subject,
+                    opt => opt.MapFrom(src => src.CalendarEvent.Title))
+                .ForMember(dest => dest.Description,
+                    opt => opt.MapFrom(src => src.CalendarEvent.Description))
+                .ForMember(dest => dest.StartDate,
+                    opt => opt.MapFrom(src => src.CalendarEvent.Start))
+                .ForMember(dest => dest.EndDate,
+                    opt => opt.MapFrom(src => src.CalendarEvent.End))
+                .ForMember(dest => dest.IsDone,
+                    opt => opt.MapFrom(src => src.CalendarEvent.IsDone))
+                .ForMember(dest => dest.IsFreeSlot,
+                    opt => opt.MapFrom(src => src.CalendarEvent.IsFreeSlot))
+                .ForMember(dest => dest.CalendarId,
+                    opt => opt.MapFrom(src => src.CalendarEvent.CalendarId))
+                .ForMember(dest => dest.Attendees,
+                    opt => opt.MapFrom(src => src.UserLessons));
+            CreateMap<CalendarEventDto, CalendarEvent>()
+                .ForMember(dest => dest.Start,
+                    opt => opt.MapFrom(src => src.StartDate))
+                .ForMember(dest => dest.End,
+                    opt => opt.MapFrom(src => src.EndDate))
+                .ForMember(dest => dest.Title,
+                    opt => opt.MapFrom(src => src.Subject));
+
         }
     }
 }

@@ -399,6 +399,12 @@ export class CalendarViewComponent implements OnInit {
   onAppointmentDoubleClick(e) {
     console.error('on appointment double click fired');
     this.onAppointmentClick(e); console.debug('onAppointmentClick');
+    this.onAppointmentClick(e); console.debug('onAppointmentClick');
+    this.onAppointmentClick(e); console.debug('onAppointmentClick');
+    this.onAppointmentClick(e); console.debug('onAppointmentClick');
+    this.onAppointmentClick(e); console.debug('onAppointmentClick');
+    this.onAppointmentClick(e); console.debug('onAppointmentClick');
+    this.onAppointmentClick(e); console.debug('onAppointmentClick');
     this.onAppointmentFormOpening(e); console.debug('onAppointmentFormOpening');
   }
 
@@ -483,6 +489,8 @@ export class CalendarViewComponent implements OnInit {
     // ----- CODE DUPLICATION START -----
     let externalCalendarId = e.appointmentData.calendarId;
 
+    let insideLesson: Lesson;
+
     if (externalCalendarId !== undefined) {
       let route = '/api/lessons/' + externalCalendarId;
 
@@ -495,6 +503,7 @@ export class CalendarViewComponent implements OnInit {
 
             // ----
             this.currentLesson = lesson;
+            insideLesson = lesson;
             console.debug('current lesson');
             console.debug(this.currentLesson);
             // ----
@@ -508,9 +517,18 @@ export class CalendarViewComponent implements OnInit {
             this.currentLesson.calendarEventId = -1;
           }
 
-          e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+          //e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+          //e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
+          //  this.itemsLessonStatus[this.currentLesson.lessonStatus];
+
+          //////Attendees
+          //let commonAttendees: string[] = this.simpleEmails.filter(value => this.lessonEmails.includes(value));
+          //console.debug('commonAttendees');
+          //console.debug(commonAttendees);
+          //e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
+          e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = insideLesson.title;
           e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
-            this.itemsLessonStatus[this.currentLesson.lessonStatus];
+            this.itemsLessonStatus[insideLesson.lessonStatus];
 
           ////Attendees
           let commonAttendees: string[] = this.simpleEmails.filter(value => this.lessonEmails.includes(value));

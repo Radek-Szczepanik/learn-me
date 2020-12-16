@@ -31,7 +31,7 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
             cancellationToken.ThrowIfCancellationRequested();
 
             var result = await _calendar.GetEventsByDatesAsync(fromDate, toDate);
-
+            
             if (result != null)
             {
                 return Ok(result);

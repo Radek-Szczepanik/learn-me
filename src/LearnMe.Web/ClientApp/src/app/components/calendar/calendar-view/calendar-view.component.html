@@ -19,7 +19,7 @@
                   maxAppointmentsPerCell="unlimited"
                   timezone="timezone"
                   (onInitialized)="onInitialized($event)"
-                  (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+                  
                   (onAppointmentAdding)="onAppointmentAdding($event)"
                   (onAppointmentAdded)="onAppointmentAdded($event)"
                   (onAppointmentUpdating)="onAppointmentUpdating($event)"
@@ -28,6 +28,7 @@
                   (onAppointmentDeleted)="onAppointmentDeleted($event)"
                   (onAppointmentClick)="onAppointmentClick($event)"
                   (onAppointmentDoubleClick)="onAppointmentDoubleClick($event)"
+                  (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
                   id="myScheduler">
 
       <div *dxTemplate="let model of 'appointmentTemplate'"

@@ -185,6 +185,19 @@ namespace LearnMe.Infrastructure.Repository
             }
         }
 
+        public async Task<IList<Lesson>> GetLessonsWithEventsAndAttendeesByDates(DateTime? fromDate, DateTime? toDate)
+        {
+            var lessons = await _context.Lessons
+                .Include(x => x.CalendarEvent)
+                .Where(x => x.CalendarEvent.Start >= fromDate && x.CalendarEvent.End <= toDate)
+                .Include(x => x.UserLessons)
+                .ThenInclude(x => x.User)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return lessons ?? null;
+        }
+
         private async Task<int?> FindRelatedCalendarEventDatabaseId(string calendarId)
         {
             var calendarEventRelatedToLesson = await _calendarEventsRepository.GetByCalendarIdAsync(calendarId);

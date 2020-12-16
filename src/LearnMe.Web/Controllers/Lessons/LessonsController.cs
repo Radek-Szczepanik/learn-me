@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using LearnMe.Core.DTO.Lessons;
@@ -191,5 +192,32 @@ namespace LearnMe.Controllers.Lessons
                 return NotFound();
             }
         }
+
+        // GET: api/Lessons/5
+        [HttpGet]
+        public async Task<ActionResult<Lesson>> GetLessonsWithEventsAndAttendeesAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var result = await _lessonsRepository.GetLessonsWithEventsAndAttendeesByDates(fromDate, toDate);
+
+            if (result != null)
+            {
+                return Ok(result);
+            } else
+            {
+                return NotFound();
+            }
+
+            //var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+
+            //if (lesson == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return Ok(_mapper.Map<LessonDto>(lesson));
+        }
+
     }
 }

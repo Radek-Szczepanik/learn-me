@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
 using LearnMe.Infrastructure.Models.Domains.Users;
@@ -20,5 +21,7 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
         Task<UserBasic> CreateLessonAttendeeAsync(Lesson lesson, string attendeeEmail);
 
         Task<UserBasic> DeleteLessonAttendeeAsync(Lesson lesson, string attendeeEmail);
+
+        Task<IList<Lesson>> GetLessonsWithEventsAndAttendeesByDates(DateTime? fromDate, DateTime? toDate);
     }
 }
