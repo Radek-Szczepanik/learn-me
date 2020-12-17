@@ -27,11 +27,11 @@
 }
 
 .free-slot {
-  background-color: green;
+  background-color: #889c6b;
 }
 
 .booked-slot {
-  background-color: blue;
+  background-color: #f0c854;
 }
 
 .lesson-done {
@@ -44,4 +44,8 @@ i {
 
 p {
   font-size: 1vw;
+}
+
+::ng-deep .dx-scheduler-header-panel-cell .dx-scheduler-cell-sizes-horizontal {
+  background-color: #ffced6
 }

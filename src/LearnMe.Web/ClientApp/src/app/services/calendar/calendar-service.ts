@@ -38,4 +38,10 @@ export class CalendarService {
           return true;
         }));
   }
+
+  loadEventsByDates$(from: Date, to: Date): Observable<CalendarEvent[]> {
+    const query = '/api/calendareventsbydate?fromDate=' + from.toJSON() + '&toDate=' + to.toJSON();
+
+    return this.http.get<CalendarEvent[]>(query);
+  }
 }

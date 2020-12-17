@@ -33,8 +33,7 @@ namespace LearnMe.Infrastructure.Repository
                 lesson.CalendarEventId = (int)relatedEventDatabaseId;
 
                 return await InsertAsync(lesson);
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -44,9 +43,21 @@ namespace LearnMe.Infrastructure.Repository
         {
             int? relatedEventDatabaseId = await FindRelatedCalendarEventDatabaseId(calendarId);
 
-            _context.Remove(_context.Lessons
-                .AsNoTracking()
-                .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId));
+            var lesson = await _context.Lessons
+                .Include(x => x.UserLessons)
+                //.AsNoTracking()
+                .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId);
+
+            if (lesson.UserLessons != null)
+            {
+                lesson.UserLessons.Clear();
+            }
+
+            _context.Remove(lesson);
+
+            //_context.Remove(_context.Lessons
+            //    .AsNoTracking()
+            //    .SingleOrDefaultAsync(l => l.CalendarEventId == relatedEventDatabaseId));
 
             return await SaveAsync();
         }
@@ -73,8 +84,7 @@ namespace LearnMe.Infrastructure.Repository
                 lesson.CalendarEventId = lessonOldRecord.CalendarEventId;
 
                 return await UpdateAsync(lesson);
-            }
-            else
+            } else
             {
                 return false;
             }
@@ -129,7 +139,7 @@ namespace LearnMe.Infrastructure.Repository
                 _context.Entry(userBasic).State = EntityState.Detached;
                 _context.Entry(newUserLesson).State = EntityState.Detached;
                 fullLesson.UserLessons.Add(newUserLesson);
-                
+
                 _context.Lessons
                     .Update(fullLesson);
 
@@ -140,10 +150,52 @@ namespace LearnMe.Infrastructure.Repository
                 _context.Entry(newUserLesson).State = EntityState.Detached;
 
                 return userBasic;
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
-                return null;
+                try
+                {
+                    _context.Entry(lesson).State = EntityState.Detached;
+
+                    var fullLesson = await _context.Lessons
+                        .Where(x => x.Id == lesson.Id)
+                        .Include(x => x.UserLessons)
+                        .ThenInclude(x => x.User)
+                        .AsNoTracking()
+                        .SingleOrDefaultAsync();
+
+                    var userBasic = await _context.UserBasic
+                        .Where(x => x.Email == attendeeEmail)
+                        .AsNoTracking()
+                        .SingleOrDefaultAsync();
+
+                    _context.Entry(userBasic).State = EntityState.Detached;
+
+                    var newUserLesson = new UserLesson()
+                    {
+                        Lesson = lesson,
+                        User = userBasic
+                    };
+
+                    _context.Entry(fullLesson).State = EntityState.Detached;
+                    _context.Entry(userBasic).State = EntityState.Detached;
+                    _context.Entry(newUserLesson).State = EntityState.Detached;
+                    fullLesson.UserLessons.Add(newUserLesson);
+
+                    _context.Lessons
+                        .Update(fullLesson);
+
+                    await _context.SaveChangesAsync();
+
+                    _context.Entry(fullLesson).State = EntityState.Detached;
+                    _context.Entry(userBasic).State = EntityState.Detached;
+                    _context.Entry(newUserLesson).State = EntityState.Detached;
+
+                    return userBasic;
+                }
+                catch (Exception exept)
+                {
+                    return null;
+                }
             }
         }
 
@@ -166,8 +218,7 @@ namespace LearnMe.Infrastructure.Repository
                 await _context.SaveChangesAsync();
 
                 return userBasic;
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 return null;
             }
@@ -180,8 +231,7 @@ namespace LearnMe.Infrastructure.Repository
             if (calendarEventRelatedToLesson != null)
             {
                 return calendarEventRelatedToLesson.Id;
-            }
-            else
+            } else
             {
                 return null;
             }
