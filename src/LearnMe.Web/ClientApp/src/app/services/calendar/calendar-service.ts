@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { CalendarEvent } from "./calendar-event";
-import { EventLesson } from "../../Models/Lesson/lesson";
+import { CalendarEvent } from './calendar-event';
+import { EventLesson } from '../../models/Lesson/lesson';
 
 @Injectable()
 export class CalendarService {
