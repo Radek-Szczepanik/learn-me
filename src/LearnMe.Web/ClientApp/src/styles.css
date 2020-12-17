@@ -1,13 +1,33 @@
+.mat-drawer-container {
+  color: rgba(0,0,0,.87);
+  background: linear-gradient(to right, #FFC0CB , #ffd9df) !important;
+}
+
+.mat-sidenav{
+  border-right-width: 0px;
+}
+
+.mat-drawer-inner-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  color: white;
+  -webkit-overflow-scrolling: touch;
+  background: linear-gradient(to right, #FFC0CB , #ffc7d0) !important;
+}
+
+.mat-toolbar {
+  color:#FFC0CB !important;
+  background: linear-gradient(to right, #FFC0CB , #ffd9df);
+}
+
+
+
 .spacer {
     flex: 1 1 auto;
   }
   
-  .mat-toolbar.mat-primary {
-    background: #2d2d30 !important;
-    color: #fff !important;
-  }
-  
-  
+ 
   html {
     scroll-behavior: smooth;
   }
@@ -235,10 +255,13 @@
   }
   
   html, body { height: auto; }
-  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
   
   html, body { height: 100%; }
   body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   
   html, body { height: 100%; }
-  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+  
+  

@@ -21,6 +21,7 @@ namespace LearnMe.Web
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    
                     webBuilder.UseStartup<Startup>();
                 });
     }

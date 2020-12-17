@@ -6,8 +6,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AddFaqDialog } from "./mentor-faq-add.component";
-// import { DeleteOpinionsDialog } from "./mentor-opinions-delete.component";
-// import { UpdateOpinionsDialog } from "./mentor-opinions-update.component";
+import { DeleteFaqDialog } from "./mentor-faq-delete.component";
+import { UpdateFaqDialog } from "./mentor-faq-update.component";
 
 @Component({
   selector: 'app-mentor-faq',
@@ -22,8 +22,6 @@ export class MentorFaqComponent implements AfterViewInit {
   _http: HttpClient;
   _baseUrl: string;
  
-
-
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -49,7 +47,7 @@ export class MentorFaqComponent implements AfterViewInit {
     }
   }
 
-  addOpinion() {
+  addFaq() {
     
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '50%';
@@ -59,38 +57,33 @@ export class MentorFaqComponent implements AfterViewInit {
     });
   }
   
-  // deleteOpinion(id: number) {
+  deleteFaq(id: number) {
 
-  //   const dialogConfig = new MatDialogConfig();
+    const dialogConfig = new MatDialogConfig();
 
-  //   dialogConfig.data = {
-  //     id: 1,
-  //     title: id
-  //   };
+    dialogConfig.data = {
+      id: 1,
+      title: id
+    };
     
-  //   const dialogRef = this.dialog.open(DeleteOpinionsDialog, dialogConfig);
+    const dialogRef = this.dialog.open(DeleteFaqDialog, dialogConfig);
 
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.ngAfterViewInit();
-  //   });   
-  // }
+    dialogRef.afterClosed().subscribe(result => {
+      this.ngAfterViewInit();
+    });   
+  }
   
-  // updateOpinion(name: any) {
+  updateFaq(name: any) {
 
-  //   const dialogConfig = new MatDialogConfig();
-
-  //   dialogConfig.data = {
-  //     id: 1,
-  //     title: name
-  //   };
-    
-  //   // dialogConfig.width = '50%';
-  //   // dialogConfig.height= '50%';
-
-  //   const dialogRef = this.dialog.open(UpdateOpinionsDialog, dialogConfig);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.ngAfterViewInit();
-  //   });   
-  // }
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '50%';
+    dialogConfig.data = {
+      id: 1,
+      title: name
+    };
+    const dialogRef = this.dialog.open(UpdateFaqDialog, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      this.ngAfterViewInit();
+    });   
+  }
 }

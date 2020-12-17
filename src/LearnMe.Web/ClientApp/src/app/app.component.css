@@ -1,11 +1,15 @@
+.mat-list-base .mat-list-item {
+  font-family: Poppins medium;
+  color: white;
+  /* text-shadow: 1px 1px 1px black; */
+  font-size: medium;
+  Text-decoration: none; 
+}
+
 .spacer {
     flex: 1 1 auto;
   }
   
-  .mat-toolbar.mat-primary {
-    background: #2d2d30 !important;
-    color: #fff !important;
-  }
   
   
   html {
@@ -15,6 +19,8 @@
   body {
     font: 400 15px/1.8 Lato, sans-serif;
     color: #777;
+    background: linear-gradient(to right, #FFC0CB , #ffd9df);
+    font-family: Lato, sans-serif;
   }
   
   .identity {

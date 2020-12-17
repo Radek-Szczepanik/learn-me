@@ -95,7 +95,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                         CalendarEventId = newDbEvent.Id,
                         LessonStatus = 0,
                         Title = eventResult.Summary,
-                        RelatedInvoiceId = null
+                        //RelatedInvoiceId = null
                     });
 
                     //lessonsRepository._context.Entry(found).State = EntityState.Detached;

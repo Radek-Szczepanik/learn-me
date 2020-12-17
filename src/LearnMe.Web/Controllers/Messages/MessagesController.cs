@@ -24,7 +24,7 @@ namespace LearnMe.Controllers.Messages
         private readonly IMapper _mapper;
         private readonly UserManager<UserBasic> _userManager;
         private readonly ApplicationDbContext _applicationDbContext;
-        
+
 
         public MessagesController(ICrudRepository<Message> crudRepository,
                                   IMapper mapper,
@@ -37,7 +37,7 @@ namespace LearnMe.Controllers.Messages
             _userManager = userManager;
             _applicationDbContext = applicationDbContext;
         }
-        
+
         [HttpGet("{id}")]
         public async Task<ActionResult> GetMessage(int id)
         {
@@ -49,6 +49,7 @@ namespace LearnMe.Controllers.Messages
             return Ok(message);
         }
 
+        [HttpGet]
         public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
         {
             var messages = _applicationDbContext.Messages.Include(u => u.Sender)
@@ -72,21 +73,21 @@ namespace LearnMe.Controllers.Messages
             return await PagedList<Message>.CreateListAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetMessagesForUser(string userId, [FromQuery] MessageParams messageParams)
-        {
-            messageParams.UserId = userId;
-            var messagesFromRepo = await GetMessagesForUser(messageParams);
-            var messagesToReturn = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
+        // [HttpGet]
+        // public async Task<ActionResult> GetMessagesForUser(string userId, [FromQuery] MessageParams messageParams)
+        // {
+        //     messageParams.UserId = userId;
+        //     var messagesFromRepo = await GetMessagesForUser(messageParams);
+        //     var messagesToReturn = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
 
-            
 
-            return Ok(messagesToReturn);
-        }
-        
+
+        //     return Ok(messagesToReturn);
+        // }
+
         [HttpPost(Name = "GetMessage")]
         public async Task<ActionResult> CreateMessage(string userId, MessageToCreateDto messageToCreate)
-        { 
+        {
             if (userId != messageToCreate.SenderId)
                 return Unauthorized();
 
