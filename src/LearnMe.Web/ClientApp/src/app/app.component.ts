@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
  })
 
 export class AppComponent implements OnDestroy, OnInit {
@@ -27,7 +28,7 @@ export class AppComponent implements OnDestroy, OnInit {
     this._httpClient = http;
     this._base = baseUrl;
   }
-
+  
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }

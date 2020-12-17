@@ -3,14 +3,14 @@ using LearnMe.Core.DTO.Calendar;
 using LearnMe.Core.DTO.HomeDTO;
 using LearnMe.Core.DTO.User;
 using LearnMe.Core.DTO.Account;
+using LearnMe.Core.DTO.Messages;
+using LearnMe.Core.DTO.Lessons;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Models.Domains.Home;
 using LearnMe.Infrastructure.Models.Domains.Users;
-using LearnMe.Core.DTO.Lessons;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
 using System.Collections.Generic;
 using LearnMe.Infrastructure.Models.Domains.Messages;
-using LearnMe.Core.DTO.Messages;
 
 namespace LearnMe.Core.DTO.Config
 {

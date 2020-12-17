@@ -39,7 +39,6 @@ namespace LearnMe.Infrastructure.Data
         public DbSet<UserLesson> UserLessons { get; set; }
         public DbSet<UserLessonHomework> UserLessonHomeworks { get; set; }
         public DbSet<Product> Products { get; set; }
-
         public DbSet<UserBasic> UserBasic { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<UserInvoiceData> UserInvoiceDatas { get; set; }

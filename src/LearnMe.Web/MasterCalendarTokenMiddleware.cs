@@ -19,6 +19,7 @@ namespace LearnMe.Web
         public async Task InvokeAsync(HttpContext context, IServiceCollection services) //, out IToken token)
         {
             //  TODO check if I can add service IToken to container via middleware
+
             await _next(context);
         }
     }

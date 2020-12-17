@@ -7,7 +7,7 @@ import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from "devextreme/ui/scheduler";
 import { Lesson, LessonStatus, EventLesson, AttendeeDto, UserBasicDto } from '../../../models/Lesson/lesson'
-import { User } from '../../../models/Users/user'
+import { User } from "../../../models/Users/user"
 
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
