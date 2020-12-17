@@ -69,6 +69,9 @@
     <Compile Remove="Migrations\20201116212126_NewUpdatesForUI.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Remove="Credentials\credentials.json" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="ClientApp\src\app\Models\Lesson\lesson.ts" />
     <None Remove="ClientApp\src\app\Models\Users\user.ts" />
     <None Remove="ClientApp\src\app\services\calendar\calendar-event.ts" />
@@ -90,6 +93,11 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\app\components\mentor\" />
     <Folder Include="ClientApp\src\app\components\student\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Credentials\credentials.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <Exec Command="node --version" ContinueOnError="true">
