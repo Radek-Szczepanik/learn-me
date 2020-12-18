@@ -2,11 +2,15 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches">
   <mat-toolbar class="example-toolbar">
     <button mat-icon-button (click)="snav.toggle()"><mat-icon style="color: white;">menu</mat-icon></button>
+    <a href="#">
+      <img style="padding-left: 15px; height: 30px;" alt="Tweet" src="tweet.png">
+   </a>
     <span class="spacer" *ngIf="notLogged"></span>
-    <!-- <div *ngIf="notLogged">
+    <div *ngIf="notLogged">
       <button mat-raised-button color="accent" style="margin-left: 10px" [routerLink]="['/login']">Zaloguj się</button>
-      <button mat-raised-button color="accent" style="margin-left: 10px" [routerLink]="['/registration']">Załóż konto</button>
-    </div> -->
+   
+      <!-- <button mat-raised-button color="accent" style="margin-left: 10px" [routerLink]="['/registration']">Załóż konto</button> -->
+    </div>
     <div *ngIf="student" class="identity" style="margin-left: auto; padding-right: 10px">Hello, {{identity[2]}} {{identity[3]}}! How are you today?</div>
     <button mat-raised-button color="accent" *ngIf="student" style="margin-left: auto" (click)="logOut()">Sign out</button>
     <div *ngIf="mentor" class="identity" style="margin-left: auto; padding-right: 10px">Hello, {{identity[2]}} {{identity[3]}}! How are you today?</div>

@@ -1,5 +1,5 @@
-<body>
-   <div class="wrapper">
+
+  <div class="wrapper">
      <div id="formContent">
        <!-- Tabs Titles -->
        <!-- Icon -->
@@ -11,19 +11,19 @@
          Incorrect e-mail
        </div>
 
-       <div class="fadeIn first">
-         <img src="" id="icon" alt="User Icon" />
+       <div>
+         <img src="logo_login.png" id="icon" alt="User Icon" />
        </div>
 
        <!-- Login Form -->
        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-         <input type="text" class="fadeIn second form-control" formControlName="email" placeholder="Enter e-mail">
-         <input type="password" class="fadeIn third form-control" formControlName="password" placeholder="Enter password">
-         <button mat-raised-button color="accent" style="margin: 10px" type="submit" class="fadeIn fourth">Sign In</button>
-       </form>
-
-       <a mat-raised-button color="accent" style="margin-bottom: 10px" class="fadeIn fourth" href="../api/LoginGoogle">Sign in via Google</a>
-
+         <input type="text" class="form-control" formControlName="email" placeholder="Enter e-mail">
+         <input type="password" class="form-control" formControlName="password" placeholder="Enter password">
+         <div style="margin-top: 20px; margin-bottom: 20px;">
+         <button mat-raised-button color="accent" style="margin-right: 30px" type="submit">Sign In</button>
+         <a mat-raised-button color="accent" href="../api/LoginGoogle">Sign in via Google</a>
+         </div>
+        </form>
 
        <!-- Remind Passowrd -->
        <div id="formFooter">
@@ -32,4 +32,3 @@
 
      </div>
   </div>
-</body>
