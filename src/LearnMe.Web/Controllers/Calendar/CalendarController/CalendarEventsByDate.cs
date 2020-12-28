@@ -35,11 +35,11 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
 
         // GET: api/<controller>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CalendarEventDto>>> GetAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<FullCalendarEventDto>>> GetAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            var result = await _calendar.GetEventsByDatesAsync(fromDate, toDate);
+            var result = await _calendar.GetFullEventsByDatesAsync(fromDate, toDate);
 
             if (result != null)
             {
@@ -49,5 +49,22 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
                 return NotFound();
             }
         }
+
+        //// GET: api/<controller>
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<CalendarEventDto>>> GetAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
+        //{
+        //    cancellationToken.ThrowIfCancellationRequested();
+
+        //    var result = await _calendar.GetEventsByDatesAsync(fromDate, toDate);
+
+        //    if (result != null)
+        //    {
+        //        return Ok(result);
+        //    } else
+        //    {
+        //        return NotFound();
+        //    }
+        //}
     }
 }

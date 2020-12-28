@@ -29,8 +29,8 @@ import CustomStore from 'devextreme/data/custom_store';
 export class CalendarViewComponent implements OnInit {
 
   // appointmentsData: CalendarEvent[];
-  appointmentsData: Appointment[];
-  // appointmentsData: any;
+  // appointmentsData: Appointment[];
+  appointmentsData: any;
 
   lessons: Lesson[];
   currentDate: Date = new Date();

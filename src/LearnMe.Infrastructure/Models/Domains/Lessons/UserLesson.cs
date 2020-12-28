@@ -6,7 +6,7 @@ namespace LearnMe.Infrastructure.Models.Domains.Lessons
 {
     public class UserLesson : BaseEntity
     {
-        public int UserId { get; set; }
+        //public int UserId { get; set; }
         
         public UserBasic User { get; set; }
 

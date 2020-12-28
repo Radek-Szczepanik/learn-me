@@ -41,5 +41,9 @@ namespace LearnMe.Core.Interfaces.Services
         Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(
             DateTime fromDate,
             DateTime toDate);
+
+        Task<IEnumerable<FullCalendarEventDto>> GetFullEventsByDatesAsync(
+            DateTime fromDate,
+            DateTime toDate);
     }
 }

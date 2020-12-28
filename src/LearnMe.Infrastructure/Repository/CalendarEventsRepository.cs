@@ -54,6 +54,19 @@ namespace LearnMe.Infrastructure.Repository
             return result;
         }
 
+        public async Task<IEnumerable<CalendarEvent>> GetFullEventByFromAndToDate(DateTime fromDate, DateTime toDate)
+        {
+            var result = await _context.CalendarEvents
+                .Where(x => x.Start >= fromDate && x.End <= toDate)
+                .Include(x => x.Lesson)
+                .ThenInclude(x => x.UserLessons)
+                .ThenInclude(x => x.User)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return result;
+        }
+
         public async Task<bool> UpdateByCalendarIdAsync(
             string calendarId,
             string summary,
