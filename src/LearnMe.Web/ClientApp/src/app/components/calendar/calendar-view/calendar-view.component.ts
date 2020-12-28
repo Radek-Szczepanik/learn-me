@@ -10,6 +10,12 @@ import { Lesson, LessonStatus, EventLesson, AttendeeDto, UserBasicDto } from '..
 import { User } from "../../../Models/Users/user"
 
 import {Appointment, Service} from '../../../services/calendar/calendar-service-ver-2';
+
+// import * as AspNetData from "devextreme-aspnet-data-nojquery";
+
+import DataSource from 'devextreme/data/data_source';
+import CustomStore from 'devextreme/data/custom_store';
+
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
 //}
@@ -24,6 +30,8 @@ export class CalendarViewComponent implements OnInit {
 
   // appointmentsData: CalendarEvent[];
   appointmentsData: Appointment[];
+  // appointmentsData: any;
+
   lessons: Lesson[];
   currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
@@ -54,7 +62,32 @@ export class CalendarViewComponent implements OnInit {
 
   constructor(private data: CalendarService, private https: HttpService, service: Service) {
 
-    this.appointmentsData = service.getAppointments();
+    // var url = "/api/CalendarEventsByDate";
+
+    this.appointmentsData = new DataSource({
+      store: new CustomStore({
+          load: (options) => this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
+            .toPromise().then(success => {
+              console.debug(success);
+              if (success) {
+                this.appointmentsData = this.data.events;
+              }
+            }),
+      })
+    });
+
+    // this.appointmentsData = AspNetData.createStore({
+    //     //key: "calendarId",
+    //     loadUrl: url + '?fromDate=' + this.startViewDate.toJSON() + '&toDate=' + this.endViewDate.toJSON(),
+    //     // insertUrl: url + "/Post",
+    //     // updateUrl: url + "/Put",
+    //     // deleteUrl: url + "/Delete",
+    //     onBeforeSend: function (method, ajaxOptions) {
+    //         ajaxOptions.xhrFields = { withCredentials: true };
+    //     }
+    // });
+
+    //this.appointmentsData = service.getAppointments();
   
     console.debug('appointmentsData:');
     console.debug(this.appointmentsData);
