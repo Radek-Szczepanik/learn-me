@@ -73,6 +73,9 @@ export class CalendarViewComponent implements OnInit {
                 this.appointmentsData = this.data.events;
               }
             }),
+          // insert:,
+          // update:,
+          // remove:,
       })
     });
 
