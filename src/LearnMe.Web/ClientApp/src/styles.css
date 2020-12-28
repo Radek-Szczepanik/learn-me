@@ -1,27 +1,46 @@
+.mat-icon.mat-accent {
+  color:  #FF9BAD;
+}
+
+.mat-button.mat-accent, .mat-icon-button.mat-accent, .mat-stroked-button.mat-accent {
+  color:  #FF9BAD;
+}
+
+.mat-flat-button.mat-accent, .mat-raised-button.mat-accent, .mat-fab.mat-accent, .mat-mini-fab.mat-accent {
+  background-color: white !important;
+  color: #FF9BAD !important;
+}
+
 .mat-drawer-container {
   color: rgba(0,0,0,.87);
-  background: linear-gradient(to right, #FFC0CB , #ffd9df) !important;
+  background: linear-gradient(to right, #FF9BAD , #ffd9df);
 }
 
 .mat-sidenav{
   border-right-width: 0px;
 }
 
+.mat-drawer {
+  background-color: transparent !important;
+}
+
 .mat-drawer-inner-container {
   width: 100%;
-  height: 100%;
+  height: auto !important;
   overflow: auto;
   color: white;
   -webkit-overflow-scrolling: touch;
-  background: linear-gradient(to right, #FFC0CB , #ffc7d0) !important;
+  /* background: linear-gradient(to right, #FFC0CB , #ffc7d0) !important; */
 }
 
 .mat-toolbar {
-  color:#FFC0CB !important;
-  background: linear-gradient(to right, #FFC0CB , #ffd9df);
+  color: transparent;
+  background: transparent;
 }
 
-
+.mat-drawer:not(.mat-drawer-side) {
+  box-shadow: none;
+}
 
 .spacer {
     flex: 1 1 auto;
