@@ -9,6 +9,7 @@ import Scheduler from "devextreme/ui/scheduler";
 import { Lesson, LessonStatus, EventLesson, AttendeeDto, UserBasicDto } from '../../../Models/Lesson/lesson'
 import { User } from "../../../Models/Users/user"
 
+import {Appointment, Service} from '../../../services/calendar/calendar-service-ver-2';
 //if (!/localhost/.test(document.location.host)) {
 //  enableProdMode();
 //}
@@ -16,11 +17,13 @@ import { User } from "../../../Models/Users/user"
 @Component({
   selector: 'app-calendar-view',
   templateUrl: './calendar-view.component.html',
-  styleUrls: ['./calendar-view.component.css']
+  styleUrls: ['./calendar-view.component.css'],
+  providers: [Service]
 })
 export class CalendarViewComponent implements OnInit {
 
-  appointmentsData: CalendarEvent[];
+  // appointmentsData: CalendarEvent[];
+  appointmentsData: Appointment[];
   lessons: Lesson[];
   currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
@@ -49,7 +52,10 @@ export class CalendarViewComponent implements OnInit {
 
   simpleEmails = [];
 
-  constructor(private data: CalendarService, private https: HttpService) {
+  constructor(private data: CalendarService, private https: HttpService, service: Service) {
+
+    this.appointmentsData = service.getAppointments();
+  
     console.debug('appointmentsData:');
     console.debug(this.appointmentsData);
 
@@ -88,13 +94,13 @@ export class CalendarViewComponent implements OnInit {
         }
       });
 
-    this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
-      .toPromise().then(success => {
-        console.debug(success);
-        if (success) {
-          this.appointmentsData = this.data.events;
-        }
-      });
+    // this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
+    //   .toPromise().then(success => {
+    //     console.debug(success);
+    //     if (success) {
+    //       this.appointmentsData = this.data.events;
+    //     }
+    //   });
 
   }
 
@@ -478,21 +484,22 @@ export class CalendarViewComponent implements OnInit {
           }
         },
         {
+          
           itemType: "group",
           caption: "Lesson Data",
           items: [
             {
-              dataField: "title",
+              dataField: "lesson.title",
               editorType: "dxTextArea",
               label: {
                 text: "Lesson Title"
               },
-              editorOptions: {
-                value: "" //"Please add Lesson title"
-              }
+              // editorOptions: {
+              //   value: "lesson.title" //"Please add Lesson title"
+              // }
             },
             {
-              dataField: "lessonStatus",
+              dataField: "lesson.lessonStatus",
               editorType: "dxSelectBox",
               label: {
                 text: "Lesson Status"
