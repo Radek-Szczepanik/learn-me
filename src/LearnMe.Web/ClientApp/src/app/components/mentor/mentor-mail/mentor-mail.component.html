@@ -30,6 +30,14 @@
 </div>
 -->
 
+<div *ngFor="let message of messages">
+  <p>
+    {{ message.senderFirstName }} {{ message.senderLastName }} {{ message.senderEmail }}
+  </p>
+</div>
+
+
+
 <mat-form-field>
   <mat-label>
     <mat-icon>search</mat-icon>

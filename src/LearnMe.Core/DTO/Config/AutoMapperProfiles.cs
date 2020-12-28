@@ -28,6 +28,7 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<UserBasic, UserForMentorDto>().ReverseMap();
             CreateMap<UserBasic, RegisterFromMentor>().ReverseMap();
             CreateMap<UserBasic, UpdateUserDto>().ReverseMap();
+                
 
             CreateMap<CalendarEvent, CalendarEventDto>()
                 .ForMember(dest => dest.StartDate,
@@ -52,6 +53,7 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<TutorService, TutorServiceDTO>();
             CreateMap<MessageToCreateDto, Message>().ReverseMap();
             CreateMap<Message, MessageToReturnDto>();
+                
 
             CreateMap<Lesson, LessonDto>();
             CreateMap<LessonDto, Lesson>();

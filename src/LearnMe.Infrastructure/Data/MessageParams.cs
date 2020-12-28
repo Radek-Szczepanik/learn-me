@@ -1,4 +1,4 @@
-﻿namespace LearnMe.Core.DTO.Config
+﻿namespace LearnMe.Infrastructure.Data
 {
     public class MessageParams
     {

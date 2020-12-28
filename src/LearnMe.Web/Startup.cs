@@ -91,12 +91,14 @@ namespace LearnMe.Web
             services.AddScoped<IExternalCalendarService<Event>, ExternalCalendarService>();
             services.AddScoped<ICalendar, LearnMe.Core.Services.Calendar.Calendar>();
             services.AddScoped<ISynchronizer, Synchronizer>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
             services.AddScoped(typeof(ICalendarEventsRepository), typeof(CalendarEventsRepository));
             services.AddScoped(typeof(ILessonsRepository), typeof(LessonsRepository));
 
             services.AddSingleton<IEventBuilder, EventBuilder>();
+
 
             var emailConfig = Configuration
                 .GetSection("EmailConfiguration")
@@ -144,7 +146,7 @@ namespace LearnMe.Web
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseSwagger();
-
+          
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Learn Me API"); });

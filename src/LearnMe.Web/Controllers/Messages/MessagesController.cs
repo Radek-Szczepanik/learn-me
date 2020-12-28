@@ -8,10 +8,8 @@ using LearnMe.Infrastructure.Repository;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LearnMe.Controllers.Messages
@@ -24,19 +22,23 @@ namespace LearnMe.Controllers.Messages
         private readonly IMapper _mapper;
         private readonly UserManager<UserBasic> _userManager;
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly IMessageRepository _messageRepository;
         
 
         public MessagesController(ICrudRepository<Message> crudRepository,
                                   IMapper mapper,
                                   UserManager<UserBasic> userManager,
-                                  ApplicationDbContext applicationDbContext)
+                                  ApplicationDbContext applicationDbContext,
+                                  IMessageRepository messageRepository)
 
         {
             _crudRepository = crudRepository;
             _mapper = mapper;
             _userManager = userManager;
             _applicationDbContext = applicationDbContext;
+            _messageRepository = messageRepository;
         }
+        
         
         [HttpGet("{id}")]
         public async Task<ActionResult> GetMessage(int id)
@@ -48,49 +50,33 @@ namespace LearnMe.Controllers.Messages
 
             return Ok(message);
         }
-
-        public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
-        {
-            var messages = _applicationDbContext.Messages.Include(u => u.Sender)
-                                                         .Include(u => u.Recipient).AsQueryable();
-
-            switch (messageParams.MessageContainer)
-            {
-                case "Inbox":
-                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.RecipientDeleted == false);
-                    break;
-                case "Outbox":
-                    messages = messages.Where(u => u.SenderId == messageParams.UserId && u.SenderDeleted == false);
-                    break;
-                default:
-                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.IsRead == false && u.RecipientDeleted == false);
-                    break;
-            }
-
-            messages = messages.OrderByDescending(d => d.DateSent);
-
-            return await PagedList<Message>.CreateListAsync(messages, messageParams.PageNumber, messageParams.PageSize);
-        }
+        
 
         [HttpGet]
         public async Task<ActionResult> GetMessagesForUser(string userId, [FromQuery] MessageParams messageParams)
         {
+            // var user = _userManager.FindByEmailAsync(email);
             messageParams.UserId = userId;
-            var messagesFromRepo = await GetMessagesForUser(messageParams);
+            var messagesFromRepo = await _messageRepository.GetMessagesForUser(messageParams);
             var messagesToReturn = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
 
-            
+            foreach (var message in messagesToReturn)
+            {
+                message.MessageContainer = messageParams.MessageContainer;
+            }
 
             return Ok(messagesToReturn);
         }
         
         [HttpPost(Name = "GetMessage")]
-        public async Task<ActionResult> CreateMessage(string userId, MessageToCreateDto messageToCreate)
+        public async Task<ActionResult> CreateMessage(string email, MessageToCreateDto messageToCreate)
         { 
-            if (userId != messageToCreate.SenderId)
+            if (email != messageToCreate.SenderId)
                 return Unauthorized();
 
-            messageToCreate.SenderId = userId;
+            var sender = await _userManager.FindByEmailAsync(email);
+
+            messageToCreate.SenderId = sender.Id;
 
             var recipient = await _userManager.FindByIdAsync(messageToCreate.RecipientId);
 
