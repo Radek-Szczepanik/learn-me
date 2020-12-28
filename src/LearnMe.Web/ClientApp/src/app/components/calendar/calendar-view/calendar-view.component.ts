@@ -58,7 +58,7 @@ export class CalendarViewComponent implements OnInit {
 
   itemsLessonStatus: string[] = ["New", "InProgress", "Done"];
 
-  simpleEmails = [];
+  simpleEmails: string[] = [];
 
   constructor(private data: CalendarService, private https: HttpService, service: Service) {
 
@@ -126,6 +126,9 @@ export class CalendarViewComponent implements OnInit {
           });
         }
       });
+    
+    console.debug('simpleEmails:');
+    console.debug(this.simpleEmails);
 
     // this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
     //   .toPromise().then(success => {
@@ -549,7 +552,7 @@ export class CalendarViewComponent implements OnInit {
           caption: "Attendees",
           items: [
             {
-              dataField: "attendeesEmails",
+              dataField: "attendees.email",
               editorType: "dxTagBox",
               label: {
                 text: "Attendees' emails:"
@@ -571,61 +574,51 @@ export class CalendarViewComponent implements OnInit {
       this.appointmentFormUpdatedFlag = true;
     }
 
-    // ----- CODE DUPLICATION START -----
-    let externalCalendarId = e.appointmentData.calendarId;
+    
 
-    if (externalCalendarId !== undefined) {
-      let route = '/api/lessons/' + externalCalendarId;
+    console.debug('e');
+    console.debug(e);
 
-      this.https.getData(route)
-        .toPromise().then(success => {
-          if (success) {
-            console.debug('lesson fetched from DB');
-            console.debug(success);
-            let lesson = success as Lesson;
+    let emails: string[] = [];
 
-            // ----
-            this.currentLesson = lesson;
-            console.debug('current lesson');
-            console.debug(this.currentLesson);
-            // ----
+    if (e.appointmentData.attendees != null){
+            
+      //let emails: string[] = [];
+      console.debug('emails1');
+      console.debug(emails);
 
-            e.appointmentData.title = lesson.title;
-            e.appointmentData.lessonStatus = lesson.lessonStatus;
-            console.debug('e.appointmentData');
-            console.debug(e.appointmentData);
-          } else {
-            this.currentLesson.title = "";
-            this.currentLesson.calendarEventId = -1;
-          }
+      // //Attendees
+      // let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
+      // console.debug('commonAttendees');
+      // console.debug(commonAttendees);
+      // e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
 
-          e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
-          e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
-            this.itemsLessonStatus[this.currentLesson.lessonStatus];
+      // console.debug(e.appointmentData.attendees);
 
-          ////Attendees
-          let commonAttendees: string[] = this.simpleEmails.filter(value => this.lessonEmails.includes(value));
-          console.debug('commonAttendees');
-          console.debug(commonAttendees);
-          e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
+      e.appointmentData.attendees.forEach(element => {
+        console.debug(element.email);
+        emails.push(element.email as string);
+      });
 
-          //e.form.itemOption("mainGroup.subject",
-          //  {
-          //    validationRules: [
-          //      {
-          //        type: "required",
-          //        message: "Subject is required"
-          //      }
-          //    ]
-          //  });
+      console.debug('emails2');
+      console.debug(emails);
 
-          console.debug(e.form.itemOption("mainGroup").items);
-          console.debug(this.appointmentFormUpdatedFlag);
-
-        });
-    } else {
-
+      // //Attendees
+      // let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
+      // console.debug('commonAttendees');
+      // console.debug(commonAttendees);
+      // e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
     }
+    
+    // e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
+    e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
+      this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus];
+
+    //Attendees
+    let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
+    console.debug('commonAttendees');
+    console.debug(commonAttendees);
+    e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
 
     e.form.itemOption("mainGroup.subject",
       {
