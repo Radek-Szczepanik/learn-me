@@ -38,6 +38,8 @@ namespace LearnMe.Core.Interfaces.Services
 
         Task<bool> DeleteEventByCalendarIdAsync(string calendarId);
 
+        Task<bool> DeleteFullEventByCalendarIdAsync(string calendarId);
+
         Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(
             DateTime fromDate,
             DateTime toDate);

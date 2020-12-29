@@ -251,6 +251,21 @@ namespace LearnMe.Core.Services.Calendar
             return result;
         }
 
+        public async Task<bool> DeleteFullEventByCalendarIdAsync(string calendarId)
+        {
+            var result = false;
+
+            var eventToBeDeleted =
+                await _calendarEventsRepository.GetFullEventByCalendarIdAsync(calendarId);
+            if (eventToBeDeleted != null)
+            {
+                await _externalCalendarService.DeleteEventAsync(eventToBeDeleted.CalendarId);
+                result = await _repository.DeleteAsync(eventToBeDeleted.Id);
+            }
+
+            return result;
+        }
+
         public async Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(DateTime fromDate, DateTime toDate)
         {
             // Step 1 - synchronize Google calendar with DB
