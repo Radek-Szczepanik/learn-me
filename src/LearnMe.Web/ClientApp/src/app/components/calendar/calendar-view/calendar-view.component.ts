@@ -208,6 +208,14 @@ export class CalendarViewComponent implements OnInit {
       .toPromise().then(success => {
         console.debug('success in createEvent')
         console.debug(success);
+
+        this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
+            .toPromise().then(success => {
+              console.debug(success);
+              if (success) {
+                this.appointmentsData = this.data.events;
+              }
+            });
     });
   }
 
@@ -333,75 +341,7 @@ export class CalendarViewComponent implements OnInit {
         console.debug(success);
     });
 
-    // // Attendees delete
-    // // Delete ALL emails from DB related to lesson
-    // let routeAttendees = '/api/lessons/' + e.appointmentData.calendarId + '/attendees';
-    // //this.https.delete(routeAttendees)
-    // //  .toPromise().then(success => {
-    // //    if (success) {
-    // let deleteLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
-
-    // this.https.delete(deleteLessonUrl)
-    //   .toPromise().then(success => {
-    //     if (success) {
-    //       let deleteUrl = '/api/calendareventsbygoogleid/' + e.appointmentData.calendarId;
-
-    //       this.https.delete(deleteUrl)
-    //         .toPromise().then(success => {
-    //           if (success) {
-    //             console.debug('event deleted from DB and Calendar');
-    //           } else {
-    //             console.debug('ERROR event NOT deleted from DB and Calendar');
-    //           }
-    //         });
-
-    //       console.debug('lesson deleted from DB and Calendar');
-    //     } else {
-    //       console.debug('ERROR lesson NOT deleted from DB and Calendar');
-    //     }
-    //   });
-
-    // //console.debug('ALL users/attendees of lesson deleted from DB');
-    // //  } else {
-    // //    console.debug('ERROR: users/attendees of lesson NOT deleted from DB');
-    // //  }
-    // //});
-    // // Attendees end
-
-    // //// Attendees delete
-    // //// Delete ALL emails from DB related to lesson
-    // //let routeAttendees = '/api/lessons/' + e.appointmentData.calendarId + '/attendees';
-    // //this.https.delete(routeAttendees)
-    // //  .toPromise().then(success => {
-    // //    if (success) {
-    // //      let deleteLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
-
-    // //      this.https.delete(deleteLessonUrl)
-    // //        .toPromise().then(success => {
-    // //          if (success) {
-    // //            let deleteUrl = '/api/calendareventsbygoogleid/' + e.appointmentData.calendarId;
-
-    // //            this.https.delete(deleteUrl)
-    // //              .toPromise().then(success => {
-    // //                if (success) {
-    // //                  console.debug('event deleted from DB and Calendar');
-    // //                } else {
-    // //                  console.debug('ERROR event NOT deleted from DB and Calendar');
-    // //                }
-    // //              });
-
-    // //            console.debug('lesson deleted from DB and Calendar');
-    // //          } else {
-    // //            console.debug('ERROR lesson NOT deleted from DB and Calendar');
-    // //          }
-    // //        });
-
-    // //      console.debug('ALL users/attendees of lesson deleted from DB');
-    // //    } else {
-    // //      console.debug('ERROR: users/attendees of lesson NOT deleted from DB');
-    // //    }
-    // //  });
-    // //// Attendees end
+    // this.appointmentsData.load;
   }
 
   onAppointmentClick(e) {
