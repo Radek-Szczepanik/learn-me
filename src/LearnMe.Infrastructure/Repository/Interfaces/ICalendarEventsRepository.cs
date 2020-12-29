@@ -13,7 +13,7 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
 
         Task<IEnumerable<CalendarEvent>> GetByFromAndToDate(DateTime fromDate, DateTime toDate);
 
-        Task<IEnumerable<CalendarEvent>> GetFullEventByFromAndToDate(DateTime fromDate, DateTime toDate);
+        Task<IEnumerable<CalendarEvent>> GetFullEventByFromAndToDateAsync(DateTime fromDate, DateTime toDate);
 
         Task<bool> UpdateByCalendarIdAsync(
             string calendarId,
@@ -21,5 +21,7 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
             string description,
             DateTime? startDateTime,
             DateTime? endDateTime);
+
+        Task<CalendarEvent> InsertFullEventAsync(CalendarEvent fullEvent);
     }
 }

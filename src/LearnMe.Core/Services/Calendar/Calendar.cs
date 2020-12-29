@@ -9,6 +9,7 @@ using LearnMe.Core.Services.Calendar.Utils.Constants;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using Microsoft.Extensions.Logging;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
+using LearnMe.Infrastructure.Models.Domains.Lessons;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using LearnMe.Shared.Enum.Calendar;
 
@@ -52,8 +53,8 @@ namespace LearnMe.Core.Services.Calendar
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<CalendarEventDto> CreateEventAsync(
-            CalendarEventDto eventData,
+        public async Task<FullCalendarEventDto> CreateFullEventAsync(
+            FullCalendarEventDto eventData,
             string calendarId = CalendarConstants.CalendarId,
             string timezone = CalendarConstants.Timezone,
             bool isRecurringEvent = false,
@@ -62,7 +63,6 @@ namespace LearnMe.Core.Services.Calendar
             DateTime? recurUntilDateTime = null,
             IList<string> attendeesEmails = null)
         {
-            _logger.LogDebug("Create event started");
             CalendarEvent newDbEvent = _mapper.Map<CalendarEvent>(eventData);
 
             // Google Event
@@ -77,7 +77,13 @@ namespace LearnMe.Core.Services.Calendar
                 _eventBuilder.SetRecurrence(period, recurringEventsCount, recurUntilDateTime);
             }
 
-            if (attendeesEmails != null)
+            attendeesEmails = new List<string>();
+            foreach (var person in newDbEvent.Attendees)
+            {
+                attendeesEmails.Add(person.Email);
+            }
+
+            if (attendeesEmails.Count != 0)
             {
                 foreach (var email in attendeesEmails)
                 {
@@ -93,13 +99,14 @@ namespace LearnMe.Core.Services.Calendar
             newDbEvent.CalendarId = newCalendarEvent.Id;
 
             _logger.LogDebug("Create event in DB - START");
-            var insertedDbEvent = await _repository.InsertAsync(newDbEvent);
+            //var insertedDbEvent = await _repository.InsertAsync(newDbEvent);
+            var insertedDbEvent = await _calendarEventsRepository.InsertFullEventAsync(newDbEvent);
             _logger.LogDebug("Create event in DB - END");
 
             if (insertedDbEvent != null)
             {
                 _logger.LogDebug("Create event ended");
-                return _mapper.Map<CalendarEventDto>(insertedDbEvent);
+                return _mapper.Map<FullCalendarEventDto>(insertedDbEvent);
             } else
             {
                 _logger.LogDebug("Create event ended");
@@ -288,7 +295,7 @@ namespace LearnMe.Core.Services.Calendar
             //_logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
 
             // Step 2 - get all data from DB
-            var eventsResult = await _calendarEventsRepository.GetFullEventByFromAndToDate(fromDate, toDate);
+            var eventsResult = await _calendarEventsRepository.GetFullEventByFromAndToDateAsync(fromDate, toDate);
 
             if (eventsResult != null)
             {

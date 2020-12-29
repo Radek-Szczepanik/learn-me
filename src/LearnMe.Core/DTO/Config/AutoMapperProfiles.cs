@@ -64,8 +64,20 @@ namespace LearnMe.Core.DTO.Config
                 .ForMember(dest => dest.Email,
                     opt => opt.MapFrom(src => src.User.Email))
                 .ForMember(dest => dest.PhoneNumber,
-                    opt => opt.MapFrom(src => src.User.PhoneNumber))
-                .ReverseMap();
+                    opt => opt.MapFrom(src => src.User.PhoneNumber));
+            CreateMap<UserBasicDto, UserLesson>()
+                .ForPath(dest => dest.User,
+                    opt => opt.MapFrom(src => src.Email))
+                .ForPath(dest => dest.User.FirstName,
+                    opt => opt.MapFrom(src => src.FirstName))
+                .ForPath(dest => dest.User.LastName,
+                    opt => opt.MapFrom(src => src.LastName))
+                .ForPath(dest => dest.User.Email,
+                    opt => opt.MapFrom(src => src.Email))
+                .ForPath(dest => dest.User.PhoneNumber,
+                    opt => opt.MapFrom(src => src.PhoneNumber));
+
+            CreateMap<UserBasicDto, UserBasic>();
 
             CreateMap<CalendarEvent, FullCalendarEventDto>()
                 .ForMember(dest => dest.StartDate,
@@ -75,15 +87,18 @@ namespace LearnMe.Core.DTO.Config
                 .ForMember(dest => dest.Subject,
                     opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Attendees,
-                opt => opt.MapFrom(src => src.Lesson.UserLessons))
-                .ReverseMap();
-            //CreateMap<FullCalendarEventDto, CalendarEvent>()
-            //    .ForMember(dest => dest.Start,
-            //        opt => opt.MapFrom(src => src.StartDate))
-            //    .ForMember(dest => dest.End,
-            //        opt => opt.MapFrom(src => src.EndDate))
-            //    .ForMember(dest => dest.Title,
-            //        opt => opt.MapFrom(src => src.Subject));
+                opt => opt.MapFrom(src => src.Lesson.UserLessons));
+            CreateMap<FullCalendarEventDto, CalendarEvent>()
+                .ForMember(dest => dest.Start,
+                    opt => opt.MapFrom(src => src.StartDate))
+                .ForMember(dest => dest.End,
+                    opt => opt.MapFrom(src => src.EndDate))
+                .ForMember(dest => dest.Title,
+                    opt => opt.MapFrom(src => src.Subject))
+                .ForMember(dest => dest.Attendees,
+                    opt => opt.MapFrom(src => src.Attendees));
+                //.ForPath(dest => dest.Lesson.UserLessons,
+                //    opt => opt.MapFrom(src => src.Attendees));
         }
     }
 }

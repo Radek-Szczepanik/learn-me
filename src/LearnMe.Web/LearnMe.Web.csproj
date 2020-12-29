@@ -69,6 +69,8 @@
     <Compile Remove="Migrations\20201116212126_NewUpdatesForUI.Designer.cs" />
     <Compile Remove="Migrations\20201228160248_CurrentEventLessonAttendee.cs" />
     <Compile Remove="Migrations\20201228160248_CurrentEventLessonAttendee.Designer.cs" />
+    <Compile Remove="Migrations\20201229142336_UserLessonUpdatesSecond.cs" />
+    <Compile Remove="Migrations\20201229142336_UserLessonUpdatesSecond.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Credentials\credentials.json" />

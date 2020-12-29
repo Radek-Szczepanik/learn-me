@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
@@ -77,6 +78,10 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         {
             if (new EmailAddressAttribute().IsValid(attendeeEmail))
             {
+                if (this._event.Attendees == null)
+                {
+                    this._event.Attendees = new List<EventAttendee>();
+                }
                 this._event.Attendees.Add(new EventAttendee() { Email = attendeeEmail });
                 return true;
             }

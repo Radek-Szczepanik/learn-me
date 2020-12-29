@@ -50,21 +50,23 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
             }
         }
 
-        //// GET: api/<controller>
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<CalendarEventDto>>> GetAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
-        //{
-        //    cancellationToken.ThrowIfCancellationRequested();
+        // POST api/<controller>
+        [HttpPost]
+        public async Task<ActionResult<bool>> PostAsync([FromBody] FullCalendarEventDto eventData)
+        {
+            var newEvent = await _calendar.CreateFullEventAsync(eventData);
 
-        //    var result = await _calendar.GetEventsByDatesAsync(fromDate, toDate);
+            //if (newEvent != null)
+            //{
+            //Added calendarId to DTO
+            var newEventDbObject = await _calendarEventsRepository.GetByCalendarIdAsync(newEvent.CalendarId);
 
-        //    if (result != null)
-        //    {
-        //        return Ok(result);
-        //    } else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
+            return CreatedAtRoute("EventById", new { id = newEventDbObject.Id }, newEvent);
+            //}
+            //else
+            //{
+            //    return NotFound();
+            //}
+        }
     }
 }
