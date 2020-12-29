@@ -36,6 +36,10 @@ namespace LearnMe.Core.Interfaces.Services
             CalendarEventDto eventData,
             IList<string> attendeesEmails = null);
 
+        Task<bool> UpdateFullEventByCalendarIdAsync(
+            FullCalendarEventDto eventData,
+            IList<string> attendeesEmails = null);
+
         Task<bool> DeleteEventByCalendarIdAsync(string calendarId);
 
         Task<bool> DeleteFullEventByCalendarIdAsync(string calendarId);

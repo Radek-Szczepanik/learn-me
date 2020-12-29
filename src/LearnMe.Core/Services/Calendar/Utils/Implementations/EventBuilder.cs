@@ -103,6 +103,46 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             }
         }
 
+        public bool RemoveAllAttendees()
+        {
+            this._event.Attendees = null;
+
+            return true;
+        }
+
+        public bool UpdateAttendees(IList<string> attendeesEmails)
+        {
+            var currentEmailsList = new List<string>();
+            if (this._event.Attendees != null)
+            {
+                foreach (var person in this._event.Attendees)
+                {
+                    currentEmailsList.Add(person.Email);
+                }
+            }
+
+            var emailsToAdd = attendeesEmails.Except(currentEmailsList);
+            var emailsToDelete = currentEmailsList.Except(attendeesEmails);
+
+            if (emailsToAdd != null)
+            {
+                foreach (var email in emailsToAdd)
+                {
+                    AddAttendee(email);
+                }
+            }
+
+            if (emailsToDelete != null)
+            {
+                foreach (var email in emailsToAdd)
+                {
+                    RemoveAttendee(email);
+                }
+            }
+
+            return true;
+        }
+
         public void BuildBasicEvent(
             string summary,
             DateTime? start,

@@ -16,7 +16,10 @@
       textExpr="subject"
       [startDayHour]="9"
       [height]="600"
-      (onAppointmentFormOpening)="onAppointmentFormOpening($event)">
+      (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+      (onAppointmentAdded)="onAppointmentAdded($event)"
+      (onAppointmentUpdated)="onAppointmentUpdated($event)"
+      (onAppointmentDeleted)="onAppointmentDeleted($event)">
 
       <div *dxTemplate="let model of 'appointmentTemplate'"
             [ngClass]="{'lesson-done': model.appointmentData.isDone === true,

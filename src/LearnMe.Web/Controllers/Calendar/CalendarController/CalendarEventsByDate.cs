@@ -69,10 +69,10 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
             //}
         }
 
-        //// PUT api/<controller>/5
-        //[HttpPut()]
-        //public async Task<ActionResult<bool>> PutAsync([FromBody] CalendarEventDto eventData)
-        //    => Ok(await _calendar.UpdateEventByCalendarIdAsync(eventData));
+        // PUT api/<controller>/5
+        [HttpPut()]
+        public async Task<ActionResult<bool>> PutAsync([FromBody] FullCalendarEventDto eventData)
+            => Ok(await _calendar.UpdateFullEventByCalendarIdAsync(eventData));
 
         // DELETE api/<controller>/5
         [HttpDelete("{calendarId}")]
@@ -88,6 +88,5 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
                 return NotFound();
             }
         }
-
     }
 }

@@ -53,6 +53,7 @@ namespace LearnMe.Core.Services.Calendar
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        // USED
         public async Task<FullCalendarEventDto> CreateFullEventAsync(
             FullCalendarEventDto eventData,
             string calendarId = CalendarConstants.CalendarId,
@@ -236,6 +237,49 @@ namespace LearnMe.Core.Services.Calendar
             return await _repository.UpdateAsync(toUpdateData);
         }
 
+        // USED
+        public async Task<bool> UpdateFullEventByCalendarIdAsync(
+            FullCalendarEventDto eventData,
+            IList<string> attendeesEmails = null)
+        {
+            CalendarEvent toUpdateData = _mapper.Map<CalendarEvent>(eventData);
+
+            var eventFromDbToUpdate =
+                await _calendarEventsRepository.GetFullEventByCalendarIdAsync(eventData.CalendarId);
+
+            toUpdateData.Id = eventFromDbToUpdate.Id;
+
+            if (eventFromDbToUpdate != null)
+            {
+                _eventBuilder.BuildBasicEventWithDescription(
+                    toUpdateData.Title,
+                    toUpdateData.Start,
+                    toUpdateData.End,
+                    toUpdateData.Description);
+
+                attendeesEmails = new List<string>();
+                foreach (var person in toUpdateData.Attendees)
+                {
+                    attendeesEmails.Add(person.Email);
+                }
+
+                if (attendeesEmails.Count != 0)
+                {
+                    _eventBuilder.UpdateAttendees(attendeesEmails);
+                }
+                else
+                {
+                    _eventBuilder.RemoveAllAttendees();
+                }
+
+                await _externalCalendarService.UpdateEventAsync(
+                    eventFromDbToUpdate.CalendarId,
+                    _eventBuilder.GetEvent());
+            }
+
+            return await _calendarEventsRepository.UpdateFullEventByCalendarIdAsync(eventFromDbToUpdate.CalendarId, toUpdateData);
+        }
+
         public async Task<bool> DeleteEventByCalendarIdAsync(string calendarId)
         {
             var result = false;
@@ -251,6 +295,7 @@ namespace LearnMe.Core.Services.Calendar
             return result;
         }
 
+        // USED
         public async Task<bool> DeleteFullEventByCalendarIdAsync(string calendarId)
         {
             var result = false;

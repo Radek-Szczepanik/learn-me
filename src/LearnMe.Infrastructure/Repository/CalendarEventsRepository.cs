@@ -138,5 +138,21 @@ namespace LearnMe.Infrastructure.Repository
                 CalendarId = calendarId
             });
         }
+
+        public async Task<bool> UpdateFullEventByCalendarIdAsync(
+            string calendarId,
+            CalendarEvent fullEvent)
+        {
+            //var eventToBeUpdated = await GetFullEventByCalendarIdAsync(calendarId);
+
+            //fullEvent.Id = eventToBeUpdated.Id;
+
+            await UpdateAsync(fullEvent);
+
+            return await SaveAsync();
+            //_context.CalendarEvents.Update(fullEvent);
+
+            //return await _context.SaveChangesAsync();
+        }
     }
 }

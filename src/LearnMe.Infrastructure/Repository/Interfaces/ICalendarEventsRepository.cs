@@ -24,6 +24,10 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
             DateTime? startDateTime,
             DateTime? endDateTime);
 
+        Task<bool> UpdateFullEventByCalendarIdAsync(
+            string calendarId,
+            CalendarEvent fullEvent);
+
         Task<CalendarEvent> InsertFullEventAsync(CalendarEvent fullEvent);
     }
 }

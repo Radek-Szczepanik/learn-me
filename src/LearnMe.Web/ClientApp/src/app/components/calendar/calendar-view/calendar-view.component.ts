@@ -73,25 +73,15 @@ export class CalendarViewComponent implements OnInit {
                 this.appointmentsData = this.data.events;
               }
             }),
-          // insert:,
+          // insert: (options) => this.data.createEvent(this.appointmentsData.current)
+          // .toPromise().then(success => {
+          //   console.debug(success);
+          // }),
           // update:,
           // remove:,
       })
     });
 
-    // this.appointmentsData = AspNetData.createStore({
-    //     //key: "calendarId",
-    //     loadUrl: url + '?fromDate=' + this.startViewDate.toJSON() + '&toDate=' + this.endViewDate.toJSON(),
-    //     // insertUrl: url + "/Post",
-    //     // updateUrl: url + "/Put",
-    //     // deleteUrl: url + "/Delete",
-    //     onBeforeSend: function (method, ajaxOptions) {
-    //         ajaxOptions.xhrFields = { withCredentials: true };
-    //     }
-    // });
-
-    //this.appointmentsData = service.getAppointments();
-  
     console.debug('appointmentsData:');
     console.debug(this.appointmentsData);
 
@@ -181,68 +171,44 @@ export class CalendarViewComponent implements OnInit {
     console.debug("on appointment added invoked");
     this.showToast("Added", e.appointmentData.text, "success");
 
-    //console.debug('object to be added:');
-    //console.debug(e);
+    console.debug('object to be added:');
+    console.debug(e);
 
-    this.eventToAdd.subject = e.appointmentData.subject;
-    this.eventToAdd.description = e.appointmentData.description;
-    this.eventToAdd.startDate = e.appointmentData.startDate;
-    this.eventToAdd.endDate = e.appointmentData.endDate;
-    this.eventToAdd.isDone = e.appointmentData.isDone;
-    this.eventToAdd.isFreeSlot = e.appointmentData.isFreeSlot;
+    let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == e.appointmentData.lessonStatus);
+    let attendeesArray: UserBasicDto[] = [];
 
-    let externalCalendarId = '';
+    e.appointmentData.attendees.email.forEach(element => {
+      let attendee: UserBasicDto = {
+        email: element,
+        firstName: '',
+        lastName: '',
+        phoneNumber: 0
+      }
+      attendeesArray.push(attendee);
+    });
 
-    this.https.post('/api/calendarevents', this.eventToAdd)
+    let newEvent: Appointment = {
+      subject: e.appointmentData.subject,
+      startDate: e.appointmentData.startDate,
+      endDate: e.appointmentData.endDate,
+      isDone: e.appointmentData.isDone,
+      isFreeSlot: e.appointmentData.isFreeSlot,
+      description: e.appointmentData.description,
+      calendarId: '',
+      lesson: {
+        title: e.appointmentData.lesson.title,
+        lessonStatus: lessonStatusIndex,
+        relatedInvoiceId: null,
+        calendarEventId: 0,
+      },
+      attendees: attendeesArray,
+    }
+
+    this.data.createEvent(newEvent)
       .toPromise().then(success => {
-        if (success) {
-          console.debug('event added to DB and Calendar');
-          console.debug(success);
-          let eventAdded = success as CalendarEvent;
-          externalCalendarId = eventAdded.calendarId;
-
-          this.lessonToAdd.title = e.appointmentData.title;
-          let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == e.appointmentData.lessonStatus);
-          this.lessonToAdd.lessonStatus = lessonStatusIndex;
-          this.lessonToAdd.relatedInvoiceId = null;
-          this.lessonToAdd.calendarEventId = 0;
-
-          console.debug('lesson to add:');
-          console.debug(this.lessonToAdd);
-
-          let route = '/api/lessons/' + externalCalendarId;
-
-          this.https.post(route, this.lessonToAdd)
-            .toPromise().then(success => {
-              if (success) {
-                console.debug('lesson added to DB');
-
-                let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
-
-                console.error('attendeesEmails');
-                console.debug(e.appointmentData.attendeesEmails);
-
-                let emails: string[] = e.appointmentData.attendeesEmails;
-
-                if (emails !== undefined) {
-                  emails.forEach((email) => {
-                    console.debug(email);
-                    let attendeeEmailDto: AttendeeDto = {
-                      attendeeEmail: email,
-                    }
-                    this.https.post(routeAttendees, attendeeEmailDto)
-                      .toPromise().then(success => {
-                        if (success) {
-                          console.debug('user/attendee of lesson added to DB');
-                        }
-                      });
-                  });
-                }
-
-              }
-            });
-        }
-      });
+        console.debug('success in createEvent')
+        console.debug(success);
+    });
   }
 
   onAppointmentUpdating(e) {
@@ -597,8 +563,9 @@ export class CalendarViewComponent implements OnInit {
       // e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
 
       // console.debug(e.appointmentData.attendees);
-
-      e.appointmentData.attendees.forEach(element => {
+      
+      //e.appointmentData.attendees.forEach(element => {
+      e.appointmentData.attendees.email.forEach(element => {
         console.debug(element.email);
         emails.push(element.email as string);
       });
@@ -614,9 +581,11 @@ export class CalendarViewComponent implements OnInit {
     }
     
     // e.form.itemOption("mainGroup").items[8].items[0].editorOptions.value = this.currentLesson.title;
-    e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
-      this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus];
-
+    if(e.appointmentData.lesson != undefined){
+      e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
+        this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus];
+    }
+    
     //Attendees
     let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
     console.debug('commonAttendees');
