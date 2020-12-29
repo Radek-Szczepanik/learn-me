@@ -42,4 +42,10 @@ export class CalendarService {
     
     return this.http.post(query, newEvent);
   }
+
+  deleteEvent(calendarId: string): Observable<object> {
+    let query = '/api/calendareventsbydate/' + calendarId;
+    
+    return this.http.delete(query);
+  }
 }
