@@ -6,12 +6,10 @@ import notify from 'devextreme/ui/notify';
 import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from "devextreme/ui/scheduler";
-import { Lesson, LessonStatus, EventLesson, AttendeeDto, UserBasicDto } from '../../../Models/Lesson/lesson'
+import { UserBasicDto } from '../../../Models/Lesson/lesson'
 import { User } from "../../../Models/Users/user"
 
 import {Appointment, Service} from '../../../services/calendar/calendar-service-ver-2';
-
-// import * as AspNetData from "devextreme-aspnet-data-nojquery";
 
 import DataSource from 'devextreme/data/data_source';
 import CustomStore from 'devextreme/data/custom_store';
@@ -28,41 +26,21 @@ import CustomStore from 'devextreme/data/custom_store';
 })
 export class CalendarViewComponent implements OnInit {
 
-  // appointmentsData: CalendarEvent[];
-  // appointmentsData: Appointment[];
   appointmentsData: any;
-
-  lessons: Lesson[];
   currentDate: Date = new Date();
   timezone: string = "Europe/Warsaw";
 
-  eventToAdd: CalendarEventPost;
-  lessonToAdd: Lesson;
-
   appointmentFormUpdatedFlag: boolean = false;
-  isFirstLoadFlag: boolean = true;
-  isFirstLoadAfterEditingEvent: boolean = true;
-  isDataLoaded: boolean = false;
-  dataLoaded: boolean = false;
-  dataReload: number = 0;
 
   //startViewDate: Date;
   //endViewDate: Date;
   startViewDate: Date = new Date(new Date().getTime() - (31 * 24 * 60 * 60 * 1000));
   endViewDate: Date = new Date(new Date().getTime() + (31 * 24 * 60 * 60 * 1000));
 
-
-  currentLesson: Lesson;
-  //currentAttendees: AttendeesEmails;
-  lessonEmails: string[] = [];
-
   itemsLessonStatus: string[] = ["New", "InProgress", "Done"];
-
   simpleEmails: string[] = [];
 
-  constructor(private data: CalendarService, private https: HttpService, service: Service) {
-
-    // var url = "/api/CalendarEventsByDate";
+  constructor(private data: CalendarService, private https: HttpService) {
 
     this.appointmentsData = new DataSource({
       store: new CustomStore({
@@ -73,41 +51,11 @@ export class CalendarViewComponent implements OnInit {
                 this.appointmentsData = this.data.events;
               }
             }),
-          // insert: (options) => this.data.createEvent(this.appointmentsData.current)
-          // .toPromise().then(success => {
-          //   console.debug(success);
-          // }),
-          // update:,
-          // remove:,
       })
     });
 
     console.debug('appointmentsData:');
     console.debug(this.appointmentsData);
-
-    this.eventToAdd = {
-      subject: '',
-      description: '',
-      startDate: new Date(),
-      endDate: new Date(),
-      isDone: false,
-      isFreeSlot: false,
-      calendarId: ''
-    };
-
-    this.lessonToAdd = {
-      title: '',
-      lessonStatus: 0,
-      relatedInvoiceId: null,
-      calendarEventId: 0
-    };
-
-    this.currentLesson = {
-      title: '',
-      calendarEventId: 0,
-      lessonStatus: 0,
-      relatedInvoiceId: 0
-    }
 
     let routeGetAllStudents = '/api/UserBasics?rolename=Student';
     this.https.getData(routeGetAllStudents)
@@ -122,50 +70,11 @@ export class CalendarViewComponent implements OnInit {
     
     console.debug('simpleEmails:');
     console.debug(this.simpleEmails);
-
-    // this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
-    //   .toPromise().then(success => {
-    //     console.debug(success);
-    //     if (success) {
-    //       this.appointmentsData = this.data.events;
-    //     }
-    //   });
-
   }
 
   ngOnInit(): void { }
 
   onInitialized(e) { }
-
-  //onContentReady(e) {
-  //  this.getCalendarCurrentDate();
-
-  //  if (this.isFirstLoadFlag && this.isFirstLoadAfterEditingEvent) {
-  //    console.debug('onContentReady isFirstLoadFlag');
-
-  //    this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
-  //      .toPromise().then(success => {
-  //        console.debug(success);
-  //        if (success) {
-  //          this.appointmentsData = this.data.events;
-  //        }
-  //      });
-
-  //    this.isFirstLoadFlag = false;
-  //    this.isFirstLoadAfterEditingEvent = false;
-
-  //  } else {
-  //    console.debug('onContentReady not 1st load');
-
-  //    this.isFirstLoadFlag = true;
-  //    this.isFirstLoadAfterEditingEvent = true;
-  //  }
-  //}
-
-  onAppointmentAdding(e) {
-    console.error('onAppointmentAdding fired');
-    this.isFirstLoadAfterEditingEvent = false;
-  }
 
   onAppointmentAdded(e) {
     console.debug("on appointment added invoked");
@@ -217,10 +126,6 @@ export class CalendarViewComponent implements OnInit {
               }
             });
     });
-  }
-
-  onAppointmentUpdating(e) {
-    this.isFirstLoadAfterEditingEvent = false;
   }
 
   onAppointmentUpdated(e) {
@@ -293,10 +198,6 @@ export class CalendarViewComponent implements OnInit {
     });
   }
 
-  onAppointmentDeleting(e) {
-    this.isFirstLoadAfterEditingEvent = false;
-  }
-
   onAppointmentDeleted(e) {
     this.showToast("Deleted", e.appointmentData.subject, "warning");
 
@@ -308,74 +209,6 @@ export class CalendarViewComponent implements OnInit {
         console.debug('success in deleteEvent')
         console.debug(success);
     });
-
-    // this.appointmentsData.load;
-  }
-
-  onAppointmentClick(e) {
-    console.error('on appointment click fired');
-
-    let externalCalendarId = e.appointmentData.calendarId;
-
-    console.debug('externalCalendarId');
-    console.debug(externalCalendarId);
-
-    let route = '/api/lessons/' + externalCalendarId;
-
-    this.https.getData(route)
-      .toPromise().then(success => {
-        if (success) {
-          console.debug('lesson fetched from DB');
-          console.debug(success);
-          let lesson = success as Lesson;
-
-          // ----
-          this.currentLesson = lesson;
-          console.debug('current lesson');
-          console.debug(this.currentLesson);
-          // ----
-
-          e.appointmentData.title = lesson.title;
-          e.appointmentData.lessonStatus = lesson.lessonStatus;
-          console.debug('e.appointmentData');
-          console.debug(e.appointmentData);
-        } else {
-          this.currentLesson.title = "";
-          this.currentLesson.calendarEventId = -1;
-        }
-      });
-
-    //Attendees
-    let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
-    //let lessonEmails: string[] = [];
-    this.lessonEmails = [];
-
-    this.https.getData(routeAttendees)
-      .toPromise().then(success => {
-        if (success) {
-          console.error('success get attendees');
-          console.debug(success);
-
-          let emailObjects = success as UserBasicDto[];
-          if (emailObjects.length !== 0) {
-            emailObjects.forEach(
-              (item) => {
-                console.error('get lesson attendees - item email');
-                console.debug(item.email);
-                this.lessonEmails.push(item.email);
-                console.debug(this.lessonEmails);
-              });
-          }
-          console.debug('this.lessonEmails - final');
-          console.debug(this.lessonEmails);
-        }
-      });
-  }
-
-  onAppointmentDoubleClick(e) {
-    console.error('on appointment double click fired');
-    this.onAppointmentClick(e); console.debug('onAppointmentClick');
-    this.onAppointmentFormOpening(e); console.debug('onAppointmentFormOpening');
   }
 
   async onAppointmentFormOpening(e) {
@@ -413,9 +246,6 @@ export class CalendarViewComponent implements OnInit {
               label: {
                 text: "Lesson Title"
               },
-              // editorOptions: {
-              //   value: "lesson.title" //"Please add Lesson title"
-              // }
             },
             {
               dataField: "lesson.lessonStatus",
@@ -456,9 +286,7 @@ export class CalendarViewComponent implements OnInit {
 
       this.appointmentFormUpdatedFlag = true;
     }
-
-    
-
+ 
     console.debug('e');
     console.debug(e);
 
@@ -469,7 +297,6 @@ export class CalendarViewComponent implements OnInit {
       console.debug('emails1');
       console.debug(emails);
 
-      //e.appointmentData.attendees.email.forEach(element => {
       e.appointmentData.attendees.forEach(element => {
         console.debug(element.email);
         emails.push(element.email as string);
