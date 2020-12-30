@@ -139,6 +139,7 @@ namespace LearnMe.Infrastructure.Repository
             });
         }
 
+        // USED
         public async Task<bool> UpdateFullEventByCalendarIdAsync(
             string calendarId,
             CalendarEvent fullEvent)
@@ -154,12 +155,11 @@ namespace LearnMe.Infrastructure.Repository
                     (fullEvent.Attendees.Select(x => x.Email)).ToArray();
 
                 fullEvent.Lesson.UserLessons = eventToBeUpdated.Lesson.UserLessons;
+                
+                await UpdateCalendarEventsAttendees(selectedEmails, fullEvent);
 
-                //UpdateLessonsAttendees(selectedEmails, fullEvent.Lesson);
-                UpdateCalendarEventsAttendees(selectedEmails, fullEvent);
-                //await SaveAsync();// deletes attendees if need to 
-                // EOS
-
+                _context.Entry(eventToBeUpdated).State = EntityState.Detached;
+                
                 return await UpdateAsync(fullEvent);
             }
             else
@@ -168,7 +168,7 @@ namespace LearnMe.Infrastructure.Repository
             }
         }
 
-        private void UpdateCalendarEventsAttendees(string[] emails, CalendarEvent eventToUpdate)
+        private async Task UpdateCalendarEventsAttendees(string[] emails, CalendarEvent eventToUpdate)
         {
             if (emails == null)
             {
@@ -197,12 +197,13 @@ namespace LearnMe.Infrastructure.Repository
                     {
                         UserLesson userToRemove = eventToUpdate.Lesson.UserLessons
                             .FirstOrDefault(x => x.UserId == user.Id);
-                        eventToUpdate.Lesson.UserLessons.Remove(userToRemove);
 
-                        //_context.Remove(userToRemove);
+                        _context.Remove(userToRemove);
                     }
                 }
             }
+
+            await SaveAsync();
         }
 
         private void UpdateLessonsAttendees(string[] emails, Lesson lessonToUpdate)
