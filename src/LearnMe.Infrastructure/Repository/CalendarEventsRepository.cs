@@ -143,16 +143,66 @@ namespace LearnMe.Infrastructure.Repository
             string calendarId,
             CalendarEvent fullEvent)
         {
-            //var eventToBeUpdated = await GetFullEventByCalendarIdAsync(calendarId);
+            var eventToBeUpdated = await GetFullEventByCalendarIdAsync(calendarId);
+            if (eventToBeUpdated != null)
+            {
+                fullEvent.Id = eventToBeUpdated.Id;
+                fullEvent.Lesson.Id = eventToBeUpdated.Lesson.Id;
 
-            //fullEvent.Id = eventToBeUpdated.Id;
+                // Updating user-lessons
+                var selectedEmails = new HashSet<string>
+                    (fullEvent.Attendees.Select(x => x.Email)).ToArray();
 
-            await UpdateAsync(fullEvent);
+                fullEvent.Lesson.UserLessons = eventToBeUpdated.Lesson.UserLessons;
 
-            return await SaveAsync();
-            //_context.CalendarEvents.Update(fullEvent);
+                UpdateLessonsAttendees(selectedEmails, fullEvent.Lesson);
+                // EOS
 
-            //return await _context.SaveChangesAsync();
+                await UpdateAsync(fullEvent);
+
+                return await SaveAsync();
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void UpdateLessonsAttendees(string[] emails, Lesson lessonToUpdate)
+        {
+            if (emails == null)
+            {
+                lessonToUpdate.UserLessons = new List<UserLesson>();
+                return;
+            }
+
+            var emailsNotNull = new HashSet<string>(emails);
+            var lessonsUsers = new HashSet<string>
+                (lessonToUpdate.UserLessons.Select(x => x.User.Email));
+            foreach (var user in _context.UserBasic.AsNoTracking())
+            {
+                if (emailsNotNull.Contains(user.Email))
+                {
+                    if (!lessonsUsers.Contains(user.Email))
+                    {
+                        lessonToUpdate.UserLessons.Add(new UserLesson()
+                        {
+                            LessonId = lessonToUpdate.Id,
+                            UserId = user.Id
+                        });
+                    }
+                }
+                else
+                {
+                    //if (lessonsUsers.Contains(user.Email))
+                    //{
+                    //    UserLesson userToRemove = lessonToUpdate.UserLessons
+                    //        .FirstOrDefault(x => x.UserId == user.Id);
+                    //    lessonToUpdate.UserLessons.Remove(userToRemove);
+                    //    _context.Remove(userToRemove);
+                    //}
+                }
+            }
         }
     }
 }
