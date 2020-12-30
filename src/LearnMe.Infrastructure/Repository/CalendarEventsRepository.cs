@@ -155,16 +155,53 @@ namespace LearnMe.Infrastructure.Repository
 
                 fullEvent.Lesson.UserLessons = eventToBeUpdated.Lesson.UserLessons;
 
-                UpdateLessonsAttendees(selectedEmails, fullEvent.Lesson);
+                //UpdateLessonsAttendees(selectedEmails, fullEvent.Lesson);
+                UpdateCalendarEventsAttendees(selectedEmails, fullEvent);
+                //await SaveAsync();// deletes attendees if need to 
                 // EOS
 
-                await UpdateAsync(fullEvent);
-
-                return await SaveAsync();
+                return await UpdateAsync(fullEvent);
             }
             else
             {
                 return false;
+            }
+        }
+
+        private void UpdateCalendarEventsAttendees(string[] emails, CalendarEvent eventToUpdate)
+        {
+            if (emails == null)
+            {
+                eventToUpdate.Lesson.UserLessons = new List<UserLesson>();
+                return;
+            }
+
+            var emailsNotNull = new HashSet<string>(emails);
+            var lessonsUsers = new HashSet<string>
+                (eventToUpdate.Lesson.UserLessons.Select(x => x.User.Email));
+            foreach (var user in _context.UserBasic.AsNoTracking())
+            {
+                if (emailsNotNull.Contains(user.Email))
+                {
+                    if (!lessonsUsers.Contains(user.Email))
+                    {
+                        eventToUpdate.Lesson.UserLessons.Add(new UserLesson()
+                        {
+                            LessonId = eventToUpdate.Lesson.Id,
+                            UserId = user.Id
+                        });
+                    }
+                } else
+                {
+                    if (lessonsUsers.Contains(user.Email))
+                    {
+                        UserLesson userToRemove = eventToUpdate.Lesson.UserLessons
+                            .FirstOrDefault(x => x.UserId == user.Id);
+                        eventToUpdate.Lesson.UserLessons.Remove(userToRemove);
+
+                        //_context.Remove(userToRemove);
+                    }
+                }
             }
         }
 
@@ -194,13 +231,14 @@ namespace LearnMe.Infrastructure.Repository
                 }
                 else
                 {
-                    //if (lessonsUsers.Contains(user.Email))
-                    //{
-                    //    UserLesson userToRemove = lessonToUpdate.UserLessons
-                    //        .FirstOrDefault(x => x.UserId == user.Id);
-                    //    lessonToUpdate.UserLessons.Remove(userToRemove);
-                    //    _context.Remove(userToRemove);
-                    //}
+                    if (lessonsUsers.Contains(user.Email))
+                    {
+                        UserLesson userToRemove = lessonToUpdate.UserLessons
+                            .FirstOrDefault(x => x.UserId == user.Id);
+                        //lessonToUpdate.UserLessons.Remove(userToRemove);
+                        
+                        _context.Remove(userToRemove);
+                    }
                 }
             }
         }
