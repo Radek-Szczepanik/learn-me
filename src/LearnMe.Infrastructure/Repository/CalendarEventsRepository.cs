@@ -87,6 +87,7 @@ namespace LearnMe.Infrastructure.Repository
         {
             var inserted = await _context.AddAsync<CalendarEvent>(fullEvent);
             bool isSuccess = await SaveAsync();
+            bool isSuccess2 = true;
 
             if (fullEvent.Attendees.Count != 0)
             {
@@ -105,9 +106,10 @@ namespace LearnMe.Infrastructure.Repository
 
                     var updated = await _context.UserLessons.AddAsync(userLesson);
                 }
-            }
-            bool isSuccess2 = await SaveAsync();
 
+                isSuccess2 = await SaveAsync();
+            }
+            
             CalendarEvent newEvent = null;
 
             if (isSuccess && isSuccess2)

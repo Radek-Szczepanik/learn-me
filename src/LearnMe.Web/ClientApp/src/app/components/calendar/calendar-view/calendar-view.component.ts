@@ -129,7 +129,7 @@ export class CalendarViewComponent implements OnInit {
   }
 
   onAppointmentUpdated(e) {
-    console.error('onAppointmentUpdated fired');
+    console.debug('onAppointmentUpdated fired');
     this.showToast("Updated", e.appointmentData.subject, "info");
 
     console.debug('when updated object is:');

@@ -56,17 +56,16 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         {
             var newEvent = await _calendar.CreateFullEventAsync(eventData);
 
-            //if (newEvent != null)
-            //{
-            //Added calendarId to DTO
-            var newEventDbObject = await _calendarEventsRepository.GetByCalendarIdAsync(newEvent.CalendarId);
+            if (newEvent != null)
+            {
+                //Added calendarId to DTO
+                var newEventDbObject = await _calendarEventsRepository.GetByCalendarIdAsync(newEvent.CalendarId);
 
-            return CreatedAtRoute("EventById", new { id = newEventDbObject.Id }, newEvent);
-            //}
-            //else
-            //{
-            //    return NotFound();
-            //}
+                return CreatedAtRoute("EventById", new { id = newEventDbObject.Id }, newEvent);
+            } else
+            {
+                return BadRequest();
+            }
         }
 
         // PUT api/<controller>/5
