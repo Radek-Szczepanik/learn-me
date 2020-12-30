@@ -66,6 +66,7 @@ export class Appointment {
 @Injectable()
 export class Service {
     getAppointments(): Appointment[] {
-        return appointments;
+        // return appointments;
+        return [];
     }
 }

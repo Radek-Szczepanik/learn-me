@@ -68,6 +68,7 @@ namespace LearnMe.Infrastructure.Repository
             return result;
         }
 
+        // CALENDAR.CS
         public async Task<IEnumerable<CalendarEvent>> GetFullEventByFromAndToDateAsync(DateTime fromDate, DateTime toDate)
         {
             var result = await _context.CalendarEvents
@@ -117,6 +118,7 @@ namespace LearnMe.Infrastructure.Repository
             return newEvent ?? null;
         }
 
+        // SYNCHRONIZER
         public async Task<bool> UpdateByCalendarIdAsync(
             string calendarId,
             string summary,
@@ -204,44 +206,6 @@ namespace LearnMe.Infrastructure.Repository
             }
 
             await SaveAsync();
-        }
-
-        private void UpdateLessonsAttendees(string[] emails, Lesson lessonToUpdate)
-        {
-            if (emails == null)
-            {
-                lessonToUpdate.UserLessons = new List<UserLesson>();
-                return;
-            }
-
-            var emailsNotNull = new HashSet<string>(emails);
-            var lessonsUsers = new HashSet<string>
-                (lessonToUpdate.UserLessons.Select(x => x.User.Email));
-            foreach (var user in _context.UserBasic.AsNoTracking())
-            {
-                if (emailsNotNull.Contains(user.Email))
-                {
-                    if (!lessonsUsers.Contains(user.Email))
-                    {
-                        lessonToUpdate.UserLessons.Add(new UserLesson()
-                        {
-                            LessonId = lessonToUpdate.Id,
-                            UserId = user.Id
-                        });
-                    }
-                }
-                else
-                {
-                    if (lessonsUsers.Contains(user.Email))
-                    {
-                        UserLesson userToRemove = lessonToUpdate.UserLessons
-                            .FirstOrDefault(x => x.UserId == user.Id);
-                        //lessonToUpdate.UserLessons.Remove(userToRemove);
-                        
-                        _context.Remove(userToRemove);
-                    }
-                }
-            }
         }
     }
 }

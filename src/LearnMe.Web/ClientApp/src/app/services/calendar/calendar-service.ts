@@ -43,6 +43,12 @@ export class CalendarService {
     return this.http.post(query, newEvent);
   }
 
+  updateEvent(newEvent: any): Observable<object> {
+    let query = '/api/calendareventsbydate';
+    
+    return this.http.put(query, newEvent);
+  }
+
   deleteEvent(calendarId: string): Observable<object> {
     let query = '/api/calendareventsbydate/' + calendarId;
     

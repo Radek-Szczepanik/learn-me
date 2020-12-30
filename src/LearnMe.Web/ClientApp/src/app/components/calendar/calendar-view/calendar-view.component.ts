@@ -225,104 +225,72 @@ export class CalendarViewComponent implements OnInit {
 
   onAppointmentUpdated(e) {
     console.error('onAppointmentUpdated fired');
-
     this.showToast("Updated", e.appointmentData.subject, "info");
 
     console.debug('when updated object is:');
     console.debug(e);
 
-    this.eventToAdd.subject = e.appointmentData.subject;
-    this.eventToAdd.description = e.appointmentData.description;
-    this.eventToAdd.startDate = e.appointmentData.startDate;
-    this.eventToAdd.endDate = e.appointmentData.endDate;
-    this.eventToAdd.isDone = e.appointmentData.isDone;
-    this.eventToAdd.isFreeSlot = e.appointmentData.isFreeSlot;
-    this.eventToAdd.calendarId = e.appointmentData.calendarId;
+    let lessonStatusIndex: number;
+    if(typeof(e.appointmentData.lesson.lessonStatus) != 'number'){
+      lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == e.appointmentData.lesson.lessonStatus);
+    } else {
+      lessonStatusIndex = e.appointmentData.lesson.lessonStatus
+    }
+    
+    let attendeesArray: UserBasicDto[] = [];
 
-    console.debug(this.eventToAdd);
-
-    this.https.put('/api/calendareventsbygoogleid/', this.eventToAdd)
-      .toPromise().then(success => {
-        if (success) {
-          console.debug('event updated in DB and Calendar');
+    if(e.appointmentData.attendees.email == undefined){
+      e.appointmentData.attendees.forEach(element => {  
+        let attendee: UserBasicDto = {
+          email: element.email,
+          firstName: '',
+          lastName: '',
+          phoneNumber: 0
         }
+        attendeesArray.push(attendee);
       });
+    } else {
+      e.appointmentData.attendees.email.forEach(element => {
+          let attendee: UserBasicDto = {
+            email: element,
+            firstName: '',
+            lastName: '',
+            phoneNumber: 0
+          }
+          attendeesArray.push(attendee);
+        });
+    }
 
-    let putLessonUrl = '/api/lessons/' + e.appointmentData.calendarId;
+    let newEvent: Appointment = {
+      subject: e.appointmentData.subject,
+      startDate: e.appointmentData.startDate,
+      endDate: e.appointmentData.endDate,
+      isDone: e.appointmentData.isDone,
+      isFreeSlot: e.appointmentData.isFreeSlot,
+      description: e.appointmentData.description,
+      calendarId: e.appointmentData.calendarId,// diff vs new event
+      lesson: {
+        title: e.appointmentData.lesson.title,
+        lessonStatus: lessonStatusIndex,
+        relatedInvoiceId: null,
+        calendarEventId: 0,
+      },
+      attendees: attendeesArray,
+    }
 
-    this.lessonToAdd.title = e.appointmentData.title;
-    console.error('e.appointmentData.lessonStatus');
-    console.error(e.appointmentData.lessonStatus);
-    let lessonStatusIndex = this.itemsLessonStatus.findIndex(x => x == e.appointmentData.lessonStatus);
-    this.lessonToAdd.lessonStatus = lessonStatusIndex;
-    this.lessonToAdd.relatedInvoiceId = null;
-    this.lessonToAdd.calendarEventId = 0;
-
-    console.debug('lesson to add');
-    console.debug(this.lessonToAdd);
-
-    this.https.put(putLessonUrl, this.lessonToAdd)
+    this.data.updateEvent(newEvent)
       .toPromise().then(success => {
-        if (success) {
-          console.debug('lesson updated in DB and Calendar');
-        }
-      });
+        console.debug('success in updateEvent')
+        console.debug(success);
 
-    // Attendees update
-    // Emails from UI
-    let emailsUI: string[] = e.appointmentData.attendeesEmails;
-    console.debug('emailsUI');
-    console.debug(emailsUI);
-    // Emails from DB
-    let emailsDB: string[] = [];
-    let externalCalendarId = this.eventToAdd.calendarId;
-    let routeAttendees = '/api/lessons/' + externalCalendarId + '/attendees';
-    this.https.getData(routeAttendees)
-      .toPromise().then(success => {
-        if (success) {
-          console.debug('attendees from db');
-          console.debug(success);
-          let dbEmails = success as User[];
-          dbEmails.forEach(item => {
-            emailsDB.push(item.email);
-          });
-          console.debug('emailsDB');
-          console.debug(emailsDB);
-
-          let differenceToAdd = emailsUI.filter(x => !emailsDB.includes(x));
-          let differenceToDelete = emailsDB.filter(x => !emailsUI.includes(x));
-          console.debug('differenceToAdd');
-          console.debug(differenceToAdd);
-          console.debug('differenceToDelete');
-          console.debug(differenceToDelete);
-
-          differenceToAdd.forEach((email) => {
-            let attendeeEmailDto: AttendeeDto = {
-              attendeeEmail: email,
-            }
-            this.https.post(routeAttendees, attendeeEmailDto)
-              .toPromise().then(success => {
-                if (success) {
-                  console.debug('email added');
-                  console.debug(email);
-                  console.debug('user/attendee of lesson added to DB');
-                }
-              });
-          });
-
-          differenceToDelete.forEach((email) => {
-            console.debug('email deleted');
-            console.debug(email);
-            let routeAttendeeDelete = routeAttendees + '/' + email;
-            this.https.delete(routeAttendeeDelete)
-              .toPromise().then(success => {
-                if (success) {
-                  console.debug('user/attendee of lesson deleted from DB');
-                }
-              });
-          });
-        }
-      });
+        this.data.loadEventsByDates(this.startViewDate, this.endViewDate)
+            .toPromise().then(success => {
+              console.debug(success);
+              if (success) {
+                this.appointmentsData = this.data.events;
+              }
+            });
+    });
   }
 
   onAppointmentDeleting(e) {
@@ -501,7 +469,8 @@ export class CalendarViewComponent implements OnInit {
       console.debug('emails1');
       console.debug(emails);
 
-      e.appointmentData.attendees.email.forEach(element => {
+      //e.appointmentData.attendees.email.forEach(element => {
+      e.appointmentData.attendees.forEach(element => {
         console.debug(element.email);
         emails.push(element.email as string);
       });
