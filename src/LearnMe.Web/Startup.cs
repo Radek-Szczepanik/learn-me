@@ -54,7 +54,12 @@ namespace LearnMe.Web
              options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"),
              b => b.MigrationsAssembly("LearnMe.Web")));
             services.AddIdentity<UserBasic, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddRoles<IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddAuthentication()
             .AddGoogle(options =>
             {

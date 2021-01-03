@@ -7,11 +7,13 @@ using LearnMe.Core.DTO.Calendar;
 using LearnMe.Core.Interfaces.Services;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
 using LearnMe.Infrastructure.Repository.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace LearnMe.Web.Controllers.Calendar.CalendarController
 {
+    [Authorize(Roles = "Mentor")]
     [Route("api/[controller]")]
     [ApiController]
     public class CalendarEventsByDate : Controller

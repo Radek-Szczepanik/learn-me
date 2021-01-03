@@ -85,6 +85,8 @@ namespace LearnMe.Infrastructure.Repository
         // USED
         public async Task<CalendarEvent> InsertFullEventAsync(CalendarEvent fullEvent)
         {
+            fullEvent.Lesson.Title ??= "";
+
             var inserted = await _context.AddAsync<CalendarEvent>(fullEvent);
             bool isSuccess = await SaveAsync();
             bool isSuccess2 = true;
