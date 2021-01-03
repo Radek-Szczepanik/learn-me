@@ -2,6 +2,7 @@
 using LearnMe.Core.DTO.Calendar;
 using LearnMe.Core.Interfaces.Services;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Google.Apis.Calendar.v3.Data;
@@ -9,8 +10,11 @@ using LearnMe.Core.Services.Calendar.Utils.Constants;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using Microsoft.Extensions.Logging;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
+using LearnMe.Infrastructure.Models.Domains.Lessons;
+using LearnMe.Infrastructure.Models.Domains.Users;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using LearnMe.Shared.Enum.Calendar;
+using Microsoft.AspNetCore.Identity;
 
 namespace LearnMe.Core.Services.Calendar
 {
@@ -52,8 +56,9 @@ namespace LearnMe.Core.Services.Calendar
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<CalendarEventDto> CreateEventAsync(
-            CalendarEventDto eventData,
+        // USED
+        public async Task<FullCalendarEventDto> CreateFullEventAsync(
+            FullCalendarEventDto eventData,
             string calendarId = CalendarConstants.CalendarId,
             string timezone = CalendarConstants.Timezone,
             bool isRecurringEvent = false,
@@ -62,7 +67,6 @@ namespace LearnMe.Core.Services.Calendar
             DateTime? recurUntilDateTime = null,
             IList<string> attendeesEmails = null)
         {
-            _logger.LogDebug("Create event started");
             CalendarEvent newDbEvent = _mapper.Map<CalendarEvent>(eventData);
 
             // Google Event
@@ -77,7 +81,13 @@ namespace LearnMe.Core.Services.Calendar
                 _eventBuilder.SetRecurrence(period, recurringEventsCount, recurUntilDateTime);
             }
 
-            if (attendeesEmails != null)
+            attendeesEmails = new List<string>();
+            foreach (var person in newDbEvent.Attendees)
+            {
+                attendeesEmails.Add(person.Email);
+            }
+
+            if (attendeesEmails.Count != 0)
             {
                 foreach (var email in attendeesEmails)
                 {
@@ -93,13 +103,14 @@ namespace LearnMe.Core.Services.Calendar
             newDbEvent.CalendarId = newCalendarEvent.Id;
 
             _logger.LogDebug("Create event in DB - START");
-            var insertedDbEvent = await _repository.InsertAsync(newDbEvent);
+            //var insertedDbEvent = await _repository.InsertAsync(newDbEvent);
+            var insertedDbEvent = await _calendarEventsRepository.InsertFullEventAsync(newDbEvent);
             _logger.LogDebug("Create event in DB - END");
 
             if (insertedDbEvent != null)
             {
                 _logger.LogDebug("Create event ended");
-                return _mapper.Map<CalendarEventDto>(insertedDbEvent);
+                return _mapper.Map<FullCalendarEventDto>(insertedDbEvent);
             } else
             {
                 _logger.LogDebug("Create event ended");
@@ -229,6 +240,49 @@ namespace LearnMe.Core.Services.Calendar
             return await _repository.UpdateAsync(toUpdateData);
         }
 
+        // USED
+        public async Task<bool> UpdateFullEventByCalendarIdAsync(
+            FullCalendarEventDto eventData,
+            IList<string> attendeesEmails = null)
+        {
+            CalendarEvent toUpdateData = _mapper.Map<CalendarEvent>(eventData);
+
+            var eventFromDbToUpdate =
+                await _calendarEventsRepository.GetFullEventByCalendarIdAsync(eventData.CalendarId);
+
+            toUpdateData.Id = eventFromDbToUpdate.Id;
+
+            if (eventFromDbToUpdate != null)
+            {
+                _eventBuilder.BuildBasicEventWithDescription(
+                    toUpdateData.Title,
+                    toUpdateData.Start,
+                    toUpdateData.End,
+                    toUpdateData.Description);
+
+                attendeesEmails = new List<string>();
+                foreach (var person in toUpdateData.Attendees)
+                {
+                    attendeesEmails.Add(person.Email);
+                }
+
+                if (attendeesEmails.Count != 0)
+                {
+                    _eventBuilder.UpdateAttendees(attendeesEmails);
+                }
+                else
+                {
+                    _eventBuilder.RemoveAllAttendees();
+                }
+
+                await _externalCalendarService.UpdateEventAsync(
+                    eventFromDbToUpdate.CalendarId,
+                    _eventBuilder.GetEvent());
+            }
+
+            return await _calendarEventsRepository.UpdateFullEventByCalendarIdAsync(eventFromDbToUpdate.CalendarId, toUpdateData);
+        }
+
         public async Task<bool> DeleteEventByCalendarIdAsync(string calendarId)
         {
             var result = false;
@@ -244,7 +298,27 @@ namespace LearnMe.Core.Services.Calendar
             return result;
         }
 
-        public async Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(DateTime fromDate, DateTime toDate)
+        // USED
+        public async Task<bool> DeleteFullEventByCalendarIdAsync(string calendarId)
+        {
+            var result = false;
+
+            var eventToBeDeleted =
+                await _calendarEventsRepository.GetFullEventByCalendarIdAsync(calendarId);
+            if (eventToBeDeleted != null)
+            {
+                await _externalCalendarService.DeleteEventAsync(eventToBeDeleted.CalendarId);
+                result = await _repository.DeleteAsync(eventToBeDeleted.Id);
+            }
+
+            return result;
+        }
+
+        public async Task<IEnumerable<FullCalendarEventDto>> GetFullEventsByUserRoleByDatesAsync(
+            string userRole,
+            string userEmail,
+            DateTime fromDate,
+            DateTime toDate)
         {
             // Step 1 - synchronize Google calendar with DB
             //var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
@@ -257,19 +331,22 @@ namespace LearnMe.Core.Services.Calendar
             //_logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
 
             // Step 2 - get all data from DB
-            var eventsResult = await _calendarEventsRepository.GetByFromAndToDate(fromDate, toDate);
+            var eventsResult = await _calendarEventsRepository.GetFullEventForRoleByFromAndToDateAsync(
+                userRole,
+                userEmail,
+                fromDate,
+                toDate);
 
             if (eventsResult != null)
             {
-                IList<CalendarEventDto> results = new List<CalendarEventDto>();
+                IList<FullCalendarEventDto> results = new List<FullCalendarEventDto>();
                 foreach (var eventResult in eventsResult)
                 {
-                    results.Add(_mapper.Map<CalendarEventDto>(eventResult));
+                    results.Add(_mapper.Map<FullCalendarEventDto>(eventResult));
                 }
 
                 return results;
-            }
-            else
+            } else
             {
                 return null;
             }

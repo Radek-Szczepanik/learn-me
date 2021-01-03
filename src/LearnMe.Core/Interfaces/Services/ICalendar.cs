@@ -15,8 +15,8 @@ namespace LearnMe.Core.Interfaces.Services
 
         Task<CalendarEventDto> GetEventByIdAsync(int id);
 
-        Task<CalendarEventDto> CreateEventAsync(
-            CalendarEventDto eventData,
+        Task<FullCalendarEventDto> CreateFullEventAsync(
+            FullCalendarEventDto eventData,
             string calendarId = CalendarConstants.CalendarId,
             string timezone = CalendarConstants.Timezone,
             bool isRecurringEvent = false,
@@ -36,9 +36,17 @@ namespace LearnMe.Core.Interfaces.Services
             CalendarEventDto eventData,
             IList<string> attendeesEmails = null);
 
+        Task<bool> UpdateFullEventByCalendarIdAsync(
+            FullCalendarEventDto eventData,
+            IList<string> attendeesEmails = null);
+
         Task<bool> DeleteEventByCalendarIdAsync(string calendarId);
 
-        Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(
+        Task<bool> DeleteFullEventByCalendarIdAsync(string calendarId);
+
+        Task<IEnumerable<FullCalendarEventDto>> GetFullEventsByUserRoleByDatesAsync(
+            string roleName,
+            string userEmail,
             DateTime fromDate,
             DateTime toDate);
     }

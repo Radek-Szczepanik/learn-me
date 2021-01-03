@@ -19,7 +19,7 @@ namespace LearnMe.Infrastructure.Models.Domains.Lessons
         public CalendarEvent CalendarEvent { get; set; }
         
     
-       public int CalendarEventId { get; set; }
+        public int CalendarEventId { get; set; }
 
         public IList<UserLesson> UserLessons { get; set; }
     }
