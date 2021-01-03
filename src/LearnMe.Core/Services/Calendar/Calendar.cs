@@ -314,68 +314,6 @@ namespace LearnMe.Core.Services.Calendar
             return result;
         }
 
-        public async Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(DateTime fromDate, DateTime toDate)
-        {
-            // Step 1 - synchronize Google calendar with DB
-            //var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
-            //    _externalCalendarService,
-            //    _calendarEventsRepository,
-            //    _lessonsRepository,
-            //    _synchronizationData,
-            //    _eventsData);
-
-            //_logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
-
-            // Step 2 - get all data from DB
-            var eventsResult = await _calendarEventsRepository.GetByFromAndToDate(fromDate, toDate);
-
-            if (eventsResult != null)
-            {
-                IList<CalendarEventDto> results = new List<CalendarEventDto>();
-                foreach (var eventResult in eventsResult)
-                {
-                    results.Add(_mapper.Map<CalendarEventDto>(eventResult));
-                }
-
-                return results;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        // NOT USED
-        public async Task<IEnumerable<FullCalendarEventDto>> GetFullEventsByDatesAsync(DateTime fromDate, DateTime toDate)
-        {
-            // Step 1 - synchronize Google calendar with DB
-            //var eventsSynchronizedCount = await _synchronizer.SynchronizeDatabaseWithCalendarByDateModifiedAsync(
-            //    _externalCalendarService,
-            //    _calendarEventsRepository,
-            //    _lessonsRepository,
-            //    _synchronizationData,
-            //    _eventsData);
-
-            //_logger.Log(LogLevel.Debug, $"{DateTime.Now} Synchronized {eventsSynchronizedCount} events: from Calendar to DB");
-
-            // Step 2 - get all data from DB
-            var eventsResult = await _calendarEventsRepository.GetFullEventByFromAndToDateAsync(fromDate, toDate);
-
-            if (eventsResult != null)
-            {
-                IList<FullCalendarEventDto> results = new List<FullCalendarEventDto>();
-                foreach (var eventResult in eventsResult)
-                {
-                    results.Add(_mapper.Map<FullCalendarEventDto>(eventResult));
-                }
-
-                return results;
-            } else
-            {
-                return null;
-            }
-        }
-
         public async Task<IEnumerable<FullCalendarEventDto>> GetFullEventsByUserRoleByDatesAsync(
             string userRole,
             string userEmail,

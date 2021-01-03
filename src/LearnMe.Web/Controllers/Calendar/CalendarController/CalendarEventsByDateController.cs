@@ -18,7 +18,7 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CalendarEventsByDate : Controller
+    public class CalendarEventsByDateController : Controller
     {
         private readonly ICalendar _calendar;
         private readonly IMapper _mapper;
@@ -26,7 +26,7 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         private readonly ICalendarEventsRepository _calendarEventsRepository;
         private readonly UserManager<UserBasic> _userManager;
 
-        public CalendarEventsByDate(
+        public CalendarEventsByDateController(
             ICalendar calendar,
             IMapper mapper,
             ILogger<CalendarEventsController> logger,
@@ -47,8 +47,6 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            //var result = await _calendar.GetFullEventsByDatesAsync(fromDate, toDate);
-
             ClaimsPrincipal currentUser = this.User;
             var currentUserRole = currentUser.FindFirst(ClaimTypes.Role).Value;
             var currentUserEmail = currentUser.FindFirst(ClaimTypes.Name).Value;
@@ -63,27 +61,6 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
                 return NotFound();
             }
         }
-
-        //[Authorize(Roles = "Student")]
-        //// GET: api/<controller>
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<FullCalendarEventDto>>> GetForStudentUserAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
-        //{
-        //    cancellationToken.ThrowIfCancellationRequested();
-
-        //    ClaimsPrincipal currentUser = this.User;
-        //    var currentUserRole = currentUser.FindFirst(ClaimTypes.Role).Value;
-
-        //    var result = await _calendar.GetFullEventsByUserRoleByDatesAsync(currentUserRole, fromDate, toDate);
-
-        //    if (result != null)
-        //    {
-        //        return Ok(result);
-        //    } else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
 
         // POST api/<controller>
         [HttpPost]

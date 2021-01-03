@@ -103,7 +103,6 @@ namespace LearnMe.Infrastructure.Repository
                     .AsNoTracking()
                     .ToListAsync();
 
-                // TODO
                 var userPlannedLessons = await _context.CalendarEvents
                     .Where(x => x.Start >= fromDate && x.End <= toDate)
                     .Include(x => x.Lesson)
@@ -116,7 +115,7 @@ namespace LearnMe.Infrastructure.Repository
                     .ToListAsync();
 
                 var uniqueResults = freeSlots.Union(userPlannedLessons)
-                    .Distinct(new PropertyComparer<CalendarEvent>("CalendarId")); //ToHashSet();
+                    .Distinct(new PropertyComparer<CalendarEvent>("CalendarId"));
                 result = uniqueResults.ToList();
             }
             else if (roleName == InfrastructureConstants.MentorRoleName
@@ -133,6 +132,7 @@ namespace LearnMe.Infrastructure.Repository
 
             return result;
         }
+        
         // USED
         public async Task<CalendarEvent> InsertFullEventAsync(CalendarEvent fullEvent)
         {

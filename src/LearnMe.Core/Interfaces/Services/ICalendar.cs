@@ -44,14 +44,6 @@ namespace LearnMe.Core.Interfaces.Services
 
         Task<bool> DeleteFullEventByCalendarIdAsync(string calendarId);
 
-        Task<IEnumerable<CalendarEventDto>> GetEventsByDatesAsync(
-            DateTime fromDate,
-            DateTime toDate);
-
-        Task<IEnumerable<FullCalendarEventDto>> GetFullEventsByDatesAsync(
-            DateTime fromDate,
-            DateTime toDate);
-
         Task<IEnumerable<FullCalendarEventDto>> GetFullEventsByUserRoleByDatesAsync(
             string roleName,
             string userEmail,
