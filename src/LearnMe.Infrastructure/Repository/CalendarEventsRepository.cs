@@ -7,6 +7,8 @@ using LearnMe.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
+using LearnMe.Infrastructure.Repository.Constants;
+using LearnMe.Infrastructure.Repository.Helpers;
 
 namespace LearnMe.Infrastructure.Repository
 {
@@ -68,7 +70,7 @@ namespace LearnMe.Infrastructure.Repository
             return result;
         }
 
-        // CALENDAR.CS
+        // NOT USED
         public async Task<IEnumerable<CalendarEvent>> GetFullEventByFromAndToDateAsync(DateTime fromDate, DateTime toDate)
         {
             var result = await _context.CalendarEvents
@@ -82,6 +84,55 @@ namespace LearnMe.Infrastructure.Repository
             return result;
         }
 
+        // CALENDAR.CS
+        public async Task<IEnumerable<CalendarEvent>> GetFullEventForRoleByFromAndToDateAsync(
+            string roleName,
+            string userEmail,
+            DateTime fromDate,
+            DateTime toDate)
+        {
+            List<CalendarEvent> result = null;
+
+            if (roleName == InfrastructureConstants.StudentRoleName)
+            {
+                var freeSlots = await _context.CalendarEvents
+                    .Where(x => x.Start >= fromDate && x.End <= toDate && x.IsFreeSlot && x.IsDone == false)
+                    .Include(x => x.Lesson)
+                    .ThenInclude(x => x.UserLessons)
+                    .ThenInclude(x => x.User)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                // TODO
+                var userPlannedLessons = await _context.CalendarEvents
+                    .Where(x => x.Start >= fromDate && x.End <= toDate)
+                    .Include(x => x.Lesson)
+                    .ThenInclude(x => x.UserLessons)
+                    .ThenInclude(x => x.User)
+                    .Where(x => x.Start >= fromDate && x.End <= toDate
+                                                    && x.Lesson.UserLessons.Any(u =>
+                                                        u.User.Email.ToLower() == userEmail.ToLower()))
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                var uniqueResults = freeSlots.Union(userPlannedLessons)
+                    .Distinct(new PropertyComparer<CalendarEvent>("CalendarId")); //ToHashSet();
+                result = uniqueResults.ToList();
+            }
+            else if (roleName == InfrastructureConstants.MentorRoleName
+                     || roleName == InfrastructureConstants.AdminRoleName)
+            {
+                result = await _context.CalendarEvents
+                    .Where(x => x.Start >= fromDate && x.End <= toDate)
+                    .Include(x => x.Lesson)
+                    .ThenInclude(x => x.UserLessons)
+                    .ThenInclude(x => x.User)
+                    .AsNoTracking()
+                    .ToListAsync();
+            }
+
+            return result;
+        }
         // USED
         public async Task<CalendarEvent> InsertFullEventAsync(CalendarEvent fullEvent)
         {

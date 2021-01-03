@@ -11,11 +11,21 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
 
         Task<CalendarEvent> GetByCalendarIdAsync(string calendarId);
 
-        Task<IEnumerable<CalendarEvent>> GetByFromAndToDate(DateTime fromDate, DateTime toDate);
+        Task<IEnumerable<CalendarEvent>> GetByFromAndToDate(
+            DateTime fromDate,
+            DateTime toDate);
 
         Task<CalendarEvent> GetFullEventByCalendarIdAsync(string calendarId);
 
-        Task<IEnumerable<CalendarEvent>> GetFullEventByFromAndToDateAsync(DateTime fromDate, DateTime toDate);
+        Task<IEnumerable<CalendarEvent>> GetFullEventByFromAndToDateAsync(
+            DateTime fromDate,
+            DateTime toDate);
+
+        Task<IEnumerable<CalendarEvent>> GetFullEventForRoleByFromAndToDateAsync(
+            string roleName,
+            string userEmail,
+            DateTime fromDate,
+            DateTime toDate);
 
         Task<bool> UpdateByCalendarIdAsync(
             string calendarId,
