@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using AutoMapper;
+using LearnMe.Core.DTO.Lessons;
+using LearnMe.Core.DTO.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Infrastructure.Data;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
+using LearnMe.Infrastructure.Repository.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace LearnMe.Controllers.Lessons
 {
@@ -14,97 +17,172 @@ namespace LearnMe.Controllers.Lessons
     [ApiController]
     public class LessonsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ILessonsRepository _lessonsRepository;
+        private readonly IMapper _mapper;
+        private readonly ILogger<LessonsController> _logger;
 
-        public LessonsController(ApplicationDbContext context)
+        public LessonsController(
+            ILessonsRepository lessonsRepository,
+            IMapper mapper,
+            ILogger<LessonsController> logger)
         {
-            _context = context;
-        }
-
-        // GET: api/Lessons
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Lesson>>> GetLessons()
-        {
-            return await _context.Lessons.ToListAsync();
+            _lessonsRepository = lessonsRepository ?? throw new ArgumentNullException(nameof(lessonsRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         // GET: api/Lessons/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Lesson>> GetLesson(int id)
+        [HttpGet("{calendarEventId}", Name = "LessonByCalendarId")]
+        public async Task<ActionResult<LessonDto>> GetLessonByCalendarEventIdAsync(string calendarEventId)
         {
-            var lesson = await _context.Lessons.FindAsync(id);
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
 
             if (lesson == null)
             {
                 return NotFound();
             }
 
-            return lesson;
+            return Ok(_mapper.Map<LessonDto>(lesson));
         }
 
         // PUT: api/Lessons/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutLesson(int id, Lesson lesson)
+        [HttpPut("{calendarEventId}")]
+        public async Task<ActionResult<bool>> PutLessonByCalendarEventIdAsync(string calendarEventId, [FromBody] LessonDto lesson)
         {
-            if (id != lesson.Id)
+            var lessonData = _mapper.Map<Lesson>(lesson);
+            var isUpdated = await _lessonsRepository.UpdateLessonByCalendarIdAsync(calendarEventId, lessonData);
+
+            if (isUpdated)
+            {
+                return Ok();
+            } else
             {
                 return BadRequest();
             }
-
-            _context.Entry(lesson).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LessonExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         // POST: api/Lessons
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Lesson>> PostLesson(Lesson lesson)
+        [HttpPost("{calendarEventId}")]
+        public async Task<ActionResult<LessonDto>> PostLessonWithCalendarEventIdAsync(string calendarEventId, LessonDto lesson)
         {
-            _context.Lessons.Add(lesson);
-            await _context.SaveChangesAsync();
+            var lessonData = _mapper.Map<Lesson>(lesson);
+            var newLessonDbObject = await _lessonsRepository.CreateLessonAsync(calendarEventId, lessonData);
 
-            return CreatedAtAction("GetLesson", new { id = lesson.Id }, lesson);
+            if (newLessonDbObject != null)
+            {
+                return CreatedAtRoute(
+                    "LessonByCalendarId", new { calendarEventId = calendarEventId }, lesson);
+            } else
+            {
+                return BadRequest();
+            }
         }
 
         // DELETE: api/Lessons/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Lesson>> DeleteLesson(int id)
+        [HttpDelete("{calendarEventId}")]
+        public async Task<ActionResult<bool>> DeleteLessonByCalendarEventId(string calendarEventId)
         {
-            var lesson = await _context.Lessons.FindAsync(id);
-            if (lesson == null)
+            var result = await _lessonsRepository.DeleteLessonByCalendarIdAsync(calendarEventId);
+
+            if (result)
+            {
+                return Ok(result);
+            } else
             {
                 return NotFound();
             }
-
-            _context.Lessons.Remove(lesson);
-            await _context.SaveChangesAsync();
-
-            return lesson;
         }
 
-        private bool LessonExists(int id)
+        // GET: api/Lessons/5/Attendees
+        [HttpGet("{calendarEventId}/attendees", Name = "LessonAttendeesByCalendarId")]
+        public async Task<ActionResult<IList<UserBasicDto>>> GetLessonAttendeesByCalendarEventIdAsync(string calendarEventId)
         {
-            return _context.Lessons.Any(e => e.Id == id);
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var attendees = await _lessonsRepository.GetLessonAttendeesAsync(lesson);
+
+            IList<UserBasicDto> attendeesDtos = new List<UserBasicDto>();
+
+            if (attendees == null)
+            {
+                return NotFound();
+            } else
+            {
+                foreach (var person in attendees)
+                {
+                    attendeesDtos.Add(_mapper.Map<UserBasicDto>(person));
+                }
+            }
+
+            return Ok(attendeesDtos);
+        }
+
+        //TODO change to UserBasicDto maybe & remove from Controller
+        public class AttendeeDto
+        {
+            public string AttendeeEmail { get; set; }
+        }
+
+        // POST: api/Lessons/5/Attendees
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost("{calendarEventId}/attendees")]
+        public async Task<ActionResult<UserBasicDto>> PostAttendeeToLessonByCalendarEventIdAsync(string calendarEventId, [FromBody] AttendeeDto attendee)
+        {
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var newLessonDbObject = await _lessonsRepository.CreateLessonAttendeeAsync(lesson, attendee.AttendeeEmail);
+
+            var result = _mapper.Map<UserBasicDto>(newLessonDbObject);
+
+            if (newLessonDbObject != null)
+            {
+                return CreatedAtRoute(
+                    "LessonAttendeesByCalendarId", new { calendarEventId = calendarEventId }, result);
+            } else
+            {
+                return BadRequest();
+            }
+        }
+
+        // DELETE: api/Lessons/5/Attendees
+        [HttpDelete("{calendarEventId}/attendees")]
+        public async Task<ActionResult<bool>> DeleteAllAttendeesFromLessonByCalendarEventId(string calendarEventId)
+        {
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var attendees = await _lessonsRepository.GetLessonAttendeesAsync(lesson);
+            var result = true;
+            foreach (var person in attendees)
+            {
+                var deletedUser = await _lessonsRepository.DeleteLessonAttendeeAsync(lesson, person.Email);
+                if (deletedUser == null) result = false;
+            }
+
+            if (result)
+            {
+                return Ok();
+            } else
+            {
+                return NotFound();
+            }
+        }
+
+        // DELETE: api/Lessons/5/Attendees/email@aaa.com
+        [HttpDelete("{calendarEventId}/attendees/{attendeeEmail}")]
+        public async Task<ActionResult<bool>> DeleteAttendeeFromLessonByCalendarEventId(string calendarEventId, string attendeeEmail)
+        {
+            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(calendarEventId);
+            var result = await _lessonsRepository.DeleteLessonAttendeeAsync(lesson, attendeeEmail);
+
+            if (result != null)
+            {
+                return Ok(result);
+            } else
+            {
+                return NotFound();
+            }
         }
     }
 }

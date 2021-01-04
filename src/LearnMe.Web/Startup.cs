@@ -54,7 +54,9 @@ namespace LearnMe.Web
              options => options.UseSqlServer(Configuration.GetConnectionString("LearnMeDatabase"),
              b => b.MigrationsAssembly("LearnMe.Web")));
             services.AddIdentity<UserBasic, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
             services.AddAuthentication()
             .AddGoogle(options =>
             {
@@ -76,12 +78,14 @@ namespace LearnMe.Web
             });
             services.AddScoped<IUserClaimsPrincipalFactory<UserBasic>, MyUserClaimsPrincipalFactory>();
 
+            services.AddSingleton<IDate, Date>();
+
             services.AddSingleton<ITokenService, TokenService>();
 
             services.AddSingleton<IToken>(provider =>
             {
                 var tokenService = provider.GetService<ITokenService>();
-                var token = tokenService.GetToken().GetAwaiter().GetResult();
+                var token = tokenService.GetTokenAsync().GetAwaiter().GetResult();
                 return token;
             });
 
@@ -92,6 +96,7 @@ namespace LearnMe.Web
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
             services.AddScoped(typeof(ICalendarEventsRepository), typeof(CalendarEventsRepository));
+            services.AddScoped(typeof(ILessonsRepository), typeof(LessonsRepository));
 
             services.AddSingleton<IEventBuilder, EventBuilder>();
 
@@ -118,7 +123,6 @@ namespace LearnMe.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            
             }
             else
             {

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Google.Apis.Calendar.v3.Data;
+using LearnMe.Core.Services.Calendar.Utils.Constants;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Shared.Enum.Calendar;
 
@@ -31,7 +33,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             this._event.Description = description;
         }
 
-        public void SetStartTime(DateTime? startDateTime, string timezone = Constants.Timezone)
+        public void SetStartTime(DateTime? startDateTime, string timezone = CalendarConstants.Timezone)
         {
             this._event.Start = new EventDateTime()
             {
@@ -40,7 +42,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             };
         }
 
-        public void SetEndTime(DateTime? endDateTime, string timezone = Constants.Timezone)
+        public void SetEndTime(DateTime? endDateTime, string timezone = CalendarConstants.Timezone)
         {
             this._event.End = new EventDateTime()
             {
@@ -76,6 +78,10 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         {
             if (new EmailAddressAttribute().IsValid(attendeeEmail))
             {
+                if (this._event.Attendees == null)
+                {
+                    this._event.Attendees = new List<EventAttendee>();
+                }
                 this._event.Attendees.Add(new EventAttendee() { Email = attendeeEmail });
                 return true;
             }
@@ -83,6 +89,58 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
             {
                 return false;
             }
+        }
+
+        public bool RemoveAttendee(string attendeeEmail)
+        {
+            if (new EmailAddressAttribute().IsValid(attendeeEmail))
+            {
+                this._event.Attendees.Remove(new EventAttendee() { Email = attendeeEmail });
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        public bool RemoveAllAttendees()
+        {
+            this._event.Attendees = null;
+
+            return true;
+        }
+
+        public bool UpdateAttendees(IList<string> attendeesEmails)
+        {
+            var currentEmailsList = new List<string>();
+            if (this._event.Attendees != null)
+            {
+                foreach (var person in this._event.Attendees)
+                {
+                    currentEmailsList.Add(person.Email);
+                }
+            }
+
+            var emailsToAdd = attendeesEmails.Except(currentEmailsList);
+            var emailsToDelete = currentEmailsList.Except(attendeesEmails);
+
+            if (emailsToAdd != null)
+            {
+                foreach (var email in emailsToAdd)
+                {
+                    AddAttendee(email);
+                }
+            }
+
+            if (emailsToDelete != null)
+            {
+                foreach (var email in emailsToAdd)
+                {
+                    RemoveAttendee(email);
+                }
+            }
+
+            return true;
         }
 
         public void BuildBasicEvent(

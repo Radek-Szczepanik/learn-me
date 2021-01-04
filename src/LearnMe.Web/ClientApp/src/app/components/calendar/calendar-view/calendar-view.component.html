@@ -1,4 +1,4 @@
-<img src="/Header/PK-kalendarz.png" style="margin-top: 20px;"  class="rounded mx-auto d-block">   
+<img class="headers" src="/Header/PK-kalendarz.png">   
 
 
 <div class="long-title">
@@ -6,7 +6,36 @@
 
 <div class="container-flex">
   <div class="col-lg-auto justify-content-center">
-    <dx-scheduler [dataSource]="appointmentsData"
+    <dx-scheduler
+      timeZone="timezone"
+      [dataSource]="appointmentsData"
+      appointmentTemplate="appointmentTemplate"
+      [views]='["week", "month"]'
+      currentView="week"
+      [currentDate]="currentDate"
+      textExpr="subject"
+      [startDayHour]="9"
+      [height]="600"
+      (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+      (onAppointmentAdded)="onAppointmentAdded($event)"
+      (onAppointmentUpdated)="onAppointmentUpdated($event)"
+      (onAppointmentDeleted)="onAppointmentDeleted($event)">
+
+      <div *dxTemplate="let model of 'appointmentTemplate'"
+            [ngClass]="{'lesson-done': model.appointmentData.isDone === true,
+                        'free-slot': model.appointmentData.isFreeSlot === true,
+                        'booked-slot': model.appointmentData.isFreeSlot !== true,
+                        'appointment-item': true}">
+        <i>{{model.appointmentData.subject}}</i>
+        <p class="text-wrap">
+          {{model.appointmentData.startDate | date:' hh:mm'}}  - {{model.appointmentData.endDate | date:' hh:mm'}}
+          <br/>
+          {{model.appointmentData.description}}
+        </p>
+      </div>
+
+    </dx-scheduler>
+    <!-- <dx-scheduler #scheduler [dataSource]="appointmentsData"
                   appointmentTemplate="appointmentTemplate"
                   [currentDate]="currentDate"
                   textExpr="subject"
@@ -17,7 +46,6 @@
                   maxAppointmentsPerCell="unlimited"
                   timezone="timezone"
                   (onInitialized)="onInitialized($event)"
-                  (onContentReady)="onContentReady($event)"
                   (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
                   (onAppointmentAdding)="onAppointmentAdding($event)"
                   (onAppointmentAdded)="onAppointmentAdded($event)"
@@ -40,6 +68,6 @@
         </p>
       </div>
 
-    </dx-scheduler>
+    </dx-scheduler> -->
   </div>
 </div>

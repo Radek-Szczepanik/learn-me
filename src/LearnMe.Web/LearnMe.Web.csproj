@@ -59,6 +59,24 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Migrations\20201026181846_UpdatedCalendarEventTable.cs" />
+    <Compile Remove="Migrations\20201026181846_UpdatedCalendarEventTable.Designer.cs" />
+    <Compile Remove="Migrations\20201026182450_UpdatedCalendarEvent.cs" />
+    <Compile Remove="Migrations\20201026182450_UpdatedCalendarEvent.Designer.cs" />
+    <Compile Remove="Migrations\20201103203946_DbUpdate.cs" />
+    <Compile Remove="Migrations\20201103203946_DbUpdate.Designer.cs" />
+    <Compile Remove="Migrations\20201116212126_NewUpdatesForUI.cs" />
+    <Compile Remove="Migrations\20201116212126_NewUpdatesForUI.Designer.cs" />
+    <Compile Remove="Migrations\20201228160248_CurrentEventLessonAttendee.cs" />
+    <Compile Remove="Migrations\20201228160248_CurrentEventLessonAttendee.Designer.cs" />
+    <Compile Remove="Migrations\20201229142336_UserLessonUpdatesSecond.cs" />
+    <Compile Remove="Migrations\20201229142336_UserLessonUpdatesSecond.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Credentials\credentials.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\Models\Lesson\lesson.ts" />
     <None Remove="ClientApp\src\app\Models\Users\user.ts" />
     <None Remove="ClientApp\src\app\services\calendar\calendar-event.ts" />
     <None Remove="ClientApp\src\app\services\calendar\calendar-service.ts" />
@@ -80,11 +98,16 @@
     <Folder Include="ClientApp\src\app\components\mentor\" />
     <Folder Include="ClientApp\src\app\components\student\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Credentials\credentials.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
-    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install"/>
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
   </Target>

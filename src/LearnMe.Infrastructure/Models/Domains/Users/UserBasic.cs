@@ -27,5 +27,7 @@ namespace LearnMe.Infrastructure.Models.Domains.Users
         public IList<InvoiceBasic> InvoicesList { get; set; }
         public IList<UserLesson> UserLessons { get; set; }
         public UserInvoiceData InvoiceData { get; set; }
+        public IList<Message> MessagesSent { get; set; }
+        public IList<Message> MessagesReceived { get; set; }
     }
 }

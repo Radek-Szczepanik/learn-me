@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LearnMe.Core.Interfaces;
+﻿using AutoMapper;
 using LearnMe.Core.DTO.User;
 using LearnMe.Infrastructure.Models.Domains.Users;
+using LearnMe.Infrastructure.Repository;
 using LearnMe.Infrastructure.Repository.Interfaces;
-using LearnMe.Core.DTO.Config;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using LearnMe.Core.DTO.Account;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LearnMe.Controllers.Users
 {
@@ -24,10 +19,11 @@ namespace LearnMe.Controllers.Users
     {
         private readonly UserManager<UserBasic> _userManager;
         private readonly IMapper _mapper;
-
+        
         public UserBasicsController(
             UserManager<UserBasic> userManager,
             IMapper mapper)
+    
         {
             _mapper = mapper;
             _userManager = userManager;
@@ -40,6 +36,14 @@ namespace LearnMe.Controllers.Users
             var user = _mapper.Map<IList<UserForMentorDto>>(role);
 
             return Ok(user);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetStudentById(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var userToReturn = _mapper.Map<UserForMentorDto>(user);
+            return Ok(userToReturn);
         }
 
         [HttpDelete]

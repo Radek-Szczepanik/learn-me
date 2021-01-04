@@ -1,0 +1,76 @@
+.headers{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 180px;
+}
+
+img {
+    width: 108%;
+    height: auto;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  .menu {
+    width: 33%;
+    float: left;
+  }
+  
+  .bird {
+    width: 33%;
+    float: left;
+
+  }
+
+  .logo {
+    width: 33%;
+    float: left;
+    padding: 15px;
+  }
+
+  .slogan{
+    color: white;
+    font-family: Poppins medium;
+    font-size: xxx-large;
+    text-align: right;
+  }
+
+  @media only screen and (max-width: 1200px) {
+      img {
+    width: 100%;
+    height: auto;
+  }
+
+    .menu {
+        width: 100%;
+        float: left;
+    
+      }
+      
+      .bird {
+        width: 100%;
+        float: left;
+    
+      }
+    
+      .logo {
+        width: 100%;
+        float: left;
+        padding: 15px;
+      }
+
+      .slogan{
+        font-size: xx-large;
+      }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .mat-drawer {
+      color: white;
+      background: linear-gradient(to right, #FF9BAD , #ffd9df) !important ;
+    }
+
+}

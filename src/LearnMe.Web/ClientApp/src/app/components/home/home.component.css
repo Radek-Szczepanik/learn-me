@@ -1,5 +1,5 @@
 img {
-    width: 100%;
+    width: 115%;
     height: auto;
   }
 
@@ -62,3 +62,11 @@ img {
         font-size: xx-large;
       }
   }
+
+  @media only screen and (max-width: 600px) {
+    .mat-drawer {
+      color: white;
+      background: linear-gradient(to right, #FF9BAD , #ffd9df) !important;
+    }
+
+}

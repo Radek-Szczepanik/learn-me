@@ -1,3 +1,11 @@
+.headers{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 245px;
+  margin-bottom: 25px;
+}
+
 ::ng-deep .long-title h3 {
   font-family: 'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;
   font-weight: 200;
@@ -19,7 +27,7 @@
 }
 
 ::ng-deep .dx-item .dx-scheduler-appointment .dx-scheduler-appointment-vertical .dx-resizable div[role="button"] {
-  background-color: transparent;
+  background-color: transparent !important;
 }
 
 .appointment-item {
@@ -27,11 +35,11 @@
 }
 
 .free-slot {
-  background-color: green;
+  background-color: #889c6b;
 }
 
 .booked-slot {
-  background-color: blue;
+  background-color: #f0c854;
 }
 
 .lesson-done {
@@ -44,4 +52,8 @@ i {
 
 p {
   font-size: 1vw;
+}
+
+::ng-deep .dx-scheduler-header-panel-cell .dx-scheduler-cell-sizes-horizontal {
+  background-color: #ffced6
 }

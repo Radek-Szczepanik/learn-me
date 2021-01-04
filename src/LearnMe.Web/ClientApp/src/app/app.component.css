@@ -19,11 +19,12 @@
   body {
     font: 400 15px/1.8 Lato, sans-serif;
     color: #777;
-
+    background: linear-gradient(to right, #FF9BAD , #ffd9df);
+    font-family: Lato, sans-serif;
   }
   
   .identity {
-    color: rgba(0,0,0,.87);
+    color: white;
     text-decoration: solid;
   }
   

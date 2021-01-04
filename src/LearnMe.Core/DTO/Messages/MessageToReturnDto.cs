@@ -5,13 +5,25 @@ namespace LearnMe.Core.DTO.Messages
 {
     public class MessageToReturnDto
     {
-        public int SenderId { get; set; }
+        public int Id { get; set; }
 
-        public string SenderName { get; set; }
+        public string SenderId { get; set; }
 
-        public int RecipientId { get; set; }
+        public string SenderFirstName { get; set; }
 
-        public string RecipientName { get; set; }
+        public string SenderLastName { get; set; }
+
+        public string SenderEmail { get; set; }
+
+        public string RecipientId { get; set; }
+
+        public string RecipientFirstName { get; set; }
+
+        public string RecipientLastName { get; set; }
+
+        public string RecipientEmail { get; set; }
+
+        public string Title { get; set; }
 
         public string Content { get; set; }
 
@@ -20,5 +32,7 @@ namespace LearnMe.Core.DTO.Messages
         public DateTime? DateRead { get; set; }
 
         public DateTime DateSent { get; set; }
+
+        public string MessageContainer { get; set; }
     }
 }
