@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { CalendarService } from '../../../services/calendar/calendar-service'
-import * as Calendarevent from "../../../services/calendar/calendar-event";
+import * as Calendarevent from '../../../services/calendar/calendar-event';
 import CalendarEvent = Calendarevent.CalendarEvent;
 import notify from 'devextreme/ui/notify';
-import { HttpService } from "../../../services/http.service";
+import { HttpService } from '../../../services/http.service';
 import CalendarEventPost = Calendarevent.CalendarEventPost;
-import Scheduler from "devextreme/ui/scheduler";
+import Scheduler from 'devextreme/ui/scheduler';
 import { UserBasicDto } from '../../../Models/Lesson/lesson'
-import { User } from "../../../Models/Users/user"
 
 import {Appointment, Service} from '../../../services/calendar/calendar-service-ver-2';
 
@@ -28,7 +27,7 @@ export class CalendarViewComponent implements OnInit {
 
   appointmentsData: any;
   currentDate: Date = new Date();
-  timezone: string = "Europe/Warsaw";
+  timezone: string = 'Europe/Warsaw';
 
   appointmentFormUpdatedFlag: boolean = false;
 
@@ -37,10 +36,13 @@ export class CalendarViewComponent implements OnInit {
   startViewDate: Date = new Date(new Date().getTime() - (31 * 24 * 60 * 60 * 1000));
   endViewDate: Date = new Date(new Date().getTime() + (31 * 24 * 60 * 60 * 1000));
 
-  itemsLessonStatus: string[] = ["New", "InProgress", "Done"];
+  itemsLessonStatus: string[] = ['New', 'InProgress', 'Done'];
   simpleEmails: string[] = [];
 
-  constructor(private data: CalendarService, private https: HttpService) {
+  loggedUser: string[] = ['Student'];
+  isEditable: boolean = false;
+
+  constructor(private data: CalendarService, private https: HttpService, private renderer: Renderer2) {
 
     this.appointmentsData = new DataSource({
       store: new CustomStore({
@@ -54,6 +56,23 @@ export class CalendarViewComponent implements OnInit {
       })
     });
 
+    const routeGetLoggedUser: string  = 'https://localhost:5001/api/Identity';
+    
+    this.https.getData(routeGetLoggedUser)
+    .toPromise().then(success => {
+      if (success) {
+        this.loggedUser = success as string[];
+        console.debug('loggedUser');
+        console.debug(this.loggedUser);
+        
+        if (this.loggedUser[0] != 'Student'){
+          this.isEditable = true;
+          console.debug('isEditable');
+          console.debug(this.isEditable);
+        }
+      }
+    });
+
     console.debug('appointmentsData:');
     console.debug(this.appointmentsData);
 
@@ -61,7 +80,7 @@ export class CalendarViewComponent implements OnInit {
     this.https.getData(routeGetAllStudents)
       .toPromise().then(success => {
         if (success) {
-          let students = success as User[];
+          let students = success as UserBasicDto[];
           students.forEach(item => {
             this.simpleEmails.push(item.email);
           });
@@ -70,15 +89,15 @@ export class CalendarViewComponent implements OnInit {
     
     console.debug('simpleEmails:');
     console.debug(this.simpleEmails);
-  }
+   }
 
   ngOnInit(): void { }
 
-  onInitialized(e) { }
+  onInitialized(e) { }    
 
   onAppointmentAdded(e) {
-    console.debug("on appointment added invoked");
-    this.showToast("Added", e.appointmentData.text, "success");
+    console.debug('on appointment added invoked');
+    this.showToast('Added', e.appointmentData.text, 'success');
 
     console.debug('object to be added:');
     console.debug(e);
