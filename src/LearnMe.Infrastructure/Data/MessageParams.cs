@@ -10,7 +10,7 @@
             get { return pageSize; }
             set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
         }
-        public string UserId { get; set; }
+        public string Email { get; set; }
         public string MessageContainer { get; set; } = "Nieprzeczytane";
     }
 }

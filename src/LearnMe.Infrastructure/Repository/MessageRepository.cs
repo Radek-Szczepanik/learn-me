@@ -30,13 +30,13 @@ namespace LearnMe.Infrastructure.Repository
             switch (messageParams.MessageContainer)
             {
                 case "Inbox":
-                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.RecipientDeleted == false);
+                    messages = messages.Where(u => u.RecipientId == messageParams.Email && u.RecipientDeleted == false);
                     break;
                 case "Outbox":
-                    messages = messages.Where(u => u.SenderId == messageParams.UserId && u.SenderDeleted == false);
+                    messages = messages.Where(u => u.SenderId == messageParams.Email && u.SenderDeleted == false);
                     break;
                 default:
-                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.IsRead == false && u.RecipientDeleted == false);
+                    messages = messages.Where(u => u.SenderId == messageParams.Email && u.IsRead == false && u.RecipientDeleted == false);
                     break;
             }
 

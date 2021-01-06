@@ -53,7 +53,6 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<TutorService, TutorServiceDTO>();
             CreateMap<MessageToCreateDto, Message>().ReverseMap();
             CreateMap<Message, MessageToReturnDto>();
-                
 
             CreateMap<Lesson, LessonDto>();
             CreateMap<LessonDto, Lesson>();

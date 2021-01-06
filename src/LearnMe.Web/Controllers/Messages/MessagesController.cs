@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace LearnMe.Controllers.Messages
 {
-    [Route("api/UserBasics/{userId}/[controller]")]
+    [Route("api/UserBasics/{email}/[controller]")]
     [ApiController]
     public class MessagesController : ControllerBase
     {
@@ -53,10 +53,10 @@ namespace LearnMe.Controllers.Messages
         
 
         [HttpGet]
-        public async Task<ActionResult> GetMessagesForUser(string userId, [FromQuery] MessageParams messageParams)
+        public async Task<ActionResult> GetMessagesForUser(string email, [FromQuery] MessageParams messageParams)
         {
-            // var user = _userManager.FindByEmailAsync(email);
-            messageParams.UserId = userId;
+            var user = await _userManager.FindByEmailAsync(email);
+            messageParams.Email = user.Id;
             var messagesFromRepo = await _messageRepository.GetMessagesForUser(messageParams);
             var messagesToReturn = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
 
@@ -71,14 +71,16 @@ namespace LearnMe.Controllers.Messages
         [HttpPost(Name = "GetMessage")]
         public async Task<ActionResult> CreateMessage(string email, MessageToCreateDto messageToCreate)
         { 
-            if (email != messageToCreate.SenderId)
-                return Unauthorized();
+            //if (email != messageToCreate.SenderId)
+            //    return Unauthorized();
 
             var sender = await _userManager.FindByEmailAsync(email);
 
             messageToCreate.SenderId = sender.Id;
 
-            var recipient = await _userManager.FindByIdAsync(messageToCreate.RecipientId);
+            var recipient = await _userManager.FindByEmailAsync(messageToCreate.RecipientEmail);
+
+            messageToCreate.RecipientId = recipient.Id;
 
             if (recipient == null)
                 return BadRequest("Nie można znaleźć użytkownika");
