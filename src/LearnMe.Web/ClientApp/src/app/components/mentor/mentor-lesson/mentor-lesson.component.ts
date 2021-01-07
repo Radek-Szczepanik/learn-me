@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CrudService } from "../../../services/crud.service"
-import { Appointment } from '../../../services/calendar/calendar-service-ver-2';
+import { Appointment, MentorLessonAppointment } from '../../../services/calendar/calendar-service-ver-2';
 
 @Component({
   selector: 'app-mentor-lesson',
@@ -14,7 +14,7 @@ import { Appointment } from '../../../services/calendar/calendar-service-ver-2';
 })
 export class MentorLessonComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['startDate', 'startTime', 'endTime', 'subject', 'attendees'];
+  displayedColumns: string[] = ['startDate', 'endDate', 'subject', 'attendees'];
 
   dataSource: MatTableDataSource<Appointment>;
   _http: HttpClient;
@@ -46,35 +46,28 @@ export class MentorLessonComponent implements AfterViewInit {
   getData(){
     
       this._http.get<Appointment[]>(this._baseUrl + 'api/calendareventsbydate?fromDate=' + this.from.toJSON() + '&toDate=' + this.to.toJSON()).subscribe(result => {
-      this.dataSource = new MatTableDataSource(result);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+      
+        // let mentorLessonAppointments: MentorLessonAppointment[] = [];
+
+        // result.forEach(item =>{
+        //   let newItem: MentorLessonAppointment = {
+        //     startDate: item.startDate.substring(0,10),
+        //     startTime: item.startDate.substring(11,19),
+        //     endTime: item.startDate.substring(11,19),
+        //     subject: item.subject,
+        //     attendees: []
+        //   }
+
+        //   mentorLessonAppointments.push(newItem);
+        // });
+      
+        this.dataSource = new MatTableDataSource(result);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
     });
   }
 
 }
-
-
-  // constructor(http: HttpClient, 
-  //   @Inject('BASE_URL') baseUrl: string, 
-  //   public dialog: MatDialog, 
-  //   crud: CrudService) {
-  //   this._http = http;
-  //   this._baseUrl = baseUrl;
-  //   this._crud = crud;
-  // }
-
-  // ngAfterViewInit() {
-  //  this.getData();
-  // }
-
-  // getData(){
-  //     this._http.get<Students[]>(this._baseUrl + 'api/UserBasics?rolename=student').subscribe(result => {
-  //     this.dataSource = new MatTableDataSource(result);
-  //     this.dataSource.sort = this.sort;
-  //     this.dataSource.paginator = this.paginator;
-  //   });
-  // }
 
   // applyFilter(event: Event) {
   //   const filterValue = (event.target as HTMLInputElement).value;

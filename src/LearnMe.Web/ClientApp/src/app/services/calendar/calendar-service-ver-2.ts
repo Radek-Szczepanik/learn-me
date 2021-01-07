@@ -2,10 +2,6 @@ import { Injectable } from "@angular/core";
 import { Lesson, UserBasicDto } from "../../Models/Lesson/lesson"
 
 export class Appointment {
-    // text: string;
-    // startDate: Date;
-    // endDate: Date;
-    // allDay?: boolean;
     subject: string;
     description: string;
     startDate: Date;
@@ -14,6 +10,14 @@ export class Appointment {
     isFreeSlot: boolean;
     calendarId: string;
     lesson: Lesson;
+    attendees: UserBasicDto[];
+}
+
+export class MentorLessonAppointment {
+    subject: string;
+    startDate: string;
+    startTime: string;
+    endTime: string;
     attendees: UserBasicDto[];
 }
 
