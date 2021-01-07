@@ -8,7 +8,7 @@ import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from 'devextreme/ui/scheduler';
 import { UserBasicDto } from '../../../Models/Lesson/lesson'
 
-import {Appointment, Service} from '../../../services/calendar/calendar-service-ver-2';
+import { Appointment, Service } from '../../../services/calendar/calendar-service-ver-2';
 
 import DataSource from 'devextreme/data/data_source';
 import CustomStore from 'devextreme/data/custom_store';
@@ -56,7 +56,7 @@ export class CalendarViewComponent implements OnInit {
       })
     });
 
-    const routeGetLoggedUser: string  = 'https://localhost:5001/api/Identity';
+    const routeGetLoggedUser: string  = '/api/Identity';
     
     this.https.getData(routeGetLoggedUser)
     .toPromise().then(success => {
