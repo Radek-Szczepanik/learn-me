@@ -281,6 +281,22 @@ export class CalendarViewComponent implements OnInit {
         },
         {
           itemType: "group",
+          caption: "Homeworks",
+          items: [
+            {
+              editorType: "dxButton",
+              editorOptions: {
+                text: "See related files",
+                style: "bold"//,
+                // onClick: function () {
+                //  // do something
+                //}
+              }
+            }],
+          colSpan: 2
+        },
+        {
+          itemType: "group",
           caption: "Attendees",
           items: [
             {

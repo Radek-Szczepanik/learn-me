@@ -18,13 +18,25 @@
   padding-block: 0;
 }
 
+/* ::ng-deep .dx-switch-handle {
+  background-color: #ff4081;
+}
+
 ::ng-deep .dx-switch-on-value .dx-switch-handle::before {
   background-color: #ff4081;
 }
 
-::ng-deep .dx-switch-on-value .dx-switch-handle::hover {
+::ng-deep .dx-switch-off-value .dx-switch-handle::before {
   background-color: #ff4081;
 }
+
+::ng-deep .dx-switch-on-value .dx-switch-handle:hover {
+  background-color: #ff4081;
+}
+
+::ng-deep div[aria-label="See related files"]:hover {
+  background-color: #ff4081;
+} */
 
 ::ng-deep .dx-item .dx-scheduler-appointment .dx-scheduler-appointment-vertical .dx-resizable div[role="button"] {
   background-color: transparent !important;
