@@ -56,7 +56,7 @@ export class CalendarViewComponent implements OnInit {
       })
     });
 
-    const routeGetLoggedUser: string  = 'https://localhost:5001/api/Identity';
+    const routeGetLoggedUser: string  = '/api/Identity';
     
     this.https.getData(routeGetLoggedUser)
     .toPromise().then(success => {
