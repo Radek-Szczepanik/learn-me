@@ -14,11 +14,12 @@ export class Appointment {
 }
 
 export class MentorLessonAppointment {
+    calendarId: string;
     subject: string;
-    startDate: string;
-    startTime: string;
-    endTime: string;
-    attendees: UserBasicDto[];
+    startDate: Date;
+    startDateTime: Date;
+    endDateTime: Date;
+    attendeesNameAndSurnameList: string[];
 }
 
 // let appointments: Appointment[] = [

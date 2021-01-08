@@ -4,8 +4,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { CrudService } from "../../../services/crud.service"
+import { CrudService } from '../../../services/crud.service'
 import { Appointment, MentorLessonAppointment } from '../../../services/calendar/calendar-service-ver-2';
+import { ShowLessonDialog } from './mentor-pupils.component.show.lesson';
 
 @Component({
   selector: 'app-mentor-lesson',
@@ -14,9 +15,9 @@ import { Appointment, MentorLessonAppointment } from '../../../services/calendar
 })
 export class MentorLessonComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['startDate', 'endDate', 'subject', 'attendees'];
+  displayedColumns: string[] = ['startDate', 'startDateTime', 'endDateTime', 'subject', 'attendeesNameAndSurnameList'];
 
-  dataSource: MatTableDataSource<Appointment>;
+  dataSource: MatTableDataSource<MentorLessonAppointment>;
   _http: HttpClient;
   _baseUrl: string;
   _crud: CrudService;
@@ -47,36 +48,50 @@ export class MentorLessonComponent implements AfterViewInit {
     
       this._http.get<Appointment[]>(this._baseUrl + 'api/calendareventsbydate?fromDate=' + this.from.toJSON() + '&toDate=' + this.to.toJSON()).subscribe(result => {
       
-        // let mentorLessonAppointments: MentorLessonAppointment[] = [];
+        let mentorLessonAppointments: MentorLessonAppointment[] = [];
 
-        // result.forEach(item =>{
-        //   let newItem: MentorLessonAppointment = {
-        //     startDate: item.startDate.substring(0,10),
-        //     startTime: item.startDate.substring(11,19),
-        //     endTime: item.startDate.substring(11,19),
-        //     subject: item.subject,
-        //     attendees: []
-        //   }
+        result.forEach(item =>{
+          let newItem: MentorLessonAppointment = {
+            calendarId: item.calendarId,
+            startDate: item.startDate,
+            startDateTime: item.endDate,
+            endDateTime: item.endDate,
+            subject: item.subject,
+            attendeesNameAndSurnameList: []
+          }
 
-        //   mentorLessonAppointments.push(newItem);
-        // });
+          item.attendees.forEach(person =>{
+            newItem.attendeesNameAndSurnameList.push(person.firstName + ' ' + person.lastName)
+          })
+
+          mentorLessonAppointments.push(newItem);
+        });
       
-        this.dataSource = new MatTableDataSource(result);
+        this.dataSource = new MatTableDataSource(mentorLessonAppointments);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
     });
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  showLesson(lesson: MentorLessonAppointment) {
+    const dialogRef = this.dialog.open(ShowLessonDialog);
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.ngAfterViewInit();
+    });
+  }
 }
 
-  // applyFilter(event: Event) {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.dataSource.filter = filterValue.trim().toLowerCase();
 
-  //   if (this.dataSource.paginator) {
-  //     this.dataSource.paginator.firstPage();
-  //   }
-  // }
 
   // addPupil() {
   //   const dialogRef = this.dialog.open(AddPupilDialog);
