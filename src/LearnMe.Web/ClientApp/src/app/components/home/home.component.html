@@ -1,27 +1,133 @@
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  </head>
 <body>
+  <mat-grid-list cols="8" gutterSize="0px" rowHeight="1:4">
+   
+    <mat-grid-tile [colspan]="8" [rowspan]="1" >
+      <div class="logo">
+        <img src="logo.png" alt="">
+      </div>
+      <div class="slogan">
+        <img src="slogan.png" alt="">
+      </div>
+      <div class="bird">
+        <img src="birds3.png" alt="">
+       </div>     
+    </mat-grid-tile>
 
-<!-- <div class="header">
-  <h1>Chania</h1>
-</div> -->
-<div class="menu"></div>
+    <mat-grid-tile [colspan]="5" [rowspan]="1">
+      <div class="bird">
+        <img src="birds4.png" alt="">
+       </div>
+      <div class="slider">
+        <ngb-carousel>
+          <ng-template ngbSlide *ngFor="let question of sliderList">
+            <div class="wrapper">
+              <img [src]="question.images" style="filter: drop-shadow(5px 5px 5px #222)" alt="Random first slide" [routerLink]="question.links" width="500px">
+            </div>
+            <div class="carousel-caption">
+            </div>
+          </ng-template>
+        </ngb-carousel>
+      </div>
+    </mat-grid-tile>
 
-<div class="logo">
-  <img src="logo.png" alt="">
-  <div class="slogan">
-  <p>Let’s Talk English<p>
-  </div>
-  <!-- <img class="headers" src="/Header/PK-tlumaczeniaikorekta.png">    -->
-
-</div>
+    <mat-grid-tile [colspan]="3" [rowspan]="1">
+      <div class="bird">
+        <img src="birds5.png" alt="">
+       </div>
+    </mat-grid-tile>    
+  </mat-grid-list>
 
 
-<div class="bird">
- <img src="birds.png" alt="">
-</div>
+  <mat-grid-list [cols]="breakpoint" gutterSize="0px" rowHeight="158px">
+      <mat-grid-tile colspan="6" rowspan="6">
+      <div class="bird">
+        <img src="birds.png" alt="">
+       </div>
+    </mat-grid-tile>
 
-</body>
+    <mat-grid-tile colspan="6" rowspan="1">
+     
+    </mat-grid-tile>
 
+    <mat-grid-tile colspan="6" rowspan="2">
+      
+
+      <table class="email table table-borderless" style="width: 100%" >
+        <thead>
+          <tr>
+            <th><div class="logo-footer">
+              <img src="logo_footer.png" alt="">
+            </div></th>
+          </tr>
+          <tr>
+          <td>Nauczmy się angielskiego wspólnie ~ hello@panikowalska.com.pl</td>
+          </tr>
+          <hr style="margin-right: 5%;">
+
+        </thead>
+      </table>
+
+
+      
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="6" [rowspan]="2">
+     
+      <table class="info table table-borderless" style="width: 100%" >
+        <thead>
+          <tr>
+            <th>Lokalizacja</th>
+            <th>Firma</th>
+            <th>Zapisy prawne</th>
+          </tr>
+        </thead>
+        <tbody class="info">
+          <tr>
+          <td>Mickiewicza 5/4c</td>
+          <td>O mnie</td>
+          <td>Polityka prywatności</td>
+          </tr>
+          <tr>
+            <td>Toruń</td>
+            <td>Oferta</td>
+            <td>RODO</td>
+          </tr>
+          <tr>
+            <td>87-100</td>
+            <td>Opinie</td>
+            <td>Cookies</td>
+          </tr>
+          <tr>
+            <td>Polska</td>
+            <td>Kontakt</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="6" [rowspan]="1">
+      <hr style="margin-right: 5%;">
+      <table class="footer" style="width:100%">
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+          <td>© 2020 Pani Kowalska. Wszelkie Prawa Zastrzeżone.</td>
+          <td>Autorzy</td>
+          <td><img class="social" src="social.png"></td>
+        </tr>
+       
+      </table>
+
+    </mat-grid-tile>
+    
+  </mat-grid-list>
+  </body>
+  

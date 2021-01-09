@@ -60,6 +60,8 @@ import { AddFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-add.comp
 import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor-opinions-delete.component";
 import { UpdateFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-update.component";
 import { DeleteFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-delete.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+
 
 @NgModule({
   declarations: [
@@ -122,7 +124,8 @@ import { DeleteFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-delet
     MatSortModule,
     MatDialogModule,
     MatGridListModule,
-    MatSelectModule 
+    MatSelectModule,
+    NgbModule
   ],
   providers: [
     CalendarService,

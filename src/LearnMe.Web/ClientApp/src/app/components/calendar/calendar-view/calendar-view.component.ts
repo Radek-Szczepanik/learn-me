@@ -6,8 +6,8 @@ import notify from 'devextreme/ui/notify';
 import { HttpService } from "../../../services/http.service";
 import CalendarEventPost = Calendarevent.CalendarEventPost;
 import Scheduler from "devextreme/ui/scheduler";
-import { UserBasicDto } from '../../../Models/Lesson/lesson'
-import { User } from "../../../Models/Users/user"
+import { UserBasicDto } from '../../../models/Lesson/lesson'
+import { User } from "../../../models/Users/user"
 
 import {Appointment, Service} from '../../../services/calendar/calendar-service-ver-2';
 
