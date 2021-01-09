@@ -1,9 +1,4 @@
-.headers{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 192px;
-}
+
 
 ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-label {
   color: #AF324F!important;

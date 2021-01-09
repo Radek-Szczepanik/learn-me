@@ -1,10 +1,10 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpService } from '../app/services/http.service';
-import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
+
 
 @Component({
   selector: 'app-root',
@@ -20,6 +20,8 @@ export class AppComponent implements OnDestroy, OnInit {
   notLogged; admin; mentor; student: boolean;
   identity: string[];
   private _mobileQueryListener: () => void;
+  @ViewChild('sidenav') sidenav: MatSidenav;
+
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private https: HttpService, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');

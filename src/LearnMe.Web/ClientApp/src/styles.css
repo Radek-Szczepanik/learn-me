@@ -1,3 +1,24 @@
+.headers{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+}
+
+.mat-drawer-backdrop.mat-drawer-shown{
+  background: transparent;
+}
+
+.mat-grid-tile .mat-figure {
+  display: block !important;
+  /* padding: 1px; */
+}
+
+.mat-body, .mat-body-1, .mat-typography {
+  background: linear-gradient(#080505 , #ff9bad);
+background-attachment: fixed;
+}
+
 .mat-icon.mat-accent {
   color:  #FF9BAD;
 }
@@ -13,25 +34,42 @@
 
 .mat-drawer-container {
   color: rgba(0,0,0,.87);
-  background: linear-gradient(to right, #FF9BAD , #ffd9df);
+  background: transparent;
+}
+
+.mat-drawer-inner-container {
+  background: transparent;
+}
+
+
+#sidenav-notlogged {
+  width: 100%;
+  border-right-width: 0px;
 }
 
 .mat-sidenav{
   border-right-width: 0px;
 }
 
+/* .mat-sidenav-fixed {
+  position: fixed;
+  background: linear-gradient(#080505 , #ff9bad);
+  background-color: rgba(0, 0, 0, 0);
+  background-attachment: fixed;
+} */
+
 .mat-drawer {
   background-color: transparent !important;
 }
 
-.mat-drawer-inner-container {
+/* .mat-drawer-inner-container {
   width: 100%;
   height: auto !important;
   overflow: auto;
   color: white;
   -webkit-overflow-scrolling: touch;
-  /* background: linear-gradient(to right, #FFC0CB , #ffc7d0) !important; */
-}
+   background: linear-gradient(to right, #FFC0CB , #ffc7d0) !important; 
+} */
 
 .mat-toolbar {
   color: transparent;
@@ -54,6 +92,8 @@
   body {
     font: 400 15px/1.8 Lato, sans-serif;
     color: #777;
+    /* background: linear-gradient(#080505 , #ff9bad); */
+    /* background-attachment: fixed; */
   }
   
   .identity {

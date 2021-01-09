@@ -1,11 +1,3 @@
-.headers{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 245px;
-  margin-bottom: 25px;
-}
-
 ::ng-deep .long-title h3 {
   font-family: 'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;
   font-weight: 200;
