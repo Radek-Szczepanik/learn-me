@@ -65,8 +65,8 @@ namespace LearnMe.Controllers.Messages
                 message.MessageContainer = messageParams.MessageContainer;
             }
 
-        //     return Ok(messagesToReturn);
-        // }
+            return Ok(messagesToReturn);
+        }
 
         [HttpPost(Name = "GetMessage")]
         public async Task<ActionResult> CreateMessage(string email, MessageToCreateDto messageToCreate)
