@@ -2,11 +2,15 @@
   background: lightblue;
 } */
 
+.front-background{
+
+  background: linear-gradient(#080505 , #ff9bad);
+}
+
 
 .info{
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   font-size: large;
-
 }
 
 table tbody.info td{

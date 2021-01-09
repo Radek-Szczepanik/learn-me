@@ -1,11 +1,3 @@
-.headers{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 245px;
-  margin-bottom: 25px;
-}
-
 ::ng-deep .long-title h3 {
   font-family: 'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;
   font-weight: 200;
@@ -18,13 +10,25 @@
   padding-block: 0;
 }
 
+/* ::ng-deep .dx-switch-handle {
+  background-color: #ff4081;
+}
+
 ::ng-deep .dx-switch-on-value .dx-switch-handle::before {
   background-color: #ff4081;
 }
 
-::ng-deep .dx-switch-on-value .dx-switch-handle::hover {
+::ng-deep .dx-switch-off-value .dx-switch-handle::before {
   background-color: #ff4081;
 }
+
+::ng-deep .dx-switch-on-value .dx-switch-handle:hover {
+  background-color: #ff4081;
+}
+
+::ng-deep div[aria-label="See related files"]:hover {
+  background-color: #ff4081;
+} */
 
 ::ng-deep .dx-item .dx-scheduler-appointment .dx-scheduler-appointment-vertical .dx-resizable div[role="button"] {
   background-color: transparent !important;

@@ -1,9 +1,17 @@
+
+
 .fixed-toolbar {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 3;
   width: 100%  !important;
+  color: white;
+}
+
+.fixed-toolbar-logged {
+  width: 100%  !important;
+  color: white;
 }
 
 @media only screen and (max-width: 1199px) {
@@ -23,11 +31,31 @@
 }
 
 @media only screen and (min-width: 1200px) {
-.mat-list-base .mat-list-item {
+  .mat-list-base .mat-list-item {
   font-family: Poppins medium;
   color: white;
   /* text-shadow: 1px 1px 1px black; */
   font-size: xxx-large;
+  width: auto;
+  }
+
+  .logged{
+    margin-top: 1%;
+  }
+
+  .logged .material-icons{
+    font-size: x-large;
+    height: auto;
+    width: auto;
+    margin-right: 15px;
+  }
+
+  .logged  .mat-list-item {
+    color: white;
+    /* text-shadow: 1px 1px 1px black; */
+    font-size: x-large;
+    margin-left:10px;
+    margin-right: 40px;
   }
 
   .test2 {
