@@ -51,8 +51,8 @@ export class AddFaqDialog implements OnInit {
 
   private initializeForm() {
     this.questionsForm = new FormGroup({
-      'questionText': new FormControl(null, { validators: [Validators.required, Validators.maxLength(4)] }),
-      'answerText': new FormControl(null, { validators: [Validators.required, Validators.maxLength(4)] }),
+      'questionText': new FormControl(null, { validators: [Validators.required] }),
+      'answerText': new FormControl(null, { validators: [Validators.required] }),
       'rating': new FormControl(null),
     });
   }

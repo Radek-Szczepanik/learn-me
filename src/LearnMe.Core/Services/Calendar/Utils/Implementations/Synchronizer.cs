@@ -6,6 +6,8 @@ using Google.Apis.Calendar.v3.Data;
 using LearnMe.Core.Services.Calendar.Utils.Constants;
 using LearnMe.Core.Services.Calendar.Utils.Interfaces;
 using LearnMe.Infrastructure.Models.Domains.Calendar;
+using LearnMe.Infrastructure.Models.Domains.Lessons;
+using LearnMe.Infrastructure.Models.Domains.Users;
 using LearnMe.Infrastructure.Repository.Interfaces;
 
 namespace LearnMe.Core.Services.Calendar.Utils.Implementations
@@ -22,6 +24,7 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
         public async Task<int> SynchronizeDatabaseWithCalendarByDateModifiedAsync(
             IExternalCalendarService<Event> externalCalendarService,
             ICalendarEventsRepository repository,
+            ILessonsRepository lessonsRepository,
             ICrudRepository<CalendarSynchronization> synchronizationData,
             ICrudRepository<CalendarEvent> eventsData,
             int lastSynchronizationId = ApplicationConstants.LastSynchronizationRecordId,
@@ -51,12 +54,32 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                         eventResult.Description,
                         eventResult.Start.DateTime,
                         eventResult.End.DateTime);
+                    
+                    // Update Event=Lesson attendees
+                    IList<string> attendeesEmailsToSynchronize = GetAttendeesEmailsToSynchronize(eventResult);
+                    var lessonToUpdate = await lessonsRepository.GetLessonByCalendarIdAsync(eventResult.Id);
+                    var lessonAttendeesFromDb = await lessonsRepository.GetLessonAttendeesAsync(lessonToUpdate);
+
+                    IList<string> attendeesEmailsFromDb = GetAttendeesEmailsFromDb(lessonAttendeesFromDb);
+
+                    var emailsToAddToDb = attendeesEmailsToSynchronize.Except(attendeesEmailsFromDb).ToList();
+                    var emailsToDeleteFromDb = attendeesEmailsFromDb.Except(attendeesEmailsToSynchronize).ToList();
+
+                    foreach (var item in emailsToAddToDb)
+                    {
+                        await lessonsRepository.CreateLessonAttendeeAsync(lessonToUpdate, item);
+                    }
+
+                    foreach (var item in emailsToDeleteFromDb)
+                    {
+                        await lessonsRepository.DeleteLessonAttendeeAsync(lessonToUpdate, item);
+                    }
                 }
                 else if (!IsInDatabase(databaseCalendarIds, eventResult.Id)
                          && eventResult.Status != CalendarConstants.CancelledEventStatus
                          && HasNotBeenCreatedAndDeletedBeforeSynchronization(eventResult))
                 {
-                    await repository.InsertAsync(new CalendarEvent()
+                    var newDbEvent = await repository.InsertAsync(new CalendarEvent()
                     {
                         Title = eventResult.Summary,
                         Description = eventResult.Description,
@@ -66,6 +89,24 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                         IsFreeSlot = false,
                         CalendarId = eventResult.Id
                     });
+
+                    var newDbLesson = await lessonsRepository.CreateLessonAsync(eventResult.Id, new Lesson()
+                    {
+                        CalendarEventId = newDbEvent.Id,
+                        LessonStatus = 0,
+                        Title = eventResult.Summary,
+                        //RelatedInvoiceId = null
+                    });
+
+                    //lessonsRepository._context.Entry(found).State = EntityState.Detached;
+
+                    // Insert Event=Lesson attendees
+                    IList<string> attendeesEmailsToSynchronize = GetAttendeesEmailsToSynchronize(eventResult);
+
+                    foreach (var item in attendeesEmailsToSynchronize)
+                    {
+                        await lessonsRepository.CreateLessonAttendeeAsync(newDbLesson, item);
+                    }
                 }
                 synchronizedRowsCounter++;
             }
@@ -109,6 +150,36 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
                 Id = ApplicationConstants.LastSynchronizationRecordId,
                 LastSynchronization = dateTime
             });
+        }
+
+        private IList<string> GetAttendeesEmailsToSynchronize(Event eventFromCalendar)
+        {
+            IList<string> emails = new List<string>();
+
+            if (eventFromCalendar.Attendees != null && eventFromCalendar.Attendees.Count != 0)
+            {
+                foreach (var item in eventFromCalendar.Attendees)
+                {
+                    emails.Add(item.Email);
+                }
+            }
+
+            return emails;
+        }
+
+        private IList<string> GetAttendeesEmailsFromDb(IList<UserBasic> attendeesFromDb)
+        {
+            IList<string> emails = new List<string>();
+
+            if (attendeesFromDb.Count != 0)
+            {
+                foreach (var item in attendeesFromDb)
+                {
+                    emails.Add(item.Email);
+                }
+            }
+
+            return emails;
         }
     }
 }

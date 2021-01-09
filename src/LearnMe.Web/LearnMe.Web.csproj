@@ -67,6 +67,13 @@
     <Compile Remove="Migrations\20201103203946_DbUpdate.Designer.cs" />
     <Compile Remove="Migrations\20201116212126_NewUpdatesForUI.cs" />
     <Compile Remove="Migrations\20201116212126_NewUpdatesForUI.Designer.cs" />
+    <Compile Remove="Migrations\20201228160248_CurrentEventLessonAttendee.cs" />
+    <Compile Remove="Migrations\20201228160248_CurrentEventLessonAttendee.Designer.cs" />
+    <Compile Remove="Migrations\20201229142336_UserLessonUpdatesSecond.cs" />
+    <Compile Remove="Migrations\20201229142336_UserLessonUpdatesSecond.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Credentials\credentials.json" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="ClientApp\src\app\Models\Lesson\lesson.ts" />
@@ -90,6 +97,11 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\app\components\mentor\" />
     <Folder Include="ClientApp\src\app\components\student\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Credentials\credentials.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <Exec Command="node --version" ContinueOnError="true">

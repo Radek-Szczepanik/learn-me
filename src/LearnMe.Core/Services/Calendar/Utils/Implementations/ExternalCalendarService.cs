@@ -13,8 +13,6 @@ namespace LearnMe.Core.Services.Calendar.Utils.Implementations
     {
         private readonly string _calendarId;
 
-        private readonly CalendarService _calendarService;
-
         public ExternalCalendarService(IToken credentialToken)
             : base(new BaseClientService.Initializer()
             {

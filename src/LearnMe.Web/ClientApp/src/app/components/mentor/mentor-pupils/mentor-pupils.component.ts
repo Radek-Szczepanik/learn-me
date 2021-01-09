@@ -97,6 +97,7 @@ export class MentorPupilsComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe(result => {
         this.getData();
+
     });
   }
 }

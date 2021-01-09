@@ -1,7 +1,36 @@
+.headers{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 180px;
+}
+
 table, .mat-form-field, .mat-paginator {
     width: 100%;
     margin: 1%;
     max-width: 98%;
+  }
+
+  .mat-column-imgPath{
+    width: 20%;
+  }
+
+  .mat-column-title{
+    width: 20%;
+  }
+  
+   .mat-column-text{
+    width: 47%;
+  }
+  
+.mat-column-data{
+ width: 5%;
+ margin-right: 10px;
+}
+
+
+  .mat-column-actions{
+    width: 8%;
   }
 
  
@@ -16,9 +45,9 @@ table, .mat-form-field, .mat-paginator {
   } 
   
   ::ng-deep.mat-form-field-ripple {
-   /*change color of underline when focused*/
-   background-color: #ff4081 !important;;
-  }
+    /*change color of underline when focused*/
+    background-color: #FF9BAD !important;;
+   }
 
   .mat-form-field {
     font-size: 14px;

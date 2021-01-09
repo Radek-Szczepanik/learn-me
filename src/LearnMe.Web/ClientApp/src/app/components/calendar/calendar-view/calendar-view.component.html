@@ -1,4 +1,4 @@
-<img src="/Header/PK-kalendarz.png" style="margin-top: 20px;"  class="rounded mx-auto d-block">   
+<img class="headers" src="/Header/PK-kalendarz.png">   
 
 
 <div class="long-title">
@@ -6,31 +6,29 @@
 
 <div class="container-flex">
   <div class="col-lg-auto justify-content-center">
-    <dx-scheduler [dataSource]="appointmentsData"
-                  appointmentTemplate="appointmentTemplate"
-                  [currentDate]="currentDate"
-                  textExpr="subject"
-                  [views]='["day", "week", "workWeek", "month"]'
-                  currentView="workWeek"
-                  [startDayHour]="7"
-                  [endDayHour]="22"
-                  maxAppointmentsPerCell="unlimited"
-                  timezone="timezone"
-                  (onInitialized)="onInitialized($event)"
-                  (onContentReady)="onContentReady($event)"
-                  (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
-                  (onAppointmentAdding)="onAppointmentAdding($event)"
-                  (onAppointmentAdded)="onAppointmentAdded($event)"
-                  (onAppointmentUpdating)="onAppointmentUpdating($event)"
-                  (onAppointmentUpdated)="onAppointmentUpdated($event)"
-                  (onAppointmentDeleting)="onAppointmentDeleting($event)"
-                  (onAppointmentDeleted)="onAppointmentDeleted($event)"
-                  (onAppointmentClick)="onAppointmentClick($event)"
-                  (onAppointmentDoubleClick)="onAppointmentDoubleClick($event)"
-                  id="myScheduler">
+    <dx-scheduler
+      [currentDate]="currentDate"
+      timeZone="timezone"
+      [dataSource]="appointmentsData"
+      appointmentTemplate="appointmentTemplate"
+      [views]='["day", "week", "workWeek", "month"]'
+      currentView="week"
+      [startDayHour]="7"
+      [endDayHour]="22"
+      textExpr="subject"
+      [height]="600"
+      
+      [editing]="isEditable"
+
+      (onInitialized)="onInitialized($event)"
+      (onAppointmentFormOpening)="onAppointmentFormOpening($event)"
+      (onAppointmentAdded)="onAppointmentAdded($event)"
+      (onAppointmentUpdated)="onAppointmentUpdated($event)"
+      (onAppointmentDeleted)="onAppointmentDeleted($event)"
+      id="myScheduler">
 
       <div *dxTemplate="let model of 'appointmentTemplate'"
-           [ngClass]="{'lesson-done': model.appointmentData.isDone === true,
+            [ngClass]="{'lesson-done': model.appointmentData.isDone === true,
                         'free-slot': model.appointmentData.isFreeSlot === true,
                         'booked-slot': model.appointmentData.isFreeSlot !== true,
                         'appointment-item': true}">

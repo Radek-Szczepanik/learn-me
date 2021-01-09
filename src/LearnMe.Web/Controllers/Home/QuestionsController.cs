@@ -47,39 +47,29 @@ namespace LearnMe.Controllers.Home
             return Ok(question);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> EditQuestion(int id, Question question)
+        [HttpPut]
+        public async Task<IActionResult> EditQuestion(Question question)
         {
-            if (id != question.Id && !QuestionExists(id))
-                return NotFound();
-
             await _crudRepository.UpdateAsync(question);
-            await _crudRepository.SaveAsync();
-
-            return Ok(question);
+            return Ok();
         }
 
         [HttpPost]
         public async Task<ActionResult<Question>> AddQuestion(Question question)
         {
             await _crudRepository.InsertAsync(question);
-            await _crudRepository.SaveAsync();
+            // await _crudRepository.SaveAsync();
 
-            return Ok(question);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Question>> DeleteQuestion(int id)
         {
-            var question = await _crudRepository.GetByIdAsync(id);
+            // var question = await _crudRepository.GetByIdAsync(id);
 
-            if (question == null)
-                return NotFound();
-
-            await _crudRepository.DeleteAsync(question);
-            await _crudRepository.SaveAsync();
-
-            return Ok(question);
+            await _crudRepository.DeleteAsync(id);
+            return Ok();
         }
 
         private bool QuestionExists(int id)

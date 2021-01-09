@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using LearnMe.Infrastructure.Data;
-using LearnMe.Infrastructure.Models.Domains.Messages;
 using LearnMe.Infrastructure.Models.Base;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -28,8 +27,7 @@ namespace LearnMe.Infrastructure.Repository
                 _context.Remove(toBeDeleted);
 
                 return await SaveAsync();
-            }
-            else
+            } else
             {
                 return false;
             }
@@ -45,7 +43,7 @@ namespace LearnMe.Infrastructure.Repository
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var news = await _context.Set<T>().ToListAsync();
-            
+
             return news;
         }
 
@@ -58,8 +56,7 @@ namespace LearnMe.Infrastructure.Repository
                     .Take(itemsPerPage)
                     .AsNoTracking()
                     .ToListAsync();
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -75,8 +72,7 @@ namespace LearnMe.Infrastructure.Repository
                 _context.Entry(found).State = EntityState.Detached;
 
                 return found;
-            }
-            else
+            } else
             {
                 return null;
             }
@@ -87,7 +83,12 @@ namespace LearnMe.Infrastructure.Repository
             var inserted = await _context.AddAsync<T>(entity);
             bool isSuccess = await SaveAsync();
 
-            var newEvent = inserted.Entity;
+            T newEvent = null;
+
+            if (isSuccess)
+            {
+                newEvent = inserted.Entity;
+            }
 
             return newEvent ?? null;
         }
@@ -105,6 +106,5 @@ namespace LearnMe.Infrastructure.Repository
 
             return await SaveAsync();
         }
-
     }
 }
