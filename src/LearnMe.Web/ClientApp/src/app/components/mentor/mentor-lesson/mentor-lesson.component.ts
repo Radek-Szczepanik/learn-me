@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CrudService } from '../../../services/crud.service'
 import { Appointment, MentorLessonAppointment } from '../../../services/calendar/calendar-service-ver-2';
-import { ShowLessonDialog } from './mentor-pupils.component.show.lesson';
+import { ShowLessonDialog } from './mentor-lesson.component.show.lesson';
 
 @Component({
   selector: 'app-mentor-lesson',
