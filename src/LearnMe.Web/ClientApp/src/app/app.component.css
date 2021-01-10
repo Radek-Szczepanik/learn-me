@@ -23,7 +23,7 @@
 
 @media only screen and (min-width: 1200px) {
   .mat-list-base .mat-list-item {
-  font-family: Poppins medium;
+  font-family: 'Poppins', sans-serif;
   color: white;
   /* text-shadow: 1px 1px 1px black; */
   font-size: xx-large;
