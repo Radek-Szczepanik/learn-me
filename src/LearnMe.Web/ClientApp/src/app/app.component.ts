@@ -52,7 +52,6 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    let temp: string[];
     this._httpClient.get<string[]>(this._base + 'api/Identity').subscribe(result => {
       this.identity = result as string[];
       this.identityInfo(this.identity);
