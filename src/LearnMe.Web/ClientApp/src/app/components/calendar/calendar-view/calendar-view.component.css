@@ -61,3 +61,14 @@ p {
 ::ng-deep .dx-scheduler-header-panel-cell .dx-scheduler-cell-sizes-horizontal {
   background-color: #ffced6
 }
+
+.dx-scheduler-appointment-content{
+  height: auto;
+}
+
+::ng-deep .dx-scheduler-appointment {
+  background-color: transparent;
+  border-radius: 12px;
+  box-shadow: none;
+}
+ 

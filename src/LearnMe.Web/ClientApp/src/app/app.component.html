@@ -4,13 +4,13 @@
 
   <div [class.example-is-mobile]="mobileQuery.matches">
     <mat-toolbar class="fixed-toolbar" *ngIf="notLogged">
-      <button style="margin: 1%" mat-icon-button (click)="sidenav.toggle()">
+      <button style="margin: 0.5%" mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <button style="margin: 1%" mat-icon-button routerLink=".">
+      <button style="margin: 0.5%" (click)="sidenav.close()" mat-icon-button routerLink=".">
         <mat-icon>home</mat-icon>
       </button>
-      <button style="margin: 1%" mat-icon-button routerLink="login">
+      <button style="margin: 0.5%" (click)="sidenav.close()" mat-icon-button routerLink="login">
         <mat-icon>account_box</mat-icon>
       </button>
     </mat-toolbar>
