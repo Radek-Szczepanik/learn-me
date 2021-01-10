@@ -350,7 +350,7 @@ export class CalendarViewComponent implements OnInit {
     let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
     console.debug('commonAttendees');
     console.debug(commonAttendees);
-    e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
+    e.form.itemOption("mainGroup").items[10].items[0].editorOptions.value = commonAttendees;
 
     e.form.itemOption("mainGroup.subject",
       {
