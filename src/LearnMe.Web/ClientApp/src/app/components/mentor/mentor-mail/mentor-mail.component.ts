@@ -44,8 +44,8 @@ export class MentorMailComponent implements OnInit {
   //   });
   // }
 
-  loadMessages(email: string) {
-    this.messageService.getMessages(email).subscribe((messages: Messages[]) => {
+  loadMessages(email: string, ) {
+    this.messageService.getMessages(email, this._baseUrl).subscribe((messages: Messages[]) => {
       this.messages = messages;
     }, error => {
       console.log(error);

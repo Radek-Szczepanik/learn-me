@@ -11,12 +11,10 @@ import { User } from '../models/Users/user';
 })
 export class MessageService {
 
-  baseUrl = 'https://localhost:5001/api/UserBasics/';
-
   constructor(private http: HttpClient) { }
 
-  getMessages(email): Observable<Messages[]> {
-    return this.http.get<Messages[]>(this.baseUrl + email + 'messages')
+  getMessages(email, url): Observable<Messages[]> {
+    return this.http.get<Messages[]>(url + 'api/UserBasics/' + email + 'messages')
   }
 
 }
