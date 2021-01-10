@@ -15,8 +15,8 @@ export class MessageService {
 
   constructor(private http: HttpClient) { }
 
-  getMessages(): Observable<Messages[]> {
-    return this.http.get<Messages[]>(this.baseUrl + '230286bd-d596-442a-a7ae-46a78b6f4dc8/' + 'messages')
+  getMessages(email): Observable<Messages[]> {
+    return this.http.get<Messages[]>(this.baseUrl + email + 'messages')
   }
 
 }

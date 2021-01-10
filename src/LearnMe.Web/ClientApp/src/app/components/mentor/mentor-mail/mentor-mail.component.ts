@@ -1,13 +1,13 @@
 import { Messages } from './../../../models/Messages/messages';
 import { MessageService } from './../../../services/message.service';
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, Inject} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { Inject } from '@angular/core';
 import { User } from 'src/app/models/Users/user';
+
 
 @Component({
   selector: 'app-mentor-mail',
@@ -15,7 +15,7 @@ import { User } from 'src/app/models/Users/user';
   styleUrls: ['./mentor-mail.component.css']
 })
 
-export class MentorMailComponent {
+export class MentorMailComponent implements OnInit {
 
   displayedColumns: string[] = ['data', 'title', 'firstName', 'lastName', 'actions'];
 
@@ -27,7 +27,9 @@ export class MentorMailComponent {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   messages: Messages[];
-  users: User[];
+  private _httpClient: HttpClient;
+  private _base: string;
+  identity: string[];
 
   constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string, public dialog: MatDialog, private messageService: MessageService) {
     this._http = http;
@@ -42,8 +44,8 @@ export class MentorMailComponent {
   //   });
   // }
 
-  loadMessages() {
-    this.messageService.getMessages().subscribe((messages: Messages[]) => {
+  loadMessages(email: string) {
+    this.messageService.getMessages(email).subscribe((messages: Messages[]) => {
       this.messages = messages;
     }, error => {
       console.log(error);
@@ -59,7 +61,10 @@ export class MentorMailComponent {
     }
   }
 
-  ngOnInit() {
-    this.loadMessages();
+   ngOnInit() {
+    this._http.get<string[]>(this._baseUrl + 'api/Identity').subscribe(result => {
+      this.identity = result as string[];
+      this.loadMessages(this.identity[1]);
+    });
   }
 }
