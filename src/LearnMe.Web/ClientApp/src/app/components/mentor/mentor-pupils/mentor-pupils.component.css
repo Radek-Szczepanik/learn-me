@@ -1,3 +1,10 @@
+.header-font{
+  color: white;
+  font-family: 'Pacifico', cursive;
+  font-size: xxx-large;
+  text-align: center;
+}
+
 table, .mat-form-field, .mat-paginator {
     width: 100%;
     margin: 1%;

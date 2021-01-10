@@ -5,6 +5,13 @@
   width: 25%;
 }
 
+.header-font{
+  color: white;
+  font-family: 'Pacifico', cursive;
+  font-size: xxx-large;
+  text-align: center;
+}
+
 .mat-drawer-backdrop.mat-drawer-shown{
   background: transparent;
 }
