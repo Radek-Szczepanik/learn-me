@@ -60,7 +60,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
   logOut() {
     this._httpClient.get(this._base + 'api/Login').subscribe((result) => {
-      window.location.reload();
+      window.location.replace(".")
     },
       (error) => {
         console.error(error);
