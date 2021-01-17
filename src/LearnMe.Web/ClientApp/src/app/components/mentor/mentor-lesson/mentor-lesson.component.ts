@@ -6,16 +6,24 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CrudService } from '../../../services/crud.service'
 import { Appointment, MentorLessonAppointment } from '../../../services/calendar/calendar-service-ver-2';
-import { ShowLessonDialog } from './mentor-lesson.component.show.lesson';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-mentor-lesson',
   templateUrl: './mentor-lesson.component.html',
-  styleUrls: ['./mentor-lesson.component.css']
+  styleUrls: ['./mentor-lesson.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ])
+  ],
 })
 export class MentorLessonComponent implements AfterViewInit {
 
   displayedColumns: string[] = ['startDate', 'startDateTime', 'endDateTime', 'subject', 'attendeesNameAndSurnameList'];
+  expandedElement: MentorLessonAppointment | null;
 
   dataSource: MatTableDataSource<MentorLessonAppointment>;
   _http: HttpClient;
@@ -82,13 +90,13 @@ export class MentorLessonComponent implements AfterViewInit {
     }
   }
 
-  showLesson(lesson: MentorLessonAppointment) {
-    const dialogRef = this.dialog.open(ShowLessonDialog);
+  // showLesson(lesson: MentorLessonAppointment) {
+  //   const dialogRef = this.dialog.open(ShowLessonDialog);
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.ngAfterViewInit();
-    });
-  }
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     this.ngAfterViewInit();
+  //   });
+  // }
 }
 
 

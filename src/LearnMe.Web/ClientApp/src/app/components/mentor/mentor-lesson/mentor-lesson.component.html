@@ -1,5 +1,33 @@
 <img class="headers" src="/Header/PK-lekcje.png">   
 
+
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        This is the expansion title
+      </mat-panel-title>
+      <mat-panel-description>
+        This is a summary of the content
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Self aware panel
+      </mat-panel-title>
+      <mat-panel-description>
+        Currently I am
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+
 <mat-form-field>
   <mat-label>
     <mat-icon>search</mat-icon>
@@ -11,7 +39,7 @@
 
   <ng-container matColumnDef="startDate">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Data </th>
-    <td mat-cell *matCellDef="let row" (click)="showLesson(row)"> {{row.startDate | date: 'mediumDate'}} </td>
+    <td mat-cell *matCellDef="let row"> {{row.startDate | date: 'mediumDate'}} </td>
   </ng-container>
 
   <ng-container matColumnDef="startDateTime">
@@ -35,6 +63,26 @@
     <!-- <td mat-cell *matCellDef="let row"> {{row.attendees[0].email}} </td> -->
   </ng-container>
 
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div class="example-element-detail"
+           [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'">
+        <!-- <div class="example-element-diagram">
+          <div class="example-element-position"> {{element.subject}} </div>
+          <div class="example-element-symbol"> {{element.}} </div>
+          <div class="example-element-name"> {{element.name}} </div>
+          <div class="example-element-weight"> {{element.weight}} </div>
+        </div> -->
+        <div class="example-element-description">
+          {{element.subject}}
+          <span class="example-element-description-attribution"> -- Wikipedia </span>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
     <!-- <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>
       <button mat-icon-button (click)="addLesson()">
@@ -54,6 +102,11 @@
   </ng-container> -->
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+  <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>
 <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
