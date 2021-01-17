@@ -51,7 +51,11 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
             var currentUserRole = currentUser.FindFirst(ClaimTypes.Role).Value;
             var currentUserEmail = currentUser.FindFirst(ClaimTypes.Name).Value;
 
-            var result = await _calendar.GetFullEventsByUserRoleByDatesAsync(currentUserRole, currentUserEmail, fromDate, toDate);
+            var result = await _calendar.GetFullEventsByUserRoleByDatesAsync
+                (currentUserRole,
+                currentUserEmail,
+                fromDate,
+                toDate);
 
             if (result != null)
             {
@@ -65,7 +69,9 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
         // GET: api/<controller>/5
         [HttpGet("{calendarId}")]
         [Authorize(Roles = "Student,Mentor,Admin")]
-        public async Task<ActionResult<FullCalendarEventDto>> GetByIdAsync(string calendarId, CancellationToken cancellationToken)
+        public async Task<ActionResult<FullCalendarEventDto>> GetByIdAsync
+            (string calendarId,
+            CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -73,7 +79,7 @@ namespace LearnMe.Web.Controllers.Calendar.CalendarController
             var currentUserRole = currentUser.FindFirst(ClaimTypes.Role).Value;
             var currentUserEmail = currentUser.FindFirst(ClaimTypes.Name).Value;
 
-            var result = await _calendar.GetFullEventsByUserRoleByDatesAsync(currentUserRole, currentUserEmail, fromDate, toDate);
+            var result = await _calendar.GetFullEventByIdAsync(calendarId);
 
             if (result != null)
             {
