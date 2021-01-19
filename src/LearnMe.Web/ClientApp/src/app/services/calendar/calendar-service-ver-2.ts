@@ -14,11 +14,16 @@ export class Appointment {
 }
 
 export class MentorLessonAppointment {
-    calendarId: string;
     subject: string;
+    description: string;
     startDate: Date;
     startDateTime: Date;
     endDateTime: Date;
+    isDone: boolean;
+    isFreeSlot: boolean;
+    calendarId: string;
+    lesson: Lesson;
+    attendees: UserBasicDto[];
     attendeesNameAndSurnameList: string[];
 }
 

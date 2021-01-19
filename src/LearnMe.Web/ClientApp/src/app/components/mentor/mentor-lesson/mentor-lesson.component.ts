@@ -60,11 +60,16 @@ export class MentorLessonComponent implements AfterViewInit {
 
         result.forEach(item =>{
           let newItem: MentorLessonAppointment = {
-            calendarId: item.calendarId,
-            startDate: item.startDate,
-            startDateTime: item.endDate,
-            endDateTime: item.endDate,
             subject: item.subject,
+            description: item.description,
+            startDate: item.startDate,
+            startDateTime: item.startDate,
+            endDateTime: item.endDate,
+            isDone: item.isDone,
+            isFreeSlot: item.isFreeSlot,
+            calendarId: item.calendarId,
+            lesson: item.lesson,
+            attendees: item.attendees,
             attendeesNameAndSurnameList: []
           }
 

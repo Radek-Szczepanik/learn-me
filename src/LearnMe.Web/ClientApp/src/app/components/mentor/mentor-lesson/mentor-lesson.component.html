@@ -1,33 +1,5 @@
 <img class="headers" src="/Header/PK-lekcje.png">   
 
-
-<mat-accordion>
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        This is the expansion title
-      </mat-panel-title>
-      <mat-panel-description>
-        This is a summary of the content
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>This is the primary content of the panel.</p>
-  </mat-expansion-panel>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Self aware panel
-      </mat-panel-title>
-      <mat-panel-description>
-        Currently I am
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
-  </mat-expansion-panel>
-</mat-accordion>
-
-
-
 <mat-form-field>
   <mat-label>
     <mat-icon>search</mat-icon>
@@ -70,12 +42,73 @@
       <div class="example-element-detail"
            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
         <div class="example-element-diagram">
-          <div class="example-element-position"> {{element.subject}} </div>
-          <div class="example-element-name"> {{element.calendarId}} </div>
+          Lesson title: {{element.lesson.title}}
         </div>
         <div class="example-element-description">
           {{element.subject}}
-          <span class="example-element-description-attribution"> -- Wikipedia </span>
+          <br/>
+          <span class="example-element-description-attribution"> Goal: {{element.description}} </span>
+        </div>
+
+        <div class="example-element-description">
+          Materials for the lesson
+          <br/>
+          <ul>
+            <li>
+              tbd
+              <button mat-icon-button color="accent">
+                <mat-icon> cloud_download</mat-icon>
+              </button>
+            </li>
+            <li>
+              tbd
+              <button mat-icon-button color="accent">
+                <mat-icon> cloud_download</mat-icon>
+              </button>
+            </li>
+            <li>
+              Upload new homework
+              <button mat-icon-button color="accent">
+                  <mat-icon> cloud_upload</mat-icon>
+                </button>
+            </li>
+            <!-- <li *ngFor="let item of element.tbd">{{item.tbd}}</li> -->
+          </ul>
+        </div>
+
+        <div class="example-element-description">
+          Attendees
+          <br/>
+          <ul>
+            <li *ngFor="let item of element.attendees">
+              {{item.firstName}} {{item.lastName}} {{item.email}}
+              <button mat-icon-button color="accent">
+                <mat-icon> mail_outline</mat-icon>
+              </button>
+              <br/>
+              Student homeworks:
+              <br/>
+              <span>
+                filename1
+                <button mat-icon-button color="accent">
+                  <mat-icon> cloud_download</mat-icon>
+                </button>
+                <button mat-icon-button color="accent">
+                  <mat-icon> cloud_upload</mat-icon>
+                </button>
+              </span>
+              <br/>
+              <span>
+                filename2
+                <button mat-icon-button color="accent">
+                  <mat-icon> cloud_download</mat-icon>
+                </button>
+                <button mat-icon-button color="accent">
+                  <mat-icon> cloud_upload</mat-icon>
+                </button>
+              </span>
+            </li>
+          </ul>
         </div>
       </div>
     </td>
