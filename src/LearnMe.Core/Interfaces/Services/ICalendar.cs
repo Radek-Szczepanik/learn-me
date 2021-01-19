@@ -15,6 +15,8 @@ namespace LearnMe.Core.Interfaces.Services
 
         Task<CalendarEventDto> GetEventByIdAsync(int id);
 
+        Task<FullCalendarEventDto> GetFullEventByIdAsync(string calendarId);
+
         Task<FullCalendarEventDto> CreateFullEventAsync(
             FullCalendarEventDto eventData,
             string calendarId = CalendarConstants.CalendarId,

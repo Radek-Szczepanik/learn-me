@@ -1,1 +1,143 @@
 <img class="headers" src="/Header/PK-lekcje.png">   
+
+<mat-form-field>
+  <mat-label>
+    <mat-icon>search</mat-icon>
+  </mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort class="mat-elevation-z1">
+
+  <ng-container matColumnDef="startDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Data </th>
+    <td mat-cell *matCellDef="let row"> {{row.startDate | date: 'mediumDate'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="startDateTime">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Godzina rozpoczęcia </th>
+    <td mat-cell *matCellDef="let row"> {{row.startDateTime | date: 'shortTime'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="endDateTime">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Godzina zakończenia </th>
+    <td mat-cell *matCellDef="let row"> {{row.endDateTime | date:'shortTime'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="subject">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Temat </th>
+    <td mat-cell *matCellDef="let row"> {{row.subject}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="attendeesNameAndSurnameList">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Uczestnicy </th>
+    <td mat-cell *matCellDef="let row"> {{row.attendeesNameAndSurnameList}} </td>
+    <!-- <td mat-cell *matCellDef="let row"> {{row.attendees[0].email}} </td> -->
+  </ng-container>
+
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div class="example-element-detail"
+           [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <div class="example-element-diagram">
+          Lesson title: {{element.lesson.title}}
+        </div>
+        <div class="example-element-description">
+          {{element.subject}}
+          <br/>
+          <span class="example-element-description-attribution"> Goal: {{element.description}} </span>
+        </div>
+
+        <div class="example-element-description">
+          Materials for the lesson
+          <br/>
+          <ul>
+            <li>
+              tbd
+              <button mat-icon-button color="accent">
+                <mat-icon> cloud_download</mat-icon>
+              </button>
+            </li>
+            <li>
+              tbd
+              <button mat-icon-button color="accent">
+                <mat-icon> cloud_download</mat-icon>
+              </button>
+            </li>
+            <li>
+              Upload new homework
+              <button mat-icon-button color="accent">
+                  <mat-icon> cloud_upload</mat-icon>
+                </button>
+            </li>
+            <!-- <li *ngFor="let item of element.tbd">{{item.tbd}}</li> -->
+          </ul>
+        </div>
+
+        <div class="example-element-description">
+          Attendees
+          <br/>
+          <ul>
+            <li *ngFor="let item of element.attendees">
+              {{item.firstName}} {{item.lastName}} {{item.email}}
+              <button mat-icon-button color="accent">
+                <mat-icon> mail_outline</mat-icon>
+              </button>
+              <br/>
+              Student homeworks:
+              <br/>
+              <span>
+                filename1
+                <button mat-icon-button color="accent">
+                  <mat-icon> cloud_download</mat-icon>
+                </button>
+                <button mat-icon-button color="accent">
+                  <mat-icon> cloud_upload</mat-icon>
+                </button>
+              </span>
+              <br/>
+              <span>
+                filename2
+                <button mat-icon-button color="accent">
+                  <mat-icon> cloud_download</mat-icon>
+                </button>
+                <button mat-icon-button color="accent">
+                  <mat-icon> cloud_upload</mat-icon>
+                </button>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+    <!-- <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>
+      <button mat-icon-button (click)="addLesson()">
+        <mat-icon aria-label="Example icon-button with a heart icon" color="accent">add</mat-icon>
+      </button></th>
+    <td mat-cell *matCellDef="let row">
+      <button mat-icon-button color="accent" (click)="updateLesson(row)">
+        <mat-icon aria-label="Edit">edit</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" (click)="deleteLesson(row.email)">
+        <mat-icon aria-label="Delete">delete</mat-icon>
+      </button>
+      <button mat-icon-button color="accent">
+        <mat-icon aria-label="money">attach_money</mat-icon>
+      </button>
+    </td>
+  </ng-container> -->
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

@@ -43,6 +43,7 @@ import { MentorOpinionsComponent } from './components/mentor/mentor-opinions/men
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -118,6 +119,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     MatListModule,
     MatButtonModule,
     MatTableModule,
+    MatExpansionModule,
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
