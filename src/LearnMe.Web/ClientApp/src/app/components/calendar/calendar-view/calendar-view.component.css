@@ -1,11 +1,3 @@
-.headers{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 245px;
-  margin-bottom: 25px;
-}
-
 ::ng-deep .long-title h3 {
   font-family: 'Segoe UI Light', 'Helvetica Neue Light', 'Segoe UI', 'Helvetica Neue', 'Trebuchet MS', Verdana;
   font-weight: 200;
@@ -69,3 +61,14 @@ p {
 ::ng-deep .dx-scheduler-header-panel-cell .dx-scheduler-cell-sizes-horizontal {
   background-color: #ffced6
 }
+
+.dx-scheduler-appointment-content{
+  height: auto;
+}
+
+::ng-deep .dx-scheduler-appointment {
+  background-color: transparent;
+  border-radius: 12px;
+  box-shadow: none;
+}
+ 

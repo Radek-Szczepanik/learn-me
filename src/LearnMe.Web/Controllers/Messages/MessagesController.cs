@@ -8,15 +8,13 @@ using LearnMe.Infrastructure.Repository;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace LearnMe.Controllers.Messages
 {
-    [Route("api/UserBasics/{userId}/[controller]")]
+    [Route("api/UserBasics/{email}/[controller]")]
     [ApiController]
     public class MessagesController : ControllerBase
     {
@@ -24,20 +22,24 @@ namespace LearnMe.Controllers.Messages
         private readonly IMapper _mapper;
         private readonly UserManager<UserBasic> _userManager;
         private readonly ApplicationDbContext _applicationDbContext;
-
+        private readonly IMessageRepository _messageRepository;
+        
 
         public MessagesController(ICrudRepository<Message> crudRepository,
                                   IMapper mapper,
                                   UserManager<UserBasic> userManager,
-                                  ApplicationDbContext applicationDbContext)
+                                  ApplicationDbContext applicationDbContext,
+                                  IMessageRepository messageRepository)
 
         {
             _crudRepository = crudRepository;
             _mapper = mapper;
             _userManager = userManager;
             _applicationDbContext = applicationDbContext;
+            _messageRepository = messageRepository;
         }
-
+        
+        
         [HttpGet("{id}")]
         public async Task<ActionResult> GetMessage(int id)
         {
@@ -48,52 +50,37 @@ namespace LearnMe.Controllers.Messages
 
             return Ok(message);
         }
+        
 
         [HttpGet]
-        public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
+        public async Task<ActionResult> GetMessagesForUser(string email, [FromQuery] MessageParams messageParams)
         {
-            var messages = _applicationDbContext.Messages.Include(u => u.Sender)
-                                                         .Include(u => u.Recipient).AsQueryable();
+            var user = await _userManager.FindByEmailAsync(email);
+            messageParams.Email = user.Id;
+            var messagesFromRepo = await _messageRepository.GetMessagesForUser(messageParams);
+            var messagesToReturn = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
 
-            switch (messageParams.MessageContainer)
+            foreach (var message in messagesToReturn)
             {
-                case "Inbox":
-                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.RecipientDeleted == false);
-                    break;
-                case "Outbox":
-                    messages = messages.Where(u => u.SenderId == messageParams.UserId && u.SenderDeleted == false);
-                    break;
-                default:
-                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.IsRead == false && u.RecipientDeleted == false);
-                    break;
+                message.MessageContainer = messageParams.MessageContainer;
             }
 
-            messages = messages.OrderByDescending(d => d.DateSent);
-
-            return await PagedList<Message>.CreateListAsync(messages, messageParams.PageNumber, messageParams.PageSize);
+            return Ok(messagesToReturn);
         }
 
-        // [HttpGet]
-        // public async Task<ActionResult> GetMessagesForUser(string userId, [FromQuery] MessageParams messageParams)
-        // {
-        //     messageParams.UserId = userId;
-        //     var messagesFromRepo = await GetMessagesForUser(messageParams);
-        //     var messagesToReturn = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
-
-
-
-        //     return Ok(messagesToReturn);
-        // }
-
         [HttpPost(Name = "GetMessage")]
-        public async Task<ActionResult> CreateMessage(string userId, MessageToCreateDto messageToCreate)
-        {
-            if (userId != messageToCreate.SenderId)
-                return Unauthorized();
+        public async Task<ActionResult> CreateMessage(string email, MessageToCreateDto messageToCreate)
+        { 
+            //if (email != messageToCreate.SenderId)
+            //    return Unauthorized();
 
-            messageToCreate.SenderId = userId;
+            var sender = await _userManager.FindByEmailAsync(email);
 
-            var recipient = await _userManager.FindByIdAsync(messageToCreate.RecipientId);
+            messageToCreate.SenderId = sender.Id;
+
+            var recipient = await _userManager.FindByEmailAsync(messageToCreate.RecipientEmail);
+
+            messageToCreate.RecipientId = recipient.Id;
 
             if (recipient == null)
                 return BadRequest("Nie można znaleźć użytkownika");

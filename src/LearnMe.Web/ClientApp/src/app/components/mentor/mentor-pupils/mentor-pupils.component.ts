@@ -18,7 +18,7 @@ import { CrudService } from "../../../services/crud.service"
   templateUrl: './mentor-pupils.component.html',
   styleUrls: ['./mentor-pupils.component.css']
 })
-export class MentorPupilsComponent implements AfterViewInit{
+export class MentorPupilsComponent implements AfterViewInit {
 
   displayedColumns: string[] = ['imgPath', 'firstName', 'lastName', 'email', 'streetName', 'houseNumber', 'apartmentNumber', 'city', 'postcode', 'country', 'actions'];
 

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Lesson, UserBasicDto } from "../../Models/Lesson/lesson"
+import { Lesson, UserBasicDto } from "../../models/Lesson/lesson"
 
 export class Appointment {
     subject: string;

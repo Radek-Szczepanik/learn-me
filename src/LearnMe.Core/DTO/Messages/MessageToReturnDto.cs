@@ -1,21 +1,18 @@
-﻿using LearnMe.Infrastructure.Models.Domains.Users;
+﻿using LearnMe.Infrastructure.Models.Domains.Messages;
+using LearnMe.Infrastructure.Models.Domains.Users;
 using System;
 
 namespace LearnMe.Core.DTO.Messages
 {
     public class MessageToReturnDto
     {
-        public int Id { get; set; }
-
-        public string SenderId { get; set; }
+        public int Id { get; set; }      
 
         public string SenderFirstName { get; set; }
 
         public string SenderLastName { get; set; }
 
         public string SenderEmail { get; set; }
-
-        public string RecipientId { get; set; }
 
         public string RecipientFirstName { get; set; }
 

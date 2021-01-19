@@ -74,7 +74,7 @@ export class MentorLessonComponent implements AfterViewInit {
           }
 
           item.attendees.forEach(person =>{
-            newItem.attendeesNameAndSurnameList.push(person.firstName + ' ' + person.lastName)
+            newItem.attendeesNameAndSurnameList.push(' ' + person.firstName + ' ' + person.lastName)
           })
 
           mentorLessonAppointments.push(newItem);
