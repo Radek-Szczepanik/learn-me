@@ -45,7 +45,6 @@ export class MentorLessonComponent implements AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-
   constructor(http: HttpClient, 
     @Inject('BASE_URL') baseUrl: string, 
     public dialog: MatDialog, 
@@ -101,56 +100,4 @@ export class MentorLessonComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  // showLesson(lesson: MentorLessonAppointment) {
-  //   const dialogRef = this.dialog.open(ShowLessonDialog);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.ngAfterViewInit();
-  //   });
-  // }
 }
-
-
-
-  // addPupil() {
-  //   const dialogRef = this.dialog.open(AddPupilDialog);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.ngAfterViewInit();
-  //   });
-  // }
-  // deletePupil(email: string) {
-
-  //   const dialogConfig = new MatDialogConfig();
-
-  //   dialogConfig.data = {
-  //     id: 1,
-  //     title: email
-  //   };
-
-  //   const dialogRef = this.dialog.open(DeletePupilDialog, dialogConfig);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.ngAfterViewInit();
-  //   });
-  // }
-
-  // updatePupil(user: Students) {
-
-  //   const dialogConfig = new MatDialogConfig();
-
-
-  //   dialogConfig.data = {
-  //     id: 1,
-  //     title: user
-  //   };
-
-  //   const dialogRef = this.dialog.open(UpdatePupilDialog, dialogConfig);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //       this.getData();
-
-  //   });
-  // }
-//}

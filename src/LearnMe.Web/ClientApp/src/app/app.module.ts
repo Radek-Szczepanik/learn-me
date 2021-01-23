@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegistrationComponent } from './components/account/registration/registration.component';
 import { LoginComponent } from './components/account/login/login.component';
+import { LessonComponent } from './components/lesson/lesson.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { appRouting } from './routing';
@@ -71,6 +72,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     HomeComponent,
     CalendarViewComponent,
     RegistrationComponent,
+    LessonComponent,
     LoginComponent,
     FaqComponent,
     NewsComponent,
