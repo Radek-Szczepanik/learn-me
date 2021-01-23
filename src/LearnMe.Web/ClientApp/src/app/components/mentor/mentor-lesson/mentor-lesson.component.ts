@@ -22,7 +22,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class MentorLessonComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['startDate', 'startDateTime', 'endDateTime', 'subject', 'attendeesNameAndSurnameList'];
+  displayedColumns: string[] = ['startDate', 'startDateTime', 'endDateTime', 'subject', 'attendeesNameAndSurnameList', 'isDone'];
   expandedElement: MentorLessonAppointment | null;
 
   dataSource: MatTableDataSource<MentorLessonAppointment>;
