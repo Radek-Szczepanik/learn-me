@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CrudService } from '../../../services/crud.service'
-import { Appointment, MentorLessonAppointment } from '../../../services/calendar/calendar-service-ver-2';
+import { Appointment, MentorLessonAppointment, Tile } from '../../../services/calendar/calendar-service-ver-2';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
@@ -33,6 +33,13 @@ export class MentorLessonComponent implements AfterViewInit {
   // TODO: update dates by months/year
   from: Date = new Date(new Date().getTime() - (31 * 24 * 60 * 60 * 1000));
   to: Date = new Date(new Date().getTime() + (31 * 24 * 60 * 60 * 1000));
+
+  tiles: Tile[] = [
+    {text: 'One', cols: 2, rows: 1, color: 'lightblue'},
+    {text: 'Two', cols: 2, rows: 1, color: 'lightgreen'},
+    {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
+    {text: 'Four', cols: 1, rows: 1, color: '#DDBDF1'},
+  ];
 
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

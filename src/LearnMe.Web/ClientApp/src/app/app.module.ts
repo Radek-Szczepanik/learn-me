@@ -49,6 +49,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AddPupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.add.pupil';
 import { DeletePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.delete.pupil';
 import { UpdatePupilDialog } from './components/mentor/mentor-pupils/mentor-pupils.component.update.pupil';
@@ -125,6 +126,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     MatInputModule,
     MatSortModule,
     MatDialogModule,
+    MatTooltipModule,
     MatGridListModule,
     MatSelectModule,
     NgbModule

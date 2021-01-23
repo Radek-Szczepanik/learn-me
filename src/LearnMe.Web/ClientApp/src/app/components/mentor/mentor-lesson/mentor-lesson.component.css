@@ -73,17 +73,24 @@ tr.example-element-row:not(.example-expanded-row):active {
   border-bottom-width: 0;
 }
 
-.example-element-detail {
+.lesson-element-detail {
   overflow: hidden;
   display: flex;
+  justify-content: center;
 }
 
-.example-element-diagram {
+.lesson-element-item {
   min-width: 80px;
-  border: 2px solid black;
   padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
+  margin: 8px;
+  width: 100%;
+  border-left: solid 8px #4c2e33;
+  background-color: #f897a81c;
+  border-radius: 8px;
+}
+
+.lesson-element-item ul li {
+  list-style-type: square;
 }
 
 .example-element-symbol {
@@ -92,10 +99,15 @@ tr.example-element-row:not(.example-expanded-row):active {
   line-height: normal;
 }
 
-.example-element-description {
+/* .example-element-description {
   padding: 16px;
-}
+  position: relative;
+} */
 
 .example-element-description-attribution {
   opacity: 0.5;
+}
+
+.mat-icon-button.mat-accent {
+  color: #c07582;
 }
