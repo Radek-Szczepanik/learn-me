@@ -56,3 +56,53 @@ table {
 mat-header-cell, mat-cell {
   justify-content: center;
 }
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.lesson-element-detail {
+  overflow: hidden;
+  /* display: flex; */
+  justify-content: center;
+}
+
+.lesson-element-item {
+  min-width: 80px;
+  padding: 8px;
+  margin: 8px;
+  width: 100%;
+  border-left: solid 8px #4c2e33;
+  background-color: #f897a81c;
+  border-radius: 8px;
+}
+
+.lesson-element-item ul li {
+  list-style-type: square;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.mat-icon-button.mat-accent {
+  color: #c07582;
+}

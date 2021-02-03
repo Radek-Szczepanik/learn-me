@@ -1,0 +1,18 @@
+<div *ngIf="loggedUser[0] == 'Student'" class="lesson-element-item">
+    My actions
+    <br/>
+    <ul>
+      <li>
+        Message/ask tutor about the lesson
+        <button   mat-icon-button color="accent">
+          <mat-icon matTooltip="Send direct message"> mail_outline</mat-icon>
+        </button>
+      </li>
+      <li>
+        Confirm all homeworks done
+        <button mat-icon-button color="accent">
+          <mat-icon matTooltip="Send info to tutor"> outlined_flag</mat-icon>
+        </button>
+      </li>
+    </ul>   
+</div>

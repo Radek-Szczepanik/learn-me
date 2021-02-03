@@ -66,6 +66,8 @@ import { DeleteFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-delet
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { LessonDetailsComponent } from './components/lesson/lesson-details/lesson-details.component';
 import { LessonMaterialsComponent } from './components/lesson/lesson-materials/lesson-materials.component';
+import { LessonAttendeesComponent } from './components/lesson/lesson-attendees/lesson-attendees.component';
+import { LessonActionsComponent } from './components/lesson/lesson-actions/lesson-actions.component';
 
 
 @NgModule({
@@ -109,7 +111,9 @@ import { LessonMaterialsComponent } from './components/lesson/lesson-materials/l
     UpdateFaqDialog,
     DeleteFaqDialog,
     LessonDetailsComponent,
-    LessonMaterialsComponent
+    LessonMaterialsComponent,
+    LessonAttendeesComponent,
+    LessonActionsComponent
 
   ],
   imports: [

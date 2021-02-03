@@ -8,6 +8,10 @@
     border-radius: 8px;
 }
 
+.example-element-description-attribution {
+    opacity: 0.5;
+}
+
 .mat-icon-button.mat-accent {
     color: #c07582;
   }
