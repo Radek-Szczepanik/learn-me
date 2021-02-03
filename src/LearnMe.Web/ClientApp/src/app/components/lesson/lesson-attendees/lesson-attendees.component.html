@@ -1,0 +1,37 @@
+<div *ngIf="loggedUser[0] != 'Student'" class="lesson-element-item">
+    Attendees
+    <br/>
+    <ul>
+      <li *ngFor="let item of lesson.attendees">
+        {{item.firstName}} {{item.lastName}}
+        <span class="example-element-description-attribution">
+          {{item.email}}
+        </span>
+        <button mat-icon-button color="accent">
+          <mat-icon matTooltip="Send direct message"> mail_outline</mat-icon>
+        </button>
+        <br/>
+        Student homeworks:
+        <br/>
+        <span>
+          filename1
+          <button mat-icon-button color="accent">
+            <mat-icon matTooltip="Download student homework"> cloud_download</mat-icon>
+          </button>
+          <button mat-icon-button color="accent">
+            <mat-icon matTooltip="Send homework correction"> cloud_upload</mat-icon>
+          </button>
+        </span>
+        <br/>
+        <!-- <span>
+          filename2
+          <button mat-icon-button color="accent">
+            <mat-icon> cloud_download</mat-icon>
+          </button>
+          <button mat-icon-button color="accent">
+            <mat-icon> cloud_upload</mat-icon>
+          </button>
+        </span> -->
+      </li>
+    </ul>
+  </div>

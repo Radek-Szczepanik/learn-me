@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CrudService } from '../../../services/crud.service'
-import { Appointment, MentorLessonAppointment } from '../../../services/calendar/calendar-service-ver-2';
+import { Appointment, LessonAppointmentTableEntry, Tile } from '../../../services/calendar/calendar-service-ver-2';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
@@ -22,10 +22,10 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class MentorLessonComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['startDate', 'startDateTime', 'endDateTime', 'subject', 'attendeesNameAndSurnameList'];
-  expandedElement: MentorLessonAppointment | null;
+  displayedColumns: string[] = ['startDate', 'startDateTime', 'endDateTime', 'subject', 'attendeesNameAndSurnameList', 'isDone'];
+  expandedElement: LessonAppointmentTableEntry | null;
 
-  dataSource: MatTableDataSource<MentorLessonAppointment>;
+  dataSource: MatTableDataSource<LessonAppointmentTableEntry>;
   _http: HttpClient;
   _baseUrl: string;
   _crud: CrudService;
@@ -34,10 +34,16 @@ export class MentorLessonComponent implements AfterViewInit {
   from: Date = new Date(new Date().getTime() - (31 * 24 * 60 * 60 * 1000));
   to: Date = new Date(new Date().getTime() + (31 * 24 * 60 * 60 * 1000));
 
+  tiles: Tile[] = [
+    {text: 'One', cols: 2, rows: 1, color: 'lightblue'},
+    {text: 'Two', cols: 2, rows: 1, color: 'lightgreen'},
+    {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
+    {text: 'Four', cols: 1, rows: 1, color: '#DDBDF1'},
+  ];
+
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-
 
   constructor(http: HttpClient, 
     @Inject('BASE_URL') baseUrl: string, 
@@ -56,10 +62,10 @@ export class MentorLessonComponent implements AfterViewInit {
     
       this._http.get<Appointment[]>(this._baseUrl + 'api/calendareventsbydate?fromDate=' + this.from.toJSON() + '&toDate=' + this.to.toJSON()).subscribe(result => {
       
-        let mentorLessonAppointments: MentorLessonAppointment[] = [];
+        let mentorLessonAppointments: LessonAppointmentTableEntry[] = [];
 
         result.forEach(item =>{
-          let newItem: MentorLessonAppointment = {
+          let newItem: LessonAppointmentTableEntry = {
             subject: item.subject,
             description: item.description,
             startDate: item.startDate,
@@ -94,56 +100,4 @@ export class MentorLessonComponent implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  // showLesson(lesson: MentorLessonAppointment) {
-  //   const dialogRef = this.dialog.open(ShowLessonDialog);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.ngAfterViewInit();
-  //   });
-  // }
 }
-
-
-
-  // addPupil() {
-  //   const dialogRef = this.dialog.open(AddPupilDialog);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.ngAfterViewInit();
-  //   });
-  // }
-  // deletePupil(email: string) {
-
-  //   const dialogConfig = new MatDialogConfig();
-
-  //   dialogConfig.data = {
-  //     id: 1,
-  //     title: email
-  //   };
-
-  //   const dialogRef = this.dialog.open(DeletePupilDialog, dialogConfig);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     this.ngAfterViewInit();
-  //   });
-  // }
-
-  // updatePupil(user: Students) {
-
-  //   const dialogConfig = new MatDialogConfig();
-
-
-  //   dialogConfig.data = {
-  //     id: 1,
-  //     title: user
-  //   };
-
-  //   const dialogRef = this.dialog.open(UpdatePupilDialog, dialogConfig);
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //       this.getData();
-
-  //   });
-  // }
-//}

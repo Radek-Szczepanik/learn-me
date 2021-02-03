@@ -75,7 +75,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .lesson-element-detail {
   overflow: hidden;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
 }
 

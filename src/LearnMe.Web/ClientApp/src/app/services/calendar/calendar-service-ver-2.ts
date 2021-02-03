@@ -13,7 +13,7 @@ export class Appointment {
     attendees: UserBasicDto[];
 }
 
-export class MentorLessonAppointment {
+export class LessonAppointmentTableEntry {
     subject: string;
     description: string;
     startDate: Date;
@@ -27,6 +27,12 @@ export class MentorLessonAppointment {
     attendeesNameAndSurnameList: string[];
 }
 
+export interface Tile {
+    color: string;
+    cols: number;
+    rows: number;
+    text: string;
+  }
 // let appointments: Appointment[] = [
 //     {
 //         subject: "subject",
