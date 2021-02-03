@@ -41,9 +41,10 @@
     <td mat-cell *matCellDef="let row">
       <mat-icon *ngIf="row.isDone">done</mat-icon>
       
+      <!-- details of lesson - to be updated in layout -->
       <br>
       <app-lesson-details [lesson]="row"></app-lesson-details>
-    
+      <app-lesson-materials [lesson]="row"></app-lesson-materials>
     </td>
   </ng-container>
 

@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CrudService } from '../../../services/crud.service'
-import { Appointment, MentorLessonAppointment, Tile } from '../../../services/calendar/calendar-service-ver-2';
+import { Appointment, LessonAppointmentTableEntry, Tile } from '../../../services/calendar/calendar-service-ver-2';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
@@ -23,9 +23,9 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 export class MentorLessonComponent implements AfterViewInit {
 
   displayedColumns: string[] = ['startDate', 'startDateTime', 'endDateTime', 'subject', 'attendeesNameAndSurnameList', 'isDone'];
-  expandedElement: MentorLessonAppointment | null;
+  expandedElement: LessonAppointmentTableEntry | null;
 
-  dataSource: MatTableDataSource<MentorLessonAppointment>;
+  dataSource: MatTableDataSource<LessonAppointmentTableEntry>;
   _http: HttpClient;
   _baseUrl: string;
   _crud: CrudService;
@@ -62,10 +62,10 @@ export class MentorLessonComponent implements AfterViewInit {
     
       this._http.get<Appointment[]>(this._baseUrl + 'api/calendareventsbydate?fromDate=' + this.from.toJSON() + '&toDate=' + this.to.toJSON()).subscribe(result => {
       
-        let mentorLessonAppointments: MentorLessonAppointment[] = [];
+        let mentorLessonAppointments: LessonAppointmentTableEntry[] = [];
 
         result.forEach(item =>{
-          let newItem: MentorLessonAppointment = {
+          let newItem: LessonAppointmentTableEntry = {
             subject: item.subject,
             description: item.description,
             startDate: item.startDate,
