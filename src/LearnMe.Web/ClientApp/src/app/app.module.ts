@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegistrationComponent } from './components/account/registration/registration.component';
 import { LoginComponent } from './components/account/login/login.component';
-import { LessonComponent } from './components/lesson/lesson.component';
+import { LessonTableComponent } from './components/lesson/lesson-table/lesson-table.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { appRouting } from './routing';
@@ -64,6 +64,8 @@ import { DeleteOpinionsDialog } from "./components/mentor/mentor-opinions/mentor
 import { UpdateFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-update.component";
 import { DeleteFaqDialog } from "./components/mentor/mentor-faq/mentor-faq-delete.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { LessonDetailsComponent } from './components/lesson/lesson-details/lesson-details.component';
+import { LessonMaterialsComponent } from './components/lesson/lesson-materials/lesson-materials.component';
 
 
 @NgModule({
@@ -72,7 +74,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     HomeComponent,
     CalendarViewComponent,
     RegistrationComponent,
-    LessonComponent,
+    LessonTableComponent,
     LoginComponent,
     FaqComponent,
     NewsComponent,
@@ -105,7 +107,9 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     DeleteOpinionsDialog,
     AddFaqDialog,
     UpdateFaqDialog,
-    DeleteFaqDialog
+    DeleteFaqDialog,
+    LessonDetailsComponent,
+    LessonMaterialsComponent
 
   ],
   imports: [

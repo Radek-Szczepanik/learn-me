@@ -13,7 +13,7 @@ export class Appointment {
     attendees: UserBasicDto[];
 }
 
-export class MentorLessonAppointment {
+export class LessonAppointmentTableEntry {
     subject: string;
     description: string;
     startDate: Date;
