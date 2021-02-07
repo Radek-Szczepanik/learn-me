@@ -1,8 +1,13 @@
 export interface Messages {
     senderId: string;
-    senderName: string;
+    senderFirstName: string;
+    senderLastName: string;
+    senderEmail: string;
     recipientId: string;
-    recipientName: string;
+    recipientFirstName: string;
+    recipientLastName: string;
+    recipientEmail: string;
+    title: string;
     content: string;
     isRead: boolean;
     dateRead: Date;

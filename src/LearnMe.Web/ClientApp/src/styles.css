@@ -1,8 +1,19 @@
+.mat-dialog-content{
+  background: white !important;
+}
+
 .headers{
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 25%;
+}
+
+.header-font{
+  color: white;
+  font-family: 'Pacifico', cursive;
+  font-size: xxx-large;
+  text-align: center;
 }
 
 .mat-drawer-backdrop.mat-drawer-shown{

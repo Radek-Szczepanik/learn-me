@@ -79,11 +79,7 @@ section {
   float: right;
   margin: 8px;
   }
-  
-  #data {
-    width: 130px;
-  }
-  
+   
   table, .mat-form-field, .mat-paginator {
     width: 100%;
     margin: 1%;
@@ -127,4 +123,5 @@ body {
   float: right;
   margin: 8px;
 }
+
   

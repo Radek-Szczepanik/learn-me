@@ -1,0 +1,21 @@
+<div class="lesson-element-item">
+    Materials for the lesson
+    <button *ngIf="loggedUser[0] != 'Student'" mat-icon-button color="accent">
+      <mat-icon matTooltip="Upload new file"> cloud_upload</mat-icon>
+    </button>
+    <br/>
+    <ul>
+      <li>
+        Text to read
+        <button mat-icon-button color="accent">
+          <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
+        </button>
+      </li>
+      <li>
+        Homework 1
+        <button mat-icon-button color="accent">
+          <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
+        </button>
+      </li>
+    </ul>
+</div>

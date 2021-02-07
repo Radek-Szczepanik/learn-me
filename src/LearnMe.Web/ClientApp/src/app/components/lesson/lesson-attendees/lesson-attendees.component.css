@@ -1,0 +1,17 @@
+.lesson-element-item {
+    min-width: 80px;
+    padding: 8px;
+    margin: 8px;
+    width: 100%;
+    border-left: solid 8px #4c2e33;
+    background-color: #f897a81c;
+    border-radius: 8px;
+}
+
+.example-element-description-attribution {
+    opacity: 0.5;
+}
+
+.mat-icon-button.mat-accent {
+    color: #c07582;
+  }

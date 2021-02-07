@@ -45,12 +45,23 @@ namespace LearnMe.Infrastructure.Data
             // każdy nadawca może wysłać wiele wiadomości
             modelBuilder.Entity<Message>().HasOne(u => u.Sender)
                                      .WithMany(m => m.MessagesSent)
+                                     .HasForeignKey(e => e.SenderId)
                                      .OnDelete(DeleteBehavior.Restrict);
+
 
             // każdy odbiorca może otrzymać wiele wiadomości
             modelBuilder.Entity<Message>().HasOne(u => u.Recipient)
                                      .WithMany(m => m.MessagesReceived)
+                                     .HasForeignKey(e => e.RecipientId)
                                      .OnDelete(DeleteBehavior.Restrict);
+                                     
+
+           
+
+            
+                                            
+
+
         }
     }
 }

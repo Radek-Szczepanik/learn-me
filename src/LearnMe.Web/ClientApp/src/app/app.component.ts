@@ -52,7 +52,6 @@ export class AppComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    let temp: string[];
     this._httpClient.get<string[]>(this._base + 'api/Identity').subscribe(result => {
       this.identity = result as string[];
       this.identityInfo(this.identity);
@@ -61,7 +60,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
   logOut() {
     this._httpClient.get(this._base + 'api/Login').subscribe((result) => {
-      window.location.reload();
+      window.location.replace(".")
     },
       (error) => {
         console.error(error);

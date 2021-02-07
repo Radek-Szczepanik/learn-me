@@ -6,7 +6,11 @@ namespace LearnMe.Core.DTO.Messages
     {
         public string SenderId { get; set; }
 
+        public string SenderEmail { get; set; }
+
         public string RecipientId { get; set; }
+
+        public string RecipientEmail { get; set; }
 
         public string Title { get; set; }
 

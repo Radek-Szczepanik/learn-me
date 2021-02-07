@@ -1,0 +1,78 @@
+<img class="headers" src="/Header/PK-lekcje.png">   
+
+<mat-form-field>
+  <mat-label>
+    <mat-icon>search</mat-icon>
+  </mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort class="mat-elevation-z1">
+
+  <ng-container matColumnDef="startDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Data </th>
+    <td mat-cell *matCellDef="let row"> {{row.startDate | date: 'mediumDate'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="startDateTime">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Godzina rozpoczęcia </th>
+    <td mat-cell *matCellDef="let row"> {{row.startDateTime | date: 'shortTime'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="endDateTime">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Godzina zakończenia </th>
+    <td mat-cell *matCellDef="let row"> {{row.endDateTime | date:'shortTime'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="subject">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Temat </th>
+    <td mat-cell *matCellDef="let row"> {{row.subject}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="attendeesNameAndSurnameList">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Uczestnicy </th>
+    <td mat-cell *matCellDef="let row">
+      {{row.attendeesNameAndSurnameList}}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="isDone">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Info </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-icon *ngIf="row.isDone">done</mat-icon>
+      
+      <!-- details of lesson - to be updated in layout -->
+      <!-- <br>
+      <app-lesson-details [lesson]="row"></app-lesson-details>
+      <app-lesson-materials [lesson]="row"></app-lesson-materials>
+      <app-lesson-attendees [lesson]="row"></app-lesson-attendees>
+      <app-lesson-actions [lesson]="row"></app-lesson-actions> -->
+    </td>
+  </ng-container>
+
+  
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div class="lesson-element-detail"
+            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+            <app-lesson-details [lesson]="element"></app-lesson-details>
+            <app-lesson-materials [lesson]="element"></app-lesson-materials>
+            <app-lesson-attendees [lesson]="element"></app-lesson-attendees>
+            <app-lesson-actions [lesson]="element"></app-lesson-actions>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let element; columns: displayedColumns;"
+      class="example-element-row"
+      [class.example-expanded-row]="expandedElement === element"
+      (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+

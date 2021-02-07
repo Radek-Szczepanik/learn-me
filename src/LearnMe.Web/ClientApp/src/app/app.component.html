@@ -4,28 +4,28 @@
 
   <div [class.example-is-mobile]="mobileQuery.matches">
     <mat-toolbar class="fixed-toolbar" *ngIf="notLogged">
-      <button style="margin: 1%" mat-icon-button (click)="sidenav.toggle()">
+      <button style="margin: 0.5%" mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <button style="margin: 1%" mat-icon-button routerLink=".">
+      <button style="margin: 0.5%" (click)="sidenav.close()" mat-icon-button routerLink=".">
         <mat-icon>home</mat-icon>
       </button>
-      <button style="margin: 1%" mat-icon-button routerLink="login">
+      <button style="margin: 0.5%" (click)="sidenav.close()" mat-icon-button routerLink="login">
         <mat-icon>account_box</mat-icon>
       </button>
     </mat-toolbar>
 
-    <mat-toolbar class="fixed-toolbar-logged" *ngIf="mentor">
+    <mat-toolbar class="fixed-toolbar-logged" *ngIf="mentor || student">
       <button style="margin: 1%" mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
       <button style="margin: 1%" mat-icon-button routerLink=".">
         <mat-icon>home</mat-icon>
       </button>
-      <button style="margin: 1%" mat-icon-button (click)="logOut()">
+      <button style="margin: 1%; color: pink ;" mat-icon-button (click)="logOut()">
         <mat-icon>account_box</mat-icon>
       </button>    
-      <div *ngIf="mentor" class="identity" style="margin-left: auto; padding-right: 10px">Hello, {{identity[2]}}
+      <div class="identity" style="margin-left: auto; padding-right: 10px">Hello, {{identity[2]}}
         {{identity[3]}}! How are you today?</div>
     </mat-toolbar>
 
@@ -76,28 +76,28 @@
             <mat-icon aria-label="mail">insert_emoticon</mat-icon>Uczniowie
           </a>
           <a mat-list-item routerLink="mentor/lesson">
-            <mat-icon aria-label="mail" >article</mat-icon>Lekcje
+            <mat-icon aria-label="mail">article</mat-icon>Lekcje
           </a>
-          <a mat-list-item class="logged" routerLink="calendar-view">
+          <a mat-list-item routerLink="calendar-view">
             <mat-icon aria-label="mail">today</mat-icon>Kalendarz
           </a>
           <a mat-list-item routerLink="mentor/payment">
             <mat-icon aria-label="mail">monetization_on</mat-icon>Płatności
           </a>
-          <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/mail">
-            <mat-icon aria-label="mail" style="margin-right: 15px">attach_email</mat-icon>Poczta
+          <a mat-list-item routerLink="mentor/mail">
+            <mat-icon aria-label="mail">attach_email</mat-icon>Poczta
           </a>
-          <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/news">
-            <mat-icon aria-label="mail" style="margin-right: 15px">announcement</mat-icon>News
+          <a mat-list-item routerLink="mentor/news">
+            <mat-icon aria-label="mail">announcement</mat-icon>News
           </a>
-          <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/opinions">
-            <mat-icon aria-label="mail" style="margin-right: 15px">favorite_border</mat-icon>Opinie
+          <a mat-list-item routerLink="mentor/opinions">
+            <mat-icon aria-label="mail">favorite_border</mat-icon>Opinie
           </a>
-          <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/faq">
-            <mat-icon aria-label="mail" style="margin-right: 15px">error_outline</mat-icon>FAQ
+          <a mat-list-item routerLink="mentor/faq">
+            <mat-icon aria-label="mail">error_outline</mat-icon>FAQ
           </a>
-          <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="mentor/exercise">
-            <mat-icon aria-label="mail" style="margin-right: 15px">create</mat-icon>Ćwiczenia
+          <a mat-list-item routerLink="mentor/exercise">
+            <mat-icon aria-label="mail">create</mat-icon>Ćwiczenia
           </a>
         </mat-nav-list>
       </div>
@@ -110,21 +110,23 @@
     <div class="student">
     <mat-sidenav-container *ngIf="student" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
       <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="'side'" fixedTopGap="56">
-        <mat-nav-list style="margin-right: 10px">
-          <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="student/lesson">
-            <mat-icon aria-label="mail" style="margin-right: 15px">article</mat-icon>Lekcje
+        <div class="logged">
+        <mat-nav-list style="margin-top: 10%;">
+          <img style="margin-left: 5%; margin-bottom: 25%;" src="logo_menu.webp" alt="">
+          <a mat-list-item routerLink="student/lesson">
+            <mat-icon aria-label="mail" >article</mat-icon>Lekcje
           </a>
-          <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="calendar-view">
-            <mat-icon aria-label="mail" style="margin-right: 15px">today</mat-icon>Kalendarz
+          <a mat-list-item routerLink="calendar-view">
+            <mat-icon aria-label="mail" >today</mat-icon>Kalendarz
           </a>
-          <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="student/payment">
-            <mat-icon aria-label="mail" style="margin-right: 15px">monetization_on</mat-icon>Płatności
+          <a mat-list-item routerLink="student/payment">
+            <mat-icon aria-label="mail" >monetization_on</mat-icon>Płatności
           </a>
-          <a mat-list-item style="margin-left:10px; margin-right: 40px" routerLink="student/mail">
-            <mat-icon aria-label="mail" style="margin-right: 15px">attach_email</mat-icon>Poczta
+          <a mat-list-item routerLink="student/mail">
+            <mat-icon aria-label="mail">attach_email</mat-icon>Poczta
           </a>
         </mat-nav-list>
-        fff
+      </div>
       </mat-sidenav>
       <mat-sidenav-content>
         <router-outlet></router-outlet>

@@ -2,10 +2,6 @@ import { Injectable } from "@angular/core";
 import { Lesson, UserBasicDto } from "../../models/Lesson/lesson"
 
 export class Appointment {
-    // text: string;
-    // startDate: Date;
-    // endDate: Date;
-    // allDay?: boolean;
     subject: string;
     description: string;
     startDate: Date;
@@ -17,6 +13,26 @@ export class Appointment {
     attendees: UserBasicDto[];
 }
 
+export class LessonAppointmentTableEntry {
+    subject: string;
+    description: string;
+    startDate: Date;
+    startDateTime: Date;
+    endDateTime: Date;
+    isDone: boolean;
+    isFreeSlot: boolean;
+    calendarId: string;
+    lesson: Lesson;
+    attendees: UserBasicDto[];
+    attendeesNameAndSurnameList: string[];
+}
+
+export interface Tile {
+    color: string;
+    cols: number;
+    rows: number;
+    text: string;
+  }
 // let appointments: Appointment[] = [
 //     {
 //         subject: "subject",
