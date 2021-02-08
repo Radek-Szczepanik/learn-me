@@ -4,11 +4,16 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using AutoMapper;
+using LearnMe.Core.DTO.Lessons;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Infrastructure.Data;
+using LearnMe.Infrastructure.Models.Domains.Calendar;
+using LearnMe.Infrastructure.Models.Domains.Invoice;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
+using LearnMe.Infrastructure.Models.Domains.Users;
 using LearnMe.Infrastructure.Repository.Interfaces;
 
 namespace LearnMe.Controllers.Lessons
@@ -18,14 +23,17 @@ namespace LearnMe.Controllers.Lessons
     public class HomeworkController : ControllerBase
     {
         private readonly IHomeworkRepository _homeworkRepository;
+        private readonly IMapper _mapper;
         private readonly ApplicationDbContext _context;
 
         public HomeworkController(
             IHomeworkRepository homeworkRepository,
+            IMapper mapper,
             ApplicationDbContext context)
         {
-            _context = context;
             _homeworkRepository = homeworkRepository;
+            _mapper = mapper;
+            _context = context;
         }
 
         // GET: api/Homework
@@ -84,36 +92,94 @@ namespace LearnMe.Controllers.Lessons
         // POST: api/Homework
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost, DisableRequestSizeLimit]
-        public async Task<ActionResult> PostHomeworkFile()
+        [HttpPost("lessonId"), DisableRequestSizeLimit]
+        //public async Task<ActionResult> PostHomeworkFile()
+        public async Task<ActionResult<Homework>> PostHomework([FromBody] HomeworkDto homework, int lessonId)
         {
-            try
-            {
-                var file = Request.Form.Files[0];
-                var folderName = Path.Combine("wwwroot", "Homeworks");
-                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                if (file.Length > 0)
-                {
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var fullPath = Path.Combine(pathToSave, fileName);
-                    var dbPath = Path.Combine(folderName, fileName);
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
-                    return Ok(new { dbPath });
-                } else
-                {
-                    return BadRequest();
-                }
-            } catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex}");
-            }
+            //try
+            //{
+            //    var file = Request.Form.Files[0];
+            //    var folderName = Path.Combine("wwwroot", "Homeworks");
+            //    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            //    if (file.Length > 0)
+            //    {
+            //        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            //        var fullPath = Path.Combine(pathToSave, fileName);
+            //        var dbPath = Path.Combine(folderName, fileName);
+            //        using (var stream = new FileStream(fullPath, FileMode.Create))
+            //        {
+            //            file.CopyTo(stream);
+            //        }
+            //        return Ok(new { dbPath });
+            //    } else
+            //    {
+            //        return BadRequest();
+            //    }
+            //} catch (Exception ex)
+            //{
+            //    return StatusCode(500, $"Internal server error: {ex}");
+            //}
 
             //var result = await _homeworkRepository.InsertHomeworkByLessonIdAsync(homework, lessonId);
 
             //return Ok(result);
+
+
+            //homework.UserLessonHomeworkList = new List<UserLessonHomework>()
+            //{
+            //    new UserLessonHomework()
+            //    {
+            //        UserLesson = new UserLesson()
+            //        {
+            //            Lesson = new Lesson()
+            //            {
+            //                RelatedInvoice = new InvoiceBasic()
+            //                {
+            //                    Student = new UserBasic()
+            //                },
+            //                CalendarEvent = new CalendarEvent()
+            //                {
+            //                    Attendees = new List<UserBasic>()
+            //                    {
+            //                        new UserBasic()
+            //                        {
+            //                            InvoicesList = new List<InvoiceBasic>()
+            //                            {
+            //                                new InvoiceBasic()
+            //                                {
+            //                                    Student = new UserBasic()
+            //                                }
+            //                            }
+            //                        }
+            //                    }
+            //                }
+            //            },
+            //            User = new UserBasic()
+            //            {
+            //                InvoicesList = new List<InvoiceBasic>()
+            //                {
+            //                    new InvoiceBasic()
+            //                    {
+            //                        Student = new UserBasic()
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //};
+
+            var homeworkData = _mapper.Map<Homework>(homework);
+
+            // WORKING
+            //_context.Homeworks.Add(homeworkData);
+            //await _context.SaveChangesAsync();
+
+            var result = await _homeworkRepository.InsertHomeworkByLessonIdAsync(homeworkData, lessonId);
+
+            return Ok(result);
+
+            //return CreatedAtAction("GetHomework", new { id = homeworkData.Id }, homeworkData);
+
         }
 
         //[HttpPost]

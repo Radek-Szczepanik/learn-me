@@ -36,67 +36,56 @@ namespace LearnMe.Infrastructure.Repository
 
         public async Task<Homework> InsertHomeworkByLessonIdAsync(Homework homework, int lessonId)
         {
+            homework.UserLessonHomeworkList ??= new List<UserLessonHomework>();
+            var result = await _context.Homeworks.AddAsync(homework);
+            await _context.SaveChangesAsync();
+
+            var homeworkGet = await _context.Homeworks
+                .Where(x => x.FileString == homework.FileString
+                 && x.MessageText == homework.MessageText)
+                .SingleOrDefaultAsync();
+
             var lesson = await _context.Lessons
                 .Where(x => x.Id == lessonId)
                 .Include(x => x.UserLessons)
                 .AsNoTracking()
                 .SingleOrDefaultAsync();
 
-            //List<int> userLessonsToAddHomework = new List<int>();
-            homework.UserLessonHomeworkList ??= new List<UserLessonHomework>();
-
             foreach (var student in lesson.UserLessons)
             {
-                student.Homeworks.Add(homework);
+                await _context.UserLessonHomeworks.AddAsync(new UserLessonHomework()
+                {
+                    UserLessonId = student.Id,
+                    HomeworkId = homeworkGet.Id,
+                    CorrectionId = null
+                });
 
-                _context.Lessons.Update(lesson);
                 await _context.SaveChangesAsync();
-
-                //userLessonsToAddHomework.Add(student.Id);
-
-                //student.Lesson.RelatedInvoice ??= new InvoiceBasic()
-                //{
-                //    Student = student.User
-                //};
-
-                //To nic nie poprawia
-                //student.Lesson.RelatedInvoice.Student = student.User;
-                //student.User.InvoicesList ??= new List<InvoiceBasic>()
-                //{
-                //    new InvoiceBasic()
-                //    {
-                //        Student = student.User,
-                //    }
-                //};
-                //foreach (var item in student.Lesson.CalendarEvent.Attendees)
-                //{
-                //    item.InvoicesList ??= new List<InvoiceBasic>();
-                //    item.InvoicesList.Add(new InvoiceBasic()
-                //    {
-                //        Student = item,
-                //    });
-                //}
-
-
-                //homework.UserLessonHomeworkList.Add(new UserLessonHomework()
-                //{
-                //    UserLesson = student,
-                //    Homework = homework,
-                //    Correction = new Correction()
-                //});
             }
 
-            return homework;
-            //return await InsertAsync(homework);
+            return homeworkGet;
+
+
+            //var lesson = await _context.Lessons
+            //    .Where(x => x.Id == lessonId)
+            //    .Include(x => x.UserLessons)
+            //    .AsNoTracking()
+            //    .SingleOrDefaultAsync();
+
+            //homework.UserLessonHomeworkList ??= new List<UserLessonHomework>();
 
             //foreach (var student in lesson.UserLessons)
             //{
             //    student.Homeworks ??= new List<Homework>();
 
             //    student.Homeworks.Add(homework);
+
+            //    await _context.SaveChangesAsync();
+
             //}
 
             //_context.Lessons.Update(lesson);
+            //await _context.SaveChangesAsync();
 
             //return homework;
         }
