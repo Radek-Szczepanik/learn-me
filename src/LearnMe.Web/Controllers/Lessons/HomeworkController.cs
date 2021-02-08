@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LearnMe.Infrastructure.Data;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
+using LearnMe.Infrastructure.Repository.Interfaces;
 
 namespace LearnMe.Controllers.Lessons
 {
@@ -16,19 +17,23 @@ namespace LearnMe.Controllers.Lessons
     [ApiController]
     public class HomeworkController : ControllerBase
     {
+        private readonly IHomeworkRepository _homeworkRepository;
         private readonly ApplicationDbContext _context;
 
-        public HomeworkController(ApplicationDbContext context)
+        public HomeworkController(
+            IHomeworkRepository homeworkRepository,
+            ApplicationDbContext context)
         {
             _context = context;
+            _homeworkRepository = homeworkRepository;
         }
 
         // GET: api/Homework
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Homework>>> GetHomeworks()
-        {
-            return await _context.Homeworks.ToListAsync();
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Homework>>> GetHomeworks()
+        //{
+        //    return await _context.Homeworks.ToListAsync();
+        //}
 
         // GET: api/Homework/5
         [HttpGet("{id}")]
@@ -47,34 +52,34 @@ namespace LearnMe.Controllers.Lessons
         // PUT: api/Homework/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutHomework(int id, Homework homework)
-        {
-            if (id != homework.Id)
-            {
-                return BadRequest();
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutHomework(int id, Homework homework)
+        //{
+        //    if (id != homework.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            _context.Entry(homework).State = EntityState.Modified;
+        //    _context.Entry(homework).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!HomeworkExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!HomeworkExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         // POST: api/Homework
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -105,7 +110,13 @@ namespace LearnMe.Controllers.Lessons
             {
                 return StatusCode(500, $"Internal server error: {ex}");
             }
+
+            //var result = await _homeworkRepository.InsertHomeworkByLessonIdAsync(homework, lessonId);
+
+            //return Ok(result);
         }
+
+        //[HttpPost]
         //public async Task<ActionResult<Homework>> PostHomework(Homework homework)
         //{
         //    _context.Homeworks.Add(homework);
@@ -115,24 +126,24 @@ namespace LearnMe.Controllers.Lessons
         //}
 
         // DELETE: api/Homework/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Homework>> DeleteHomework(int id)
-        {
-            var homework = await _context.Homeworks.FindAsync(id);
-            if (homework == null)
-            {
-                return NotFound();
-            }
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<Homework>> DeleteHomework(int id)
+        //{
+        //    var homework = await _context.Homeworks.FindAsync(id);
+        //    if (homework == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Homeworks.Remove(homework);
-            await _context.SaveChangesAsync();
+        //    _context.Homeworks.Remove(homework);
+        //    await _context.SaveChangesAsync();
 
-            return homework;
-        }
+        //    return homework;
+        //}
 
-        private bool HomeworkExists(int id)
-        {
-            return _context.Homeworks.Any(e => e.Id == id);
-        }
+        //private bool HomeworkExists(int id)
+        //{
+        //    return _context.Homeworks.Any(e => e.Id == id);
+        //}
     }
 }

@@ -9,9 +9,9 @@ namespace LearnMe.Infrastructure.Models.Domains.Lessons
 {
     public class Lesson : BaseEntity
     {
-
         [Required(ErrorMessage = "This field is required")]
         public string Title { get; set; }
+
         public LessonStatus LessonStatus { get; set; }
 
         public InvoiceBasic RelatedInvoice { get; set; }
