@@ -94,7 +94,7 @@ namespace LearnMe.Controllers.Lessons
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost("lessonId"), DisableRequestSizeLimit]
         //public async Task<ActionResult> PostHomeworkFile()
-        public async Task<ActionResult<Homework>> PostHomework([FromBody] HomeworkDto homework, int lessonId)
+        public async Task<ActionResult<HomeworkDto>> PostHomework([FromBody] HomeworkDto homework, int lessonId)
         {
             //try
             //{
@@ -110,6 +110,9 @@ namespace LearnMe.Controllers.Lessons
             //        {
             //            file.CopyTo(stream);
             //        }
+
+
+
             //        return Ok(new { dbPath });
             //    } else
             //    {
@@ -120,66 +123,10 @@ namespace LearnMe.Controllers.Lessons
             //    return StatusCode(500, $"Internal server error: {ex}");
             //}
 
-            //var result = await _homeworkRepository.InsertHomeworkByLessonIdAsync(homework, lessonId);
-
-            //return Ok(result);
-
-
-            //homework.UserLessonHomeworkList = new List<UserLessonHomework>()
-            //{
-            //    new UserLessonHomework()
-            //    {
-            //        UserLesson = new UserLesson()
-            //        {
-            //            Lesson = new Lesson()
-            //            {
-            //                RelatedInvoice = new InvoiceBasic()
-            //                {
-            //                    Student = new UserBasic()
-            //                },
-            //                CalendarEvent = new CalendarEvent()
-            //                {
-            //                    Attendees = new List<UserBasic>()
-            //                    {
-            //                        new UserBasic()
-            //                        {
-            //                            InvoicesList = new List<InvoiceBasic>()
-            //                            {
-            //                                new InvoiceBasic()
-            //                                {
-            //                                    Student = new UserBasic()
-            //                                }
-            //                            }
-            //                        }
-            //                    }
-            //                }
-            //            },
-            //            User = new UserBasic()
-            //            {
-            //                InvoicesList = new List<InvoiceBasic>()
-            //                {
-            //                    new InvoiceBasic()
-            //                    {
-            //                        Student = new UserBasic()
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //};
-
             var homeworkData = _mapper.Map<Homework>(homework);
-
-            // WORKING
-            //_context.Homeworks.Add(homeworkData);
-            //await _context.SaveChangesAsync();
-
             var result = await _homeworkRepository.InsertHomeworkByLessonIdAsync(homeworkData, lessonId);
 
-            return Ok(result);
-
-            //return CreatedAtAction("GetHomework", new { id = homeworkData.Id }, homeworkData);
-
+            return Created("", _mapper.Map<HomeworkDto>(result));
         }
 
         //[HttpPost]

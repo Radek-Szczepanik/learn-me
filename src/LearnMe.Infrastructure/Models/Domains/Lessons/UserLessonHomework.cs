@@ -13,7 +13,7 @@ namespace LearnMe.Infrastructure.Models.Domains.Lessons
 
         public Homework Homework { get; set; }
 
-        public int CorrectionId { get; set; }
+        public int? CorrectionId { get; set; }
 
         public Correction Correction { get; set; }
     }

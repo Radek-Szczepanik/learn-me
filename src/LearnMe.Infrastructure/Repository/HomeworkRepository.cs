@@ -64,30 +64,6 @@ namespace LearnMe.Infrastructure.Repository
             }
 
             return homeworkGet;
-
-
-            //var lesson = await _context.Lessons
-            //    .Where(x => x.Id == lessonId)
-            //    .Include(x => x.UserLessons)
-            //    .AsNoTracking()
-            //    .SingleOrDefaultAsync();
-
-            //homework.UserLessonHomeworkList ??= new List<UserLessonHomework>();
-
-            //foreach (var student in lesson.UserLessons)
-            //{
-            //    student.Homeworks ??= new List<Homework>();
-
-            //    student.Homeworks.Add(homework);
-
-            //    await _context.SaveChangesAsync();
-
-            //}
-
-            //_context.Lessons.Update(lesson);
-            //await _context.SaveChangesAsync();
-
-            //return homework;
         }
     }
 }
