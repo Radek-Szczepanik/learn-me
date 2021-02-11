@@ -35,13 +35,16 @@ export class LessonMaterialsComponent implements OnInit {
     });
   }
 
-  public uploadFile = (files) => {
+  public uploadFile = (files, lessonCalendarId) => {
     if (files.length === 0) {
       return;
     }
     let fileToUpload = <File>files[0];
     const formData = new FormData();
     formData.append('file', fileToUpload, fileToUpload.name);
+    formData.append('lessonCalendarId', lessonCalendarId);
+
+    // let postRoute = 'api/homework'; //lessonCalendarId?lessonCalendarId=' + lessonCalendarId;
     this.http.post('api/homework', formData, {reportProgress: true, observe: 'events'})
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress)
