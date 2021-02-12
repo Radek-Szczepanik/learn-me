@@ -30,15 +30,35 @@ namespace LearnMe.Infrastructure.Repository
                 .Where(x => x.Id == lessonId)
                 .Include(x => x.UserLessons)
                 .ThenInclude(x => x.Homeworks)
+                .AsNoTracking()
                 .SingleOrDefaultAsync();
 
             if (lesson != null)
             {
+                var result = new List<Homework>();
                 // TODO: Refactor the below
-                // Returns list of homeworks for the 1st UserLesson = since all of the UserLessons
-                // have assigned the full list of homeworks from one lesson
+                foreach (var userLesson in lesson.UserLessons)
+                {
+                    var listOfUserLessonHomeworks = await _context.UserLessonHomeworks
+                        .Where(x => x.UserLesson == userLesson)
+                        .Include(x => x.Homework)
+                        .AsNoTracking()
+                        .ToListAsync();
 
-                return lesson.UserLessons[1].Homeworks;
+                    listOfUserLessonHomeworks
+                        .Where(x => result
+                            .All(y => y.FileString != x.Homework.FileString))
+                        .ToList()
+                        .ForEach(x => result.Add(x.Homework));
+
+                    //foreach (var item in listOfUserLessonHomeworks)
+                    //{
+                    //    result.Where((x => !CurrentCollection.Any(y => x.bar == y.bar));)
+                    //    result.Add(item.Homework);
+                    //}
+                }
+
+                return result;
             }
 
             return new List<Homework>();

@@ -12,23 +12,7 @@
         {{message}}
       </span>
     </div>
-    <br/>
     <ul>
-      <li>
-        Text to read
-        
-        Lesson calendar event Id: {{lesson.calendarId}}
-
-        <button mat-icon-button color="accent">
-          <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
-        </button>
-      </li>
-      <li>
-        Homework 1
-        <button mat-icon-button color="accent">
-          <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
-        </button>
-      </li>
       <li *ngFor="let homework of lesson.relatedMaterials">
         {{homework.fileString}}
         <button mat-icon-button color="accent">
@@ -37,5 +21,6 @@
         <br/>
         Message {{homework.messageText}}
       </li>
+      <li *ngIf="lesson.relatedMaterials.length == 0">No materials has been added yet</li>
     </ul>
 </div>
