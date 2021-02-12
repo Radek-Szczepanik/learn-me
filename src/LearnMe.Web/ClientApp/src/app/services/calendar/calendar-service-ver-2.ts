@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Lesson, UserBasicDto } from "../../models/Lesson/lesson"
+import { Lesson, UserBasicDto, HomeworkDto } from "../../models/Lesson/lesson"
 
 export class Appointment {
     subject: string;
@@ -25,6 +25,7 @@ export class LessonAppointmentTableEntry {
     lesson: Lesson;
     attendees: UserBasicDto[];
     attendeesNameAndSurnameList: string[];
+    relatedMaterials: HomeworkDto[];
 }
 
 export interface Tile {
@@ -33,51 +34,6 @@ export interface Tile {
     rows: number;
     text: string;
   }
-// let appointments: Appointment[] = [
-//     {
-//         subject: "subject",
-//         description: "description",
-//         startDate: new Date("2020-12-28T10:30:00.000Z"),
-//         endDate: new Date("2020-12-28T14:30:00.000Z"),
-//         isDone: false,
-//         isFreeSlot: false,
-//         calendarId: "calendarId",
-//         lesson: {
-//             title: "lessonTitile1",
-//             calendarEventId: 1,
-//             lessonStatus: 0,
-//             relatedInvoiceId: null
-//         }
-//     }, {
-//         subject: "subject",
-//         description: "description",
-//         startDate: new Date("2020-12-29T11:30:00.000Z"),
-//         endDate: new Date("2020-12-29T12:30:00.000Z"),
-//         isDone: false,
-//         isFreeSlot: true,
-//         calendarId: "calendarId",
-//         lesson: {
-//             title: "lessonTitile2",
-//             calendarEventId: 1,
-//             lessonStatus: 1,
-//             relatedInvoiceId: null
-//         }
-//     }, {
-//         subject: "subject",
-//         description: "description",
-//         startDate: new Date("2020-12-30T09:30:00.000Z"),
-//         endDate: new Date("2020-12-30T10:30:00.000Z"),
-//         isDone: true,
-//         isFreeSlot: true,
-//         calendarId: "calendarId",
-//         lesson: {
-//             title: "lessonTitile3",
-//             calendarEventId: 1,
-//             lessonStatus: 2,
-//             relatedInvoiceId: null
-//         }
-//     }
-// ];
 
 @Injectable()
 export class Service {

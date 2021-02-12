@@ -94,6 +94,7 @@ namespace LearnMe.Web
             services.AddScoped<ICalendar, LearnMe.Core.Services.Calendar.Calendar>();
             services.AddScoped<ISynchronizer, Synchronizer>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<IHomeworkRepository, HomeworkRepository>();
 
             services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
             services.AddScoped(typeof(ICalendarEventsRepository), typeof(CalendarEventsRepository));

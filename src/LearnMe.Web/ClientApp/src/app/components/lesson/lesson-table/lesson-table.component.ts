@@ -7,6 +7,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CrudService } from '../../../services/crud.service'
 import { Appointment, LessonAppointmentTableEntry, Tile } from '../../../services/calendar/calendar-service-ver-2';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import { HomeworkDto } from '../../../Models/Lesson/lesson';
+import { HttpService } from '../../../services/http.service';
 
 @Component({
   selector: 'app-lesson-table',
@@ -38,7 +40,7 @@ export class LessonTableComponent implements AfterViewInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
 
-  constructor(http: HttpClient, 
+  constructor(http: HttpClient, private https: HttpService,
     @Inject('BASE_URL') baseUrl: string, 
     public dialog: MatDialog, 
     crud: CrudService) {
@@ -69,12 +71,24 @@ export class LessonTableComponent implements AfterViewInit {
             calendarId: item.calendarId,
             lesson: item.lesson,
             attendees: item.attendees,
-            attendeesNameAndSurnameList: []
+            attendeesNameAndSurnameList: [],
+            relatedMaterials: []
           }
 
           item.attendees.forEach(person =>{
             newItem.attendeesNameAndSurnameList.push(' ' + person.firstName + ' ' + person.lastName)
           })
+
+          const routeGetLessonHomeworks: string  = '/api/HomeworkByCalendarId/' + item.calendarId;
+    
+          this.https.getData(routeGetLessonHomeworks)
+          .toPromise().then(success => {
+            if (success) {
+              newItem.relatedMaterials = success as HomeworkDto[];
+              console.debug('relatedMaterials');
+              console.debug(newItem.relatedMaterials);
+            }
+          });
 
           mentorLessonAppointments.push(newItem);
         });

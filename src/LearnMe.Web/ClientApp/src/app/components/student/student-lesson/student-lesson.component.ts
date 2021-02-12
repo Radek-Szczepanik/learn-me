@@ -76,7 +76,8 @@ export class StudentLessonComponent implements AfterViewInit {
             calendarId: item.calendarId,
             lesson: item.lesson,
             attendees: item.attendees,
-            attendeesNameAndSurnameList: []
+            attendeesNameAndSurnameList: [],
+            relatedMaterials: []
           }
 
           item.attendees.forEach(person =>{

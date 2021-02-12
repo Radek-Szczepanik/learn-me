@@ -1,21 +1,26 @@
 <div class="lesson-element-item">
     Materials for the lesson
-    <button *ngIf="loggedUser[0] != 'Student'" mat-icon-button color="accent">
+    <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files, lesson.calendarId)" style="display:none;">
+    <button *ngIf="loggedUser[0] != 'Student'" mat-icon-button color="accent" (click)="file.click()">
       <mat-icon matTooltip="Upload new file"> cloud_upload</mat-icon>
     </button>
-    <br/>
+    <div class="col-md-4">
+      <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+      </span>
+      <span class="upload" *ngIf="message">
+        {{message}}
+      </span>
+    </div>
     <ul>
-      <li>
-        Text to read
+      <li *ngFor="let homework of lesson.relatedMaterials">
+        {{homework.fileString}}
         <button mat-icon-button color="accent">
           <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
         </button>
+        <br/>
+        Message {{homework.messageText}}
       </li>
-      <li>
-        Homework 1
-        <button mat-icon-button color="accent">
-          <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
-        </button>
-      </li>
+      <li *ngIf="lesson.relatedMaterials.length == 0">No materials has been added yet</li>
     </ul>
 </div>

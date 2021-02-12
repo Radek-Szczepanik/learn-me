@@ -56,6 +56,9 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<Lesson, LessonDto>();
             CreateMap<LessonDto, Lesson>();
 
+            CreateMap<Homework, HomeworkDto>();
+            CreateMap<HomeworkDto, Homework>();
+
             // ----------------------------
             CreateMap<UserLesson, UserBasicDto>()
                 .ForMember(dest => dest.FirstName,
