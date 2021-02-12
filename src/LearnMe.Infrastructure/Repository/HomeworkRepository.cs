@@ -19,17 +19,32 @@ namespace LearnMe.Infrastructure.Repository
             _context = context;
         }
 
-        public Task<bool> DeleteHomeworkByLessonIdAsync(int lessonId)
+        public async Task<bool> DeleteHomeworkByLessonIdAsync(int lessonId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<Homework>> GetAllHomeworksByLessonIdAsync(int lessonId)
+        public async Task<IList<Homework>> GetAllHomeworksByLessonIdAsync(int lessonId)
         {
-            throw new NotImplementedException();
+            var lesson = await _context.Lessons
+                .Where(x => x.Id == lessonId)
+                .Include(x => x.UserLessons)
+                .ThenInclude(x => x.Homeworks)
+                .SingleOrDefaultAsync();
+
+            if (lesson != null)
+            {
+                // TODO: Refactor the below
+                // Returns list of homeworks for the 1st UserLesson = since all of the UserLessons
+                // have assigned the full list of homeworks from one lesson
+
+                return lesson.UserLessons[1].Homeworks;
+            }
+
+            return new List<Homework>();
         }
 
-        public Task<Homework> GetHomeworkByFileNameAndLessonIdAsync(int lessonId)
+        public async Task<Homework> GetHomeworkByFileNameAndLessonIdAsync(int lessonId)
         {
             throw new NotImplementedException();
         }

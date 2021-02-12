@@ -4,7 +4,7 @@ using LearnMe.Infrastructure.Models.Domains.Lessons;
 
 namespace LearnMe.Infrastructure.Repository.Interfaces
 {
-    public interface IHomeworkRepository
+    public interface IHomeworkRepository : ICrudRepository<Homework>
     {
         Task<bool> DeleteHomeworkByLessonIdAsync(int lessonId);
 

@@ -37,3 +37,7 @@ export interface UserBasicDto {
   phoneNumber: number;
 }
 
+export interface HomeworkDto {
+  fileString: string;
+  messageText: string;
+}

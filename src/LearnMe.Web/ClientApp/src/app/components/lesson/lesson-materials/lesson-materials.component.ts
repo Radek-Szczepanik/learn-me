@@ -14,7 +14,7 @@ export class LessonMaterialsComponent implements OnInit {
   lesson: LessonAppointmentTableEntry;
 
   loggedUser: string[] = ['Student'];
-  
+
   fileStream: string;
   public progress: number;
   public message: string;
@@ -32,7 +32,7 @@ export class LessonMaterialsComponent implements OnInit {
         console.debug('loggedUser');
         console.debug(this.loggedUser);
       }
-    });
+    });    
   }
 
   public uploadFile = (files, lessonCalendarId) => {
@@ -56,5 +56,4 @@ export class LessonMaterialsComponent implements OnInit {
         }
       });
   }
-
 }

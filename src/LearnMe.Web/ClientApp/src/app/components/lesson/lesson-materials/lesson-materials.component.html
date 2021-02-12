@@ -29,5 +29,13 @@
           <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
         </button>
       </li>
+      <li *ngFor="let homework of lesson.relatedMaterials">
+        {{homework.fileString}}
+        <button mat-icon-button color="accent">
+          <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
+        </button>
+        <br/>
+        Message {{homework.messageText}}
+      </li>
     </ul>
 </div>
