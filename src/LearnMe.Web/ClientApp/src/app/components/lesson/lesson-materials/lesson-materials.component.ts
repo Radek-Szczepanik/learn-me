@@ -2,6 +2,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { LessonAppointmentTableEntry } from '../../../services/calendar/calendar-service-ver-2';
 import { HttpService } from '../../../services/http.service';
 import { HttpEventType, HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-lesson-materials',
@@ -56,4 +57,23 @@ export class LessonMaterialsComponent implements OnInit {
         }
       });
   }
+
+  public downloadFile(fileName) {
+    this.downloadFileFromApi(fileName)
+      .subscribe((resultBlob: Blob) => {
+        var downloadURL = URL.createObjectURL(resultBlob);
+        
+        var link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = fileName;
+        link.click();
+      });
+  }
+
+  private downloadFileFromApi(fileName): Observable<any> {
+    let route = 'api/download/' + fileName;
+    let url = encodeURI(route);
+
+		return this.http.get(url, { responseType: "blob" });
+   }
 }

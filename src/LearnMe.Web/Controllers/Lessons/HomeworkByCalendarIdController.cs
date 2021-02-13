@@ -28,7 +28,7 @@ namespace LearnMe.Controllers.Lessons
 
         ///GET: api/Homework
         [HttpGet("{lessonCalendarId}")]
-        public async Task<ActionResult<IEnumerable<Homework>>> GetHomeworks(string lessonCalendarId)
+        public async Task<ActionResult<IEnumerable<HomeworkDto>>> GetHomeworks(string lessonCalendarId)
         {
             var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(lessonCalendarId);
             if (lesson == null)
