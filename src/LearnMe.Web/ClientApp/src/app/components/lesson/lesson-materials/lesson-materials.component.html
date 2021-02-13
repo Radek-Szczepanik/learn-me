@@ -15,7 +15,7 @@
     <ul>
       <li *ngFor="let homework of lesson.relatedMaterials">
         {{homework.fileString}}
-        <button mat-icon-button color="accent">
+        <button mat-icon-button color="accent" (click)=downloadFile(homework.fileString)>
           <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
         </button>
         <br/>
