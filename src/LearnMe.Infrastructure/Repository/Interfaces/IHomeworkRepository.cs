@@ -8,10 +8,12 @@ namespace LearnMe.Infrastructure.Repository.Interfaces
     {
         Task<bool> DeleteHomeworkByLessonIdAsync(int lessonId);
 
-        Task<IList<Homework>> GetAllHomeworksByLessonIdAsync(int lessonId);
+        Task<IList<Homework>> GetAllHomeworksByLessonIdAsync(int lessonId, string userId = null);
+
+        Task<IList<Homework>> GetAllHomeworksTypeDoneByLessonIdAsync(int lessonId);
 
         Task<Homework> GetHomeworkByFileNameAndLessonIdAsync(int lessonId);
 
-        Task<Homework> InsertHomeworkByLessonIdAsync(Homework homework, int lessonId);
+        Task<Homework> InsertHomeworkByLessonIdAsync(Homework homework, int lessonId, string userId = "");
     }
 }

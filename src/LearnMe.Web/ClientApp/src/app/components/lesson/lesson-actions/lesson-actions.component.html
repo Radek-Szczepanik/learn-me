@@ -14,5 +14,32 @@
           <mat-icon matTooltip="Send info to tutor"> outlined_flag</mat-icon>
         </button>
       </li>
+      <li>
+        My done homeworks
+        <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files, lesson.calendarId)" style="display:none;">
+        <button *ngIf="loggedUser[0] == 'Student'" mat-icon-button color="accent" (click)="file.click()">
+          <mat-icon matTooltip="Upload new file"> cloud_upload</mat-icon>
+        </button>
+        <div class="col-md-4">
+          <span class="upload" *ngIf="progress > 0">
+            {{progress}}%
+          </span>
+          <span class="upload" *ngIf="message">
+            {{message}}
+          </span>
+        </div>
+
+        <ul>
+          <li *ngFor="let homework of lesson.loggedStudentHomeworks">
+            {{homework.fileString}}
+            <button mat-icon-button color="accent" (click)=downloadFile(homework.fileString)>
+              <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
+            </button>
+            <br/>
+            Message {{homework.messageText}}
+          </li>
+          <li *ngIf="lesson.loggedStudentHomeworks.length == 0">No homeworks has been added yet</li>
+        </ul>
+      </li>
     </ul>   
 </div>

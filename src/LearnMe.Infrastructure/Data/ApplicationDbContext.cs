@@ -30,6 +30,7 @@ namespace LearnMe.Infrastructure.Data
         public DbSet<Message> Messages { get; set; }
         public DbSet<Correction> Corrections { get; set; }
         public DbSet<Homework> Homeworks { get; set; }
+        public DbSet<HomeworkType> HomeworkTypes { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<UserLesson> UserLessons { get; set; }
         public DbSet<UserLessonHomework> UserLessonHomeworks { get; set; }
@@ -54,14 +55,6 @@ namespace LearnMe.Infrastructure.Data
                                      .WithMany(m => m.MessagesReceived)
                                      .HasForeignKey(e => e.RecipientId)
                                      .OnDelete(DeleteBehavior.Restrict);
-                                     
-
-           
-
-            
-                                            
-
-
         }
     }
 }

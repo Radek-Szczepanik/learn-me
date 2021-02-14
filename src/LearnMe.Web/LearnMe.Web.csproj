@@ -71,6 +71,14 @@
     <Compile Remove="Migrations\20201228160248_CurrentEventLessonAttendee.Designer.cs" />
     <Compile Remove="Migrations\20201229142336_UserLessonUpdatesSecond.cs" />
     <Compile Remove="Migrations\20201229142336_UserLessonUpdatesSecond.Designer.cs" />
+    <Compile Remove="Migrations\20210214165839_AddHomeworkType.cs" />
+    <Compile Remove="Migrations\20210214165839_AddHomeworkType.Designer.cs" />
+    <Compile Remove="Migrations\20210214170322_AddHomeworkType.cs" />
+    <Compile Remove="Migrations\20210214170322_AddHomeworkType.Designer.cs" />
+    <Compile Remove="Migrations\20210214185923_TestHmk.cs" />
+    <Compile Remove="Migrations\20210214185923_TestHmk.Designer.cs" />
+    <Compile Remove="Migrations\20210214190234_UpdateHomeworksType.cs" />
+    <Compile Remove="Migrations\20210214190234_UpdateHomeworksType.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Credentials\credentials.json" />

@@ -12,14 +12,14 @@ namespace LearnMe.Controllers.Lessons
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HomeworkByCalendarIdController : ControllerBase
+    public class HomeworkDoneController : ControllerBase
     {
         private readonly IHomeworkRepository _homeworkRepository;
         private readonly ILessonsRepository _lessonsRepository;
         private readonly IMapper _mapper;
         private readonly UserManager<UserBasic> _userManager;
 
-        public HomeworkByCalendarIdController(
+        public HomeworkDoneController(
             IHomeworkRepository homeworkRepository,
             ILessonsRepository lessonsRepository,
             IMapper mapper,
@@ -31,40 +31,17 @@ namespace LearnMe.Controllers.Lessons
             _userManager = userManager;
         }
 
-        //GET: api/Homework/5
-        [HttpGet("{lessonCalendarId}")]
-        public async Task<ActionResult<IEnumerable<HomeworkDto>>> GetHomeworksAsync(string lessonCalendarId)
-        {
-            var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(lessonCalendarId);
-            if (lesson == null)
-            {
-                return BadRequest();
-            }
-
-            var homeworksForGivenLesson = await _homeworkRepository.GetAllHomeworksByLessonIdAsync(lesson.Id);
-
-            var result = new List<HomeworkDto>();
-
-            foreach (var item in homeworksForGivenLesson)
-            {
-                result.Add(_mapper.Map<HomeworkDto>(item));
-            }
-
-            return Ok(result);
-        }
-
         //GET: api/Homework
         [HttpGet()]
-        public async Task<ActionResult<IEnumerable<HomeworkDto>>> GetHomeworksForUserAsync(string lessonCalendarId, string userEmail)
+        public async Task<ActionResult<IEnumerable<HomeworkDto>>> GetHomeworksDoneForLessonAsync(string lessonCalendarId)
         {
             var lesson = await _lessonsRepository.GetLessonByCalendarIdAsync(lessonCalendarId);
             if (lesson == null)
             {
                 return BadRequest();
             }
-            
-            var user = await _userManager.FindByEmailAsync(userEmail);
-            var userHomeworksUploadedForGivenLesson = await _homeworkRepository.GetAllHomeworksByLessonIdAsync(lesson.Id, user.Id);
+
+            var userHomeworksUploadedForGivenLesson = await _homeworkRepository.GetAllHomeworksTypeDoneByLessonIdAsync(lesson.Id);
 
             var result = new List<HomeworkDto>();
 

@@ -13,25 +13,22 @@
         <br/>
         Student homeworks:
         <br/>
-        <span>
-          filename1
-          <button mat-icon-button color="accent">
-            <mat-icon matTooltip="Download student homework"> cloud_download</mat-icon>
-          </button>
-          <button mat-icon-button color="accent">
-            <mat-icon matTooltip="Send homework correction"> cloud_upload</mat-icon>
-          </button>
-        </span>
-        <br/>
-        <!-- <span>
-          filename2
-          <button mat-icon-button color="accent">
-            <mat-icon> cloud_download</mat-icon>
-          </button>
-          <button mat-icon-button color="accent">
-            <mat-icon> cloud_upload</mat-icon>
-          </button>
-        </span> -->
+        <ul>
+          <li *ngFor="let homework of lesson.allLessonHomeworksDone">
+            <span *ngIf="homework.associatedStudentEmail == item.email">
+              {{homework.fileString}}
+              <button mat-icon-button color="accent" (click)=downloadFile(homework.fileString)>
+                <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
+              </button>
+              <br/>
+              Message {{homework.messageText}}
+              <br/>
+              <button mat-icon-button color="accent">
+                <mat-icon matTooltip="Send homework correction"> cloud_upload</mat-icon>
+              </button>
+            </span>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>

@@ -56,7 +56,11 @@ namespace LearnMe.Core.DTO.Config
             CreateMap<Lesson, LessonDto>();
             CreateMap<LessonDto, Lesson>();
 
-            CreateMap<Homework, HomeworkDto>();
+            CreateMap<Homework, HomeworkDto>()
+                .ForMember(dest => dest.HomeworkType,
+                    opt =>opt.MapFrom(src => src.HomeworkType.Type))
+                .ForMember(dest => dest.AssociatedStudentEmail,
+                opt => opt.MapFrom(src => src.UserLessonHomeworkList[0].UserLesson.User.Email));
             CreateMap<HomeworkDto, Homework>();
 
             // ----------------------------

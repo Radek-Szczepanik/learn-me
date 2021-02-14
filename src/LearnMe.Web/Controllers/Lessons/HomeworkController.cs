@@ -6,7 +6,9 @@ using AutoMapper;
 using LearnMe.Core.DTO.Lessons;
 using Microsoft.AspNetCore.Mvc;
 using LearnMe.Infrastructure.Models.Domains.Lessons;
+using LearnMe.Infrastructure.Models.Domains.Users;
 using LearnMe.Infrastructure.Repository.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace LearnMe.Controllers.Lessons
 {
@@ -17,15 +19,18 @@ namespace LearnMe.Controllers.Lessons
         private readonly IHomeworkRepository _homeworkRepository;
         private readonly ILessonsRepository _lessonsRepository;
         private readonly IMapper _mapper;
+        private readonly UserManager<UserBasic> _userManager;
 
         public HomeworkController(
             IHomeworkRepository homeworkRepository,
             ILessonsRepository lessonsRepository,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<UserBasic> userManager)
         {
             _homeworkRepository = homeworkRepository;
             _lessonsRepository = lessonsRepository;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         // GET: api/Homework/5
@@ -46,7 +51,7 @@ namespace LearnMe.Controllers.Lessons
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost(), DisableRequestSizeLimit]
-        public async Task<ActionResult<HomeworkDto>> PostHomework()
+        public async Task<ActionResult<HomeworkDto>> PostHomework(string postingUserRole, string postingUserEmail = "")
         {
             try
             {
@@ -79,11 +84,36 @@ namespace LearnMe.Controllers.Lessons
                     var homework = new HomeworkDto()
                     {
                         FileString = fileNameWithTimestamp,
-                        MessageText = ""
+                        MessageText = "",
                     };
 
                     var homeworkData = _mapper.Map<Homework>(homework);
-                    var result = await _homeworkRepository.InsertHomeworkByLessonIdAsync(homeworkData, lesson.Id);
+                    if (postingUserRole.ToLower() == "mentor")
+                    {
+                        homeworkData.HomeworkTypeId = 1; // = new HomeworkType() { Id = 1, Type = "Todo"};
+                    }
+                    else
+                    {
+                        homeworkData.HomeworkTypeId = 2; // = new HomeworkType() { Id = 2, Type = "Done"};
+                    }
+
+                    string userId;
+                    UserBasic user = null;
+                    if (postingUserEmail != "")
+                    {
+                        user = await _userManager.FindByEmailAsync(postingUserEmail);
+                    }
+
+                    if(postingUserRole.ToLower() == "mentor")
+                    {
+                        userId = "";
+                    }
+                    else
+                    {
+                        userId = user?.Id ?? "";
+                    }
+
+                    var result = await _homeworkRepository.InsertHomeworkByLessonIdAsync(homeworkData, lesson.Id, userId);
 
                     return Created("", _mapper.Map<HomeworkDto>(result));
                 }
