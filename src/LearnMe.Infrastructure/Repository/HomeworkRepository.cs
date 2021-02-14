@@ -24,7 +24,7 @@ namespace LearnMe.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<IList<Homework>> GetAllHomeworksByLessonIdAsync(int lessonId)
+        public async Task<IList<Homework>> GetAllHomeworksByLessonIdAsync(int lessonId, string userId = null)
         {
             var lesson = await _context.Lessons
                 .Where(x => x.Id == lessonId)
@@ -39,23 +39,32 @@ namespace LearnMe.Infrastructure.Repository
                 // TODO: Refactor the below
                 foreach (var userLesson in lesson.UserLessons)
                 {
-                    var listOfUserLessonHomeworks = await _context.UserLessonHomeworks
-                        .Where(x => x.UserLesson == userLesson)
-                        .Include(x => x.Homework)
-                        .AsNoTracking()
-                        .ToListAsync();
+                    List<UserLessonHomework> listOfUserLessonHomeworks;
+                    if (userId == null)
+                    {
+                        listOfUserLessonHomeworks = await _context.UserLessonHomeworks
+                            .Where(x => x.UserLesson == userLesson
+                                        && x.Homework.HomeworkType.Type == "Todo")
+                            .Include(x => x.Homework)
+                            .AsNoTracking()
+                            .ToListAsync();
+                    }
+                    else
+                    {
+                        listOfUserLessonHomeworks = await _context.UserLessonHomeworks
+                            .Where(x => x.UserLesson.UserId == userId
+                                        && x.UserLesson.LessonId == lessonId
+                                        && x.Homework.HomeworkType.Type == "Done")
+                            .Include(x => x.Homework)
+                            .AsNoTracking()
+                            .ToListAsync();
+                    }
 
                     listOfUserLessonHomeworks
                         .Where(x => result
                             .All(y => y.FileString != x.Homework.FileString))
                         .ToList()
                         .ForEach(x => result.Add(x.Homework));
-
-                    //foreach (var item in listOfUserLessonHomeworks)
-                    //{
-                    //    result.Where((x => !CurrentCollection.Any(y => x.bar == y.bar));)
-                    //    result.Add(item.Homework);
-                    //}
                 }
 
                 return result;
@@ -69,7 +78,7 @@ namespace LearnMe.Infrastructure.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<Homework> InsertHomeworkByLessonIdAsync(Homework homework, int lessonId)
+        public async Task<Homework> InsertHomeworkByLessonIdAsync(Homework homework, int lessonId, string userId = "")
         {
             homework.UserLessonHomeworkList ??= new List<UserLessonHomework>();
             var result = await _context.Homeworks.AddAsync(homework);
@@ -85,15 +94,33 @@ namespace LearnMe.Infrastructure.Repository
                 .Include(x => x.UserLessons)
                 .AsNoTracking()
                 .SingleOrDefaultAsync();
-
-            foreach (var student in lesson.UserLessons)
+            
+            if(userId == "")
             {
-                await _context.UserLessonHomeworks.AddAsync(new UserLessonHomework()
+                foreach (var student in lesson.UserLessons)
                 {
-                    UserLessonId = student.Id,
-                    HomeworkId = homeworkGet.Id,
-                    CorrectionId = null
-                });
+                    await _context.UserLessonHomeworks.AddAsync(new UserLessonHomework()
+                    {
+                        UserLessonId = student.Id,
+                        HomeworkId = homeworkGet.Id,
+                        CorrectionId = null
+                    });
+
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                var student = lesson.UserLessons
+                    .SingleOrDefault(x => x.UserId == userId);
+
+                if (student != null)
+                    await _context.UserLessonHomeworks.AddAsync(new UserLessonHomework()
+                    {
+                        UserLessonId = student.Id,
+                        HomeworkId = homeworkGet.Id,
+                        CorrectionId = null
+                    });
 
                 await _context.SaveChangesAsync();
             }

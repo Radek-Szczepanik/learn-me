@@ -28,6 +28,18 @@
             {{message}}
           </span>
         </div>
+
+        <ul>
+          <li *ngFor="let homework of lesson.loggedStudentHomeworks">
+            {{homework.fileString}}
+            <button mat-icon-button color="accent" (click)=downloadFile(homework.fileString)>
+              <mat-icon matTooltip="Download file"> cloud_download</mat-icon>
+            </button>
+            <br/>
+            Message {{homework.messageText}}
+          </li>
+          <li *ngIf="lesson.loggedStudentHomeworks.length == 0">No homeworks has been added yet</li>
+        </ul>
       </li>
     </ul>   
 </div>

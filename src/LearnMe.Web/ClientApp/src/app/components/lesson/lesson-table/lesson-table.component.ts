@@ -27,6 +27,8 @@ export class LessonTableComponent implements AfterViewInit {
   displayedColumns: string[] = ['startDate', 'startDateTime', 'endDateTime', 'subject', 'attendeesNameAndSurnameList', 'isDone'];
   expandedElement: LessonAppointmentTableEntry | null;
 
+  loggedUser: string[] = ['Student'];
+
   dataSource: MatTableDataSource<LessonAppointmentTableEntry>;
   _http: HttpClient;
   _baseUrl: string;
@@ -50,6 +52,18 @@ export class LessonTableComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+
+    const routeGetLoggedUser: string  = '/api/Identity';
+    
+    this.https.getData(routeGetLoggedUser)
+    .toPromise().then(success => {
+      if (success) {
+        this.loggedUser = success as string[];
+        console.debug('loggedUser');
+        console.debug(this.loggedUser);
+      }
+    });
+    
    this.getData();
   }
 
@@ -72,7 +86,8 @@ export class LessonTableComponent implements AfterViewInit {
             lesson: item.lesson,
             attendees: item.attendees,
             attendeesNameAndSurnameList: [],
-            relatedMaterials: []
+            relatedMaterials: [],
+            loggedStudentHomeworks: []
           }
 
           item.attendees.forEach(person =>{
@@ -87,6 +102,19 @@ export class LessonTableComponent implements AfterViewInit {
               newItem.relatedMaterials = success as HomeworkDto[];
               console.debug('relatedMaterials');
               console.debug(newItem.relatedMaterials);
+            }
+          });
+
+          const routeGetStudentLessonHomeworks: string  = '/api/HomeworkByCalendarId/'
+            + '?lessonCalendarId=' + item.calendarId
+            + '&userEmail=' + this.loggedUser[1];
+    
+          this.https.getData(routeGetStudentLessonHomeworks)
+          .toPromise().then(success => {
+            if (success) {
+              newItem.loggedStudentHomeworks = success as HomeworkDto[];
+              console.debug('loggedStudentHomeworks');
+              console.debug(newItem.loggedStudentHomeworks);
             }
           });
 

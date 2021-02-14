@@ -45,8 +45,9 @@ export class LessonMaterialsComponent implements OnInit {
     formData.append('file', fileToUpload, fileToUpload.name);
     formData.append('lessonCalendarId', lessonCalendarId);
 
-    // let postRoute = 'api/homework'; //lessonCalendarId?lessonCalendarId=' + lessonCalendarId;
-    this.http.post('api/homework', formData, {reportProgress: true, observe: 'events'})
+    let postRoute = 'api/homework?postingUserRole=' + this.loggedUser[0]
+    + '&postingUserEmail=' + this.loggedUser[1];
+    this.http.post(postRoute, formData, {reportProgress: true, observe: 'events'})
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress)
           this.progress = Math.round(100 * event.loaded / event.total);
