@@ -27,6 +27,7 @@ export class LessonAppointmentTableEntry {
     attendeesNameAndSurnameList: string[];
     relatedMaterials: HomeworkDto[];
     loggedStudentHomeworks: HomeworkDto[];
+    allLessonHomeworksDone: HomeworkDto[];
 }
 
 export interface Tile {

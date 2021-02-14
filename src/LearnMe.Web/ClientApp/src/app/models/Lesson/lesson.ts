@@ -40,4 +40,6 @@ export interface UserBasicDto {
 export interface HomeworkDto {
   fileString: string;
   messageText: string;
+  homeworkType: string;
+  associatedStudentEmail: string;
 }

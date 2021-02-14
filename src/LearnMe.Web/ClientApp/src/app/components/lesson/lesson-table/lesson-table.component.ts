@@ -87,7 +87,8 @@ export class LessonTableComponent implements AfterViewInit {
             attendees: item.attendees,
             attendeesNameAndSurnameList: [],
             relatedMaterials: [],
-            loggedStudentHomeworks: []
+            loggedStudentHomeworks: [],
+            allLessonHomeworksDone: [],
           }
 
           item.attendees.forEach(person =>{
@@ -105,7 +106,7 @@ export class LessonTableComponent implements AfterViewInit {
             }
           });
 
-          const routeGetStudentLessonHomeworks: string  = '/api/HomeworkByCalendarId/'
+          const routeGetStudentLessonHomeworks: string  = '/api/HomeworkByCalendarId'
             + '?lessonCalendarId=' + item.calendarId
             + '&userEmail=' + this.loggedUser[1];
     
@@ -115,6 +116,18 @@ export class LessonTableComponent implements AfterViewInit {
               newItem.loggedStudentHomeworks = success as HomeworkDto[];
               console.debug('loggedStudentHomeworks');
               console.debug(newItem.loggedStudentHomeworks);
+            }
+          });
+
+          const routeGetAllDoneLessonHomeworks: string  = '/api/HomeworkDone'
+            + '?lessonCalendarId=' + item.calendarId;
+    
+          this.https.getData(routeGetAllDoneLessonHomeworks)
+          .toPromise().then(success => {
+            if (success) {
+              newItem.allLessonHomeworksDone = success as HomeworkDto[];
+              console.debug('allLessonHomeworksDone');
+              console.debug(newItem.allLessonHomeworksDone);
             }
           });
 

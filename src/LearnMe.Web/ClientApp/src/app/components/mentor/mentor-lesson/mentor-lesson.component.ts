@@ -79,6 +79,7 @@ export class MentorLessonComponent implements AfterViewInit {
             attendeesNameAndSurnameList: [],
             relatedMaterials: [],
             loggedStudentHomeworks: [],
+            allLessonHomeworksDone: [],
           }
 
           item.attendees.forEach(person =>{

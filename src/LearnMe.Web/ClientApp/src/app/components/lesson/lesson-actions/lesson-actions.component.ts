@@ -1,5 +1,6 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 import { LessonAppointmentTableEntry } from '../../../services/calendar/calendar-service-ver-2';
 import { HttpService } from '../../../services/http.service';
 
@@ -58,4 +59,23 @@ export class LessonActionsComponent implements OnInit {
         }
       });
   }
+
+  public downloadFile(fileName) {
+    this.downloadFileFromApi(fileName)
+      .subscribe((resultBlob: Blob) => {
+        var downloadURL = URL.createObjectURL(resultBlob);
+        
+        var link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = fileName;
+        link.click();
+      });
+  }
+
+  private downloadFileFromApi(fileName): Observable<any> {
+    let route = 'api/download/' + fileName;
+    let url = encodeURI(route);
+
+		return this.http.get(url, { responseType: "blob" });
+   }
 }

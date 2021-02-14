@@ -73,6 +73,43 @@ namespace LearnMe.Infrastructure.Repository
             return new List<Homework>();
         }
 
+        public async Task<IList<Homework>> GetAllHomeworksTypeDoneByLessonIdAsync(int lessonId)
+        {
+            var lesson = await _context.Lessons
+                .Where(x => x.Id == lessonId)
+                .Include(x => x.UserLessons)
+                .ThenInclude(x => x.Homeworks)
+                .AsNoTracking()
+                .SingleOrDefaultAsync();
+
+            if (lesson != null)
+            {
+                var result = new List<Homework>();
+                // TODO: Refactor the below
+                foreach (var userLesson in lesson.UserLessons)
+                {
+                    var listOfUserLessonHomeworks = await _context.UserLessonHomeworks
+                        .Where(x => x.UserLesson.LessonId == lessonId
+                                    && x.Homework.HomeworkType.Type == "Done")
+                        .Include(x => x.Homework)
+                        .Include(x => x.UserLesson)
+                        .ThenInclude(x => x.User)
+                        .AsNoTracking()
+                        .ToListAsync();
+
+                    listOfUserLessonHomeworks
+                        .Where(x => result
+                            .All(y => y.FileString != x.Homework.FileString))
+                        .ToList()
+                        .ForEach(x => result.Add(x.Homework));
+                }
+
+                return result;
+            }
+
+            return new List<Homework>();
+        }
+
         public async Task<Homework> GetHomeworkByFileNameAndLessonIdAsync(int lessonId)
         {
             throw new NotImplementedException();
