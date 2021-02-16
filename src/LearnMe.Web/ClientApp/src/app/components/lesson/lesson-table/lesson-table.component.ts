@@ -35,8 +35,10 @@ export class LessonTableComponent implements AfterViewInit {
   _crud: CrudService;
 
   // TODO: update dates by months/year
-  from: Date = new Date(new Date().getTime() - (31 * 24 * 60 * 60 * 1000));
-  to: Date = new Date(new Date().getTime() + (31 * 24 * 60 * 60 * 1000));
+  // from: Date = new Date(new Date().getTime() - (31 * 24 * 60 * 60 * 1000));
+  // to: Date = new Date(new Date().getTime() + (31 * 24 * 60 * 60 * 1000));
+  from: Date = new Date(new Date().getTime() - (90 * 24 * 60 * 60 * 1000));
+  to: Date = new Date(new Date().getTime() + (90 * 24 * 60 * 60 * 1000));
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;

@@ -33,8 +33,10 @@ export class CalendarViewComponent implements OnInit {
 
   //startViewDate: Date;
   //endViewDate: Date;
-  startViewDate: Date = new Date(new Date().getTime() - (31 * 24 * 60 * 60 * 1000));
-  endViewDate: Date = new Date(new Date().getTime() + (31 * 24 * 60 * 60 * 1000));
+  startViewDate: Date = new Date(new Date().getTime() - (90 * 24 * 60 * 60 * 1000));
+  endViewDate: Date = new Date(new Date().getTime() + (90 * 24 * 60 * 60 * 1000));
+  // startViewDate: Date = new Date(new Date().getTime() - (31 * 24 * 60 * 60 * 1000));
+  // endViewDate: Date = new Date(new Date().getTime() + (31 * 24 * 60 * 60 * 1000));
 
   itemsLessonStatus: string[] = ['New', 'InProgress', 'Done'];
   simpleEmails: string[] = [];
@@ -97,7 +99,7 @@ export class CalendarViewComponent implements OnInit {
 
   onAppointmentAdded(e) {
     console.debug('on appointment added invoked');
-    this.showToast('Added', e.appointmentData.text, 'success');
+    this.showToast('Added', e.appointmentData.subject, 'success');
 
     console.debug('object to be added:');
     console.debug(e);
