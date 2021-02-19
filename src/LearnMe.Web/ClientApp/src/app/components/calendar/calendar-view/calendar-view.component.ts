@@ -254,6 +254,7 @@ export class CalendarViewComponent implements OnInit {
         {
           itemType: "group",
           caption: "Event Data",
+          name: "eventData",
           items: [
             e.form.itemOption("mainGroup").items[0],
             e.form.itemOption("mainGroup").items[1],
@@ -291,11 +292,13 @@ export class CalendarViewComponent implements OnInit {
       formItems2.push(
       {
         itemType: "group",
+        name: "lessonAndAttendees",
         items: [
           {
 
             itemType: "group",
             caption: "Lesson Data",
+            name: "lessonData",
             items: [
               {
                 dataField: "lesson.title",
@@ -367,10 +370,8 @@ export class CalendarViewComponent implements OnInit {
       console.debug(emails);
     }
 
-    console.debug('e.form.itemOption("mainGroup")');
-    console.debug(e.form.itemOption("mainGroup"));
-
     if(e.appointmentData.lesson != undefined){
+      // e.form.itemOption("mainGroup").items[1].items[0].items[1].editorOptions.value =
       e.form.itemOption("mainGroup").items[1].items[0].items[1].editorOptions.value =
         this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus];
 
@@ -378,32 +379,24 @@ export class CalendarViewComponent implements OnInit {
         console.debug(this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus]);
     }
 
-    console.debug('e.form.itemOption("mainGroup").items[1].items[0].items[1]');
-    console.debug(e.form.itemOption("mainGroup").items[1].items[0].items[1]);
-
-    //Attendees
-    let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
-    console.debug('commonAttendees');
-    console.debug(commonAttendees);
-    e.form.itemOption("mainGroup").items[1].items[1].items[0].editorOptions.value = commonAttendees;
+    // //Attendees
+    // let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
+    // console.debug('commonAttendees');
+    // console.debug(commonAttendees);
+    // e.form.itemOption("mainGroup").items[1].items[1].items[0].editorOptions.value = commonAttendees;
 
     console.debug('e.form.itemOption("mainGroup")');
     console.debug(e.form.itemOption("mainGroup"));
-
-    console.debug('e.form.itemOption("mainGroup").items[1].items[1].items[0]');
-    console.debug(e.form.itemOption("mainGroup").items[1].items[1].items[0]);
-
-    // console.error('e.form.itemOption("mainGroup.items[0].items[0]")');
-    // console.error(e.form.itemOption("mainGroup.items[0].items[0]"));
-    console.debug('e.form.itemOption("mainGroup.subject")');
-    console.debug(e.form.itemOption("mainGroup.subject"));
-
-    e.form.itemOption("mainGroup").items[0].items[0].validationRules = [
+    
+    e.form.itemOption("mainGroup.eventData.subject",
       {
-        type: "required",
-        message: "Subject is required"
-      }
-    ];
+        validationRules: [
+          {
+            type: "required",
+            message: "Subject is required"
+          }
+        ]
+      });
           
   }
 
