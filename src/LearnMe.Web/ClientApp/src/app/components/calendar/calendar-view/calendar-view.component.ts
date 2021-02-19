@@ -59,14 +59,14 @@ export class CalendarViewComponent implements OnInit {
     });
 
     const routeGetLoggedUser: string  = '/api/Identity';
-    
+
     this.https.getData(routeGetLoggedUser)
     .toPromise().then(success => {
       if (success) {
         this.loggedUser = success as string[];
         console.debug('loggedUser');
         console.debug(this.loggedUser);
-        
+
         if (this.loggedUser[0] != 'Student'){
           this.isEditable = true;
           console.debug('isEditable');
@@ -88,14 +88,14 @@ export class CalendarViewComponent implements OnInit {
           });
         }
       });
-    
+
     console.debug('simpleEmails:');
     console.debug(this.simpleEmails);
    }
 
   ngOnInit(): void { }
 
-  onInitialized(e) { }    
+  onInitialized(e) { }
 
   onAppointmentAdded(e) {
     console.debug('on appointment added invoked');
@@ -162,11 +162,11 @@ export class CalendarViewComponent implements OnInit {
     } else {
       lessonStatusIndex = e.appointmentData.lesson.lessonStatus
     }
-    
+
     let attendeesArray: UserBasicDto[] = [];
 
     if(e.appointmentData.attendees.email == undefined){
-      e.appointmentData.attendees.forEach(element => {  
+      e.appointmentData.attendees.forEach(element => {
         let attendee: UserBasicDto = {
           email: element.email,
           firstName: '',
@@ -241,23 +241,65 @@ export class CalendarViewComponent implements OnInit {
       console.debug('formItems');
       console.debug(formItems);
 
-      formItems.push(
+      // e.form.colCount = 4;
+
+      // console.debug('e.form.colCount');
+      // console.debug(e.form.colCount);
+      console.debug('e.form');
+      console.debug(e.form);
+
+      let formItems2 = [];
+
+      formItems2.push(
         {
-          dataField: "isDone",
-          editorType: "dxSwitch",
-          label: {
-            text: "Lesson Done"
-          }
-        },
+          itemType: "group",
+          caption: "Event Data",
+          items: [
+            e.form.itemOption("mainGroup").items[0],
+            e.form.itemOption("mainGroup").items[1],
+            e.form.itemOption("mainGroup").items[2],
+            e.form.itemOption("mainGroup").items[3],
+            e.form.itemOption("mainGroup").items[4],
+            e.form.itemOption("mainGroup").items[5],
+            {
+              dataField: "isDone",
+              editorType: "dxSwitch",
+              label: {
+                text: "Lesson Done"
+              },
+              colSpan: 2
+            },
+            {
+              dataField: "isFreeSlot",
+              editorType: "dxSwitch",
+              label: {
+                text: "Free Slot"
+              },
+              colSpan: 2
+            },
+          ],
+          colSpan: 4
+        }
+      );
+
+      formItems2.push(
+        // {
+        //   dataField: "isDone",
+        //   editorType: "dxSwitch",
+        //   label: {
+        //     text: "Lesson Done"
+        //   }
+        // },
+        // {
+        //   dataField: "isFreeSlot",
+        //   editorType: "dxSwitch",
+        //   label: {
+        //     text: "Free Slot"
+        //   }//,
+        //   // colSpan: 4
+        // },
         {
-          dataField: "isFreeSlot",
-          editorType: "dxSwitch",
-          label: {
-            text: "Free Slot"
-          }
-        },
-        {
-          
+
           itemType: "group",
           caption: "Lesson Data",
           items: [
@@ -279,24 +321,24 @@ export class CalendarViewComponent implements OnInit {
                 value: this.itemsLessonStatus[0]
               },
             }],
-          colSpan: 2
+          colSpan: 4
         },
-        {
-          itemType: "group",
-          caption: "Homeworks",
-          items: [
-            {
-              editorType: "dxButton",
-              editorOptions: {
-                text: "See related files",
-                style: "bold"//,
-                // onClick: function () {
-                //  // do something
-                //}
-              }
-            }],
-          colSpan: 2
-        },
+        // {
+        //   itemType: "group",
+        //   caption: "Homeworks",
+        //   items: [
+        //     {
+        //       editorType: "dxButton",
+        //       editorOptions: {
+        //         text: "See related files",
+        //         style: "bold"//,
+        //         // onClick: function () {
+        //         //  // do something
+        //         //}
+        //       }
+        //     }],
+        //   colSpan: 2
+        // },
         {
           itemType: "group",
           caption: "Attendees",
@@ -313,24 +355,33 @@ export class CalendarViewComponent implements OnInit {
                 hideSelectedItems: true
               }
             }],
-          colSpan: 2
+          colSpan: 4
         });
+
+        // e.form.itemOption("mainGroup").items[0].colSpan = 4;
+        // e.form.itemOption("mainGroup").items[1].colSpan = 2;
+        // e.form.itemOption("mainGroup").items[2].colSpan = 2;
+        // e.form.itemOption("mainGroup").items[3].colSpan = 4;
+        // e.form.itemOption("mainGroup").items[4].colSpan = 4;
+        // e.form.itemOption("mainGroup").items[5].colSpan = 4;
+
 
       e.form.itemOption("mainGroup",
         {
-          items: formItems
+          colCount: 4,
+          items: formItems2
         });
 
       this.appointmentFormUpdatedFlag = true;
     }
- 
+
     console.debug('e');
     console.debug(e);
 
     let emails: string[] = [];
 
     if (e.appointmentData.attendees != null){
-            
+
       console.debug('emails1');
       console.debug(emails);
 
@@ -342,17 +393,17 @@ export class CalendarViewComponent implements OnInit {
       console.debug('emails2');
       console.debug(emails);
     }
-    
+
     if(e.appointmentData.lesson != undefined){
       e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
         this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus];
     }
-    
+
     //Attendees
     let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
     console.debug('commonAttendees');
     console.debug(commonAttendees);
-    e.form.itemOption("mainGroup").items[10].items[0].editorOptions.value = commonAttendees;
+    e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
 
     e.form.itemOption("mainGroup.subject",
       {
