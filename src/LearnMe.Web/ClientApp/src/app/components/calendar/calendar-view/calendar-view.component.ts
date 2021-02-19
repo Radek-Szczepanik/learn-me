@@ -33,10 +33,8 @@ export class CalendarViewComponent implements OnInit {
 
   //startViewDate: Date;
   //endViewDate: Date;
-  startViewDate: Date = new Date(new Date().getTime() - (90 * 24 * 60 * 60 * 1000));
-  endViewDate: Date = new Date(new Date().getTime() + (90 * 24 * 60 * 60 * 1000));
-  // startViewDate: Date = new Date(new Date().getTime() - (31 * 24 * 60 * 60 * 1000));
-  // endViewDate: Date = new Date(new Date().getTime() + (31 * 24 * 60 * 60 * 1000));
+  startViewDate: Date = new Date(new Date().getTime() - (31 * 24 * 60 * 60 * 1000));
+  endViewDate: Date = new Date(new Date().getTime() + (31 * 24 * 60 * 60 * 1000));
 
   itemsLessonStatus: string[] = ['New', 'InProgress', 'Done'];
   simpleEmails: string[] = [];
@@ -59,14 +57,14 @@ export class CalendarViewComponent implements OnInit {
     });
 
     const routeGetLoggedUser: string  = '/api/Identity';
-
+    
     this.https.getData(routeGetLoggedUser)
     .toPromise().then(success => {
       if (success) {
         this.loggedUser = success as string[];
         console.debug('loggedUser');
         console.debug(this.loggedUser);
-
+        
         if (this.loggedUser[0] != 'Student'){
           this.isEditable = true;
           console.debug('isEditable');
@@ -88,14 +86,14 @@ export class CalendarViewComponent implements OnInit {
           });
         }
       });
-
+    
     console.debug('simpleEmails:');
     console.debug(this.simpleEmails);
    }
 
   ngOnInit(): void { }
 
-  onInitialized(e) { }
+  onInitialized(e) { }    
 
   onAppointmentAdded(e) {
     console.debug('on appointment added invoked');
@@ -162,11 +160,11 @@ export class CalendarViewComponent implements OnInit {
     } else {
       lessonStatusIndex = e.appointmentData.lesson.lessonStatus
     }
-
+    
     let attendeesArray: UserBasicDto[] = [];
 
     if(e.appointmentData.attendees.email == undefined){
-      e.appointmentData.attendees.forEach(element => {
+      e.appointmentData.attendees.forEach(element => {  
         let attendee: UserBasicDto = {
           email: element.email,
           firstName: '',
@@ -241,123 +239,80 @@ export class CalendarViewComponent implements OnInit {
       console.debug('formItems');
       console.debug(formItems);
 
-      // e.form.colCount = 4;
-
-      // console.debug('e.form.colCount');
-      // console.debug(e.form.colCount);
-      console.debug('e.form');
-      console.debug(e.form);
-
-      let formItems2 = [];
-
-      formItems2.push(
+      formItems.push(
+        {
+          dataField: "isDone",
+          editorType: "dxSwitch",
+          label: {
+            text: "Lesson Done"
+          }
+        },
+        {
+          dataField: "isFreeSlot",
+          editorType: "dxSwitch",
+          label: {
+            text: "Free Slot"
+          }
+        },
+        {
+          
+          itemType: "group",
+          caption: "Lesson Data",
+          items: [
+            {
+              dataField: "lesson.title",
+              editorType: "dxTextArea",
+              label: {
+                text: "Lesson Title"
+              },
+            },
+            {
+              dataField: "lesson.lessonStatus",
+              editorType: "dxSelectBox",
+              label: {
+                text: "Lesson Status"
+              },
+              editorOptions: {
+                items: this.itemsLessonStatus,
+                value: this.itemsLessonStatus[0]
+              },
+            }],
+          colSpan: 2
+        },
         {
           itemType: "group",
-          caption: "Event Data",
-          name: "eventData",
+          caption: "Attendees",
           items: [
-            e.form.itemOption("mainGroup").items[0],
-            e.form.itemOption("mainGroup").items[1],
-            //e.form.itemOption("mainGroup").items[2],
-            e.form.itemOption("mainGroup").items[3],
-            e.form.itemOption("mainGroup").items[4],
-            e.form.itemOption("mainGroup").items[5],
             {
-              itemType: "group",
-              items: [
-                {
-                  dataField: "isDone",
-                  editorType: "dxSwitch",
-                  label: {
-                    text: "Lesson Done",
-                    location: "right"
-                  }
-                },
-                {
-                  dataField: "isFreeSlot",
-                  editorType: "dxSwitch",
-                  label: {
-                    text: "Free Slot",
-                    location: "right"
-                  }
-                },
-              ],
-              colCount: 1
-            }
-          ],
-          colCount: 2       
-        }
-      );
-
-      formItems2.push(
-      {
-        itemType: "group",
-        name: "lessonAndAttendees",
-        items: [
-          {
-
-            itemType: "group",
-            caption: "Lesson Data",
-            name: "lessonData",
-            items: [
-              {
-                dataField: "lesson.title",
-                editorType: "dxTextArea",
-                label: {
-                  text: "Lesson Title"
-                },
+              dataField: "attendees.email",
+              editorType: "dxTagBox",
+              label: {
+                text: "Attendees' emails:"
               },
-              {
-                dataField: "lesson.lessonStatus",
-                editorType: "dxSelectBox",
-                label: {
-                  text: "Lesson Status"
-                },
-                editorOptions: {
-                  items: this.itemsLessonStatus,
-                  value: this.itemsLessonStatus[0]
-                },
-              }],
-            colSpan: 4
-          },
-          {
-            itemType: "group",
-            caption: "Attendees",
-            items: [
-              {
-                dataField: "attendees.email",
-                editorType: "dxTagBox",
-                label: {
-                  text: "Attendees' emails:"
-                },
-                editorOptions: {
-                  items: this.simpleEmails,
-                  searchEnabled: true,
-                  hideSelectedItems: true
-                }
-              }],
-            colSpan: 4
-          }
-        ]
-      });
-
+              editorOptions: {
+                items: this.simpleEmails,
+                searchEnabled: true,
+                hideSelectedItems: true
+              }
+            }],
+          colSpan: 2
+        });
 
       e.form.itemOption("mainGroup",
         {
-          colCount: 8,//8
-          items: formItems2
+          items: formItems
         });
 
       this.appointmentFormUpdatedFlag = true;
     }
-
+ 
     console.debug('e');
     console.debug(e);
 
     let emails: string[] = [];
 
     if (e.appointmentData.attendees != null){
-
+            
       console.debug('emails1');
       console.debug(emails);
 
@@ -369,26 +324,19 @@ export class CalendarViewComponent implements OnInit {
       console.debug('emails2');
       console.debug(emails);
     }
-
-    if(e.appointmentData.lesson != undefined){
-      // e.form.itemOption("mainGroup").items[1].items[0].items[1].editorOptions.value =
-      e.form.itemOption("mainGroup").items[1].items[0].items[1].editorOptions.value =
-        this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus];
-
-        console.debug('this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus]');
-        console.debug(this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus]);
-    }
-
-    // //Attendees
-    // let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
-    // console.debug('commonAttendees');
-    // console.debug(commonAttendees);
-    // e.form.itemOption("mainGroup").items[1].items[1].items[0].editorOptions.value = commonAttendees;
-
-    console.debug('e.form.itemOption("mainGroup")');
-    console.debug(e.form.itemOption("mainGroup"));
     
-    e.form.itemOption("mainGroup.eventData.subject",
+    if(e.appointmentData.lesson != undefined){
+      e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
+        this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus];
+    }
+    
+    //Attendees
+    let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
+    console.debug('commonAttendees');
+    console.debug(commonAttendees);
+    e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
+
+    e.form.itemOption("mainGroup.subject",
       {
         validationRules: [
           {
@@ -397,7 +345,6 @@ export class CalendarViewComponent implements OnInit {
           }
         ]
       });
-          
   }
 
   getCalendarCurrentDate() {
