@@ -257,118 +257,91 @@ export class CalendarViewComponent implements OnInit {
           items: [
             e.form.itemOption("mainGroup").items[0],
             e.form.itemOption("mainGroup").items[1],
-            e.form.itemOption("mainGroup").items[2],
+            //e.form.itemOption("mainGroup").items[2],
             e.form.itemOption("mainGroup").items[3],
             e.form.itemOption("mainGroup").items[4],
             e.form.itemOption("mainGroup").items[5],
             {
-              dataField: "isDone",
-              editorType: "dxSwitch",
-              label: {
-                text: "Lesson Done"
-              },
-              colSpan: 2
-            },
-            {
-              dataField: "isFreeSlot",
-              editorType: "dxSwitch",
-              label: {
-                text: "Free Slot"
-              },
-              colSpan: 2
-            },
+              itemType: "group",
+              items: [
+                {
+                  dataField: "isDone",
+                  editorType: "dxSwitch",
+                  label: {
+                    text: "Lesson Done",
+                    location: "right"
+                  }
+                },
+                {
+                  dataField: "isFreeSlot",
+                  editorType: "dxSwitch",
+                  label: {
+                    text: "Free Slot",
+                    location: "right"
+                  }
+                },
+              ],
+              colCount: 1
+            }
           ],
-          colSpan: 4
+          colCount: 2       
         }
       );
 
       formItems2.push(
-        // {
-        //   dataField: "isDone",
-        //   editorType: "dxSwitch",
-        //   label: {
-        //     text: "Lesson Done"
-        //   }
-        // },
-        // {
-        //   dataField: "isFreeSlot",
-        //   editorType: "dxSwitch",
-        //   label: {
-        //     text: "Free Slot"
-        //   }//,
-        //   // colSpan: 4
-        // },
-        {
+      {
+        itemType: "group",
+        items: [
+          {
 
-          itemType: "group",
-          caption: "Lesson Data",
-          items: [
-            {
-              dataField: "lesson.title",
-              editorType: "dxTextArea",
-              label: {
-                text: "Lesson Title"
+            itemType: "group",
+            caption: "Lesson Data",
+            items: [
+              {
+                dataField: "lesson.title",
+                editorType: "dxTextArea",
+                label: {
+                  text: "Lesson Title"
+                },
               },
-            },
-            {
-              dataField: "lesson.lessonStatus",
-              editorType: "dxSelectBox",
-              label: {
-                text: "Lesson Status"
-              },
-              editorOptions: {
-                items: this.itemsLessonStatus,
-                value: this.itemsLessonStatus[0]
-              },
-            }],
-          colSpan: 4
-        },
-        // {
-        //   itemType: "group",
-        //   caption: "Homeworks",
-        //   items: [
-        //     {
-        //       editorType: "dxButton",
-        //       editorOptions: {
-        //         text: "See related files",
-        //         style: "bold"//,
-        //         // onClick: function () {
-        //         //  // do something
-        //         //}
-        //       }
-        //     }],
-        //   colSpan: 2
-        // },
-        {
-          itemType: "group",
-          caption: "Attendees",
-          items: [
-            {
-              dataField: "attendees.email",
-              editorType: "dxTagBox",
-              label: {
-                text: "Attendees' emails:"
-              },
-              editorOptions: {
-                items: this.simpleEmails,
-                searchEnabled: true,
-                hideSelectedItems: true
-              }
-            }],
-          colSpan: 4
-        });
-
-        // e.form.itemOption("mainGroup").items[0].colSpan = 4;
-        // e.form.itemOption("mainGroup").items[1].colSpan = 2;
-        // e.form.itemOption("mainGroup").items[2].colSpan = 2;
-        // e.form.itemOption("mainGroup").items[3].colSpan = 4;
-        // e.form.itemOption("mainGroup").items[4].colSpan = 4;
-        // e.form.itemOption("mainGroup").items[5].colSpan = 4;
+              {
+                dataField: "lesson.lessonStatus",
+                editorType: "dxSelectBox",
+                label: {
+                  text: "Lesson Status"
+                },
+                editorOptions: {
+                  items: this.itemsLessonStatus,
+                  value: this.itemsLessonStatus[0]
+                },
+              }],
+            colSpan: 4
+          },
+          {
+            itemType: "group",
+            caption: "Attendees",
+            items: [
+              {
+                dataField: "attendees.email",
+                editorType: "dxTagBox",
+                label: {
+                  text: "Attendees' emails:"
+                },
+                editorOptions: {
+                  items: this.simpleEmails,
+                  searchEnabled: true,
+                  hideSelectedItems: true
+                }
+              }],
+            colSpan: 4
+          }
+        ]
+      });
 
 
       e.form.itemOption("mainGroup",
         {
-          colCount: 4,
+          colCount: 8,//8
           items: formItems2
         });
 
@@ -394,8 +367,11 @@ export class CalendarViewComponent implements OnInit {
       console.debug(emails);
     }
 
+    console.debug('e.form.itemOption("mainGroup")');
+    console.debug(e.form.itemOption("mainGroup"));
+
     if(e.appointmentData.lesson != undefined){
-      e.form.itemOption("mainGroup").items[8].items[1].editorOptions.value =
+      e.form.itemOption("mainGroup").items[1].items[0].items[1].editorOptions.value =
         this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus];
     }
 
@@ -403,17 +379,22 @@ export class CalendarViewComponent implements OnInit {
     let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
     console.debug('commonAttendees');
     console.debug(commonAttendees);
-    e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
+    e.form.itemOption("mainGroup").items[1].items[1].items[0].editorOptions.value = commonAttendees;
 
-    e.form.itemOption("mainGroup.subject",
-      {
-        validationRules: [
+    console.debug('e.form.itemOption("mainGroup")');
+    console.debug(e.form.itemOption("mainGroup"));
+
+    console.warn('e.form.itemOption("mainGroup").items[1].items[1].items[0]');
+    console.warn(e.form.itemOption("mainGroup").items[1].items[1].items[0]);
+
+    // console.error('e.form.itemOption("mainGroup.items[0].items[0]")');
+    // console.error(e.form.itemOption("mainGroup.items[0].items[0]"));
+
+    e.form.itemOption("mainGroup").items[0].items[0].validationRules =
           {
             type: "required",
             message: "Subject is required"
-          }
-        ]
-      });
+          };
   }
 
   getCalendarCurrentDate() {
