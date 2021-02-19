@@ -373,7 +373,13 @@ export class CalendarViewComponent implements OnInit {
     if(e.appointmentData.lesson != undefined){
       e.form.itemOption("mainGroup").items[1].items[0].items[1].editorOptions.value =
         this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus];
+
+        console.debug('this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus]');
+        console.debug(this.itemsLessonStatus[e.appointmentData.lesson.lessonStatus]);
     }
+
+    console.debug('e.form.itemOption("mainGroup").items[1].items[0].items[1]');
+    console.debug(e.form.itemOption("mainGroup").items[1].items[0].items[1]);
 
     //Attendees
     let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
@@ -384,17 +390,21 @@ export class CalendarViewComponent implements OnInit {
     console.debug('e.form.itemOption("mainGroup")');
     console.debug(e.form.itemOption("mainGroup"));
 
-    console.warn('e.form.itemOption("mainGroup").items[1].items[1].items[0]');
-    console.warn(e.form.itemOption("mainGroup").items[1].items[1].items[0]);
+    console.debug('e.form.itemOption("mainGroup").items[1].items[1].items[0]');
+    console.debug(e.form.itemOption("mainGroup").items[1].items[1].items[0]);
 
     // console.error('e.form.itemOption("mainGroup.items[0].items[0]")');
     // console.error(e.form.itemOption("mainGroup.items[0].items[0]"));
+    console.debug('e.form.itemOption("mainGroup.subject")');
+    console.debug(e.form.itemOption("mainGroup.subject"));
 
-    e.form.itemOption("mainGroup").items[0].items[0].validationRules =
-          {
-            type: "required",
-            message: "Subject is required"
-          };
+    e.form.itemOption("mainGroup").items[0].items[0].validationRules = [
+      {
+        type: "required",
+        message: "Subject is required"
+      }
+    ];
+          
   }
 
   getCalendarCurrentDate() {
