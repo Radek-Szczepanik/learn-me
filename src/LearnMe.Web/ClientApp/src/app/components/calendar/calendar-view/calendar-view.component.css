@@ -10,7 +10,7 @@
   padding-block: 0;
 }
 
-/* ::ng-deep .dx-switch-handle {
+::ng-deep .dx-switch-handle {
   background-color: #ff4081;
 }
 
@@ -28,7 +28,7 @@
 
 ::ng-deep div[aria-label="See related files"]:hover {
   background-color: #ff4081;
-} */
+}
 
 ::ng-deep .dx-item .dx-scheduler-appointment .dx-scheduler-appointment-vertical .dx-resizable div[role="button"] {
   background-color: transparent !important;
@@ -51,7 +51,7 @@
 }
 
 i {
-  font-size: 1.2vw;
+  font-size: 1vw;
 }
 
 p {
@@ -62,9 +62,9 @@ p {
   background-color: #ffced6
 }
 
-.dx-scheduler-appointment-content{
+/* .dx-scheduler-appointment-content{
   height: auto;
-}
+} */
 
 ::ng-deep .dx-scheduler-appointment {
   background-color: transparent;

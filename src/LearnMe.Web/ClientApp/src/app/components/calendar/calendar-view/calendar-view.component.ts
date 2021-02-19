@@ -97,7 +97,7 @@ export class CalendarViewComponent implements OnInit {
 
   onAppointmentAdded(e) {
     console.debug('on appointment added invoked');
-    this.showToast('Added', e.appointmentData.text, 'success');
+    this.showToast('Added', e.appointmentData.subject, 'success');
 
     console.debug('object to be added:');
     console.debug(e);
@@ -281,22 +281,6 @@ export class CalendarViewComponent implements OnInit {
         },
         {
           itemType: "group",
-          caption: "Homeworks",
-          items: [
-            {
-              editorType: "dxButton",
-              editorOptions: {
-                text: "See related files",
-                style: "bold"//,
-                // onClick: function () {
-                //  // do something
-                //}
-              }
-            }],
-          colSpan: 2
-        },
-        {
-          itemType: "group",
           caption: "Attendees",
           items: [
             {
@@ -350,7 +334,7 @@ export class CalendarViewComponent implements OnInit {
     let commonAttendees: string[] = this.simpleEmails.filter(value => emails.includes(value));
     console.debug('commonAttendees');
     console.debug(commonAttendees);
-    e.form.itemOption("mainGroup").items[10].items[0].editorOptions.value = commonAttendees;
+    e.form.itemOption("mainGroup").items[9].items[0].editorOptions.value = commonAttendees;
 
     e.form.itemOption("mainGroup.subject",
       {

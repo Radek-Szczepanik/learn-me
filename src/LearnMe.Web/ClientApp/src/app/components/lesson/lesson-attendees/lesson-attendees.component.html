@@ -13,7 +13,7 @@
         <br/>
         Student homeworks:
         <br/>
-        <ul>
+        <ul>            
           <li *ngFor="let homework of lesson.allLessonHomeworksDone">
             <span *ngIf="homework.associatedStudentEmail == item.email">
               {{homework.fileString}}
