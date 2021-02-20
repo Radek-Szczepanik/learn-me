@@ -12,4 +12,5 @@ export interface Messages {
     isRead: boolean;
     dateRead: Date;
     dateSent: Date;
+    imgPath: string;
 }

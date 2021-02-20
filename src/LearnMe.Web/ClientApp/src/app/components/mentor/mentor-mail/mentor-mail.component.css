@@ -22,7 +22,7 @@ section {
   }
   
   .example-flex-container {
-    justify-content: space-between;
+    justify-content: spacse-between;
     flex-wrap: wrap;
   }
   
@@ -32,11 +32,7 @@ section {
   }
 
   .mat-raised-button {
-    height: 51.31px;
     margin-top: 20px;
-    margin-left: 10px;
-    width: 100px;
-    font-size: 15px;
   }
 
   table, .mat-form-field, .mat-paginator {
@@ -123,5 +119,13 @@ body {
   float: right;
   margin: 8px;
 }
+.lesson-element-detail {
+  overflow: hidden;
+  /* display: flex; */
+  justify-content: center;
+}
 
-  
+tr.example-detail-row {
+  height: 0;
+}
+

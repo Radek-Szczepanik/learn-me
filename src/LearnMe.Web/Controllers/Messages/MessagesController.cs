@@ -11,10 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using System.Linq;
 namespace LearnMe.Controllers.Messages
 {
-    [Route("api/UserBasics/{email}/[controller]")]
+    [Route("api/[controller]/")]
     [ApiController]
     public class MessagesController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace LearnMe.Controllers.Messages
         private readonly UserManager<UserBasic> _userManager;
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IMessageRepository _messageRepository;
-        
+
 
         public MessagesController(ICrudRepository<Message> crudRepository,
                                   IMapper mapper,
@@ -38,8 +38,8 @@ namespace LearnMe.Controllers.Messages
             _applicationDbContext = applicationDbContext;
             _messageRepository = messageRepository;
         }
-        
-        
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult> GetMessage(int id)
         {
@@ -50,13 +50,13 @@ namespace LearnMe.Controllers.Messages
 
             return Ok(message);
         }
-        
+
 
         [HttpGet]
         public async Task<ActionResult> GetMessagesForUser(string email, [FromQuery] MessageParams messageParams)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            messageParams.Email = user.Id;
+            messageParams.id = user.Id;
             var messagesFromRepo = await _messageRepository.GetMessagesForUser(messageParams);
             var messagesToReturn = _mapper.Map<IEnumerable<MessageToReturnDto>>(messagesFromRepo);
 
@@ -68,13 +68,14 @@ namespace LearnMe.Controllers.Messages
             return Ok(messagesToReturn);
         }
 
+
         [HttpPost(Name = "GetMessage")]
-        public async Task<ActionResult> CreateMessage(string email, MessageToCreateDto messageToCreate)
-        { 
+        public async Task<ActionResult> CreateMessage(MessageToCreateDto messageToCreate)
+        {
             //if (email != messageToCreate.SenderId)
             //    return Unauthorized();
 
-            var sender = await _userManager.FindByEmailAsync(email);
+            var sender = await _userManager.FindByEmailAsync(messageToCreate.SenderEmail);
 
             messageToCreate.SenderId = sender.Id;
 
@@ -89,12 +90,20 @@ namespace LearnMe.Controllers.Messages
 
             await _crudRepository.InsertAsync(message);
 
-            return Ok("wiadomość utworzona poprawnie");
+            return Ok();
 
         }
 
+        [HttpDelete]
+         public async Task<ActionResult> DeleteMessage(int id)
+        {
+            var messageFromRepo = await _crudRepository.GetByIdAsync(id);
+            await _crudRepository.DeleteAsync(messageFromRepo);
+            return Ok();
+        }
+
         [HttpPost("{id}")]
-        public async Task<ActionResult> DeleteMessage(int id, string userId)
+        public async Task<ActionResult> DeleteMessageById(int id, string userId)
         {
             var messageFromRepo = await _crudRepository.GetByIdAsync(id);
 

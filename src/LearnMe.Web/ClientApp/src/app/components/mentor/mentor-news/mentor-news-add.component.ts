@@ -19,10 +19,6 @@ export class AddNewsDialog implements OnInit {
   private fileStream: string;
   private _httpClient: HttpClient;
   private _base: string;
-  private errorFirstName: any;
-  private errorLastName: any;
-  private errorEmail: any;
-  private errorPassword: any;
   public progress: number;
   public message: string;
   @Output() public onUploadFinished = new EventEmitter();

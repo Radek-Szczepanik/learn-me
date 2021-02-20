@@ -68,6 +68,8 @@ import { LessonDetailsComponent } from './components/lesson/lesson-details/lesso
 import { LessonMaterialsComponent } from './components/lesson/lesson-materials/lesson-materials.component';
 import { LessonAttendeesComponent } from './components/lesson/lesson-attendees/lesson-attendees.component';
 import { LessonActionsComponent } from './components/lesson/lesson-actions/lesson-actions.component';
+import { AddMailDialog } from './components/mentor/mentor-mail/mentor-mail-add.component';
+import { DeleteMailDialog } from './components/mentor/mentor-mail/mentor-mail-delete.component';
 
 
 @NgModule({
@@ -113,7 +115,9 @@ import { LessonActionsComponent } from './components/lesson/lesson-actions/lesso
     LessonDetailsComponent,
     LessonMaterialsComponent,
     LessonAttendeesComponent,
-    LessonActionsComponent
+    LessonActionsComponent,
+    AddMailDialog,
+    DeleteMailDialog
 
   ],
   imports: [
@@ -158,7 +162,9 @@ import { LessonActionsComponent } from './components/lesson/lesson-actions/lesso
     DeleteOpinionsDialog,
     AddFaqDialog,
     UpdateFaqDialog,
-    DeleteFaqDialog
+    DeleteFaqDialog,
+    AddMailDialog,
+    DeleteMailDialog
   ],
   exports: [
     MatGridTile,

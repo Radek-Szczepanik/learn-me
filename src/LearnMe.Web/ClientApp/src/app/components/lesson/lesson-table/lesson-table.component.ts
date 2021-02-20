@@ -7,7 +7,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CrudService } from '../../../services/crud.service'
 import { Appointment, LessonAppointmentTableEntry, Tile } from '../../../services/calendar/calendar-service-ver-2';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import { HomeworkDto } from '../../../Models/Lesson/lesson';
+import { HomeworkDto } from '../../../models/Lesson/lesson';
 import { HttpService } from '../../../services/http.service';
 
 @Component({
