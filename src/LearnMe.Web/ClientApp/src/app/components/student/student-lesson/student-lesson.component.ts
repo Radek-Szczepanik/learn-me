@@ -86,7 +86,10 @@ export class StudentLessonComponent implements AfterViewInit {
             newItem.attendeesNameAndSurnameList.push(' ' + person.firstName + ' ' + person.lastName)
           })
 
-          mentorLessonAppointments.push(newItem);
+          if(newItem.isFreeSlot != true) {
+            mentorLessonAppointments.push(newItem);
+          }   
+          
         });
       
         this.dataSource = new MatTableDataSource(mentorLessonAppointments);
