@@ -1,0 +1,68 @@
+<div class="alert span4 alert-success" role="alert" *ngIf="success">
+    Wiadomość wysłana!
+</div>
+
+
+<h2 mat-dialog-title>Utwórz wiadomość</h2>
+<mat-dialog-content class="mat-typography">
+    <form class="example-form" [formGroup]="mailForm" (ngSubmit)="onSubmit()">
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Od:</mat-label>
+                        <input type="email" matInput formControlName="senderFirstName">
+                        <input type="email" matInput formControlName="senderLastName">
+                        <input type="email" matInput formControlName="senderEmail">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Do:</mat-label>
+                        <mat-select formControlName="recipientEmail">
+                            <mat-option *ngFor="let item of mailList" [value]="item.email" >
+                                {{ item.firstName }} {{item.lastName}} / {{ item.email }}
+                            </mat-option>
+                          </mat-select>
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Tytuł</mat-label>
+                        <input type="email" matInput formControlName="title">
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+        <table class="example-full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Treść</mat-label>
+                        <textarea matInput formControlName="content"></textarea>
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+
+        <mat-dialog-content>
+            <button mat-button mat-dialog-close>Powrót</button>
+            <button type="submit" mat-button>Wyślij</button>
+            <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+            <button type="button" mat-raised-button color="accent" (click)="file.click()">Dodaj załącznik</button>
+            <span class="upload" *ngIf="progress > 0">
+                {{progress}}%
+            </span>
+            <span class="upload" *ngIf="message">
+                {{message}}
+            </span>
+        </mat-dialog-content>
+    </form>
+</mat-dialog-content>
+

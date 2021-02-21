@@ -65,13 +65,7 @@ export class MentorMailComponent implements OnInit {
     });
   }
 
-  // loadMessages(email: string, ) {
-  //   this.messageService.getMessages(email, this._baseUrl).subscribe((messages: Messages[]) => {
-  //     this.messages = messages;
-  //   }, error => {
-  //     console.log(error);
-  //   });
-  // }
+ 
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -106,7 +100,7 @@ export class MentorMailComponent implements OnInit {
   findImgPatch() {
     this.mailList.forEach(element => {
       this.messagesList.forEach(element2 => {
-        if (element2.senderEmail == element.email) {
+        if (element2.recipientEmail == element.email) {
           element2.imgPath = element.imgPath
         }
       });

@@ -13,11 +13,12 @@ namespace LearnMe.Web.Controllers.Account
         [HttpGet]
         public string[] GetIdentity()
         {   
-            var identityString = new string[4];
+            var identityString = new string[5];
             identityString[0] = User.FindFirst(claim => claim.Type == System.Security.Claims.ClaimTypes.Role)?.Value;
             identityString[1] = User.FindFirst(claim => claim.Type == System.Security.Claims.ClaimTypes.Name)?.Value;
             identityString[2] = User.FindFirst(claim => claim.Type == System.Security.Claims.ClaimTypes.Surname)?.Value;
             identityString[3] = User.FindFirst(claim => claim.Type == System.Security.Claims.ClaimTypes.GivenName)?.Value;
+            identityString[4] = User.FindFirst(claim => claim.Type == System.Security.Claims.ClaimTypes.HomePhone)?.Value;
 
             return identityString;
         }

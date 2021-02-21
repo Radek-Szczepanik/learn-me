@@ -1,1 +1,79 @@
 <img class="headers" src="/Header/PK-poczta.png"> 
+
+<mat-form-field>
+  <mat-label>
+    <mat-icon>search</mat-icon>
+  </mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
+
+<div style="margin-left: 1%; position: relative">
+  <button mat-raised-button color="accent" style="margin-right: 30px" type="submit"
+    (click)="getBox('Inbox')">Odebrane</button>
+  <button mat-raised-button color="accent" style="margin-right: 30px" type="submit"
+    (click)="getBox('Outbox')">Wysłane</button>
+  </div>
+
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort class="mat-elevation-z8">
+
+  <ng-container matColumnDef="imgPath">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Foto </th>
+    <td mat-cell *matCellDef="let row"> <img src="/Images/{{row.imgPath}}" class="rounded-circle"
+        style="width:60px; height:60px; margin: 5px;"></td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Data </th>
+    <td mat-cell *matCellDef="let row"> {{row.dateSent | date :'short'}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Tytuł </th>
+    <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Imię i nazwisko </th>
+    <td mat-cell *matCellDef="let row"> {{row.senderFirstName}} {{row.senderLastName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </th>
+    <td mat-cell *matCellDef="let row"> {{row.senderEmail}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>
+      <button mat-icon-button (click)="addMail()">
+        <mat-icon aria-label="Example icon-button with a heart icon" color="accent">add</mat-icon>
+      </button>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <button mat-icon-button color="accent" (click)="addMail(row)">
+        <mat-icon aria-label="Edit">edit</mat-icon>
+      </button>
+      <button mat-icon-button color="accent" (click)="deleteMail(row)">
+        <mat-icon aria-label="Delete">delete</mat-icon>
+      </button>
+      <!-- <button mat-icon-button color="accent">
+        <mat-icon aria-label="money">attach_money</mat-icon>
+      </button> -->
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+      <div class="lesson-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <h3>{{element.content}}</h3>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+    [class.example-expanded-row]="expandedElement === element"
+    (click)="expandedElement = expandedElement === element ? null : element">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
