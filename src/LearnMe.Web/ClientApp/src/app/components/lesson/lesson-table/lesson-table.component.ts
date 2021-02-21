@@ -133,7 +133,15 @@ export class LessonTableComponent implements AfterViewInit {
             }
           });
 
-          mentorLessonAppointments.push(newItem);
+          if(this.loggedUser[0] == 'Student'){
+            if(newItem.isFreeSlot != true) {
+              mentorLessonAppointments.push(newItem);
+            } else {
+
+            }
+          } else {
+            mentorLessonAppointments.push(newItem);
+          }
         });
       
         this.dataSource = new MatTableDataSource(mentorLessonAppointments);
