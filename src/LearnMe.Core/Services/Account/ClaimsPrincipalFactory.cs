@@ -24,6 +24,8 @@ namespace LearnMe.Core.Services.Account
             var identity = await base.GenerateClaimsAsync(user);
             identity.AddClaim(new Claim(ClaimTypes.Surname, user.FirstName ?? ""));
             identity.AddClaim(new Claim(ClaimTypes.GivenName, user.LastName ?? ""));
+            identity.AddClaim(new Claim(ClaimTypes.HomePhone, user.ImgPath ?? ""));
+
 
             return identity;
         }

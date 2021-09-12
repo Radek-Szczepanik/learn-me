@@ -5,6 +5,7 @@ using LearnMe.Infrastructure.Models.Domains.Users;
 using LearnMe.Infrastructure.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,28 +22,25 @@ namespace LearnMe.Infrastructure.Repository
             _userManager = userManager;
         }
 
-        public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
+        public async Task<IEnumerable<Message>> GetMessagesForUser(MessageParams messageParams)
         {
-            var messages = _applicationDbContext.Messages.Include(u => u.Sender)
+            var messages = await _applicationDbContext.Messages.Include(u => u.Sender)
                                                          
-                                                         .Include(u => u.Recipient).AsQueryable();
-
+                                                         .Include(u => u.Recipient).AsQueryable().ToListAsync();
+            
             switch (messageParams.MessageContainer)
             {
                 case "Inbox":
-                    messages = messages.Where(u => u.RecipientId == messageParams.Email && u.RecipientDeleted == false);
-                    break;
+                    var inboxMessages = messages.Where(u => u.RecipientId == messageParams.id && u.RecipientDeleted == false);
+                    return inboxMessages;
                 case "Outbox":
-                    messages = messages.Where(u => u.SenderId == messageParams.Email && u.SenderDeleted == false);
-                    break;
+                    var outboxMessages = messages.Where(u => u.SenderId == messageParams.id && u.SenderDeleted == false);
+                    return outboxMessages;
                 default:
-                    messages = messages.Where(u => u.SenderId == messageParams.Email && u.IsRead == false && u.RecipientDeleted == false);
-                    break;
-            }
-
-            messages = messages.OrderByDescending(d => d.DateSent);
-
-            return await PagedList<Message>.CreateListAsync(messages, messageParams.PageNumber, messageParams.PageSize);
+                    var defaultMessages = messages.Where(u => u.SenderId == messageParams.id && u.IsRead == false && u.RecipientDeleted == false);
+                    return defaultMessages ;
+            }           
         }
     }
+       
 }
