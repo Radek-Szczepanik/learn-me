@@ -30,7 +30,6 @@ exports.appRouting = [
     { path: 'registration', component: registration_component_1.RegistrationComponent },
     { path: 'login', component: login_component_1.LoginComponent },
     { path: '**', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'calendar-view', component: calendar_view_component_1.CalendarViewComponent },
     { path: 'news', component: news_component_1.NewsComponent },
     { path: 'translation', component: translations_component_1.TranslationsComponent },
     { path: 'exercise', component: exercise_component_1.ExerciseComponent },

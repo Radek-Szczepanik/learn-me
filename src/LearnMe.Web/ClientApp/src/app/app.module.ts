@@ -11,8 +11,6 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { appRouting } from './routing';
 import { CalendarService } from './services/calendar/calendar-service';
-import { DxSchedulerModule } from 'devextreme-angular';
-import { CalendarViewComponent } from './components/calendar/calendar-view/calendar-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
@@ -72,13 +70,12 @@ import { AddMailDialog } from './components/mentor/mentor-mail/mentor-mail-add.c
 import { DeleteMailDialog } from './components/mentor/mentor-mail/mentor-mail-delete.component';
 import { AddStudentMailDialog } from './components/student/student-mail/mentor-mail-add.component';
 import { DeleteStudentMailDialog } from './components/student/student-mail/mentor-mail-delete.component'
-
+import {MatMenuModule} from '@angular/material/menu'; 
 
 @NgModule({
     declarations: [
         AppComponent,
         HomeComponent,
-        CalendarViewComponent,
         RegistrationComponent,
         LessonTableComponent,
         LoginComponent,
@@ -128,7 +125,6 @@ import { DeleteStudentMailDialog } from './components/student/student-mail/mento
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        DxSchedulerModule,
         RouterModule.forRoot(appRouting),
         BrowserAnimationsModule,
         MatToolbarModule,
@@ -146,6 +142,7 @@ import { DeleteStudentMailDialog } from './components/student/student-mail/mento
         MatTooltipModule,
         MatGridListModule,
         MatSelectModule,
+        MatMenuModule,
         NgbModule
     ],
     providers: [

@@ -2,7 +2,6 @@ import { Routes } from "@angular/router";
 import { HomeComponent } from "./components/home/home.component";
 import { RegistrationComponent } from "./components/account/registration/registration.component";
 import { LoginComponent } from "./components/account/login/login.component";
-import { CalendarViewComponent } from './components/calendar/calendar-view/calendar-view.component';
 import { FaqComponent } from './components/main/faq/faq.component';
 import { NewsComponent } from './components/main/news/news.component';
 import { TranslationsComponent } from './components/main/translations/translations.component';
@@ -30,7 +29,6 @@ export const appRouting: Routes = [
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'calendar-view', component: CalendarViewComponent },
   { path: 'news', component: NewsComponent},
   { path: 'translation', component: TranslationsComponent },
   { path: 'exercise', component: ExerciseComponent },
