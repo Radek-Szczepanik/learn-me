@@ -1,5 +1,7 @@
 export interface Slider
 {
- images: string,
- links: string,
+    author: string
+    rating: string
+    text: string
+    date: string
 }

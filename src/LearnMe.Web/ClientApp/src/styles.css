@@ -26,7 +26,7 @@
 }
 
 .mat-body, .mat-body-1, .mat-typography {
-  background: linear-gradient(#080505 , #ff9bad);
+background: linear-gradient(#d5d36f , #ff9bad);
 background-attachment: fixed;
 }
 
@@ -326,11 +326,11 @@ background-attachment: fixed;
   
   html, body { height: auto; }
 
-  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+  body { margin: 0; font-family: Roboto, "Poppins",sans-serif;;
   }
   
   html, body { height: 100%; }
-  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+  body { margin: 0; font-family: Roboto, "Poppins",sans-serif;; }
   
   html, body { height: 100%; }
   

@@ -2,80 +2,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   </head>
-<div class=front-background>
-  <mat-grid-list cols="8" gutterSize="0px" rowHeight="1:4">
-   
-    <mat-grid-tile [colspan]="8" [rowspan]="1" >
+<div class=front>
+  <mat-grid-list cols="1" gutterSize="0px" rowHeight="2:1">
+    <mat-grid-tile>
       <div class="logo">
         <img src="logo.png" alt="">
       </div>
       <div class="slogan">
         <img src="front/slogan.png" alt="">
-      </div>
+      </div> 
       <div class="bird">
         <img src="front/birds3.webp" alt="">
-       </div>     
+       </div>
     </mat-grid-tile>
+    <mat-grid-tile>
+      <div class="bird">
+        <img src="front/birds2.webp" alt="">
+      </div>
+      <div class="about">
+        <div class="about-header">Kilka słów od Pani Kowalskiej</div>
+        Nazywam się Martyna Kowalska i uczę angielskiego od ponad 15 lat. Lubię długie spacery, kolorowe sukienki i 
+        czarną kawę, ale nic nie sprawia mi takiej frajdy, jak praca z uczniem. Mam to niebywałe szczęście, że moja praca 
+        i pasja spotykają się w jednym miejscu – zwykle dokładnie tu, przy biurku, gdzie prowadzę swoje zajęcia oraz 
+        spędzam dłuuugie wieczory na opracowywaniu ćwiczeń, tworzeniu gier, sprawdzaniu zadań domowych i obmyślaniu, co zrobić,
+         aby było jeszcze ciekawiej i efektywniej. :) Moje doświadczenie zawodowe to przede wszystkim korepetycje dla dzieci, młodzieży
+          i dorosłych w zakresie przygotowania do matury, egzaminu ósmoklasisty oraz nauki własnej, ale nie tylko. 
+          Przez wiele lat pracowałam jako lektorka języka angielskiego w szkołach językowych, gdzie byłam odpowiedzialna za 
+          przygotowywanie i realizację kursów z języka angielskiego na różnych poziomach zaawansowania, dla różnych grup wiekowych.
+      </div>
 
-    <mat-grid-tile [colspan]="5" [rowspan]="1">
+    </mat-grid-tile>
+    <mat-grid-tile>
       <div class="bird">
         <img src="front/birds4.webp" alt="">
-       </div>
-      <div class="slider">
-        <ngb-carousel>
-          <ng-template ngbSlide *ngFor="let question of sliderList">
-            <div class="wrapper">
-              <img [src]="question.images" style="filter: drop-shadow(5px 5px 5px #222)" alt="Random first slide" [routerLink]="question.links" width="500px">
-            </div>
-            <div class="carousel-caption">
-            </div>
-          </ng-template>
-        </ngb-carousel>
       </div>
-    </mat-grid-tile>
+      <div class="reviews">
+        <div class="reviews-header">Oto wybrane relacje moich uczniów </div>
+      </div>
+        <div class="slider">
+          <ngb-carousel>
+            <ng-template ngbSlide *ngFor="let opinion of sliderList">
+              <div class="author">{{opinion.author}}, {{opinion.date}}</div>
 
-    <mat-grid-tile [colspan]="3" [rowspan]="1">
-      <div class="bird">
-        <img src="front/birds5.webp" alt="">
-       </div>
-    </mat-grid-tile>    
-  </mat-grid-list>
+              <div class="kk">{{opinion.text}}</div>
+
+              <div class="carousel-caption">
+              </div>
+            </ng-template>
+          </ngb-carousel>
+        </div>
+      <table class="footer">
 
 
-  <mat-grid-list [cols]="breakpoint" gutterSize="0px" rowHeight="158px">
-      <mat-grid-tile colspan="6" rowspan="6">
-      <div class="bird">
-        <img src="front/birds.webp" alt="">
-       </div>
-    </mat-grid-tile>
-
-    <mat-grid-tile colspan="6" rowspan="1">
-     
-    </mat-grid-tile>
-
-    <mat-grid-tile colspan="6" rowspan="2">
-      
-
-      <table class="email table table-borderless" style="width: 100%" >
-        <thead>
-          <tr>
-            <th><div class="logo-footer">
-              <img src="front/logo_footer.png" alt="">
-            </div></th>
-          </tr>
-          <tr>
-          <td>Nauczmy się angielskiego wspólnie ~ hello@panikowalska.com.pl</td>
-          </tr>
-          <hr style="margin-right: 5%;">
-
-        </thead>
+        <tr>
+          <td>COPYRIGHT ©PANI KOWALSKA 2022 | WSZELKIE PRAWA ZASTRZEŻONE | TWÓRCY STRONY</td>
+        </tr>
       </table>
-
-
-      
     </mat-grid-tile>
+  
+  
+  
+  
 
-    <mat-grid-tile [colspan]="6" [rowspan]="2">
+
+
+
+    <!-- <mat-grid-tile [colspan]="6" [rowspan]="2">
      
       <table class="info table table-borderless" style="width: 100%" >
         <thead>
@@ -110,23 +102,7 @@
       </table>
     </mat-grid-tile>
 
-    <mat-grid-tile [colspan]="6" [rowspan]="1">
-      <hr style="margin-right: 5%;">
-      <table class="footer" style="width:100%">
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-        </tr>
-        <tr>
-          <td>© 2020 Pani Kowalska. Wszelkie Prawa Zastrzeżone.</td>
-          <td>Autorzy</td>
-          <td><img class="social" src="front/social.png"></td>
-        </tr>
-       
-      </table>
-
-    </mat-grid-tile>
+   -->
     
   </mat-grid-list>
 <div>

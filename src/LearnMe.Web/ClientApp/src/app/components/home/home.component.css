@@ -2,8 +2,19 @@
   background: lightblue;
 } */
 
-.front-background{
-  background: linear-gradient(#080505 , #ff9bad);
+.front{
+  font-family: 'Poppins',sans-serif;
+}
+
+
+.mat-grid-tile-modified{
+  position: absolute;
+  display: block;
+}
+
+.mat-grid-tile-content{
+  position: absolute;
+  display: block;
 }
 
 
@@ -46,10 +57,24 @@ img {
     float: left;
     z-index: 5;
     position: absolute;
-    margin-top: 15%;
-    
+    margin-top: 2%;
+    margin-left: 47rem;
   }
   
+
+  .author{
+    font-size: x-large;
+    margin-right: 50%;
+    color: white;
+    line-height: 2.3rem;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-bottom: 4rem;
+    margin-left: 8rem;
+    font-weight: bold;
+    width: 100%;
+  }
+
   .bird {
     width: 100%;
     float: right;
@@ -68,23 +93,94 @@ img {
   padding: 15px;
   z-index: 2;
   position: absolute;
-  margin-top: 8em;
-  margin-left: 4em;
+  margin-top: -20em;
+  margin-left: -50em;
   }
 
   .logo-footer{
     float: left;
     /* margin-left: 30%; */
     margin-bottom: 5%;
+    position: absolute;
+    margin-top: 11%;
+    margin-left: -21%;
   }
+
+  .footer { float: right;
+    float: right;
+    position: absolute;
+    margin-top: 44%;
+    margin-left: 56%;
+    font-size: larger;
+    font-weight: normal;
+    color: white;
+  }
+
+  .about{
+    position: absolute;
+    width: 40%;
+    font-size: x-large;
+    margin-right: 50%;
+    margin-bottom: 7%;
+    color: white;
+    line-height: 2.3rem;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+
+  .about-header{
+    font-size: xx-large;
+    font-weight: bold;
+    margin-bottom: 4rem;
+  }
+
+  .reviews{
+    position: absolute;
+    color: white;
+  }
+
+  .carousel-control-prev {
+    left: 24px ;
+  }
+
+  .carousel-control-next {
+    right: 0;
+  }
+
+  .carousel-control-next {
+    right: -98 !important ;
+  }
+
+  .kk{
+  
+    width: 50rem;
+    font-size: x-large;
+    margin-left: 9%;
+    color: white;
+    line-height: 2.3rem;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-right: 5%;
+    margin-bottom: 5rem;
+    margin-left: 8rem;
+  }
+
+  .reviews-header{
+    font-size: xx-large;
+    font-weight: bold;
+    margin-bottom: 45rem;
+    margin-left: 41rem;
+    }
+ 
+
 
   .slogan{
     color: white;
     z-index: 2;
     position: absolute;
-    width: 62%;
-    margin-top: 17%;
-    margin-left: 9%;
+    width: 51%;
+    margin-top: 11%;
+    margin-left: -21%;
   }
 
   @media only screen and (max-width: 1200px) {
@@ -121,8 +217,8 @@ img {
         z-index: 2;
         float: left;
         position: absolute;
-        width: 67%;
-        margin: 26%;
+        margin-top: 25em;
+        margin-left: -15em;
       }
 
       .slider {
