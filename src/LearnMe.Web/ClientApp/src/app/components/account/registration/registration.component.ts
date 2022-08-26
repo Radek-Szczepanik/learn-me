@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Register } from '../../../models/Account/register';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class RegistrationComponent implements OnInit {
 
   isExpanded = false;
-  userForm: FormGroup;
+  userForm: UntypedFormGroup;
   userData: Register;
   error: any;
   private _httpClient: HttpClient;
@@ -77,12 +77,12 @@ export class RegistrationComponent implements OnInit {
   }
 
   private initializeForm() {
-    this.userForm = new FormGroup({
-      'firstName': new FormControl(null),
-      'lastName': new FormControl(null),
-      'email': new FormControl(null),
-      'password': new FormControl(null),
-      'confirmPassword': new FormControl(null),
+    this.userForm = new UntypedFormGroup({
+      'firstName': new UntypedFormControl(null),
+      'lastName': new UntypedFormControl(null),
+      'email': new UntypedFormControl(null),
+      'password': new UntypedFormControl(null),
+      'confirmPassword': new UntypedFormControl(null),
     });
   }
 

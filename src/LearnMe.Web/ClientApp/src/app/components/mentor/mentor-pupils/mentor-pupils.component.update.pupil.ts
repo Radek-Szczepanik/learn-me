@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Students } from '../../../models/Users/students';
@@ -15,7 +15,7 @@ import { Students } from '../../../models/Users/students';
 
 export class UpdatePupilDialog implements OnInit {
 
-  pupilForm: FormGroup;
+  pupilForm: UntypedFormGroup;
   pupilData: Students;
   succes: any;
   description: any;
@@ -57,18 +57,18 @@ export class UpdatePupilDialog implements OnInit {
 
   private initializeForm() {
     this.pupil = this.description;
-    this.pupilForm = new FormGroup({
-      'firstName': new FormControl(this.pupil.firstName),
-      'lastName': new FormControl(this.pupil.lastName),
-      'email': new FormControl(this.pupil.email),
-      'streetName': new FormControl(this.pupil.streetName),
-      'houseNumber': new FormControl(this.pupil.houseNumber),
-      'apartmentNumber': new FormControl(this.pupil.apartmentNumber),
-      'street': new FormControl(this.pupil.street),
-      'city': new FormControl(this.pupil.city),
-      'country': new FormControl(this.pupil.country),
-      'postcode': new FormControl(this.pupil.postcode),
-      'imgPath': new FormControl(this.pupil.imgPath)
+    this.pupilForm = new UntypedFormGroup({
+      'firstName': new UntypedFormControl(this.pupil.firstName),
+      'lastName': new UntypedFormControl(this.pupil.lastName),
+      'email': new UntypedFormControl(this.pupil.email),
+      'streetName': new UntypedFormControl(this.pupil.streetName),
+      'houseNumber': new UntypedFormControl(this.pupil.houseNumber),
+      'apartmentNumber': new UntypedFormControl(this.pupil.apartmentNumber),
+      'street': new UntypedFormControl(this.pupil.street),
+      'city': new UntypedFormControl(this.pupil.city),
+      'country': new UntypedFormControl(this.pupil.country),
+      'postcode': new UntypedFormControl(this.pupil.postcode),
+      'imgPath': new UntypedFormControl(this.pupil.imgPath)
 
     });
   }

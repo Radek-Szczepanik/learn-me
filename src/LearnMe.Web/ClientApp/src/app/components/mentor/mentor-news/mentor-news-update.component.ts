@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import { News } from '../../../models/Home/news';
@@ -14,7 +14,7 @@ import { News } from '../../../models/Home/news';
 
 export class UpdateNewsDialog implements OnInit {
 
-  newsForm: FormGroup;
+  newsForm: UntypedFormGroup;
   newsData: News;
   succes: any;
   description: any;
@@ -68,12 +68,12 @@ export class UpdateNewsDialog implements OnInit {
 
   private initializeForm() {
     this.news = this.description;
-    this.newsForm = new FormGroup({
-        'id': new FormControl(this.news.id),
-        'title': new FormControl(this.news.title),
-        'text': new FormControl(this.news.text),
-        'date': new FormControl(this.news.date),
-        'imgPath': new FormControl('anonymusUser.png')
+    this.newsForm = new UntypedFormGroup({
+        'id': new UntypedFormControl(this.news.id),
+        'title': new UntypedFormControl(this.news.title),
+        'text': new UntypedFormControl(this.news.text),
+        'date': new UntypedFormControl(this.news.date),
+        'imgPath': new UntypedFormControl('anonymusUser.png')
     });
   }
 

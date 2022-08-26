@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Output, EventEmitter  } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { News } from "../../../models/Home/news";
 import { Opinion } from 'src/app/models/Home/opinon';
@@ -14,7 +14,7 @@ import { Opinion } from 'src/app/models/Home/opinon';
 
 export class AddOpinionsDialog implements OnInit {
 
-  opinionForm: FormGroup;
+  opinionForm: UntypedFormGroup;
   opinionData: Opinion;
   succes: any;
   private fileStream: string;
@@ -50,12 +50,12 @@ export class AddOpinionsDialog implements OnInit {
   }
 
  private initializeForm() {
-    this.opinionForm = new FormGroup({
-      'author': new FormControl(null),
-      'title': new FormControl('temp'),
-      'text': new FormControl(null),
-      'date': new FormControl(null),
-      'rating': new FormControl(null),
+    this.opinionForm = new UntypedFormGroup({
+      'author': new UntypedFormControl(null),
+      'title': new UntypedFormControl('temp'),
+      'text': new UntypedFormControl(null),
+      'date': new UntypedFormControl(null),
+      'rating': new UntypedFormControl(null),
     });
   }
 

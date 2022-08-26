@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Output, EventEmitter  } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { News } from "../../../models/Home/news";
 import { Opinion } from 'src/app/models/Home/opinon';
@@ -15,7 +15,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
 export class UpdateOpinionsDialog implements OnInit {
 
-    opinionForm: FormGroup;
+    opinionForm: UntypedFormGroup;
     opinionData: Opinion;
     succes: any;
     description: any;
@@ -50,13 +50,13 @@ export class UpdateOpinionsDialog implements OnInit {
   
     private initializeForm() {
       this.opinion = this.description;
-      this.opinionForm = new FormGroup({
-          'id': new FormControl(this.opinion.id),
-          'author': new FormControl(this.opinion.author),
-          'title': new FormControl('temp'),
-          'text': new FormControl(this.opinion.text),
-          'date': new FormControl(this.opinion.date),
-          'rating': new FormControl(this.opinion.rating),
+      this.opinionForm = new UntypedFormGroup({
+          'id': new UntypedFormControl(this.opinion.id),
+          'author': new UntypedFormControl(this.opinion.author),
+          'title': new UntypedFormControl('temp'),
+          'text': new UntypedFormControl(this.opinion.text),
+          'date': new UntypedFormControl(this.opinion.date),
+          'rating': new UntypedFormControl(this.opinion.rating),
       });
     }
   

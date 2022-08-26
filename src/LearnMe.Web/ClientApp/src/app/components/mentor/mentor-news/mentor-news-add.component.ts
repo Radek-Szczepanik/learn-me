@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Output, EventEmitter  } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { News } from "../../../models/Home/news";
 
@@ -13,7 +13,7 @@ import { News } from "../../../models/Home/news";
 
 export class AddNewsDialog implements OnInit {
 
-  newsForm: FormGroup;
+  newsForm: UntypedFormGroup;
   newsData: News;
   succes: any;
   private fileStream: string;
@@ -63,11 +63,11 @@ export class AddNewsDialog implements OnInit {
   }
 
   private initializeForm() {
-    this.newsForm = new FormGroup({
-      'title': new FormControl(null),
-      'text': new FormControl(null),
-      'date': new FormControl(null),
-      'imgPath': new FormControl('anonymusUser.png')
+    this.newsForm = new UntypedFormGroup({
+      'title': new UntypedFormControl(null),
+      'text': new UntypedFormControl(null),
+      'date': new UntypedFormControl(null),
+      'imgPath': new UntypedFormControl('anonymusUser.png')
     });
   }
 

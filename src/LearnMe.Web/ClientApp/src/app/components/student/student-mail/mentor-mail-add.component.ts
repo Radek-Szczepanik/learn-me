@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { Messages } from './../../../models/Messages/messages';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -16,7 +16,7 @@ import { Students } from '../../../models/Users/students';
 
 export class AddStudentMailDialog implements OnInit {
 
-  mailForm: FormGroup;
+  mailForm: UntypedFormGroup;
   mailData: Messages;
   success: any;
   private fileStream: string;
@@ -101,15 +101,15 @@ export class AddStudentMailDialog implements OnInit {
   }
 
   private initializeForm() {
-    this.mailForm = new FormGroup({
-      'recipientFirstName': new FormControl(null),
-      'recipientLastName': new FormControl(null),
-      'recipientEmail': new FormControl(null),
-      'title': new FormControl(null),
-      'content': new FormControl(null),
-      'senderFirstName': new FormControl(this.description[2]),
-      'senderLastName': new FormControl(this.description[3]),
-      'senderEmail': new FormControl(this.description[1]),
+    this.mailForm = new UntypedFormGroup({
+      'recipientFirstName': new UntypedFormControl(null),
+      'recipientLastName': new UntypedFormControl(null),
+      'recipientEmail': new UntypedFormControl(null),
+      'title': new UntypedFormControl(null),
+      'content': new UntypedFormControl(null),
+      'senderFirstName': new UntypedFormControl(this.description[2]),
+      'senderLastName': new UntypedFormControl(this.description[3]),
+      'senderEmail': new UntypedFormControl(this.description[1]),
     });
   }
 

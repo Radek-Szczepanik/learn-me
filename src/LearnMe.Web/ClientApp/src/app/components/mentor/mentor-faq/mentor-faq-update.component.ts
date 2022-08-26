@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Questions } from "../../../models/Home/questions";
@@ -13,7 +13,7 @@ import { Questions } from "../../../models/Home/questions";
 
 export class UpdateFaqDialog implements OnInit {
 
-  public faqForm: FormGroup;
+  public faqForm: UntypedFormGroup;
   public faqData: Questions;
   public succes: any;
   private description: any;
@@ -50,11 +50,11 @@ export class UpdateFaqDialog implements OnInit {
 
   private initializeForm() {
     this.faq = this.description;
-    this.faqForm = new FormGroup({
-        'questionText': new FormControl(this.faq.questionText, { validators: [Validators.required] }),
-        'answerText': new FormControl(this.faq.answerText, { validators: [Validators.required] }),
-        'rating': new FormControl(this.faq.rating),
-        'id': new FormControl(this.faq.id)
+    this.faqForm = new UntypedFormGroup({
+        'questionText': new UntypedFormControl(this.faq.questionText, { validators: [Validators.required] }),
+        'answerText': new UntypedFormControl(this.faq.answerText, { validators: [Validators.required] }),
+        'rating': new UntypedFormControl(this.faq.rating),
+        'id': new UntypedFormControl(this.faq.id)
     });
   }
 

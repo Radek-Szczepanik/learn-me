@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, Output, EventEmitter  } from '@angular/core';
 import { Register } from '../../../models/Account/register';
 import { HttpEventType, HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 
 
@@ -13,7 +13,7 @@ import { HttpService } from '../../../services/http.service';
 
 export class AddPupilDialog implements OnInit {
 
-  pupilForm: FormGroup;
+  pupilForm: UntypedFormGroup;
   pupilData: Register;
   succes: any;
   fileStream: string;
@@ -75,20 +75,20 @@ export class AddPupilDialog implements OnInit {
   }
 
   private initializeForm() {
-    this.pupilForm = new FormGroup({
-      'firstName': new FormControl(null),
-      'lastName': new FormControl(null),
-      'email': new FormControl(null, Validators.required),
-      'password': new FormControl('Temp1!'),
-      'confirmPassword': new FormControl('Temp1!'),
-      'streetName': new FormControl(null),
-      'houseNumber': new FormControl(null),
-      'apartmentNumber': new FormControl(null),
-      'street': new FormControl(null),
-      'city': new FormControl(null),
-      'country': new FormControl(null),
-      'postcode': new FormControl(null),
-      'imgPath': new FormControl('anonymusUser.png')
+    this.pupilForm = new UntypedFormGroup({
+      'firstName': new UntypedFormControl(null),
+      'lastName': new UntypedFormControl(null),
+      'email': new UntypedFormControl(null, Validators.required),
+      'password': new UntypedFormControl('Temp1!'),
+      'confirmPassword': new UntypedFormControl('Temp1!'),
+      'streetName': new UntypedFormControl(null),
+      'houseNumber': new UntypedFormControl(null),
+      'apartmentNumber': new UntypedFormControl(null),
+      'street': new UntypedFormControl(null),
+      'city': new UntypedFormControl(null),
+      'country': new UntypedFormControl(null),
+      'postcode': new UntypedFormControl(null),
+      'imgPath': new UntypedFormControl('anonymusUser.png')
      
     });
   }

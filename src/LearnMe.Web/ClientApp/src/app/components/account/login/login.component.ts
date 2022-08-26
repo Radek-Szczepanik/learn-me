@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Login } from '../../../models/Account/login';
 import { HttpClient } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   isExpanded = false;
-  loginForm: FormGroup;
+  loginForm: UntypedFormGroup;
   loginUser: Login;
   private _httpClient: HttpClient;
   private _base: string;
@@ -79,9 +79,9 @@ export class LoginComponent {
     this.initializeForm();
   }
   private initializeForm() {
-    this.loginForm = new FormGroup({
-      'email': new FormControl(null),
-      'password': new FormControl(null),
+    this.loginForm = new UntypedFormGroup({
+      'email': new UntypedFormControl(null),
+      'password': new UntypedFormControl(null),
     });
   }
 

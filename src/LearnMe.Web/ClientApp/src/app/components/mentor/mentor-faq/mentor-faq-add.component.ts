@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpEventType, HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { Questions } from "../../../models/Home/questions";
 
@@ -13,7 +13,7 @@ import { Questions } from "../../../models/Home/questions";
 
 export class AddFaqDialog implements OnInit {
 
-  questionsForm: FormGroup;
+  questionsForm: UntypedFormGroup;
   questionsData: Questions;
   succes: any;
   private fileStream: string;
@@ -32,7 +32,7 @@ export class AddFaqDialog implements OnInit {
       (this.questionsForm.controls[fieldName].dirty || this.questionsForm.controls[fieldName].touched);
   }
 
-  constructor(private https: HttpService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private fb: FormBuilder) {
+  constructor(private https: HttpService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private fb: UntypedFormBuilder) {
     this._httpClient = http;
     this._base = baseUrl
     this.questionsData = {
@@ -50,10 +50,10 @@ export class AddFaqDialog implements OnInit {
   }
 
   private initializeForm() {
-    this.questionsForm = new FormGroup({
-      'questionText': new FormControl(null, { validators: [Validators.required] }),
-      'answerText': new FormControl(null, { validators: [Validators.required] }),
-      'rating': new FormControl(null),
+    this.questionsForm = new UntypedFormGroup({
+      'questionText': new UntypedFormControl(null, { validators: [Validators.required] }),
+      'answerText': new UntypedFormControl(null, { validators: [Validators.required] }),
+      'rating': new UntypedFormControl(null),
     });
   }
 
