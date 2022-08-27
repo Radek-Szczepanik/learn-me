@@ -3,62 +3,65 @@
   
   </head>
 <div class=front>
-  <mat-grid-list cols="1" gutterSize="0px" rowHeight="2:1">
-    <mat-grid-tile>
-      <div class="logo">
-        <img src="logo.png" alt="">
-      </div>
-      <div class="slogan">
-        <img src="front/slogan.png" alt="">
-      </div> 
-      <div class="bird">
-        <img src="front/birds3.webp" alt="">
-       </div>
+  <mat-grid-list cols="8" rowHeight="1:5">
+    <mat-grid-tile 
+    [colspan]="breakpoint"
+    rowspan=1.45
+    style.background='lightblue'>
+    <div class="logo">
+      <img src="logo.png" alt="">
+    </div>
+    <div class="slogan">
+      <img src="front/slogan.png" alt="">
+    </div>
+  </mat-grid-tile>
+    <mat-grid-tile 
+    colspan=8 
+    rowspan=2
+    style.background='lightblue'>
+    <div >
+      <img src="front/b.gif" alt="">
+     </div>
     </mat-grid-tile>
-    <mat-grid-tile>
-      <div class="bird">
-        <img src="front/birds2.webp" alt="">
+    <mat-grid-tile 
+    colspan=8  
+    rowspan=3
+    style.background='lightblue'>
+    <div class="about">
+      <div class="about-header">Kilka słów od Pani Kowalskiej</div>
+      Nazywam się Martyna Kowalska i uczę angielskiego od ponad 15 lat. Lubię długie spacery, kolorowe sukienki i
+      czarną kawę, ale nic nie sprawia mi takiej frajdy, jak praca z uczniem. Mam to niebywałe szczęście, że moja praca
+      i pasja spotykają się w jednym miejscu – zwykle dokładnie tu, przy biurku, gdzie prowadzę swoje zajęcia oraz
+      spędzam dłuuugie wieczory na opracowywaniu ćwiczeń, tworzeniu gier, sprawdzaniu zadań domowych i obmyślaniu, co zrobić,
+       aby było jeszcze ciekawiej i efektywniej. :) Moje doświadczenie zawodowe to przede wszystkim korepetycje dla dzieci, młodzieży
+        i dorosłych w zakresie przygotowania do matury, egzaminu ósmoklasisty oraz nauki własnej, ale nie tylko.
+        Przez wiele lat pracowałam jako lektorka języka angielskiego w szkołach językowych, gdzie byłam odpowiedzialna za
+        przygotowywanie i realizację kursów z języka angielskiego na różnych poziomach zaawansowania, dla różnych grup wiekowych.
       </div>
-      <div class="about">
-        <div class="about-header">Kilka słów od Pani Kowalskiej</div>
-        Nazywam się Martyna Kowalska i uczę angielskiego od ponad 15 lat. Lubię długie spacery, kolorowe sukienki i 
-        czarną kawę, ale nic nie sprawia mi takiej frajdy, jak praca z uczniem. Mam to niebywałe szczęście, że moja praca 
-        i pasja spotykają się w jednym miejscu – zwykle dokładnie tu, przy biurku, gdzie prowadzę swoje zajęcia oraz 
-        spędzam dłuuugie wieczory na opracowywaniu ćwiczeń, tworzeniu gier, sprawdzaniu zadań domowych i obmyślaniu, co zrobić,
-         aby było jeszcze ciekawiej i efektywniej. :) Moje doświadczenie zawodowe to przede wszystkim korepetycje dla dzieci, młodzieży
-          i dorosłych w zakresie przygotowania do matury, egzaminu ósmoklasisty oraz nauki własnej, ale nie tylko. 
-          Przez wiele lat pracowałam jako lektorka języka angielskiego w szkołach językowych, gdzie byłam odpowiedzialna za 
-          przygotowywanie i realizację kursów z języka angielskiego na różnych poziomach zaawansowania, dla różnych grup wiekowych.
-      </div>
-
     </mat-grid-tile>
-    <mat-grid-tile>
-      <div class="bird">
-        <img src="front/birds4.webp" alt="">
-      </div>
-      <div class="reviews">
-        <div class="reviews-header">Oto wybrane relacje moich uczniów </div>
-      </div>
-        <div class="slider">
-          <ngb-carousel>
-            <ng-template ngbSlide *ngFor="let opinion of sliderList">
-              <div class="author">{{opinion.author}}, {{opinion.date}}</div>
-
-              <div class="kk">{{opinion.text}}</div>
-
-              <div class="carousel-caption">
-              </div>
-            </ng-template>
-          </ngb-carousel>
-        </div>
-      <table class="footer">
-
-
-        <tr>
-          <td>COPYRIGHT ©PANI KOWALSKA 2022 | WSZELKIE PRAWA ZASTRZEŻONE | TWÓRCY STRONY</td>
-        </tr>
-      </table>
+    <mat-grid-tile 
+    colspan=8  
+    rowspan=4
+    style.background='lightblue'>
+    <div class="bird">
+      <img src="front/birds2.webp" alt="">
+    </div>
     </mat-grid-tile>
+    <mat-grid-tile 
+    colspan=4 
+    rowspan=1
+    style.background='lightblue'>
+    2
+    </mat-grid-tile>
+    <mat-grid-tile 
+    colspan=4
+    rowspan=1
+    style.background='lightblue'>
+    2
+    </mat-grid-tile>
+  </mat-grid-list>
+
+ 
   
   
   
@@ -104,6 +107,5 @@
 
    -->
     
-  </mat-grid-list>
 <div>
   

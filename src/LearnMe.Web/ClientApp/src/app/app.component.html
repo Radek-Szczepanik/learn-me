@@ -1,20 +1,43 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+<!-- <button mat-button class="butt1" panelClass="butt1" [matMenuTriggerFor]="aboveMenu">Korepetycje</button>
+<mat-menu class="butt1" panelClass="butt1"  #aboveMenu="matMenu" yPosition="above">
+  <button mat-menu-item>Item 1</button>
+  <button mat-menu-item>Item 2</button>
+</mat-menu>
 
-  <div [class.example-is-mobile]="mobileQuery.matches">
-    <mat-toolbar class="fixed-toolbar" *ngIf="notLogged">
-      <button style="margin: 0.5%" mat-icon-button (click)="sidenav.toggle()">
+<button class="butt1" mat-button routerLink="translation">Tłumaczenia</button>
+
+<button mat-button [matMenuTriggerFor]="beforeMenu">Korekta</button>
+<mat-menu #beforeMenu="matMenu" xPosition="before">
+  <button mat-menu-item>Item 1</button>
+  <button mat-menu-item>Item 2</button>
+</mat-menu>
+
+
+<button mat-button [matMenuTriggerFor]="afterMenu">FAQ</button>
+<mat-menu #afterMenu="matMenu" xPosition="after">
+  <button mat-menu-item>Item 1</button>
+  <button mat-menu-item>Item 2</button>
+</mat-menu> -->
+  <div [class.example-is-mobile]="mobileQuery.matches" >
+   
+   <mat-toolbar class="fixed-toolbar" *ngIf="notLogged">
+      <!-- <button style="margin: 0.5%" mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
-      </button>
+      </button> -->
       <button style="margin: 0.5%" (click)="sidenav.close()" mat-icon-button routerLink=".">
         <mat-icon>home</mat-icon>
       </button>
       <button style="margin: 0.5%" (click)="sidenav.close()" mat-icon-button routerLink="login">
         <mat-icon>account_box</mat-icon>
       </button>
+      
     </mat-toolbar>
-
+   
+    
+    
     <mat-toolbar class="fixed-toolbar-logged" *ngIf="mentor || student">
       <button style="margin: 1%" mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
@@ -132,6 +155,4 @@
         <router-outlet></router-outlet>
       </mat-sidenav-content>
     </mat-sidenav-container>
-  </div>
-
   </div>

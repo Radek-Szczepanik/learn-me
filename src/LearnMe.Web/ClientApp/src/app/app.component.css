@@ -7,18 +7,25 @@
   color: white;
 }
 
+.butt1{
+  color: white;
+font-size: x-large;
+font-family: 'Poppins', sans-serif;
+font-style: normal;
+}
+
+.mat-menu-panel {
+  background: transparent;
+}
+
 .fixed-toolbar-logged {
   width: 100%  !important;
   color: white;
 }
 
 @media only screen and (max-width: 1199px) {
-  .mat-list-base .mat-list-item {
-    font-family: Poppins medium;
-    color: white;
-    /* text-shadow: 1px 1px 1px black; */
-    font-size: medium;
-  }  
+
+
 }
 
 @media only screen and (min-width: 1200px) {
@@ -28,6 +35,10 @@
   /* text-shadow: 1px 1px 1px black; */
   font-size: xx-large;
   width: auto;
+  }
+
+  #small {
+   display: none;
   }
 
   .logged{
@@ -294,11 +305,7 @@
     resize: none;
   }
   
-  html, body { height: auto; }
-  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+  
   
   html, body { height: 100%; }
-  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-  
-  html, body { height: 100%; }
-  body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+  body { margin: 0; font-family: "Poppins",sans-serif; }

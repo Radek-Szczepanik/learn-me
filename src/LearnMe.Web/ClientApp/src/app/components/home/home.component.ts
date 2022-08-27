@@ -30,8 +30,6 @@ export class HomeComponent  {
 
   sliderList: Slider[] = new Array();
   slider: Slider;
-  images = ['pyt1.png', 'pyt1_1.png', 'pyt2.png', 'pyt2_1.png', 'pyt3.png', 'pyt4.png', 'pyt5.png', 'pyt6.png', 'pyt7.png', 'pyt8.png' ].map((n) => `questions/${n}`);
-  links = ['mentor/payment', 'mentor/payment', 'pyt2.png', 'pyt2_1.png', 'pyt3.png', 'pyt4.png', 'pyt5.png', 'pyt6.png', 'pyt7.png', 'pyt8.png' ]
   breakpoint: number;
   opinions = [];
   
@@ -46,7 +44,6 @@ export class HomeComponent  {
 
     ngOnInit() {
     this._http.get<Opinion[]>(this._baseUrl + 'api/Opinions').subscribe(result => {
-      console.log(result);
       this.getSlider(result) ;
       });
     }
@@ -65,9 +62,8 @@ export class HomeComponent  {
         this.slider.date = element.date;
   
         this.sliderList.push(this.slider);
-        console.log(this.sliderList);
       });
-      this.breakpoint = (window.innerWidth <= 400) ? 6 : 12
+      this.breakpoint = (window.innerWidth <= 800) ? 6 : 12
 
     }
   

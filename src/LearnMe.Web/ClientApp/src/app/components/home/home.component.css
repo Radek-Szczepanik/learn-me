@@ -187,14 +187,14 @@ img {
       /* img {
     width: 100%;
     height: auto;
-  } */
+  } 
 
-    /* .menu {
+  .menu {
         width: 100%;
         float: left;
         padding: 15px;
     
-      } */
+      }
       
       .bird {
         width: 100%;
@@ -224,30 +224,21 @@ img {
       .slider {
         width: 100%;
         float: left;
-      }
+      } */
   }
 
   @media only screen and (max-width: 600px) {
-    .mat-drawer {
-      color: white;
-      /* background: linear-gradient(to right, #FF9BAD , #ffd9df) !important; */
-      
-    }
-    .bird {
-      width: 100%;
-      float: right;
-    }
+    .bird-three{
+      height: 200%;
 
-    .menu {
-      width: 0%;
-      float: left;
-      padding: 0px;
     }
-    
-    .slider {
-      width: 100%;
-      float: left;
+  }
+
   
+  @media only screen and (min-width: 1200px) {
+    .test1{
+      display: none;
+      visibility: hidden;
     }
   }
 
