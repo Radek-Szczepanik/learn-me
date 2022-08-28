@@ -1,111 +1,110 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   </head>
-<div class=front>
-  <mat-grid-list cols="8" rowHeight="1:5">
-    <mat-grid-tile 
-    [colspan]="breakpoint"
-    rowspan=1.45
-    style.background='lightblue'>
-    <div class="logo">
-      <img src="logo.png" alt="">
-    </div>
-    <div class="slogan">
-      <img src="front/slogan.png" alt="">
-    </div>
-  </mat-grid-tile>
-    <mat-grid-tile 
-    colspan=8 
-    rowspan=2
-    style.background='lightblue'>
-    <div >
-      <img src="front/b.gif" alt="">
-     </div>
+<div class=front (window:resize)="onResize($event)">
+  <mat-grid-list cols="10" gutterSize="0px" owHeight="1:1">
+    <mat-grid-tile   
+    [colspan]=colspanVal
+    [rowspan]=rowspanLogo>
+      <div class="bird">
+        <img src="Front/bird1.webp" alt="">
+      </div>
+      <div class="logo">
+        <img src="Front/logo.webp" alt="">
+      </div>
+      <div class="slogan">
+        <img src="Front/slogan.webp" alt="">
+      </div> 
     </mat-grid-tile>
-    <mat-grid-tile 
-    colspan=8  
-    rowspan=3
-    style.background='lightblue'>
-    <div class="about">
-      <div class="about-header">Kilka słów od Pani Kowalskiej</div>
-      Nazywam się Martyna Kowalska i uczę angielskiego od ponad 15 lat. Lubię długie spacery, kolorowe sukienki i
-      czarną kawę, ale nic nie sprawia mi takiej frajdy, jak praca z uczniem. Mam to niebywałe szczęście, że moja praca
-      i pasja spotykają się w jednym miejscu – zwykle dokładnie tu, przy biurku, gdzie prowadzę swoje zajęcia oraz
-      spędzam dłuuugie wieczory na opracowywaniu ćwiczeń, tworzeniu gier, sprawdzaniu zadań domowych i obmyślaniu, co zrobić,
-       aby było jeszcze ciekawiej i efektywniej. :) Moje doświadczenie zawodowe to przede wszystkim korepetycje dla dzieci, młodzieży
-        i dorosłych w zakresie przygotowania do matury, egzaminu ósmoklasisty oraz nauki własnej, ale nie tylko.
-        Przez wiele lat pracowałam jako lektorka języka angielskiego w szkołach językowych, gdzie byłam odpowiedzialna za
-        przygotowywanie i realizację kursów z języka angielskiego na różnych poziomach zaawansowania, dla różnych grup wiekowych.
+    <mat-grid-tile
+    [colspan]=colspanVal
+    [rowspan]=rowspanSecond>
+      <div class="bird">
+        <img src="Front/bird2.webp" alt="">
+       </div>
+    </mat-grid-tile>
+    <mat-grid-tile
+    [colspan]=colspanVal
+    [rowspan]=rowspanAbout>
+      <div class="bird">
+        <img src="Front/bird3.webp" alt="">
+       </div>
+       <div class="about">
+        <div class="about-header">Szukasz pomocy w nauce angielskiego, tłumaczeniach lub korekcie tekstu?</div>
+        Jestem!<br><br>
+        Nazywam się Martyna Kowalska i od ponad 15 lat pracuję jako korepetytorka. Uwielbiam długie spacery, kolorowe sukienki i dobrą kawę, ale nic nie sprawia mi takiej frajdy jak praca z uczniem oraz możliwość dzielenia się swoją pasją z innymi. Do mojej specjalności należą zajęcia przygotowujące do matury i egzaminu ósmoklasisty. Oferuję również usługi w zakresie tłumaczeń tekstów naukowych i użytkowych, a także szeroko pojętej korekty językowej, w tym opieki nad treściami publikowanymi w internecie. Moimi klientami są zarówno firmy, jak i osoby prywatne. 
+        <br>Jestem absolwentką filologii angielskiej UMK o specjalności nauczycielskiej oraz studiów podyplomowych w zakresie nauczania języka polskiego jako obcego. Posiadam doświadczenie w pracy z dziećmi, młodzieżą i dorosłymi, zdobyte m.in. w szkołach językowych, na Uniwersytecie Mikołaja Kopernika, szkole podstawowej, liceum ogólnokształcącym, CSAiU w Toruniu, a przede wszystkim – podczas indywidualnych lekcji online.
+        <br>Bez względu na typ wykonywanych przeze mnie usług, jednakowo wyróżnia je wysoka jakość, terminowość, zaangażowanie oraz ogromna przyjemność, jaką czerpię z każdej nowej współpracy.
       </div>
     </mat-grid-tile>
-    <mat-grid-tile 
-    colspan=8  
-    rowspan=4
-    style.background='lightblue'>
+    <mat-grid-tile
+    [colspan]=colspanVal
+    [rowspan]=rowspanSecond>
+        <div class="bird">
+        <img src="Front/bird4.webp" alt="">
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile *ngIf="temp"
+    [colspan]=colspanVal
+    [rowspan]=rowspanSecond>
+      <div class="bird">
+        <img src="Front/bird5.webp" alt="">
+      </div>
+    </mat-grid-tile>
+  <mat-grid-tile
+  [colspan]=colspanVal
+  [rowspan]=rowspanAbout>
     <div class="bird">
-      <img src="front/birds2.webp" alt="">
+      <img src="Front/bird6.webp" alt="">
     </div>
-    </mat-grid-tile>
-    <mat-grid-tile 
-    colspan=4 
-    rowspan=1
-    style.background='lightblue'>
-    2
-    </mat-grid-tile>
-    <mat-grid-tile 
-    colspan=4
-    rowspan=1
-    style.background='lightblue'>
-    2
-    </mat-grid-tile>
-  </mat-grid-list>
-
- 
-  
-  
-  
-  
-
-
-
-
-    <!-- <mat-grid-tile [colspan]="6" [rowspan]="2">
-     
-      <table class="info table table-borderless" style="width: 100%" >
-        <thead>
-          <tr>
-            <th>Lokalizacja</th>
-            <th>Firma</th>
-            <th>Zapisy prawne</th>
-          </tr>
-        </thead>
-        <tbody class="info">
-          <tr>
-          <td>Mickiewicza 5/4c</td>
-          <td>O mnie</td>
-          <td>Polityka prywatności</td>
-          </tr>
-          <tr>
-            <td>Toruń</td>
-            <td>Oferta</td>
-            <td>RODO</td>
-          </tr>
-          <tr>
-            <td>87-100</td>
-            <td>Opinie</td>
-            <td>Cookies</td>
-          </tr>
-          <tr>
-            <td>Polska</td>
-            <td>Kontakt</td>
-            <td></td>
-          </tr>
-        </tbody>
+      <div class="reviews">
+        <div class="reviews-header">Oto wybrane relacje moich uczniów </div>
+      </div>
+        <div class="slider">
+          <ngb-carousel>
+            <ng-template ngbSlide *ngFor="let opinion of sliderList">
+              <div class="author">{{opinion.author}}, {{opinion.date}}</div>
+              <div class="kk">{{opinion.text}}</div>
+            </ng-template>
+          </ngb-carousel>
+        </div>
+      <table class="footer" *ngIf="temp">
+        <tr>
+          <th>KONTAKT@PANIKOWALSKA.COM | +48 667 298 401</th>
+        </tr>
+        <tr>
+          <th>NIP 8792492186 | REGON 381757363</th>
+        </tr>
+        <tr>
+          <td>COPYRIGHT ©PANI KOWALSKA 2022 | WSZELKIE PRAWA ZASTRZEŻONE | TWÓRCY STRONY</td>
+        </tr>
       </table>
     </mat-grid-tile>
 
-   -->
-    
+    <mat-grid-tile *ngIf="temp2"
+    [colspan]=colspanVal
+    [rowspan]=rowspanSecond>
+      <div class="bird">
+        <img src="Front/bird5.webp" alt="">
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile *ngIf="temp2"
+    [colspan]=colspanVal
+    [rowspan]=2
+    >
+    <table style="color:white; font-size: 3vw; line-height: 105%;">
+      <tr>
+        <th>KONTAKT@PANIKOWALSKA.COM | +48 667 298 401</th>
+      </tr>
+      <tr>
+        <th>NIP 8792492186 | REGON 381757363</th>
+      </tr>
+      <tr>
+        <td>COPYRIGHT ©PANI KOWALSKA 2022 | WSZELKIE PRAWA ZASTRZEŻONE</td>
+      </tr>
+    </table>
+    </mat-grid-tile>    
+  </mat-grid-list>
 <div>
   

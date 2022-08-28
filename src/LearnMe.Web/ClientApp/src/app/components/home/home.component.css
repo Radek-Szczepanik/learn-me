@@ -2,244 +2,218 @@
   background: lightblue;
 } */
 
-.front{
-  font-family: 'Poppins',sans-serif;
+.front {
+  font-family: "Poppins", sans-serif;
+  font-size: 1vw;
 }
 
-
-.mat-grid-tile-modified{
+.mat-grid-tile-modified {
   position: absolute;
   display: block;
 }
 
-.mat-grid-tile-content{
+.mat-grid-tile-content {
   position: absolute;
   display: block;
 }
 
-
-.info{
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-size: large;
-}
-
-table tbody.info td{
-  width:30%;
-}
-
-.email {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-size: larger;
-  font-weight: bold;
-}
-
-.social{
-  width: auto;
+table tbody.info td {
+  width: 30%;
 }
 
 img {
-    width: 100%;
-    height: auto;
-  }
+  width: 100%;
+  height: auto;
+}
 
-  * {
-    box-sizing: border-box;
-  }
-  
-  /* .menu {
+* {
+  box-sizing: border-box;
+}
+
+/* .menu {
     width: 7%;
     float: left;
     padding: 15px;
   } */
 
-  .slider {
-    width: auto;
-    float: left;
-    z-index: 5;
-    position: absolute;
-    margin-top: 2%;
-    margin-left: 47rem;
-  }
-  
-
-  .author{
-    font-size: x-large;
-    margin-right: 50%;
-    color: white;
-    line-height: 2.3rem;
-    text-align: justify;
-    text-justify: inter-word;
-    margin-bottom: 4rem;
-    margin-left: 8rem;
-    font-weight: bold;
-    width: 100%;
-  }
-
-  .bird {
-    width: 100%;
-    float: right;
-    z-index: 1;
-    position: sticky;
-  }
-
-  .bird2 {
-    width: 100%;
-    z-index: 1;
-    position: sticky;
-  }
-
-  .logo { 
+.slider {
+  width: 100%;
   float: left;
-  padding: 15px;
+  z-index: 5;
+  position: absolute;
+  margin-top: 2%;
+}
+
+.author {
+  margin-right: 50%;
+  color: white;
+  line-height: 2.3rem;
+  text-align: justify;
+  text-justify: inter-word;
+  margin-bottom: 4rem;
+  margin-left: 8rem;
+  font-weight: bold;
+  width: 100%;
+}
+
+.bird {
+  width: 100%;
+  float: right;
+  z-index: 1;
+  position: sticky;
+}
+
+.bird2 {
+  width: 100%;
+  z-index: 1;
+  position: sticky;
+}
+
+.logo {
+  position: absolute;
+  margin-bottom: 35%;
+}
+
+.logo-footer {
+  float: left;
+  /* margin-left: 30%; */
+  margin-bottom: 5%;
+  position: absolute;
+  margin-top: 11%;
+  margin-left: -21%;
+}
+
+.footer {
+  position: absolute;
+  margin-top: 88%;
+  font-weight: normal;
+  color: white;
+}
+
+.about {
+  position: absolute;
+  width: 93%;
+  margin-left: 6%;
+  color: white;
+  line-height: 2.3rem;
+  text-align: justify;
+  text-justify: inter-word;
+  z-index: 2;
+}
+
+.about-header {
+  font-size: xx-large;
+  font-weight: bold;
+  margin-bottom: 4rem;
+  text-align: center;
+  line-height: 2rem;
+}
+
+.reviews {
+  position: absolute;
+  color: white;
+}
+
+.carousel-control-prev {
+  left: 24px;
+}
+
+.carousel-control-next {
+  right: 0;
+}
+
+.carousel-control-next {
+  right: -98 !important ;
+}
+
+.kk {
+  width: 50rem;
+  margin-left: 9%;
+  color: white;
+  line-height: 2.3rem;
+  text-align: justify;
+  text-justify: inter-word;
+  margin-right: 5%;
+  margin-bottom: 5rem;
+  margin-left: 8rem;
+}
+
+.reviews-header {
+  font-size: xx-large;
+  font-weight: bold;
+  margin-bottom: 130%;
+  margin-left: 41rem;
+  margin-left: -11%;
+}
+
+.slogan {
   z-index: 2;
   position: absolute;
-  margin-top: -20em;
-  margin-left: -50em;
-  }
+  margin-top: 19%;
+  margin-left: 22%;
+  width: 97%;
+}
 
-  .logo-footer{
-    float: left;
-    /* margin-left: 30%; */
-    margin-bottom: 5%;
+
+@media only screen and (max-width: 1200px) {
+  .front {
+    font-size: 3vw;
+  }
+  .logo {
     position: absolute;
-    margin-top: 11%;
-    margin-left: -21%;
+    margin-bottom: 19%;
+    width: 87%;
   }
-
-  .footer { float: right;
-    float: right;
-    position: absolute;
-    margin-top: 44%;
-    margin-left: 56%;
-    font-size: larger;
-    font-weight: normal;
-    color: white;
-  }
-
-  .about{
-    position: absolute;
-    width: 40%;
-    font-size: x-large;
-    margin-right: 50%;
-    margin-bottom: 7%;
-    color: white;
-    line-height: 2.3rem;
-    text-align: justify;
-    text-justify: inter-word;
-  }
-
-  .about-header{
-    font-size: xx-large;
-    font-weight: bold;
-    margin-bottom: 4rem;
-  }
-
-  .reviews{
-    position: absolute;
-    color: white;
-  }
-
-  .carousel-control-prev {
-    left: 24px ;
-  }
-
-  .carousel-control-next {
-    right: 0;
-  }
-
-  .carousel-control-next {
-    right: -98 !important ;
-  }
-
-  .kk{
-  
-    width: 50rem;
-    font-size: x-large;
-    margin-left: 9%;
-    color: white;
-    line-height: 2.3rem;
-    text-align: justify;
-    text-justify: inter-word;
-    margin-right: 5%;
-    margin-bottom: 5rem;
-    margin-left: 8rem;
-  }
-
-  .reviews-header{
-    font-size: xx-large;
-    font-weight: bold;
-    margin-bottom: 45rem;
-    margin-left: 41rem;
-    }
- 
-
-
-  .slogan{
-    color: white;
+  .slogan {
     z-index: 2;
     position: absolute;
-    width: 51%;
-    margin-top: 11%;
-    margin-left: -21%;
+    margin-top: 33%;
+    margin-left: 16%;
+    width: 96%;
   }
 
-  @media only screen and (max-width: 1200px) {
-      /* img {
+  .about {
+    position: absolute;
+    color: white;
+    line-height: 1.5rem;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-left: 0;
+    z-index: 2;
+  }
+
+  .kk {
+    width: 93%;
+    margin-left: 3%;
+    color: white;
+    line-height: 2.3rem;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-right: 0;
+    margin-bottom: 5rem;
+    line-height: 1.5rem;
+    text-align: justify;
+    text-justify: inter-word;
+    z-index: 2;
+  }
+
+  .reviews-header {
+    font-size: xx-large;
+    font-weight: bold;
+    margin-bottom: 37rem;
+    text-align: center;
     width: 100%;
-    height: auto;
-  } 
-
-  .menu {
-        width: 100%;
-        float: left;
-        padding: 15px;
-    
-      }
-      
-      .bird {
-        width: 100%;
-        float: right;
-        z-index: 1;
-        position: sticky;
-    
-      }
-    
-      .logo {
-        width: 61%;
-        float: left;
-        padding: 15px;
-        z-index: 2;
-        position: absolute;
-        margin: 3%;
-      }
-
-      .slogan{
-        z-index: 2;
-        float: left;
-        position: absolute;
-        margin-top: 25em;
-        margin-left: -15em;
-      }
-
-      .slider {
-        width: 100%;
-        float: left;
-      } */
+    margin-left: 0;
+    line-height: 2rem;
   }
 
-  @media only screen and (max-width: 600px) {
-    .bird-three{
-      height: 200%;
-
-    }
+  .author {
+    margin-right: 0;
+    margin-left: 0;
+    color: white;
+    margin-bottom: 2rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
   }
-
-  
-  @media only screen and (min-width: 1200px) {
-    .test1{
-      display: none;
-      visibility: hidden;
-    }
-  }
-
-  
+}
