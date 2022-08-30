@@ -1,59 +1,18 @@
-/* mat-grid-tile {
-  background: lightblue;
-} */
-
-.front {
-  font-family: "Poppins", sans-serif;
-  font-size: 1vw;
-}
-
-.mat-grid-tile-modified {
-  position: absolute;
-  display: block;
-}
-
-.mat-grid-tile-content {
-  position: absolute;
-  display: block;
-}
-
-table tbody.info td {
-  width: 30%;
-}
-
 img {
   width: 100%;
   height: auto;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-/* .menu {
-    width: 7%;
-    float: left;
-    padding: 15px;
-  } */
-
 .slider {
-  width: 100%;
-  float: left;
-  z-index: 5;
   position: absolute;
-  margin-top: 2%;
+  margin-top: -10rem;
 }
 
 .author {
-  margin-right: 50%;
-  color: white;
-  line-height: 2.3rem;
-  text-align: justify;
-  text-justify: inter-word;
   margin-bottom: 4rem;
-  margin-left: 8rem;
   font-weight: bold;
   width: 100%;
+  padding-left: 1rem;
 }
 
 .bird {
@@ -71,7 +30,10 @@ img {
 
 .logo {
   position: absolute;
-  margin-bottom: 35%;
+  margin-bottom: 23%;
+  z-index: 2;
+  width: 53%;
+  margin-left: -41%;
 }
 
 .logo-footer {
@@ -83,19 +45,20 @@ img {
   margin-left: -21%;
 }
 
-.footer {
+.contact {
   position: absolute;
   margin-top: 88%;
-  font-weight: normal;
-  color: white;
+  text-align: right;
+  margin-bottom: 4rem;
+  width: 100%;
+  margin-right: 3rem;
+  line-height: 1em;
 }
 
 .about {
   position: absolute;
   width: 93%;
   margin-left: 6%;
-  color: white;
-  line-height: 2.3rem;
   text-align: justify;
   text-justify: inter-word;
   z-index: 2;
@@ -106,105 +69,64 @@ img {
   font-weight: bold;
   margin-bottom: 4rem;
   text-align: center;
-  line-height: 2rem;
+  line-height: 3rem;
 }
 
 .reviews {
   position: absolute;
-  color: white;
 }
 
-.carousel-control-prev {
-  left: 24px;
-}
-
-.carousel-control-next {
-  right: 0;
-}
-
-.carousel-control-next {
-  right: -98 !important ;
-}
-
-.kk {
-  width: 50rem;
-  margin-left: 9%;
-  color: white;
-  line-height: 2.3rem;
+.slider-text {
   text-align: justify;
   text-justify: inter-word;
-  margin-right: 5%;
   margin-bottom: 5rem;
-  margin-left: 8rem;
+  padding-left: 1rem;
+  padding-right: 2rem;
 }
 
 .reviews-header {
   font-size: xx-large;
   font-weight: bold;
-  margin-bottom: 130%;
-  margin-left: 41rem;
-  margin-left: -11%;
+  text-align: center;
+  margin-bottom: 4rem;
+  margin-top: 3rem;
 }
 
 .slogan {
   z-index: 2;
   position: absolute;
-  margin-top: 19%;
-  margin-left: 22%;
-  width: 97%;
+  margin-top: 8%;
+  margin-left: -21%;
+  width: 59%;
 }
 
-
 @media only screen and (max-width: 1200px) {
-  .front {
-    font-size: 3vw;
-  }
   .logo {
     position: absolute;
     margin-bottom: 19%;
-    width: 87%;
+    width: 93%;
+    margin-left: 2%;
   }
+
   .slogan {
     z-index: 2;
     position: absolute;
-    margin-top: 33%;
+    margin-top: 41%;
     margin-left: 16%;
-    width: 96%;
+    width: 101%;
   }
 
   .about {
     position: absolute;
-    color: white;
-    line-height: 1.5rem;
-    text-align: justify;
     text-justify: inter-word;
-    margin-left: 0;
-    z-index: 2;
-  }
-
-  .kk {
-    width: 93%;
-    margin-left: 3%;
-    color: white;
-    line-height: 2.3rem;
-    text-align: justify;
-    text-justify: inter-word;
-    margin-right: 0;
-    margin-bottom: 5rem;
-    line-height: 1.5rem;
-    text-align: justify;
-    text-justify: inter-word;
-    z-index: 2;
-  }
-
-  .reviews-header {
-    font-size: xx-large;
-    font-weight: bold;
-    margin-bottom: 37rem;
-    text-align: center;
     width: 100%;
-    margin-left: 0;
-    line-height: 2rem;
+    margin-right: 6%;
+    margin: 0;
+    padding: 3rem;
+  }
+
+  .slider-text {
+    padding: 3rem;
   }
 
   .author {
@@ -215,5 +137,40 @@ img {
     font-weight: bold;
     width: 100%;
     text-align: center;
+  }
+
+  .contact {
+    margin-top: 2rem;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .about {
+    padding: 1rem;
+  }
+
+  .slider-text {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .contact {
+    margin-top: 2rem;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .slider {
+    position: absolute;
+    margin-top: 2rem;
+  }
+
+  .author {
+    margin-bottom: 0.3rem;
   }
 }

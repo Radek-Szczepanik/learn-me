@@ -1,13 +1,16 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
-<div class=front (window:resize)="onResize($event)">
-  <mat-grid-list cols="10" gutterSize="0px" owHeight="1:1">
-    <mat-grid-tile   
-    [colspan]=colspanVal
-    [rowspan]=rowspanLogo>
-      <div class="bird">
+<div class=front [style]="innerWidth" (window:resize)="onResize()">
+  <mat-grid-list [cols]="colsVal" gutterSize="0px" rowHeight="1:1">
+    <mat-grid-tile
+    [colspan]="colsVal"
+    [rowspan]=1>
+      <div class="bird" *ngIf="!isMobile">
         <img src="Front/bird1.webp" alt="">
+      </div>
+      <div class="bird" *ngIf="isMobile">
+        <img src="Front/bird2.png" alt="">
       </div>
       <div class="logo">
         <img src="Front/logo.webp" alt="">
@@ -17,20 +20,13 @@
       </div> 
     </mat-grid-tile>
     <mat-grid-tile
-    [colspan]=colspanVal
-    [rowspan]=rowspanSecond>
-      <div class="bird">
-        <img src="Front/bird2.webp" alt="">
-       </div>
-    </mat-grid-tile>
-    <mat-grid-tile
-    [colspan]=colspanVal
-    [rowspan]=rowspanAbout>
-      <div class="bird">
-        <img src="Front/bird3.webp" alt="">
+    [colspan]="colspanVal"
+    [rowspan]=1>
+      <div class="bird" *ngIf="!isMobile">
+        <img src="Front/bird3.png" alt="">
        </div>
        <div class="about">
-        <div class="about-header">Szukasz pomocy w nauce angielskiego, tłumaczeniach lub korekcie tekstu?</div>
+        <div [style]="innerHeader">Szukasz pomocy w nauce angielskiego, tłumaczeniach lub korekcie tekstu?</div>
         Jestem!<br><br>
         Nazywam się Martyna Kowalska i od ponad 15 lat pracuję jako korepetytorka. Uwielbiam długie spacery, kolorowe sukienki i dobrą kawę, ale nic nie sprawia mi takiej frajdy jak praca z uczniem oraz możliwość dzielenia się swoją pasją z innymi. Do mojej specjalności należą zajęcia przygotowujące do matury i egzaminu ósmoklasisty. Oferuję również usługi w zakresie tłumaczeń tekstów naukowych i użytkowych, a także szeroko pojętej korekty językowej, w tym opieki nad treściami publikowanymi w internecie. Moimi klientami są zarówno firmy, jak i osoby prywatne. 
         <br>Jestem absolwentką filologii angielskiej UMK o specjalności nauczycielskiej oraz studiów podyplomowych w zakresie nauczania języka polskiego jako obcego. Posiadam doświadczenie w pracy z dziećmi, młodzieżą i dorosłymi, zdobyte m.in. w szkołach językowych, na Uniwersytecie Mikołaja Kopernika, szkole podstawowej, liceum ogólnokształcącym, CSAiU w Toruniu, a przede wszystkim – podczas indywidualnych lekcji online.
@@ -38,37 +34,45 @@
       </div>
     </mat-grid-tile>
     <mat-grid-tile
-    [colspan]=colspanVal
-    [rowspan]=rowspanSecond>
-        <div class="bird">
+    *ngIf="!isMobile"
+    [colspan]="colspanVal"
+    [rowspan]=1>
+      <div class="bird">
         <img src="Front/bird4.webp" alt="">
       </div>
     </mat-grid-tile>
-    <mat-grid-tile *ngIf="temp"
-    [colspan]=colspanVal
-    [rowspan]=rowspanSecond>
+    <mat-grid-tile
+    *ngIf="isMobile"
+    [colspan]=1
+    [rowspan]=1>
+      <div class="bird">
+        <img src="Front/bird4.webp" alt="">
+      </div>
+    </mat-grid-tile>
+      <mat-grid-tile
+    *ngIf="!isMobile"
+    [colspan]="colspanVal"
+    [rowspan]=1>
       <div class="bird">
         <img src="Front/bird5.webp" alt="">
       </div>
     </mat-grid-tile>
   <mat-grid-tile
-  [colspan]=colspanVal
-  [rowspan]=rowspanAbout>
+  [colspan]=1
+  [rowspan]=1>
     <div class="bird">
       <img src="Front/bird6.webp" alt="">
     </div>
-      <div class="reviews">
-        <div class="reviews-header">Oto wybrane relacje moich uczniów </div>
-      </div>
         <div class="slider">
           <ngb-carousel>
             <ng-template ngbSlide *ngFor="let opinion of sliderList">
+              <div [style]="innerHeader">Oto wybrane relacje moich uczniów </div>
               <div class="author">{{opinion.author}}, {{opinion.date}}</div>
-              <div class="kk">{{opinion.text}}</div>
+              <div class="slider-text">{{opinion.text}}</div>
             </ng-template>
           </ngb-carousel>
         </div>
-      <table class="footer" *ngIf="temp">
+      <table class="contact" *ngIf="!isMobile">
         <tr>
           <th>KONTAKT@PANIKOWALSKA.COM | +48 667 298 401</th>
         </tr>
@@ -76,35 +80,51 @@
           <th>NIP 8792492186 | REGON 381757363</th>
         </tr>
         <tr>
-          <td>COPYRIGHT ©PANI KOWALSKA 2022 | WSZELKIE PRAWA ZASTRZEŻONE | TWÓRCY STRONY</td>
+          <td>COPYRIGHT ©PANI KOWALSKA 2022 | WSZELKIE PRAWA ZASTRZEŻONE</td>
         </tr>
       </table>
     </mat-grid-tile>
-
-    <mat-grid-tile *ngIf="temp2"
-    [colspan]=colspanVal
-    [rowspan]=rowspanSecond>
+      <mat-grid-tile
+    *ngIf="isMobile"
+    [colspan]=1
+    [rowspan]=1>
       <div class="bird">
         <img src="Front/bird5.webp" alt="">
       </div>
     </mat-grid-tile>
-
-    <mat-grid-tile *ngIf="temp2"
-    [colspan]=colspanVal
-    [rowspan]=2
-    >
-    <table style="color:white; font-size: 3vw; line-height: 105%;">
-      <tr>
-        <th>KONTAKT@PANIKOWALSKA.COM | +48 667 298 401</th>
-      </tr>
-      <tr>
-        <th>NIP 8792492186 | REGON 381757363</th>
-      </tr>
-      <tr>
-        <td>COPYRIGHT ©PANI KOWALSKA 2022 | WSZELKIE PRAWA ZASTRZEŻONE</td>
-      </tr>
-    </table>
-    </mat-grid-tile>    
   </mat-grid-list>
+
+  <table class="contact" *ngIf="isMobile">
+    <tr>
+      <th>KONTAKT@PANIKOWALSKA.COM | +48 667 298 401</th>
+    </tr>
+    <tr>
+      <th>NIP 8792492186 | REGON 381757363</th>
+    </tr>
+    <tr>
+      <td>COPYRIGHT ©PANI KOWALSKA 2022 | WSZELKIE PRAWA ZASTRZEŻONE</td>
+    </tr>
+  </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 <div>
   

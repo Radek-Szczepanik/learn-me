@@ -56,9 +56,6 @@
     <mat-sidenav-container *ngIf="notLogged" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
       <mat-sidenav id="sidenav-notlogged" #sidenav [mode]="mobileQuery.matches ? 'over' : 'push'" [fixedInViewport]="'over'" fixedTopGap="56">
         <!-- <div class="test2">  -->
-          <div style="margin-right: 3%; float:right;">
-            <img src="front/logo_footer.webp" alt="">
-          </div>
         <mat-nav-list style="margin-top: 3%; margin-left: 1%;" (click)="sidenav.toggle()" *ngIf="notLogged">
           <a mat-list-item routerLink="news">
             <mat-icon aria-label="mail" style="margin-right: 15px">announcement</mat-icon>News</a>
