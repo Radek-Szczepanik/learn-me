@@ -40,52 +40,59 @@ export class HomeComponent {
     this._baseUrl = baseUrl;
   }
 
-  public kolp() {
-    var tt = 1;
-    var kol = 1;
+  public getResponsiveLayout() {
+    var textWidth = 1;
+    var headerWidth = 1;
 
-    if (window.innerWidth >= 1680) {
-      kol = window.innerWidth / 700
-      tt = window.innerWidth / 550;
+    if (window.innerWidth === 412) {
+      textWidth  = window.innerWidth / 283
+      headerWidth  = window.innerWidth / 120;
+    } else  if (window.innerWidth === 360) {
+      textWidth  = window.innerWidth / 290
+      headerWidth  = window.innerWidth / 100;
+    } else if (window.innerWidth >= 1680) {
+        textWidth  = window.innerWidth / 700
+        headerWidth  = window.innerWidth / 550;
     } else if (window.innerWidth >= 1330) {
-      kol = window.innerWidth / 550
-      tt = window.innerWidth / 500;
+      textWidth  = window.innerWidth / 550
+      headerWidth  = window.innerWidth / 500;
     } else if (window.innerWidth >= 1200) {
-      kol = window.innerWidth / 600
-      tt = window.innerWidth / 450;
+      textWidth  = window.innerWidth / 600
+      headerWidth  = window.innerWidth / 450;
     } else if (window.innerWidth >= 1000) {
-      kol = window.innerWidth / 340
-      tt = window.innerWidth / 270;
+      textWidth = window.innerWidth / 340
+      headerWidth  = window.innerWidth / 270;
     } else if (window.innerWidth >= 800) {
-      kol = window.innerWidth / 310
-      tt = window.innerWidth / 270;
+      textWidth = window.innerWidth / 295
+      headerWidth  = window.innerWidth / 270;
+    } else if (window.innerWidth >= 700) {
+        textWidth = window.innerWidth / 275
+        headerWidth  = window.innerWidth / 250;
     }  else if (window.innerWidth >= 600) {
-      kol = window.innerWidth / 270;
-      tt = window.innerWidth / 250;
+      textWidth  = window.innerWidth / 275;
+      headerWidth  = window.innerWidth / 220;
     } else if (window.innerWidth >= 500) {
-      kol = window.innerWidth / 255;
-      tt = window.innerWidth / 250;
+      textWidth  = window.innerWidth / 255;
+      headerWidth  = window.innerWidth / 220;
     }  else if (window.innerWidth >= 400) {
-      kol = window.innerWidth / 235;
-      tt = window.innerWidth / 220;
+      textWidth  = window.innerWidth / 250;
+      headerWidth  = window.innerWidth / 180;
     } else if (window.innerWidth >= 300) {
-      kol = window.innerWidth / 240;
-      tt = window.innerWidth / 150;
+      textWidth  = window.innerWidth / 260;
+      headerWidth = window.innerWidth / 140;
     } else if (window.innerWidth >= 200) {
-      kol = window.innerWidth / 220;
-      tt = window.innerWidth / 140;
+      textWidth = window.innerWidth / 250;
+      headerWidth  = window.innerWidth / 125;
     } 
 
-    console.log(window.innerWidth);
-
-    this.innerWidth = `font-size: calc(0.5em * ${kol.toString()}); 
-    line-height: calc(0.5em * ${tt.toString()});
+    this.innerWidth = `font-size: calc(0.5em * ${textWidth .toString()}); 
+    line-height: calc(0.5em * ${headerWidth .toString()});
     font-family: "Poppins", sans-serif;
     color: white;
     `;
 
-    this.innerHeader = `font-size: calc(0.6em * ${kol.toString()}); 
-    line-height: calc(0.5em * ${tt.toString()});
+    this.innerHeader = `font-size: calc(0.6em * ${textWidth .toString()}); 
+    line-height: calc(0.5em * ${headerWidth .toString()});
     font-weight: bold;
     text-align: center;
     margin-bottom: 1rem;
@@ -93,16 +100,16 @@ export class HomeComponent {
 
     if (window.innerWidth < 1200) this.isMobile = true;
     else this.isMobile = false;
-    this.colspanVal = window.innerWidth < 1200 ? 1 : 1;
     this.colsVal = window.innerWidth < 1200 ? 1 : 2;
 
   }
 
-  ngOnInit() {
-    this._http.get<Opinion[]>(this._baseUrl + 'api/Opinions').subscribe(result => {
+  public async ngOnInit() {
+    await this._http.get<Opinion[]>(this._baseUrl + 'api/Opinions').subscribe(result => {
       this.getSlider(result);
     });
-    this.kolp();
+    this.getResponsiveLayout();
+    this.colspanVal = 1;
   }
 
   public getSlider(opinions: any) {
@@ -117,7 +124,6 @@ export class HomeComponent {
       this.slider.rating = element.rating;
       this.slider.text = element.text;
       this.slider.date = element.date;
-
       this.sliderList.push(this.slider);
     });
   }
@@ -125,7 +131,7 @@ export class HomeComponent {
 
   @HostListener('window:resize')
   onResize() {
-    this.kolp();
+    this.getResponsiveLayout();
   };
 }
 

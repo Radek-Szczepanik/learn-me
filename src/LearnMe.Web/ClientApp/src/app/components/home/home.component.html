@@ -4,13 +4,12 @@
 <div class=front [style]="innerWidth" (window:resize)="onResize()">
   <mat-grid-list [cols]="colsVal" gutterSize="0px" rowHeight="1:1">
     <mat-grid-tile
-    [colspan]="colsVal"
-    [rowspan]=1>
+    [colspan]="colsVal">
       <div class="bird" *ngIf="!isMobile">
         <img src="Front/bird1.webp" alt="">
       </div>
       <div class="bird" *ngIf="isMobile">
-        <img src="Front/bird2.png" alt="">
+        <img src="Front/bird2.webp" alt="">
       </div>
       <div class="logo">
         <img src="Front/logo.webp" alt="">
@@ -20,10 +19,9 @@
       </div> 
     </mat-grid-tile>
     <mat-grid-tile
-    [colspan]="colspanVal"
-    [rowspan]=1>
+    [colspan]="colspanVal">
       <div class="bird" *ngIf="!isMobile">
-        <img src="Front/bird3.png" alt="">
+        <img src="Front/bird3.webp" alt="">
        </div>
        <div class="about">
         <div [style]="innerHeader">Szukasz pomocy w nauce angielskiego, tłumaczeniach lub korekcie tekstu?</div>
@@ -35,46 +33,43 @@
     </mat-grid-tile>
     <mat-grid-tile
     *ngIf="!isMobile"
-    [colspan]="colspanVal"
-    [rowspan]=1>
+    [colspan]="colspanVal">
       <div class="bird">
         <img src="Front/bird4.webp" alt="">
       </div>
     </mat-grid-tile>
     <mat-grid-tile
     *ngIf="isMobile"
-    [colspan]=1
-    [rowspan]=1>
+    [colspan]="colspanVal">
       <div class="bird">
         <img src="Front/bird4.webp" alt="">
       </div>
     </mat-grid-tile>
       <mat-grid-tile
     *ngIf="!isMobile"
-    [colspan]="colspanVal"
-    [rowspan]=1>
+    [colspan]="colspanVal">
       <div class="bird">
         <img src="Front/bird5.webp" alt="">
       </div>
     </mat-grid-tile>
   <mat-grid-tile
-  [colspan]=1
-  [rowspan]=1>
+  [colspan]="colspanVal">
     <div class="bird">
       <img src="Front/bird6.webp" alt="">
     </div>
         <div class="slider">
           <ngb-carousel>
             <ng-template ngbSlide *ngFor="let opinion of sliderList">
-              <div [style]="innerHeader">Oto wybrane relacje moich uczniów </div>
+              <div [style]="innerHeader">Wybrane relacje moich uczniów </div>
               <div class="author">{{opinion.author}}, {{opinion.date}}</div>
               <div class="slider-text">{{opinion.text}}</div>
             </ng-template>
           </ngb-carousel>
+          <p class="source">Źródło: <a href="https://www.e-korepetycje.net/panikowalska/jezyk-angielski" target="_blank"><strong>e-korepetycje.net</strong></a></p>
         </div>
       <table class="contact" *ngIf="!isMobile">
         <tr>
-          <th>KONTAKT@PANIKOWALSKA.COM | +48 667 298 401</th>
+          <th><a href="mailto:kontakt@panikowalska.com">KONTAKT@PANIKOWALSKA.COM</a> | +48 667 298 401</th>
         </tr>
         <tr>
           <th>NIP 8792492186 | REGON 381757363</th>
@@ -86,8 +81,7 @@
     </mat-grid-tile>
       <mat-grid-tile
     *ngIf="isMobile"
-    [colspan]=1
-    [rowspan]=1>
+    [colspan]="colspanVal">
       <div class="bird">
         <img src="Front/bird5.webp" alt="">
       </div>
@@ -96,7 +90,7 @@
 
   <table class="contact" *ngIf="isMobile">
     <tr>
-      <th>KONTAKT@PANIKOWALSKA.COM | +48 667 298 401</th>
+      <th><a href="mailto:kontakt@panikowalska.com">KONTAKT@PANIKOWALSKA.COM</a> | +48 667 298 401</th>
     </tr>
     <tr>
       <th>NIP 8792492186 | REGON 381757363</th>
@@ -104,27 +98,9 @@
     <tr>
       <td>COPYRIGHT ©PANI KOWALSKA 2022 | WSZELKIE PRAWA ZASTRZEŻONE</td>
     </tr>
-  </table>
+    <tr></tr>
+    <tr></tr>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
+  </table>  
 <div>
   
