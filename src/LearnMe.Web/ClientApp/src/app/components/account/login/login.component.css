@@ -57,6 +57,7 @@ h2 {
   width: 100%;
   min-height: 60%;
   padding: 20px;
+  position: fixed;
 }
 
 #formContent {

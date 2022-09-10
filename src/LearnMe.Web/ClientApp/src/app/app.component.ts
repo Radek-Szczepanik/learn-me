@@ -1,5 +1,5 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpService } from '../app/services/http.service';
@@ -12,14 +12,15 @@ import { MatSidenav } from '@angular/material/sidenav';
   styleUrls: ['./app.component.css']
  })
 
-export class AppComponent implements OnDestroy, OnInit {
+export class AppComponent implements OnInit {
   title = 'app';
   mobileQuery: MediaQueryList;
   private _httpClient: HttpClient;
   private _base: string;
   notLogged; admin; mentor; student: boolean;
-  identity: string[];
+  private identity: string[];
   private _mobileQueryListener: () => void;
+  public isMobile: boolean;
   @ViewChild('sidenav') sidenav: MatSidenav;
 
 
@@ -31,9 +32,9 @@ export class AppComponent implements OnDestroy, OnInit {
     this._base = baseUrl;
   }
   
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
+  // ngOnDestroy(): void {
+  //   this.mobileQuery.removeListener(this._mobileQueryListener);
+  // }
 
   public identityInfo(list: string[]) {
 
@@ -56,6 +57,8 @@ export class AppComponent implements OnDestroy, OnInit {
       this.identity = result as string[];
       this.identityInfo(this.identity);
     });
+
+    this.isMobile = window.innerWidth < 1330 ? true : false; 
   }
 
   logOut() {
@@ -66,4 +69,9 @@ export class AppComponent implements OnDestroy, OnInit {
         console.error(error);
       });
   }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isMobile = window.innerWidth < 1330 ? true : false; 
+  };
 }

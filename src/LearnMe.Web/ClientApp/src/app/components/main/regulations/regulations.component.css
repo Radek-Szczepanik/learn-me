@@ -1,18 +1,22 @@
 .contact-text {
-    line-height: 2.5vw;
-    margin-bottom: 1rem;
+    line-height: 1.4vw;
     color: white;
     z-index: 2;
     font-family: "Poppins", sans-serif;
-    font-size: 1.6vw;
+    font-size: 0.9vw;
     position: absolute;
-    margin-right: 51vw;
+    background:rgba(118, 108, 65, 0.2);
+    padding: 2vw;
+    margin-right: 39vw;
+    margin-left: 3vw;
+    text-align: justify;
   }
   
   .header {
     font-weight: bold;
-    margin-bottom: 5vw;
+    margin-bottom: 3vw;
     text-align: center;
+    font-size: 1.5vw;
   }  
   
   @media only screen and (max-width: 1200px) {

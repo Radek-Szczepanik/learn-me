@@ -9,6 +9,7 @@ import { ExerciseComponent } from './components/main/exercise/exercise.component
 import { PrivateLessonsComponent } from './components/main/private-lessons/private-lessons.component';
 import { ShopComponent } from './components/main/shop/shop.component';
 import { ContactComponent } from './components/main/contact/contact.component';
+import { RegulationsComponent } from './components/main/regulations/regulations.component';
 import { StudentMailComponent } from './components/student/student-mail/student-mail.component';
 import { StudentLessonComponent } from './components/student/student-lesson/student-lesson.component';
 import { StudentCalendarComponent } from './components/student/student-calendar/student-calendar.component';
@@ -35,6 +36,7 @@ export const appRouting: Routes = [
   { path: 'lessons', component: PrivateLessonsComponent },
   { path: 'shop', component: ShopComponent },
   { path: 'faq', component: FaqComponent },
+  { path: 'regulations', component:   RegulationsComponent},
   { path: 'contact', component: ContactComponent },
   { path: 'student/mail', component: StudentMailComponent },
   { path: 'student/lesson', component: StudentLessonComponent  },

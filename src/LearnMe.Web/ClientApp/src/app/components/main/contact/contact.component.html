@@ -1,1 +1,48 @@
-<img class="headers" src="/Header/PK-umow.png">   
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<div class="front">
+  <mat-grid-list cols="2" gutterSize="0px">
+    <mat-grid-tile colspan="2" [rowspan]="isMobile ? 2 : 1">
+      <div class="bird" *ngIf="!isMobile">
+        <img src="Front/bird1.webp" alt="" />
+      </div>
+      <div class="bird" *ngIf="isMobile">
+        <img src="Front/bird2.webp" alt="" />
+      </div>
+      <div class="logo" *ngIf="isMobile">
+        <img src="Front/logo.webp" alt="" />
+      </div>
+      <div class="slogan" *ngIf="isMobile">
+        <img src="Front/slogan.webp" alt="" />
+      </div>
+      <div class="contact-text" *ngIf="!isMobile">
+        <div class="header">KONTAKT</div>
+        Pani Martyna Kowalska <br />
+        Staw 15 <br />
+        86-221 Papowo Biskupie <br /><br />  
+        <strong><a href="mailto:kontakt@panikowalska.com">kontakt@panikowalska.com</a></strong>
+        <br />
+        <strong><a href="tel:+48-667-298-401 ">+48 667 298 401 </a><br /><br /></strong>
+        NIP 8792492186 <br />
+        REGON 381757363 <br />
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <mat-grid-list cols="1" gutterSize="0px" *ngIf="isMobile">
+    <mat-grid-tile>
+      <div class="contact-text">
+        <div class="header">KONTAKT</div>
+        Pani Martyna Kowalska <br />
+        Staw 15 <br />
+        86-221 Papowo Biskupie <br /><br />  
+        <strong><a href="mailto:kontakt@panikowalska.com">kontakt@panikowalska.com</a></strong>
+        <br />
+        <strong><a href="tel:+48-667-298-401 ">+48 667 298 401 </a><br /><br /></strong>
+        NIP 8792492186 <br />
+        REGON 381757363 <br />
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

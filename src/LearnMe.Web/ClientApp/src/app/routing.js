@@ -7,6 +7,7 @@ var login_component_1 = require("./components/account/login/login.component");
 var calendar_view_component_1 = require("./components/calendar/calendar-view/calendar-view.component");
 var faq_component_1 = require("./components/main/faq/faq.component");
 var news_component_1 = require("./components/main/news/news.component");
+var regulations_component = require("./components/main/regulations/regulations.component");
 var translations_component_1 = require("./components/main/translations/translations.component");
 var exercise_component_1 = require("./components/main/exercise/exercise.component");
 var private_lessons_component_1 = require("./components/main/private-lessons/private-lessons.component");
@@ -31,6 +32,7 @@ exports.appRouting = [
     { path: 'login', component: login_component_1.LoginComponent },
     { path: '**', redirectTo: 'home', pathMatch: 'full' },
     { path: 'news', component: news_component_1.NewsComponent },
+    { path: 'regulations', component: regulations_component.RegulationsComponent},
     { path: 'translation', component: translations_component_1.TranslationsComponent },
     { path: 'exercise', component: exercise_component_1.ExerciseComponent },
     { path: 'lessons', component: private_lessons_component_1.PrivateLessonsComponent },

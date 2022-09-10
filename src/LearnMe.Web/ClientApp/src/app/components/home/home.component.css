@@ -1,11 +1,4 @@
-img {
-  width: 100%;
-  height: auto;
-}
 
-a {
-  color: white
-}
 
 .slider {
   position: absolute;
@@ -19,34 +12,12 @@ a {
   padding-left: 1rem;
 }
 
-.bird {
-  width: 100%;
-  float: right;
-  z-index: 1;
-  position: sticky;
-}
-
-.bird2 {
-  width: 100%;
-  z-index: 1;
-  position: sticky;
-}
-
 .logo {
   position: absolute;
   margin-bottom: 23%;
   z-index: 2;
   width: 53%;
   margin-left: -41%;
-}
-
-.logo-footer {
-  float: left;
-  /* margin-left: 30%; */
-  margin-bottom: 5%;
-  position: absolute;
-  margin-top: 11%;
-  margin-left: -21%;
 }
 
 .contact {
@@ -56,7 +27,7 @@ a {
   margin-bottom: 4rem;
   width: 100%;
   margin-right: 3rem;
-  line-height: 1em;
+  line-height: 1.8rem;
   color: white;
   z-index: 1;
 }
@@ -98,13 +69,6 @@ a {
   margin-top: 3rem;
 }
 
-.slogan {
-  z-index: 2;
-  position: absolute;
-  margin-top: 8%;
-  margin-left: -21%;
-  width: 59%;
-}
 
 .source {
   text-align: right;

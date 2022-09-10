@@ -104,8 +104,8 @@ export class HomeComponent {
 
   }
 
-  public async ngOnInit() {
-    await this._http.get<Opinion[]>(this._baseUrl + 'api/Opinions').subscribe(result => {
+  ngOnInit() {
+    this._http.get<Opinion[]>(this._baseUrl + 'api/Opinions').subscribe(result => {
       this.getSlider(result);
     });
     this.getResponsiveLayout();

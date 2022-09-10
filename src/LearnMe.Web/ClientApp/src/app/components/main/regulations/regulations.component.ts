@@ -2,10 +2,10 @@ import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-contact',
-  templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css'],
+  templateUrl: './regulations.component.html',
+  styleUrls: ['./regulations.component.css'],
 })
-export class ContactComponent implements OnInit {
+export class RegulationsComponent implements OnInit {
 
   public isMobile: boolean;
 

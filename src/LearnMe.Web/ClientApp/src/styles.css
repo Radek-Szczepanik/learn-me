@@ -1,3 +1,23 @@
+img {
+  width: 100%;
+  height: auto;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: white;
+}
+
+.bird {
+  width: 100%;
+  float: right;
+  z-index: 1;
+  position: sticky;
+}
+
 .mat-dialog-content{
   background: white !important;
 }
@@ -36,6 +56,7 @@ background-attachment: fixed;
 
 .mat-button.mat-accent, .mat-icon-button.mat-accent, .mat-stroked-button.mat-accent {
   color:  #FF9BAD;
+  font-family: "Poppins", sans-serif;
 }
 
 .mat-flat-button.mat-accent, .mat-raised-button.mat-accent, .mat-fab.mat-accent, .mat-mini-fab.mat-accent {
@@ -62,25 +83,11 @@ background-attachment: fixed;
   border-right-width: 0px;
 }
 
-/* .mat-sidenav-fixed {
-  position: fixed;
-  background: linear-gradient(#080505 , #ff9bad);
-  background-color: rgba(0, 0, 0, 0);
-  background-attachment: fixed;
-} */
 
 .mat-drawer {
   background-color: transparent !important;
 }
 
-/* .mat-drawer-inner-container {
-  width: 100%;
-  height: auto !important;
-  overflow: auto;
-  color: white;
-  -webkit-overflow-scrolling: touch;
-   background: linear-gradient(to right, #FFC0CB , #ffc7d0) !important; 
-} */
 
 .mat-toolbar {
   color: transparent;
@@ -174,12 +181,7 @@ background-attachment: fixed;
     text-shadow: 1px 1px #2d2d30;
   }
   
-  @media (max-width: 600px) {
-    .carousel-caption {
-      display: none; /* Hide the carousel text when the screen is less than 600 pixels wide */
-    }
-  }
-  
+ 
   .bg-1 {
     background: #f5f5f5;
     color: rgba(0,0,0,.87);
@@ -324,14 +326,18 @@ background-attachment: fixed;
     resize: none;
   }
   
-  html, body { height: auto; }
 
-  body { margin: 0; font-family: Roboto, "Poppins",sans-serif;;
+  body, html { 
+    margin: 0; 
+    font-family: "Poppins", sans-serif;
+    height: 100%; 
   }
   
-  html, body { height: 100%; }
-  body { margin: 0; font-family: Roboto, "Poppins",sans-serif;; }
-  
-  html, body { height: 100%; }
-  
+  .slogan {
+    z-index: 2;
+    position: absolute;
+    margin-top: 8%;
+    margin-left: -21%;
+    width: 59%;
+  }
   
